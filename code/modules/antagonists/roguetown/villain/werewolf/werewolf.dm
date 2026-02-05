@@ -91,7 +91,7 @@
 		return
 
 /datum/antagonist/werewolf/greet()
-	to_chat(owner.current, span_userdanger("Since a bite long, long ago, Dendor's Madness has welled within me. Before the Moonlight, I will sate my hallowed Hunger."))
+	to_chat(owner.current, span_userdanger("I feel Dendor's madness welling within me. What was its cause... A bite? A curse? Perhaps a blessing? Regardless, the Moonlight calls to me like a siren's song. It promises to help me sate this excruciating Hunger..."))
 	return ..()
 
 /datum/antagonist/werewolf/lesser/greet()
