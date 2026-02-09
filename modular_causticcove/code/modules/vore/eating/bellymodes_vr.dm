@@ -109,7 +109,7 @@
 			updateVRPanels()
 		if(play_sound)
 			for(var/mob/M in hearers(VORE_SOUND_RANGE, get_turf(owner))) //so we don't fill the whole room with the sound effect
-				if(M.client && !M.client.prefs.digestion_noises)
+				if(!M.client.prefs.digestion_noises)
 					continue
 				if(isturf(M.loc) || (M.loc != src)) //to avoid people on the inside getting the outside sounds and their direct sounds + built in sound pref check
 					if(fancy_vore)
@@ -136,7 +136,7 @@
 
 	if(play_sound)
 		for(var/mob/M in hearers(VORE_SOUND_RANGE, get_turf(owner))) //so we don't fill the whole room with the sound effect
-			if(!M.client || !M.client.prefs.digestion_noises)
+			if(!M.client.prefs.digestion_noises)
 				continue
 			if(isturf(M.loc) || (M.loc != src)) //to avoid people on the inside getting the outside sounds and their direct sounds + built in sound pref check
 				if(fancy_vore)
@@ -184,6 +184,27 @@
 			var/mob/living/L = A
 			touchable_mobs += L
 
+			if(L.absorbed)
+				L.Weaken(5)
+
+			//Thickbelly flag
+			if((mode_flags & DM_FLAG_THICKBELLY) && !L.muffled) //Caustic - This likely should function like a gag?
+				L.muffled = TRUE
+			//Fix muffled sometimes being sticky.
+			else if(!(mode_flags & DM_FLAG_THICKBELLY) && L.muffled)
+				L.muffled = FALSE
+
+			//Force psay
+			if((mode_flags & DM_FLAG_FORCEPSAY) && !L.forced_psay && L.absorbed) //Caustic - This might be 'private say' in any case of PSAY, so subtle 'says'
+				L.forced_psay = TRUE
+			//Fix forcepsay sometimes being sticky.
+			else if(!(mode_flags & DM_FLAG_FORCEPSAY) && L.forced_psay)
+				L.forced_psay = FALSE
+
+			// Wet flag
+			if(mode_flags & DM_FLAG_WETTENS)
+				L.set_wet_stacks(20)
+
 			//Handle 'human'
 			if(ishuman(L))
 				var/mob/living/carbon/human/H = L
@@ -193,15 +214,8 @@
 					if(H.reagents.get_reagent_amount(REAGENT_ID_NUMBENZYME) < 2)
 						H.reagents.add_reagent(REAGENT_ID_NUMBENZYME,4)
 
-				//Thickbelly flag
-				if((mode_flags & DM_FLAG_THICKBELLY) && !H.muffled)
-					H.muffled = TRUE
-				//Fix muffled sometimes being sticky.
-				else if(!(mode_flags & DM_FLAG_THICKBELLY) && H.muffled)
-					H.muffled = FALSE
-
 				//Worn items flag
-				if(mode_flags & DM_FLAG_AFFECTWORN)
+				if(mode_flags & DM_FLAG_AFFECTWORN && H.contaminate_pref)
 					
 					for(var/Iuncast in H.get_equipped_items(include_pockets = TRUE))
 						var/obj/item/I = Iuncast
@@ -265,7 +279,6 @@
 
 /obj/belly/proc/handle_digesting_item(obj/item/I, touchable_amount)
 	var/did_an_item = FALSE
-	// We always contaminate IDs.
 
 	switch(item_digest_mode)
 		if(IM_HOLD)
@@ -308,7 +321,6 @@
 	to_chat(owner, digest_alert_owner)
 	to_chat(M, digest_alert_prey)
 
-
 	owner.churn_count++
 	owner.handle_special_unlocks()
 
@@ -324,6 +336,15 @@
 
 /obj/belly/proc/steal_nutrition(mob/living/L)
 	if(L.nutrition <= 110)
+		if(drainmode == DR_SLEEP && ishuman(L)) //Slowly put prey to sleep //Caustic - Can this be changed to instead work with our tiredness stuff?
+			if(L.tiredness <= 105)
+				L.tiredness = (L.tiredness + 6)
+			if(L.tiredness <= 90 && L.tiredness >= 75)
+				to_chat(L, span_warning("You are about to fall unconscious!"))
+				to_chat(owner, span_warning("[L] is about to fall unconscious!"))
+		if(drainmode == DR_FAKE && ishuman(L)) //Slowly bring prey to the edge of sleep without crossing it
+			if(L.tiredness <= 93)
+				L.tiredness = (L.tiredness + 6)
 		if(drainmode == DR_WEIGHT && ishuman(L)) //Slowly drain your prey's weight and add it to your own
 			if(L.weight > 70)
 				L.weight -= (0.01 * L.weight_loss)

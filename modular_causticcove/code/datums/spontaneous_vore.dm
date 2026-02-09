@@ -27,19 +27,19 @@
 
 	//We are able to eat the person stumbling into us.
 	if(can_stumble_vore(prey = target, pred = source)) //This is if the person stumbling into us is able to eat us!
-		source.visible_message(span_vwarning("[target] flops carelessly into [source]!"))
+		source.visible_message(span_warning("[target] flops carelessly into [source]!"))
 		var/obj/belly/destination_belly = source.get_current_spont_belly(target)
 		source.begin_instant_nom(source, prey = target, pred = source, belly = destination_belly)
-		target.stop_flying()
+		//target.stop_flying()
 		return CANCEL_STUMBLED_INTO
 
 	//The person stumbling into us is able to eat us.
 	if(can_stumble_vore(prey = source, pred = target)) //This is if the person stumbling into us is able to be eaten by us! BROKEN!
-		source.visible_message(span_vwarning("[target] flops carelessly into [source]!"))
+		source.visible_message(span_warning("[target] flops carelessly into [source]!"))
 		target.forceMove(get_turf(source))
 		var/obj/belly/destination_belly = target.get_current_spont_belly(source)
 		source.begin_instant_nom(target, prey = source, pred = target, belly = destination_belly)
-		source.stop_flying()
+		//source.stop_flying()
 		return CANCEL_STUMBLED_INTO
 
 //Source is the one dropping (us)
@@ -51,17 +51,17 @@
 	if(!drop_mob || drop_mob == source)
 		return
 
-	if((drop_mob.status_flags & HIDING))
+	/*if((drop_mob.status_flags & HIDING)) //I don't believe we have this in Roguecode (yet?) so commented out for now.
 		var/obj/structure/table/is_there_a_table = locate() in landing //Don't eat people hiding under tables
 		if(is_there_a_table)
-			return
+			return*/
 
 	//pred = drop_mob
 	//prey = source
 	//result: source is eaten by drop_mob
 	if(can_drop_vore(prey = source, pred = drop_mob))
 		drop_mob.feed_grabbed_to_self_falling_nom(drop_mob, prey = source)
-		drop_mob.visible_message(span_vdanger("\The [drop_mob] falls right onto \the [source]!"))
+		drop_mob.visible_message(span_danger("\The [drop_mob] falls right onto \the [source]!"))
 		return COMSIG_CANCEL_FALL
 
 	//pred = source
@@ -69,8 +69,8 @@
 	//result: drop_mob is eaten by source
 	if(can_drop_vore(prey = drop_mob, pred = source))
 		source.feed_grabbed_to_self_falling_nom(source, prey = drop_mob)
-		source.Weaken(4)
-		source.visible_message(span_vdanger("\The [drop_mob] falls right into \the [source]!"))
+		source.OffBalance(3 SECONDS)
+		source.visible_message(span_danger("\The [drop_mob] falls right into \the [source]!"))
 		return COMSIG_CANCEL_FALL
 
 /datum/element/spontaneous_vore/proc/handle_hitby(mob/living/source, atom/movable/hitby, mob/thrower, speed)
@@ -84,7 +84,7 @@
 			return
 		if(source.stat != DEAD && source.trash_catching)
 			if(source.adminbus_trash || is_type_in_list(O, GLOB.edible_trash) && O.trash_eatable && !is_type_in_list(O, GLOB.item_vore_blacklist))
-				source.visible_message(span_vwarning("[O] is thrown directly into [source]'s [lowertext(destination_belly.name)]!"))
+				source.visible_message(span_warning("[O] is thrown directly into [source]'s [lowertext(destination_belly.name)]!"))
 				destination_belly.nom_atom(O)
 				return COMSIG_CANCEL_HITBY
 
@@ -107,13 +107,13 @@
 			if(!destination_belly)
 				return
 			destination_belly.nom_atom(thrown_mob) //Eat them!!!
-			source.visible_message(span_vwarning("[thrown_mob] is thrown right into [source]'s [lowertext(destination_belly.name)]!"))
+			source.visible_message(span_warning("[thrown_mob] is thrown right into [source]'s [lowertext(destination_belly.name)]!"))
 			source.on_throw_vore_special(TRUE, thrown_mob)
 
 			if(thrower)
-				add_attack_logs(thrower,source,"Devoured [thrown_mob.name] via throw vore.")
+				log_attack(thrower,source,"Devoured [thrown_mob.name] via throw vore.")
 			else
-				log_vore("[source] devoured [thrown_mob.name] via throw vore.")
+				log_attack("[source] devoured [thrown_mob.name] via throw vore.")
 			return COMSIG_CANCEL_HITBY //We can stop here. We don't need to calculate damage or anything else. They're eaten.
 
 		// PERSON BEING HIT: CAN BE DROP PREY, ALLOWS THROW VORE, AND IS DEVOURABLE.
@@ -122,14 +122,14 @@
 			var/obj/belly/destination_belly = thrown_mob.get_current_spont_belly(source)
 			if(!destination_belly)
 				return
-			source.visible_message(span_vwarning("[source] suddenly slips inside of [thrown_mob]'s [lowertext(destination_belly.name)] as [thrown_mob] flies into them!"))
+			source.visible_message(span_warning("[source] suddenly slips inside of [thrown_mob]'s [lowertext(destination_belly.name)] as [thrown_mob] flies into them!"))
 			destination_belly.nom_atom(source) //Eat them!!!
 			if(source.loc != thrown_mob.vore_selected)
 				source.forceMove(thrown_mob.vore_selected) //Double check. Should never happen but...Weirder things have happened!
 			if(thrower)
-				add_attack_logs(thrower,source,"Was Devoured by [thrown_mob.name] via throw vore.")
+				log_attack(thrower,source,"Was Devoured by [thrown_mob.name] via throw vore.")
 			else
-				log_vore("[source] Was Devoured by [thrown_mob.name] via throw vore.")
+				log_attack("[source] Was Devoured by [thrown_mob.name] via throw vore.")
 			return COMSIG_CANCEL_HITBY
 
 //source = person standing up

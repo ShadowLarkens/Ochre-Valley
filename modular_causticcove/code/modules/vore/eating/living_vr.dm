@@ -24,6 +24,7 @@
 	var/digestion_in_progress = FALSE	// Gradual corpse gurgles
 	var/trash_catching = FALSE					//Toggle for trash throw vore
 	var/list/trait_injection_reagents = list()	//List of all the reagents allowed to be used for injection via venom bite
+	var/skin_reagent
 	var/trait_injection_selected = null			//What trait reagent you're injecting.
 	var/trait_injection_amount = 5				//How much you're injecting with traits.
 	var/trait_injection_verb = "bite"			//Which fluffy manner you're doing the injecting.
@@ -83,35 +84,67 @@
 //
 // Handle being clicked, perhaps with something to devour
 //
-/mob/living/proc/vore_attackby(mob/living/target, mob/user)
-	//Has to be aggressive grab, has to be living click-er and non-silicon grabbed
-	if(isliving(user))
-		var/mob/living/attacker = user  // Typecast to living
-		// src is the mob clicked on and attempted predator
-		///// If user clicked on themselves
-		if(src == user && is_vore_predator(src))
-			if(feed_grabbed_to_self(src, target))
-				return TRUE
-		///// If user clicked on their grabbed target
-		else if((src == target)  &&  (is_vore_predator(target)))
-			if(target.feeding)
-				to_chat(user, span_notice("[target] isn't willing to be fed."))
-				return FALSE
-			if(attacker.feed_self_to_grabbed(attacker, target))
-				return TRUE
-		///// If user clicked on anyone else but their grabbed target
-		else if((src != target) && (src != user) && (is_vore_predator(src)))
-			if(!feeding)
-				to_chat(user, span_notice("[src] isn't willing to be fed."))
-				return FALSE
-			if(!(target.devourable))
-				to_chat(user, span_notice("[target] isn't able to be devoured."))
-				return FALSE
-			if(attacker.feed_grabbed_to_other(attacker, target, src))
-				return TRUE
+/mob/living/proc/vore_attackby(obj/item/I, mob/user)
+	//Handle case: /obj/item/grab
+	if(istype(I, /obj/item/grab))
+		var/obj/item/grab/G = I
+		var/mob/living/carbon/victim = G.affecting
+
+		//Has to be aggressive grab, has to be living click-er and non-silicon grabbed
+		if(G.state >= GRAB_AGGRESSIVE && (isliving(user) && !issilicon(G.affecting)))
+			var/mob/living/attacker = user  // Typecast to living
+
+			// src is the mob clicked on and attempted predator
+
+			///// If user clicked on themselves
+			if(src == G.assailant && is_vore_predator(src))
+				if(istype(victim) && !victim.client && !victim.ai_holder)
+					log_and_message_admins("attempted to eat [key_name_admin(G.affecting)] whilst they were AFK ([G.affecting ? ADMIN_JMP(G.affecting) : "null"])", src)
+				if(feed_grabbed_to_self(src, G.affecting))
+					qdel(G)
+					return TRUE
+				else
+					log_attack("[attacker] attempted to feed [G.affecting] to [user] ([user.type]) but it failed.")
+
+			///// If user clicked on their grabbed target
+			else if((src == G.affecting) && (attacker.a_intent == I_GRAB) && (attacker.zone_sel.selecting == BP_TORSO) && (is_vore_predator(G.affecting)))
+				if(istype(victim) && !victim.client && !victim.ai_holder) //Check whether the victim is: A carbon mob, has no client, but has a ckey. This should indicate an SSD player.
+					log_and_message_admins("attempted to force feed themselves to [key_name_admin(G.affecting)] whilst they were AFK ([G.affecting ? ADMIN_JMP(G.affecting) : "null"])", attacker)
+				if(!G.affecting.feeding)
+					to_chat(user, span_notice("[G.affecting] isn't willing to be fed."))
+					log_and_message_admins("attempted to feed themselves to [key_name_admin(G.affecting)] against their prefs ([G.affecting ? ADMIN_JMP(G.affecting) : "null"])", src)
+					return FALSE
+
+				if(attacker.feed_self_to_grabbed(attacker, G.affecting))
+					qdel(G)
+					return TRUE
+				else
+					log_attack("[attacker] attempted to feed [user] to [G.affecting] ([G.affecting ? G.affecting.type : "null"]) but it failed.")
+
+			///// If user clicked on anyone else but their grabbed target
+			else if((src != G.affecting) && (src != G.assailant) && (is_vore_predator(src)))
+				if(istype(victim) && !victim.client && !victim.ai_holder)
+					log_and_message_admins("attempted to feed [key_name_admin(G.affecting)] to [key_name_admin(src)] whilst [key_name_admin(G.affecting)] was AFK ([G.affecting ? ADMIN_JMP(G.affecting) : "null"])", attacker)
+				var/mob/living/carbon/victim_fed = src
+				if(istype(victim_fed) && !victim_fed.client && !victim_fed.ai_holder)
+					log_and_message_admins("attempted to feed [key_name_admin(G.affecting)] to [key_name_admin(src)] whilst [key_name_admin(src)] was AFK ([G.affecting ? ADMIN_JMP(G.affecting) : "null"])", attacker)
+
+				if(!feeding)
+					to_chat(user, span_notice("[src] isn't willing to be fed."))
+					log_and_message_admins("attempted to feed [key_name_admin(G.affecting)] to [key_name_admin(src)] against predator's prefs ([src ? ADMIN_JMP(src) : "null"])", attacker)
+					return FALSE
+				if(!(G.affecting.devourable))
+					to_chat(user, span_notice("[G.affecting] isn't able to be devoured."))
+					log_and_message_admins("attempted to feed [key_name_admin(G.affecting)] to [key_name_admin(src)] against prey's prefs ([G.affecting ? ADMIN_JMP(G.affecting) : "null"])", attacker)
+					return FALSE
+				if(attacker.feed_grabbed_to_other(attacker, G.affecting, src))
+					qdel(G)
+					return TRUE
+				else
+					log_attack("[attacker] attempted to feed [G.affecting] to [src] ([type]) but it failed.")
 
 	//Handle case: /obj/item/holder
-	/*else if(istype(I, /obj/item/micro))
+	else if(istype(I, /obj/item/holder))
 		var/obj/item/holder/H = I
 
 		if(!isliving(user))
@@ -121,10 +154,54 @@
 		if(is_vore_predator(src))
 			for(var/mob/living/M in H.contents)
 				if(attacker.eat_held_mob(attacker, M, src))
-					return TRUE //return TRUE to exit upper procs 
-	*/
+					return TRUE //return TRUE to exit upper procs
+		else
+			log_attack("[attacker] attempted to feed [H.contents] to [src] ([type]) but it failed.")
+
+	// Body writing
+	else if(istype(I, /obj/item/natural/feather) || istype(I, /obj/item/natural/thorn))
+		if(!ishuman(src))
+			return FALSE
+		var/mob/living/carbon/human/canvas_user = src
+
+		if(!isliving(user))
+			return FALSE
+		var/mob/living/attacker = user
+
+		if(attacker.a_intent != I_HELP)
+			return FALSE
+
+		var/hit_zone = attacker.zone_sel.selecting
+
+		var/obj/item/organ/external/affecting = get_organ(hit_zone)
+		if(!affecting || affecting.is_stump())
+			to_chat(attacker, span_danger("They are missing that limb!"))
+			return TRUE
+
+		var/message = tgui_input_text(attacker, "What would you like to write on [src]'s [affecting]? (This will replace existing writing.)", "Body Writing", "", 128, FALSE)
+		if(!message)
+			return TRUE
+
+		to_chat(canvas_user, span_notice("[attacker] is attempting to write on your [affecting.name]!"))
+		attacker.visible_message(span_notice("[attacker] starts writing on [canvas_user]'s [affecting.name]."), \
+			span_notice("You start writing on [canvas_user]'s [affecting.name]..."))
+
+		// Progress bar for writing on someone for better consent check.
+		if(!do_after(attacker, 3 SECONDS, target = canvas_user, max_distance = 1))
+			to_chat(attacker, span_warning("You stop writing on [canvas_user]."))
+			return TRUE
+
+		log_attack(attacker, canvas_user, "wrote \"[message]\"")
+
+		LAZYSET(canvas_user.body_writing, affecting.organ_tag, message)
+
+		attacker.visible_message(span_notice("[attacker] finishes writing on [canvas_user]'s [affecting.name]."), \
+			span_notice("You finish writing on [canvas_user]'s [affecting.name]."))
+		return TRUE
+
 	return FALSE
 
+/* //Caustic - Removing this to implement it the Chomper's way
 //A variant of vore_attackby for insta noms, primarily to check prefs
 /mob/living/proc/spontaneous_vore_attackby(mob/living/target, mob/user)
 	//Has to be aggressive grab, has to be living click-er and non-silicon grabbed
@@ -137,7 +214,7 @@
 			return
 		if(target.can_be_drop_pred)
 			feed_grabbed_to_self_falling_nom(target, attacker)
-	return FALSE
+	return FALSE */
 
 //
 // Our custom resist catches for /mob/living
@@ -241,34 +318,36 @@
 	return TRUE
 
 
-
 /datum/preferences/proc/load_vore_prefs_from_client(mob/user)
-		
 	if(selecting_slots)
 		to_chat(user, span_warning("You already have a slot selection dialog open!"))
 		return
-	var/savefile/S = new /savefile(path)
+	if(!savefile)
+		return
+
+	var/list/charlist = list()
+
 	var/default
-	var/charlist = list()
-	if(S)
-		for(var/i=1, i<=max_save_slots, i++)
-			var/name
-			S.cd = "/character[i]"
-			S["real_name"] >> name
-			if(!name)
-				name = "[i] - \[Unused Slot\]"
-			else if(i == default_slot)
-				name = "►[i] - [name]"
-				default = "[name][nickname ? " ([nickname])" : ""]"
-			else
-				name = "[i] - [name]"
-			charlist["[name][nickname ? " ([nickname])" : ""]"] = i
+	for(var/i in 1 to CONFIG_GET(number/character_slots))
+		var/list/save_data = savefile.get_entry("character[i]", list())
+		var/name = save_data["real_name"]
+		var/nickname = save_data["nickname"]
+
+		if(!name)
+			name = "[i] - \[Unused Slot\]"
+		else if(i == default_slot)
+			name = "►[i] - [name]"
+			default = "[name][nickname ? " ([nickname])" : ""]"
+		else
+			name = "[i] - [name]"
+
+		charlist["[name][nickname ? " ([nickname])" : ""]"] = i
 
 	var/remember_default = default_slot
 
-	selecting_slots = TRUE
+	//selecting_slots = TRUE
 	var/choice = tgui_input_list(user, "Select a character to load:", "Load Slot", charlist, default)
-	selecting_slots = FALSE
+	//selecting_slots = FALSE
 	if(!choice)
 		return
 
@@ -278,15 +357,17 @@
 		return
 
 	load_character(slotnum)
-	attempt_vr(user.client?.prefs_vr,"load_vore","")
-	//sanitize_preferences()
+	user.client?.prefs_vr.load_vore()
+	//attempt_vr(user.client?.prefs_vr,"load_vore","")
+	sanitize_preferences()
 
 	return remember_default
 
 /datum/preferences/proc/return_to_character_slot(mob/user, var/remembered_default)
 	load_character(remembered_default)
-	attempt_vr(user.client?.prefs_vr,"load_vore","")
-	//sanitize_preferences()
+	user.client?.prefs_vr.load_vore()
+	//attempt_vr(user.client?.prefs_vr,"load_vore","")
+	sanitize_preferences()
 
 //
 // Release everything in every vore organ
@@ -372,8 +453,16 @@
 		visible_message(span_warning("[src] licks themself!"),span_notice("You lick yourself. You taste rather like [tasted.get_taste_message()]."),span_info(span_bold("Slurp!")))
 		//balloon_alert_visible("licks themself!", "tastes like [tasted.get_taste_message()]")
 	else
+		if(tasted.skin_reagent && ishuman(src) && (tasted != src))
+			var/mob/living/carbon/human/us_but_human = src
+			us_but_human.reagents.add_reagent(tasted.skin_reagent, 5)
+		
 		visible_message(span_warning("[src] licks [tasted]!"),span_notice("You lick [tasted]. They taste rather like [tasted.get_taste_message()]."),span_info(span_bold("Slurp!")))
 		//balloon_alert_visible("licks [tasted]!", "tastes like [tasted.get_taste_message()]")
+	/* //Caustic - Maybe we add this in sometime?
+	// This has already passed consent tests
+	if(HAS_TRAIT(src, TRAIT_SLOBBER))
+		tasted.adjust_wet_stacks(2)*/
 
 /mob/living/proc/get_taste_message(allow_generic = 1)
 	if(!vore_taste && !allow_generic)
@@ -456,11 +545,79 @@
 		muffled = FALSE		//Removes Muffling
 		forceMove(get_turf(src)) //Just move me up to the turf, let's not cascade through bellies, there's been a problem, let's just leave.
 		SetSleeping(0) //Wake up instantly if asleep
-		message_admins("[src] used OOC escape to escape from [B.owner]'s belly.")
-		log_game("[src] used OOC escape to escape from [B.owner]'s belly.")
+		for(var/mob/living/simple_mob/SA in range(10))
+			LAZYSET(SA.prey_excludes, src, world.time)
+		log_and_message_admins("[key_name(src)] used the OOC escape button to get out of [key_name(B.owner)] ([B.owner ? "<a href='byond://?_src_=holder;[HrefToken()];adminplayerobservecoodjump=1;X=[B.owner.x];Y=[B.owner.y];Z=[B.owner.z]'>JMP</a>" : "null"])", src)
 
 		B.owner.handle_belly_update() //This is run whenever a belly's contents are changed.
+	
+	//You've been turned into an item!
+	else if(tf_mob_holder && isvoice(src) && istype(src.loc, /obj/item))
+		var/obj/item/item_to_destroy = src.loc //If so, let's destroy the item they just TF'd out of.
+		//If tf_mob_holder is not located in src, then it's a Mind Binder OOC Escape
+		var/mob/living/ourmob = tf_mob_holder
+		if(ourmob.loc != src)
+			if(isnull(ourmob.loc))
+				var/mob/living/voice/possessed_voice = src  // Stupid band-aid fix for OOC escaping object TF
+				if(possessed_voice.item_tf)
+					mind.transfer_to(ourmob)
+					item_to_destroy.possessed_voice -= src
+					qdel(src)
+					ourmob.forceMove(item_to_destroy.loc)
+					qdel(item_to_destroy)
+					log_and_message_admins("[key_name(src)] used the OOC escape button to revert back to their original form from being TFed into an object.")
+					return
+				to_chat(src,span_notice("You have no body."))
+				src.tf_mob_holder = null
+				return
+			if(ourmob.ckey)
+				to_chat(src,span_notice("Your body appears to be in someone else's control."))
+				return
+			src.mind.transfer_to(ourmob)
+			item_to_destroy.possessed_voice -= src
+			qdel(src)
+			log_and_message_admins("[key_name(src)] used the OOC escape button to revert back to their original form from being TFed into an object.")
+			return
+		if(istype(src.loc, /obj/item/clothing)) //Are they in clothes? Delete the item then revert them.
+			qdel(item_to_destroy)
+			log_and_message_admins("[key_name(src)] used the OOC escape button to revert back to their original form from being TFed into an object.", src)
+			revert_mob_tf()
+		else //Are they in any other type of object? If qdel is done first, the mob is deleted from the world.
+			forceMove(get_turf(src))
+			qdel(item_to_destroy)
+			log_and_message_admins("[key_name(src)] used the OOC escape button to revert back to their original form from being TFed into an object.", src)
+			revert_mob_tf()
 
+	//You've been turned into a mob!
+	else if(tf_mob_holder)
+		log_and_message_admins("[key_name(src)] used the OOC escape button to revert back to their original form from being TFed into another mob.", src)
+		revert_mob_tf()
+
+	else if(istype(loc, /obj/structure/gargoyle) && loc:was_rayed)
+		var/obj/structure/gargoyle/G = loc
+		G.can_revert = TRUE
+		qdel(G)
+		log_and_message_admins("[key_name(src)] used the OOC escape button to revert back from being petrified.", src)
+
+	//In-shoe OOC escape. Checking voices as precaution if something akin to obj TF or possession happens
+	else if(!istype(src, /mob/living/voice) && istype(src.loc, /obj/item/clothing/shoes))
+		var/obj/item/clothing/shoes/S = src.loc
+		forceMove(get_turf(src))
+		log_and_message_admins("[key_name(src)] used the OOC escape button to escape from of a pair of shoes. [ADMIN_FLW(src)] - Shoes [ADMIN_VV(S)]")
+
+	//You are in food and for some reason can't resist out
+	else if(istype(loc, /obj/item/reagent_containers/food))
+		var/obj/item/reagent_containers/food/F = src.loc
+		if(F.food_inserted_micros)
+			F.food_inserted_micros -= src
+		src.forceMove(get_turf(F))
+		log_and_message_admins("[key_name(src)] used the OOC escape button to get out of a food item.", src)
+
+	else if(alerts && alerts["leashed"])
+		var/atom/movable/screen/alert/leash_pet/pet_alert = src.alerts["leashed"]
+		var/obj/item/leash/owner = pet_alert.master
+		owner.clear_leash()
+		log_and_message_admins("[key_name(src)] used the OOC escape button to get out of a leash.", src)
 
 	//Don't appear to be in a vore situation
 	else
@@ -582,12 +739,58 @@
 	gas = list(
 		GAS_CH4 = 100)*/
 
-
-
-
 /mob/living/proc/feed_grabbed_to_self_falling_nom(var/mob/living/user, var/mob/living/prey)
+	if(user.is_incorporeal())
+		return FALSE
 	var/belly = user.vore_selected
 	return begin_instant_nom(user, prey, user, belly)
+
+/mob/living/proc/get_current_spont_belly(atom/movable/preything)
+	var/direction_diff = angle2dir_cardinal(dir2angle(get_dir(src, preything)) - dir2angle(dir))
+	var/spont_belly_name
+	switch(direction_diff)
+		if(NORTH)
+			if(spont_belly_front)
+				spont_belly_name = spont_belly_front
+		if(SOUTH)
+			if(spont_belly_rear)
+				spont_belly_name = spont_belly_rear
+		if(EAST)
+			if(spont_belly_right)
+				spont_belly_name = spont_belly_right
+		if(WEST)
+			if(spont_belly_left)
+				spont_belly_name = spont_belly_left
+	for(var/obj/belly/lookup_belly in vore_organs)
+		if(lookup_belly.name == spont_belly_name)
+			return lookup_belly
+	return vore_selected
+
+/mob/living/proc/glow_toggle()
+	set name = "Glow (Toggle)"
+	set category = "Abilities.General"
+	set desc = "Toggle your glowing on/off!"
+
+	if(stat || is_paralyzed() || weakened || stunned || world.time < last_special)
+		to_chat(src, span_warning("You can't do that in your current state."))
+		return
+
+	//I don't really see a point to any sort of checking here.
+	//If they're passed out, the light won't help them. Same with buckled. Really, I think it's fine to do this whenever.
+	glow_toggle = !glow_toggle
+
+	to_chat(src,span_notice("You " + span_bold("[glow_toggle ? "en" : "dis"]") + "able your body's glow."))
+
+/mob/living/proc/glow_color()
+	set name = "Glow (Set Color)"
+	set category = "Abilities.Settings"
+	set desc = "Pick a color for your body's glow."
+
+	//Again, no real need for a check on this. I'm unsure how it could be somehow abused.
+	//Even if they open the box 900 times, who cares, they get the wrong color and do it again.
+	var/new_color = tgui_color_picker(src,"Select a new color","Body Glow",glow_color)
+	if(new_color)
+		glow_color = new_color
 
 /mob/living/proc/get_digestion_nutrition_modifier()
 	return 1
@@ -602,7 +805,7 @@
 
 	//on chomp it worked off a whitelist of items you could devour, hope is that here it can be replaced by a long windup before eating something
 
-	if(stat ||  world.time < last_special) //probably needs a look over for CC specific states but probably should be fine ?
+	if(stat || world.time < last_special) //probably needs a look over for CC specific states but probably should be fine ?
 		to_chat(src, span_warning("You can't do that in your current state."))
 		return
 
@@ -611,20 +814,20 @@
 		return
 
 	var/obj/item/I = get_active_held_item()
-
 	if(!I)
 		to_chat(src, span_notice("You are not holding anything."))
 		return
 
 	if(!(I.grid_height <= world.icon_size || I.grid_height <= world.icon_size))
-		to_chat(src,span_warning("You can't eat such a large thing !"))//yet
+		to_chat(src,span_warning("You can't eat such a large thing !"))//yet <-- YET???
 		return
 
 	if(do_after(src, 10 SECONDS)){
-		I.forceMove(vore_selected)
+		drop_item()
+		vore_selected.nom_atom(I)
 		updateVRPanel()
 		log_admin("VORE: [src] used Eat Trash to swallow [I].")
-		
+
 		visible_message(span_warning(src.vore_selected.belly_format_string(src.vore_selected.trash_eater_in, I, item=I)))
 	}else{
 		to_chat(src,span_warning("You need to stay still to eat that!"))
@@ -632,14 +835,15 @@
 
 	return
 
-/*
+/* //Caustic - Do we enable this?
 /mob/living/proc/toggle_trash_catching() //Ported from chompstation
 	set name = "Toggle Trash Catching"
 	set category = "Abilities.Vore"
 	set desc = "Toggle Trash Eater throw vore abilities."
 	trash_catching = !trash_catching
-	to_chat(src, span_warning("Trash catching [trash_catching ? "enabled" : "disabled"]."))
+	to_chat(src, span_warning("Trash catching [trash_catching ? "enabled" : "disabled"]."))*/
 
+/*
 /mob/living/proc/eat_minerals() //Actual eating abstracted so the user isn't given a prompt due to an argument in this verb.
 	set name = "Eat Minerals"
 	set category = "Abilities.Vore"
@@ -770,7 +974,7 @@
 		to_chat(src, span_notice("You pause for a moment to examine [I] and realize it's not even worth the energy to chew.")) //If it ain't ore or the type of sheets we can eat, bugger off!
 */
 
-/*/mob/living/verb/toggle_stuffing_mode() <-- Pains me so fucking much to comment this out but this is for later
+/*/mob/living/verb/toggle_stuffing_mode() <-- Pains me so fucking much to comment this out but this is for later //Caustic - Enable this as well sometime?
 	set name = "Toggle feeding mode"
 	set category = "Abilities.Vore"
 	set desc = "Switch whether you will try to feed other people food whole or normally, bite by bite."
@@ -889,96 +1093,6 @@
 	var/datum/browser/popup = new(user, "[name]mvp", "Vore Prefs: [src]", 300, 700, src)
 	popup.set_content(dat)
 	popup.open()
-
-/mob/living/verb/shred_limb()
-	set name = "Damage/Remove Prey's Organ"
-	set desc = "Severely damages prey's organ. If the limb is already severely damaged, it will be torn off."
-	set category = "Abilities.Vore"
-	var/obj/item/grabbing/I = get_active_held_item()
-	if(!I)//we must be holding something
-		to_chat(src, span_notice("You are not holding anything."))
-		return
-	if(!istype(I.grabbed, /mob/living/carbon))//we must be grabbing a non simple mob
-		to_chat(src, span_notice("You can't shred that."))
-		return
-	if(!I.grab_state > 0)//the grab must be reinforced
-		to_chat(src, span_notice("You need a stronger hold."))
-		return
-	shred(I.grabbed)//now we shred
-
-/mob/living/proc/shred(var/mob/living/carbon/human/T)
-	//Let them pick any of the target's external organs
-	var/obj/item/bodypart/T_ext = tgui_input_list(src, "What do you wish to severely damage?", "Organ Choice", T.bodyparts) //D for destroy.
-	if(!T_ext) //Picking something here is critical.
-		return
-
-	//Any internal organ, if there are any
-	var/obj/item/organ/internal/T_int = tgui_input_list(src,"Do you wish to severely damage an internal organ, as well? If not, click 'I Rescind', don't forget if you damage something vital they might die.", "Organ Choice", T.getorganszone(T_ext.body_zone, subzones = TRUE))
-
-	//And a belly, if they want
-	var/obj/belly/B = tgui_input_list(src,"To where do you wish to swallow the organ if you tear if out? If you want it to fall to the floor click 'I Rescind', be WARNED that if you digest/destory the brain (or the head with it) your prey will be effectively ROUND REMOVED and reformation gems will not save them, removing the head/brain means you have to put it back on before the prey uses reformation gem, make sure you have medicine skill if you want to do that", "Organ Choice", vore_organs)
-
-	last_special = world.time + 15 SECONDS
-	visible_message(span_danger("[src] appears to be preparing to do something to [T]!")) //Let everyone know that bad times are ahead
-
-	if(!do_after(src, 15 SECONDS, target = T)) //Fifteen seconds. You have to be in a reinforced grab for this, so you're already in a bad position and tying you up would be quicker.
-		to_chat(src,span_warning("Looks like you lost your chance..."))
-		return
-
-	//Removing an internal organ
-	if(!isnull(T_int) && T_int.damage >= 3) //Internal organ and it's been severely damaged
-		T.apply_damage(50, BRUTE, T_ext) //Damage the external organ they're going through.
-		if(B)
-			T_int.forceMove(B) //Move to pred's gut
-			if(istype(T_int,/obj/item/organ/heart)){ //special heart behavior, in case we want to do some funky RP
-				if(tgui_alert(src, "Do you want to keep the heart functional ? as long as it is not destoryed the target will live","Shred Limb",list("Yes", "No")) != "Yes"){
-					T_int.Remove(T)
-				}else{
-					T_int.damage=0//so that we don't have a heart attack mid ERP
-				}
-			}else{
-				T_int.Remove(T) //stop the organ from working, without Remove you end up with a working organ outside of the body
-			}
-			visible_message(span_danger("[src] severely damages [T_int.name] of [T]!"))
-		else
-			T_int.forceMove(T.loc)
-			if(istype(T_int,/obj/item/organ/heart)){ //special heart behavior, in case we want to do some funky RP
-				if(tgui_alert(src, "Do you want to keep the heart functional ? as long as it is not destoryed the target will not suffer death due to it's lack","Shred Limb",list("Yes", "No")) != "Yes"){
-					T_int.Remove(T)
-				}else{
-					T_int.damage=0
-				}
-			}else{
-				T_int.Remove(T)
-			}
-			visible_message(span_danger("[src] severely damages [T_ext.name] of [T], resulting in their [T_int.name] coming out!"),span_warning("You tear out [T]'s [T_int.name]!"))
-
-	//Removing an external organ
-	else if(!T_int &&  T_ext.brute_dam >= 40)
-
-		//Is it groin/chest? You can't remove those.
-		if(istype(T_ext, /obj/item/bodypart/chest))
-			T.apply_damage(50, BRUTE, T_ext)
-			visible_message(span_danger("[src] severely damages [T]'s [T_ext.name]!"))
-		else if(B)
-			T_ext.drop_limb()
-			T_ext.forceMove(B)
-			visible_message(span_warning("[src] swallows [T]'s [T_ext.name] into their [lowertext(B.name)]!"))
-		else
-			T_ext.drop_limb()
-			T_ext.forceMove(T.loc)
-			visible_message(span_warning("[src] tears off [T]'s [T_ext.name]!"),span_warning("You tear off [T]'s [T_ext.name]!"))
-
-
-	//Not targeting an internal organ w/ > 3 damage , and the limb doesn't have < 30 damage.
-	else
-		if(T_int)
-			T_int.damage = 10 //Internal organs can only take damage, not brute damage.
-		T.apply_damage(50, BRUTE, T_ext)
-		visible_message(span_danger("[src] severely damages [T]'s [T_ext.name]!"))
-
-//	add_attack_logs(src,T,"Shredded (hardvore)")
-// TODO : ADD LOGGING !!!
 
 // Full screen belly overlays!
 /obj/screen/fullscreen/belly
@@ -1448,3 +1562,40 @@
 		if(!curloc.loc || curloc == curloc.loc) break
 		curloc = curloc.loc
 	if(isbelly(curloc)) return curloc
+
+/mob/living/verb/toggle_afk()
+	set name = "Toggle AFK"
+	set category = "IC.Game"
+	set desc = "Mark yourself as Away From Keyboard, or clear that status!"
+	if(away_from_keyboard)
+		//remove_status_indicator("afk")
+		to_chat(src, span_notice("You are no longer marked as AFK."))
+		away_from_keyboard = FALSE
+		manual_afk = FALSE
+	else
+		//add_status_indicator("afk")
+		to_chat(src, span_notice("You are now marked as AFK."))
+		away_from_keyboard = TRUE
+		manual_afk = TRUE
+
+/mob/living/proc/absorb_langs()		//This should be called on the predator in the exchange
+	if(!mind || !mind.language_holder)
+		return
+
+	var/list/langlist = list()
+
+	mind.language_holder.languages -= temp_languages
+	LAZYCLEARLIST(src.temp_languages)
+	src.temp_languages = list()
+	for(var/b in vore_organs)
+		for(var/mob/living/L in b)
+			if(isliving(L))
+				if(L.ckey)
+					langlist |= L.mind.language_holder.languages
+	if(langlist.len)
+		langlist -= mind.language_holder.languages
+		/*for(var/datum/language/L in langlist)
+			if(L.flags & HIVEMIND)
+				add_verb(src, /mob/proc/adjust_hive_range)*/
+		temp_languages |= langlist
+		mind.language_holder.languages |= langlist

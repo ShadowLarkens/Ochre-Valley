@@ -1,4 +1,4 @@
-var/list/gurgled_overlays = list(
+GLOBAL_LIST_INIT(gurgled_overlays, list(
 								"green" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "green"),
 								"white" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "white"),
 								"black" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "black"),
@@ -14,7 +14,7 @@ var/list/gurgled_overlays = list(
 								"cyan" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "cyan"),
 								"beige" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "beige"),
 								"pink" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "pink")
-								)
+								))
 
 /obj/item/proc/gurgle_contaminate(atom/movable/item_storage = null, contamination_flavor = "Generic", contamination_color = "green")
 	if(!can_gurgle())
@@ -27,7 +27,7 @@ var/list/gurgled_overlays = list(
 		gurgled = TRUE
 		gurgled_color = contamination_color
 		if(!isbelly(src.loc)) //Moved non-worn overlay stuff to belly_obj_vr.dm Exited proc. No need to add overlays to things that won't make it out.
-			add_overlay(gurgled_overlays[gurgled_color])
+			add_overlay(GLOB.gurgled_overlays[gurgled_color]) //Caustic TODO - Change this from an Overlay to a Decal like Blood is. /datum/component/decal/blood This might be why it doesn't work?
 		var/list/pickfrom = GLOB.contamination_flavors[contamination_flavor]
 		var/gurgleflavor = pick(pickfrom)
 		cleanname = src.name
@@ -38,7 +38,7 @@ var/list/gurgled_overlays = list(
 //			O.gurgle_contaminate(item_storage, contamination_flavor, contamination_color)
 		return TRUE
 
-/obj/item/proc/can_gurgle()
+/obj/item/proc/can_gurgle() //Caustic - Perhaps an item blacklist to prevent it from getting contaminated here?
 	return TRUE
 
 //////////////
@@ -101,3 +101,9 @@ var/list/gurgled_overlays = list(
 			for(var/obj/item/O in pockets.contents)
 				O.gurgle_contaminate(item_storage, contamination_flavor, contamination_color)
 	..()*/
+
+/obj/item/clothing/cloak/gurgle_contaminate(var/atom/movable/item_storage = null, var/contamination_flavor = "Generic", var/contamination_color = "green")
+	if(contents)
+		for(var/obj/item/O in contents)
+			O.gurgle_contaminate(item_storage, contamination_flavor, contamination_color)
+	..()

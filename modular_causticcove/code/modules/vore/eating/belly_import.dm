@@ -1,19 +1,19 @@
 /datum/vore_look/import_panel/proc/open_import_panel(mob/user)
-	tgui_interact(user)
+	ui_interact(user)
 
-/datum/vore_look/import_panel/tgui_interact(mob/user, datum/tgui/ui)
+/datum/vore_look/import_panel/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "VorePanelImport", "Vore Import Panel")
 		ui.open()
 
-/datum/vore_look/import_panel/tgui_act(action, list/params, datum/tgui/ui, datum/tgui_state/state)
+/datum/vore_look/import_panel/ui_act(action, list/params, datum/tgui/ui)
 	if(..())
 		return TRUE
 
 	switch(action)
-		if("import_soulcatcher")
-			import_soulcatcher(host, params["data"])
+		//if("import_soulcatcher")
+		//	import_soulcatcher(host, params["data"])
 		if("import_bellies")
 			import_belly(ui.user, params["data"])
 
@@ -828,9 +828,9 @@
 			if(new_disable_hud == 1)
 				new_belly.disable_hud = TRUE
 
-		var/possible_fullscreens = icon_states_fast('icons/mob/vore_fullscreens/ui_lists/screen_full_vore_list_base.dmi')
+		var/possible_fullscreens = cached_icon_states('icons/mob/vore_fullscreens/ui_lists/screen_full_vore_list_base.dmi')
 		if(!new_belly.colorization_enabled)
-			possible_fullscreens = icon_states_fast('icons/mob/vore_fullscreens/ui_lists/screen_full_vore.dmi')
+			possible_fullscreens = cached_icon_states('icons/mob/vore_fullscreens/ui_lists/screen_full_vore.dmi')
 		if(!(new_belly.belly_fullscreen in possible_fullscreens))
 			new_belly.belly_fullscreen = ""
 

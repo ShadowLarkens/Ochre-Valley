@@ -116,6 +116,14 @@
 		return 0
 
 /mob/living/hitby(atom/movable/AM, skipcatch, hitpush = TRUE, blocked = FALSE, datum/thrownthing/throwingdatum, damage_flag = "blunt")
+	//Caustic Edit - Add Spontaneous Vore from throwing things!
+	var/speed = throwingdatum?.speed
+	var/mob/living/thrower = throwingdatum?.thrower
+
+	if(SEND_SIGNAL(src, COMSIG_LIVING_HIT_BY_THROWN_ENTITY, AM, thrower, speed) & COMSIG_CANCEL_HITBY)
+		return FALSE
+	//Caustic Edit End
+	
 	if(istype(AM, /obj/item))
 		var/obj/item/I = AM
 		// Hit the selected zone, or else a random zone centered on the chest

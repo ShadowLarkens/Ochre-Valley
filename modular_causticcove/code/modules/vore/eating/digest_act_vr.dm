@@ -61,7 +61,7 @@
 				O.forceMove(item_storage)
 			else
 				O.forceMove(src.loc)
-		//GLOB.items_digested_roundstat++
+		//GLOB.items_digested_roundstat++ //Caustic - We don't track these (yet?)
 		var/g_sound_volume = 100
 		var/noise_freq = 42500
 		if(istype(B))
@@ -77,7 +77,7 @@
 		playsound(src, soundfile, vol = g_sound_volume, vary = 1, falloff = VORE_SOUND_FALLOFF, frequency = noise_freq, preference = "eating_noises")
 		//Allow those turned into items to become the recycled item
 		/*var/recycled = B?.recycle(src)
-		if(!recycled)
+		if(!recycled) //Caustic - Recycle-based Vore Code Item Handling here
 			for(var/mob/living/voice/V in possessed_voice) // Delete voices.
 				V.ghostize(0) //Prevent Reenter Corpse sending observers to the shadow realm
 				V.stat = DEAD //Helps with autosleeving
@@ -152,7 +152,7 @@
 	update_icon()
 	return FALSE
 */
-/obj/item/micro/digest_act(atom/movable/item_storage = null)
+/obj/item/holder/digest_act(atom/movable/item_storage = null)
 	for(var/mob/living/M in contents)
 		if(item_storage)
 			M.forceMove(item_storage)

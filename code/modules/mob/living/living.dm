@@ -14,6 +14,10 @@
 	GLOB.mob_living_list += src
 	init_faith()
 
+	//Caustic Edit - Add Spontaneous Vore element
+	AddElement(/datum/element/spontaneous_vore)
+	//Caustic Edit End
+
 /mob/living/Destroy()
 	surgeries = null
 	if(LAZYLEN(status_effects))

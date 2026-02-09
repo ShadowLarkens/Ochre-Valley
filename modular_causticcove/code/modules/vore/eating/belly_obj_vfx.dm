@@ -21,7 +21,7 @@
 		return
 
 	if(colorization_enabled)
-		var/atom/movable/screen/fullscreen/fullscreen_overlay = living_prey.overlay_fullscreen("belly", /atom/movable/screen/fullscreen/belly, severity) // preserving save data
+		var/atom/movable/screen/fullscreen/fullscreen_overlay = living_prey.overlay_fullscreen("belly", /obj/screen/fullscreen/belly, severity) // preserving save data
 		var/datum/belly_overlays/lookup_belly_path = text2path("/datum/belly_overlays/[lowertext(belly_fullscreen)]")
 		if(!lookup_belly_path)
 			var/used_fullscreen = belly_fullscreen
@@ -52,7 +52,7 @@
 		var/extra_mush_color = mush_color
 		if(living_prey.liquidbelly_visuals && ishuman(owner) && metabolism_overlay && metabolism_mush_ratio > 0)
 			var/mob/living/carbon/human/human_owner = owner
-			var/datum/reagents/metabolism/ingested = human_owner.ingested
+			var/datum/reagents/ingested = human_owner.reagents
 			if(ingested && ingested.total_volume > 0)
 				if(custom_ingested_color)
 					extra_mush_color = custom_ingested_color
@@ -77,7 +77,7 @@
 		fullscreen_overlay.update_for_view(living_prey.client.view)
 		return
 
-	var/atom/movable/screen/fullscreen/fullscreen_overlay = living_prey.overlay_fullscreen("belly", /atom/movable/screen/fullscreen/belly/fixed, severity) //preserving save data
+	var/atom/movable/screen/fullscreen/fullscreen_overlay = living_prey.overlay_fullscreen("belly", /obj/screen/fullscreen/belly/fixed, severity) //preserving save data
 	fullscreen_overlay.icon = 'icons/mob/vore_fullscreens/ui_lists/screen_full_vore.dmi'
 	fullscreen_overlay.cut_overlays()
 	fullscreen_overlay.add_overlay(image(fullscreen_overlay.icon, belly_fullscreen))
@@ -89,7 +89,7 @@
 	var/extra_mush_color = mush_color
 	if(living_prey.liquidbelly_visuals && ishuman(owner) && metabolism_overlay && metabolism_mush_ratio > 0)
 		var/mob/living/carbon/human/human_owner = owner
-		var/datum/reagents/metabolism/ingested = human_owner.ingested
+		var/datum/reagents/ingested = human_owner.reagents
 		if(ingested && ingested.total_volume > 0)
 			if(custom_ingested_color)
 				extra_mush_color = custom_ingested_color
@@ -117,7 +117,7 @@
 /obj/belly/proc/check_hud_disable(var/mob/living/living_prey)
 	if(disable_hud && living_prey != owner)
 		if(living_prey?.hud_used?.hud_shown)
-			to_chat(living_prey, span_vnotice("((Your pred has disabled huds in their belly. Turn off vore FX and hit F12 to get it back; or relax, and enjoy the serenity.))"))
+			to_chat(living_prey, span_notice("((Your pred has disabled huds in their belly. Turn off vore FX and hit F12 to get it back; or relax, and enjoy the serenity.))"))
 			living_prey.toggle_hud_vis(TRUE)
 
 /obj/belly/proc/get_mush_overlay(color, alpha, limit, content)

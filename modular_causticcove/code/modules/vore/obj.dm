@@ -1,4 +1,4 @@
-/obj/screen/fullscreen/proc/update_for_view(client_view)
+/*/obj/screen/fullscreen/proc/update_for_view(client_view) //Why was this copied over into here when we have this file in code\_onclick\hud\fullscreen.dm
 	if (screen_loc == "CENTER-7,CENTER-7" && view != client_view)
 		var/list/actualview = getviewsize(client_view)
 		view = client_view
@@ -18,9 +18,11 @@
 /obj/screen/fullscreen/proc/should_show_to(mob/mymob)
 	if(!show_when_dead && mymob.stat == DEAD)
 		return FALSE
-	return TRUE
+	return TRUE*/
 
 /obj/item
+	var/digestable = TRUE
+
 	//Vorestuff
 	var/trash_eatable = FALSE
 	var/digest_stage = null
@@ -32,5 +34,5 @@
 	var/cleanname
 	var/cleandesc
 	var/gurgled_color
-	var/digestable = TRUE
+	
 

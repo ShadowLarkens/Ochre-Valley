@@ -886,9 +886,6 @@
 				tgui_alert_async(user,failure_msg,"Error!")
 				return FALSE
 
-			if(host.soulgem?.linked_belly == host.vore_selected)
-				host.soulgem.linked_belly = null
-
 			qdel(host.vore_selected)
 			host.vore_selected = host.vore_organs[1]
 			. = TRUE
@@ -988,7 +985,7 @@
 			host.vore_selected.liquid_multiplier = CLAMP(liquid_multiplier_input, 0.1, 10)
 			host.handle_belly_update()
 			. = TRUE
-		if("b_undergarment_choice")
+		/*if("b_undergarment_choice")
 			var/new_undergarment = params["val"]
 			if(!(global_underwear.categories_by_name[new_undergarment]))
 				return FALSE
@@ -1030,7 +1027,7 @@
 			var/newcolor = sanitize_hexcolor(lowertext(params["val"]))
 			if(newcolor)
 				host.vore_selected.tail_extra_overlay2 = newcolor
-			. = TRUE
+			. = TRUE*/
 		if("b_show_liq_fullness")
 			if(!host.vore_selected.show_fullness_messages)
 				host.vore_selected.show_fullness_messages = 1

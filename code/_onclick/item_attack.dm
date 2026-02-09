@@ -85,6 +85,12 @@
 		else if(!(worn_thing in held_items))
 			continue
 		worn_thing.hit_response(src, user) //checks if clothing has hit response. Refer to Items.dm
+
+	//Caustic Edit - Attempt to add in vore-on-click like Chompers has it
+	if(vore_attackby(I, user)) // The vore, of course.
+		return
+	//Casutic Edit End
+
 	return I.attack(src, user)
 
 /mob/living

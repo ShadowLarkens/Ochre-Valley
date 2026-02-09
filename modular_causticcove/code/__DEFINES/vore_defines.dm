@@ -1,3 +1,11 @@
+//stores numeric player size options indexed by name
+GLOBAL_LIST_INIT(player_sizes_list, list(
+		"Macro" 	= RESIZE_HUGE,
+		"Big" 		= RESIZE_BIG,
+		"Normal" 	= RESIZE_NORMAL,
+		"Small" 	= RESIZE_SMALL,
+		"Tiny" 		= RESIZE_TINY))
+
 //Blacklist to exclude items from object ingestion. Digestion blacklist located in digest_act_vr.dm
 GLOBAL_LIST_INIT(item_vore_blacklist, list())
 
@@ -488,7 +496,7 @@ GLOBAL_LIST_INIT(slosh, list(
 	"modular_causticcove/sound/cvore/vore/walkslosh10.ogg",
 ))
 
-
+/*
 // Vore Pref Defines
 #define VORE_PREF_TRANSFER(target, source)												\
 	target.digestable = source.digestable;												\
@@ -563,7 +571,7 @@ GLOBAL_LIST_INIT(slosh, list(
 																						\
 	target.soulcatcher_pref_flags = source.soulcatcher_pref_flags;						\
 	target.persistend_edit_mode = source.persistend_edit_mode;
-
+*/
 
 // Vore Signals
 ///from /obj/belly/HandleBellyReagents() and /obj/belly/update_internal_overlay()

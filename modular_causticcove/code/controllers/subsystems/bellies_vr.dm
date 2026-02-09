@@ -1,20 +1,45 @@
+#define SSBELLIES_PROCESSED 1
+#define SSBELLIES_IGNORED 2
+
 //
 // Bellies subsystem - Process vore bellies
 //
 
-PROCESSING_SUBSYSTEM_DEF(bellies)
+SUBSYSTEM_DEF(bellies)
 	name = "Bellies"
-	wait = 6 SECONDS
+	priority = 5
+	wait = 1 SECONDS
 	flags = SS_KEEP_TIMING|SS_NO_INIT
 	runlevels = RUNLEVEL_GAME|RUNLEVEL_POSTGAME
 
-/datum/controller/subsystem/processing/bellies/Recover()
-	log_runtime("[name] subsystem Recover().")
-	if(SSbellies.current_thing)
-		log_runtime("current_thing was: (\ref[SSbellies.current_thing])[SSbellies.current_thing]([SSbellies.current_thing.type]) - currentrun: [length(SSbellies.currentrun)] vs total: [length(SSbellies.processing)]")
-	var/list/old_processing = SSbellies.processing.Copy()
-	for(var/datum/D in old_processing)
-		if(!isbelly(D))
-			log_runtime("[name] subsystem Recover() found inappropriate item in list: [D.type]")
-		if(CHECK_BITFIELD(D.datum_flags, DF_ISPROCESSING))
-			processing |= D
+	var/static/list/belly_list = list()
+	var/list/currentrun = list()
+	var/ignored_bellies = 0
+
+/datum/controller/subsystem/bellies/stat_entry()
+	..("#: [belly_list.len] | P: [ignored_bellies]")
+
+/datum/controller/subsystem/bellies/fire(resumed = 0)
+	if (!resumed)
+		ignored_bellies = 0
+		src.currentrun = belly_list.Copy()
+
+	//cache for sanic speed (lists are references anyways)
+	var/list/currentrun = src.currentrun
+	var/times_fired = src.times_fired
+	while(currentrun.len)
+		var/obj/belly/B = currentrun[currentrun.len]
+		currentrun.len--
+
+		if(QDELETED(B))
+			belly_list -= B
+		else
+			B.HandleBellyReagents()	//CHOMP reagent belly stuff, here to jam it into subsystems and avoid too much cpu usage
+			if(B.process_belly(times_fired,wait) == SSBELLIES_IGNORED)
+				ignored_bellies++
+
+		if (MC_TICK_CHECK)
+			return
+
+#undef SSBELLIES_PROCESSED
+#undef SSBELLIES_IGNORED

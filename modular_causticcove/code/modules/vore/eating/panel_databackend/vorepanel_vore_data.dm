@@ -117,9 +117,9 @@
 
 /datum/vore_look/proc/get_host_mobtype(mob/owner)
 	var/list/host_mobtype = list("is_cyborg" = FALSE, "is_vore_simple_mob" = FALSE)
-	if(isrobot(owner))
-		host_mobtype["is_cyborg"] = TRUE
-	else if(istype(owner, /mob/living/simple_mob/vore))	//So far, this does nothing. But, creating this for future belly work
+	/*if(isrobot(owner))
+		host_mobtype["is_cyborg"] = TRUE */
+	if(istype(owner, /mob/living/simple_mob/vore))	//So far, this does nothing. But, creating this for future belly work
 		host_mobtype["is_vore_simple_mob"] = TRUE
 	return host_mobtype
 
@@ -261,18 +261,18 @@
 				)
 				var/list/belly_fullscreens
 				if(selected.colorization_enabled)
-					belly_fullscreens = icon_states_fast('icons/mob/vore_fullscreens/ui_lists/screen_full_vore_list_base.dmi') //Makes any icons inside of here selectable.
+					belly_fullscreens = cached_icon_states('icons/mob/vore_fullscreens/ui_lists/screen_full_vore_list_base.dmi') //Makes any icons inside of here selectable.
 				else
-					belly_fullscreens = icon_states_fast('icons/mob/vore_fullscreens/ui_lists/screen_full_vore.dmi') //Non colorable
+					belly_fullscreens = cached_icon_states('icons/mob/vore_fullscreens/ui_lists/screen_full_vore.dmi') //Non colorable
 
 				var/list/vs_flags = list()
 				for(var/flag_name in selected.vore_sprite_flag_list)
 					UNTYPED_LIST_ADD(vs_flags, list("label" = flag_name, "selection" = selected.vore_sprite_flags & selected.vore_sprite_flag_list[flag_name]))
 
-				var/datum/category_group/underwear/UWC = global_underwear.categories_by_name[host.vore_selected.undergarment_chosen]
+				/*var/datum/category_group/underwear/UWC = global_underwear.categories_by_name[host.vore_selected.undergarment_chosen]
 				var/list/undergarments
 				if(UWC)
-					undergarments = UWC.items
+					undergarments = UWC.items*/
 
 				var/list/belly_visual_data = list(
 				"belly_fullscreen" = selected.belly_fullscreen,
@@ -297,14 +297,14 @@
 				"voresprite_size_factor" = selected.size_factor_for_sprite,
 				"belly_sprite_to_affect" = selected.belly_sprite_to_affect,
 				"belly_sprite_options" = host.vore_icon_bellies,
-				"undergarment_chosen" = selected.undergarment_chosen,
+				/*"undergarment_chosen" = selected.undergarment_chosen,
 				"undergarment_if_none" = selected.undergarment_if_none || "None",
 				"undergarment_options" = global_underwear.categories,
 				"undergarment_options_if_none" = undergarments,
 				"undergarment_color" = selected.undergarment_color,
 				"tail_option_shown" = ishuman(owner),
 				"tail_to_change_to" = selected.tail_to_change_to,
-				"tail_sprite_options" = GLOB.tail_styles_list,
+				"tail_sprite_options" = GLOB.tail_styles_list,*/
 				"mob_belly_controls" = silicon_control
 				)
 				selected_list["belly_visual_data"] = belly_visual_data
@@ -328,7 +328,7 @@
 			if(ishuman(O))
 				our_type = "Human"
 
-			else if(isobserver(O) || istype(O,/obj/item/mmi))
+			else if(isobserver(O))
 				our_type = "Obeserver"
 
 			else if(isliving(O))
@@ -369,11 +369,11 @@
 
 			if(LIQUID_OPTIONS_TAB)
 				var/liq_gen_resources = 0
-				if(isrobot(owner))
+				/*if(isrobot(owner))
 					var/mob/living/silicon/robot/robot_owner = owner
 					if(robot_owner.cell)
-						liq_gen_resources = robot_owner.cell.percent()
-				else if(isliving(owner))
+						liq_gen_resources = robot_owner.cell.percent()*/
+				if(isliving(owner))
 					var/mob/living/living_owner = owner
 					liq_gen_resources = living_owner.nutrition_percent()
 				// liquid belly options

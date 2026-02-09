@@ -1,6 +1,6 @@
 //Item type vorepanel egg release containers.
 
-/obj/item/storage/vore_egg
+/obj/item/storage/vore_egg //<-- Rewrite this to use the Holder? Cause it's basically going to _be_ a holder for a mob. And items?
 	name = "egg"
 	desc = "It's an egg; it's smooth to the touch." //This is the default egg.
 	icon = 'modular_causticcove/icons/obj/egg.dmi'
@@ -22,8 +22,8 @@
 			playsound(src, src.use_sound, 50, 0, -5)
 		animate_shake()
 		drop_contents()
-		if(user.transforming) //this is actually godawful and transforming should never be used as it skips life ticks
-			user.transforming = FALSE //but if something does still use transforming (Bad, please do not.), we want it to be removed from them.
+		//if(user.transforming) //this is actually godawful and transforming should never be used as it skips life ticks
+		//	user.transforming = FALSE //but if something does still use transforming (Bad, please do not.), we want it to be removed from them.
 
 /obj/item/storage/vore_egg/unathi
 	name = "unathi egg"

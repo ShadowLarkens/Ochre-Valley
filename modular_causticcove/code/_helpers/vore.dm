@@ -13,9 +13,9 @@
 		return FALSE
 	if(!is_vore_predator(pred))
 		return FALSE
-	if(prey.is_incorporeal() || pred.is_incorporeal())
+	/*if(prey.is_incorporeal() || pred.is_incorporeal())
 		if(!allow_incorporeal)
-			return FALSE
+			return FALSE*/
 	if(!pred.vore_selected)
 		return FALSE
 	if(!pred.can_be_afk_pred && (!pred.client || pred.away_from_keyboard))

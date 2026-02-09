@@ -1,29 +1,30 @@
-/obj/item/micro
+/obj/item/holder
 	name = "micro"
 	desc = "A person? A toy? A snack? All three! They fit into your hand, how convinient!"
 	flags_1 = HEAR_1
+	slot_flags = SLOT_HEAD | SLOT_BELT_L | SLOT_BELT_R
 	var/mob/living/held_mob
 	var/matrix/original_transform
 	var/original_vis_flags = NONE
 	
-/obj/item/micro/Initialize(mapload, mob/held)
+/obj/item/holder/Initialize(mapload, mob/held)
 	. = ..()
 	held.forceMove(src)
 	START_PROCESSING(SSobj, src)
 
-/obj/item/micro/examine(mob/user)
+/obj/item/holder/examine(mob/user)
 	. = list()
 	for(var/mob/living/M in contents)
 		. += M.examine(user)
 
-/obj/item/micro/dropped(mob/user, silent)
+/obj/item/holder/dropped(mob/user, silent)
 	if (held_mob?.loc != src || isturf(loc))
 		var/held = held_mob
 		dump_mob()
 		held_mob = held
 	. = ..()
 
-/obj/item/micro/proc/dump_mob()
+/obj/item/holder/proc/dump_mob()
 	if(!held_mob)
 		return
 	if (held_mob.loc == src || isnull(held_mob.loc))
@@ -34,11 +35,11 @@
 		held_mob = null
 		process()
 
-/obj/item/micro/process()
+/obj/item/holder/process()
 	if(held_mob?.loc != src || isturf(loc))
 		qdel(src)
 	
-/obj/item/micro/Destroy()
+/obj/item/holder/Destroy()
 	STOP_PROCESSING(SSobj, src)
 	if(held_mob)
 		dump_mob()
@@ -47,7 +48,7 @@
 		M.forceMove(get_turf(src))
 	return ..()
 
-/obj/item/micro/container_resist(mob/living/held)
+/obj/item/holder/container_resist(mob/living/held)
 	if(ismob(loc))
 		var/mob/M = loc
 		var/wrestling_diff = 0
@@ -73,7 +74,7 @@
 	
 	process()
 
-/obj/item/micro/Entered(mob/held, atom/OldLoc)
+/obj/item/holder/Entered(mob/held, atom/OldLoc)
 	. = ..()
 	if(ismob(held))
 		held_mob = held
@@ -85,7 +86,7 @@
 		held.transform = null
 		held.transform *= 0.7
 
-/obj/item/micro/Exited(mob/held, atom/newLoc)
+/obj/item/holder/Exited(mob/held, atom/newLoc)
 	var/mob/living/current_held = held_mob
 
 	//I cannot do anything about spatials getting removed because that would be touching azure code in inappropriate places, so here is the shitcode we are doing
@@ -118,7 +119,7 @@
 			SSspatial_grid.add_grid_awareness(reapplylocation,channeltoreapply)
 
 
-/obj/item/micro/MouseDrop(mob/living/M)
+/obj/item/holder/MouseDrop(mob/living/M)
 	..()
 	if(isliving(usr))
 		var/mob/living/livingusr = usr

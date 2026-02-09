@@ -1,4 +1,4 @@
-/mob/living
+/mob/living //Caustic - This MIGHT be able to be removed if the Chompers integration works out
 	//oh no vore time
 	var/voremode = FALSE
 

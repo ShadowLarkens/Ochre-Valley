@@ -285,7 +285,7 @@
 	var/last_transfer_log = 0				// Prevent server message spam!
 	var/next_transfer_log = 0				// Prevent server message spam!
 	var/entrance_log_count = 0				// Entrance count before spawm
-	flags = NOREACT							// We dont want bellies to start bubling nonstop due to people mixing when transfering and making different reagents
+	//flags = NOREACT							// We dont want bellies to start bubling nonstop due to people mixing when transfering and making different reagents
 
 //For serialization, keep this updated, required for bellies to save correctly.
 /obj/belly/vars_to_save()
@@ -553,7 +553,7 @@
 	if(istype(thing, /mob/observer)) //Ports CHOMPStation PR#3072
 		if(desc) //Ports CHOMPStation PR#4772
 			//Allow ghosts see where they are if they're still getting squished along inside.
-			to_chat(thing, span_vnotice(span_bold("[belly_format_string(desc, thing)]")))
+			to_chat(thing, span_notice(span_bold("[belly_format_string(desc, thing)]")))
 
 	if(OldLoc in contents)
 		return //Someone dropping something (or being stripdigested)
@@ -567,7 +567,7 @@
 				last_transfer_log = world.time
 				entrance_log_count = 0
 			if(world.time >= next_transfer_log)
-				to_chat(owner,span_vnotice("[thing] slides into your [lowertext(name)]."))
+				to_chat(owner,span_notice("[thing] slides into your [lowertext(name)]."))
 				entrance_log_count++
 				if(entrance_log_count >= MAX_ENTRY_MESSAAGES)
 					next_transfer_log = world.time + ENTRY_MESSAGE_INTERVAL
@@ -611,11 +611,11 @@
 		//Was there a description text? If so, it's time to format it!
 		if(raw_desc)
 			//Replace placeholder vars
-			to_chat(living_mob, span_vnotice(span_bold("[belly_format_string(raw_desc, living_mob)]")))
+			to_chat(living_mob, span_notice(span_bold("[belly_format_string(raw_desc, living_mob)]")))
 
 		var/taste
 		if(can_taste && living_mob.loc == src && (taste = living_mob.get_taste_message(FALSE))) // Prevent indirect tasting
-			to_chat(owner, span_vnotice("[living_mob] tastes of [taste]."))
+			to_chat(owner, span_notice("[living_mob] tastes of [taste]."))
 		vore_fx(living_mob)
 		if(owner.previewing_belly == src)
 			vore_fx(owner)
@@ -625,7 +625,7 @@
 		if(reagents.total_volume >= 5)
 			if(digest_mode == DM_DIGEST && living_mob.digestable)
 				reagents.splash_mob(living_mob, reagents.total_volume * 0.1, FALSE)
-			to_chat(living_mob, span_vwarning(span_bold("You splash into a pool of [reagent_name]!")))
+			to_chat(living_mob, span_warning(span_bold("You splash into a pool of [reagent_name]!")))
 	if(!isliving(thing) && count_items_for_sprite) // If this is enabled also update fullness for non-living things
 		owner.handle_belly_update() // This is run whenever a belly's contents are changed.
 
@@ -806,7 +806,7 @@
 			playsound(src, soundfile, vol = sound_volume, vary = 1, falloff = VORE_SOUND_FALLOFF, frequency = noise_freq, preference = "eating_noises")
 	
 	if(!owner.ckey && escape_stun)
-		owner.Weaken(escape_stun)
+		owner.Stun(escape_stun)
 
 	return 1
 
@@ -820,10 +820,10 @@
 			return
 		if(mob_prey.buckled)
 			mob_prey.buckled.unbuckle_mob()
-		if(mob_prey.ckey)
+		/*if(mob_prey.ckey)
 			GLOB.prey_eaten_roundstat++
 			if(owner.mind)
-				owner.mind.vore_prey_eaten++
+				owner.mind.vore_prey_eaten++*/
 
 	prey.forceMove(src)
 	owner.updateVRPanel()
@@ -854,7 +854,7 @@
 // Indigestable items are removed, and M is deleted.
 /obj/belly/proc/digestion_death(mob/living/M)
 	digested_prey_count++
-	add_attack_logs(owner, M, "Digested in [lowertext(name)]")
+	log_attack(owner, M, "Digested in [lowertext(name)]")
 
 	// If digested prey is also a pred... anyone inside their bellies gets moved up.
 	if(is_vore_predator(M))
@@ -926,7 +926,7 @@
 		M.enabled = FALSE
 		M.forceMove(hasMMI)
 	else*/
-	var/mob/observer/G = M.ghostize(FALSE) // Make sure they're out, so we can copy attack logs and such.
+	var/mob/dead/observer/G = M.ghostize(FALSE) // Make sure they're out, so we can copy attack logs and such.
 	if(G)
 		G.forceMove(src)
 		G.body_backup = M
@@ -943,7 +943,7 @@
 	M.absorbed = TRUE
 	if(M.ckey)
 		handle_absorb_langs(M, owner)
-		GLOB.prey_absorbed_roundstat++
+		//GLOB.prey_absorbed_roundstat++
 
 	to_chat(M, span_notice("[belly_format_string(absorb_messages_prey, M, use_absorbed_count = TRUE)]"))
 	to_chat(owner, span_notice("[belly_format_string(absorb_messages_owner, M, use_absorbed_count = TRUE)]"))
@@ -1070,10 +1070,10 @@
 	target.entrance_logs = old_entrance_logs
 	if(isitem(content))
 		var/obj/item/I = content
-		if(istype(I,/obj/item/card/id))
-			I.gurgle_contaminate(target.contents, target.contamination_flavor, target.contamination_color)
+		//if(istype(I,/obj/item/card/id))
+		//	I.gurgle_contaminate(target.contents, target.contamination_flavor, target.contamination_color)
 		if(I.gurgled && target.contaminates)
-			I.wash(CLEAN_WASH)
+			wash_obj(I, CLEAN_MEDIUM)
 			I.gurgle_contaminate(target.contents, target.contamination_flavor, target.contamination_color)
 	items_preserved -= content
 	if(!silent)
@@ -1130,11 +1130,11 @@
 		var/autotransfer_prey_message
 		var/dest_belly_name = dest_belly.name
 		if(dest_belly.name == autotransferlocation)
-			autotransfer_owner_message = span_vwarning(belly_format_string(primary_autotransfer_messages_owner, prey, dest = dest_belly_name))
-			autotransfer_prey_message = span_vwarning(belly_format_string(primary_autotransfer_messages_prey, prey, dest = dest_belly_name))
+			autotransfer_owner_message = span_warning(belly_format_string(primary_autotransfer_messages_owner, prey, dest = dest_belly_name))
+			autotransfer_prey_message = span_warning(belly_format_string(primary_autotransfer_messages_prey, prey, dest = dest_belly_name))
 		else
-			autotransfer_owner_message =  span_vwarning(belly_format_string(secondary_autotransfer_messages_owner, prey, dest = dest_belly_name))
-			autotransfer_prey_message = span_vwarning(belly_format_string(secondary_autotransfer_messages_prey, prey, dest = dest_belly_name))
+			autotransfer_owner_message =  span_warning(belly_format_string(secondary_autotransfer_messages_owner, prey, dest = dest_belly_name))
+			autotransfer_prey_message = span_warning(belly_format_string(secondary_autotransfer_messages_prey, prey, dest = dest_belly_name))
 
 		to_chat(prey, autotransfer_prey_message)
 		if(entrance_logs)
@@ -1215,10 +1215,10 @@
 			if(istype(prey, /obj/item/digestion_remains)) return FALSE*/
 		if(blacklist & autotransfer_flags_list_items["Indigestible Items"])
 			if(prey in items_preserved) return FALSE
-		if(blacklist & autotransfer_flags_list_items["Recyclable Items"])
+		/*if(blacklist & autotransfer_flags_list_items["Recyclable Items"])
 			if(isitem(prey))
 				var/obj/item/I = prey
-				if(I.matter) return FALSE
+				if(I.matter) return FALSE*/
 		if(blacklist & autotransfer_flags_list_items["Ores"])
 			if(istype(prey, /obj/item/rogueore)) return FALSE
 		if(blacklist & autotransfer_flags_list_items["Clothes and Bags"])
@@ -1236,12 +1236,12 @@
 			if(istype(prey, /obj/item/digestion_remains)) return TRUE*/
 		if(whitelist & autotransfer_flags_list_items["Indigestible Items"])
 			if(prey in items_preserved) return TRUE
-		if(whitelist & autotransfer_flags_list_items["Recyclable Items"])
+		/*if(whitelist & autotransfer_flags_list_items["Recyclable Items"])
 			if(isitem(prey))
 				var/obj/item/I = prey
-				if(I.matter) return TRUE
+				if(I.matter) return TRUE*/
 		if(whitelist & autotransfer_flags_list_items["Ores"])
-			if(istype(prey, /obj/item/ore)) return TRUE
+			if(istype(prey, /obj/item/rogueore)) return TRUE
 		if(whitelist & autotransfer_flags_list_items["Clothes and Bags"])
 			if(istype(prey, /obj/item/clothing) || istype(prey, /obj/item/storage)) return TRUE
 		if(whitelist & autotransfer_flags_list_items["Food"])
