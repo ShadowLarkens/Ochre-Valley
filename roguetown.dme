@@ -2919,6 +2919,7 @@
 #include "modular\piercing\piercing.dm"
 #include "modular\piercing\piercings.dm"
 #include "modular\piercing\supply.dm"
+#include "modular_causticcove\code\modules\antagonists\roguetown\villains\werewolf\werewolf_transformation_resist.dm"
 #include "statpacks\agile.dm"
 #include "statpacks\mental.dm"
 #include "statpacks\physical.dm"
