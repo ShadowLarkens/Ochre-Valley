@@ -1100,7 +1100,7 @@
 	var/mob/dead/observer/G = M.ghostize(TRUE) // Make sure they're out, so we can copy attack logs and such.
 	if(G)
 		G.forceMove(owner)
-		G.vore_death = TRUE
+		G.vore_death = TRUE //OV ADD
 		if(G.client && G.client.prefs.digestion_noises)
 			SEND_SOUND(G, sfx)
 	M.clear_fullscreen("belly")

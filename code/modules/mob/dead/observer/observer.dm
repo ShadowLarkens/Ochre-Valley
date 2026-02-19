@@ -61,7 +61,7 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	var/datum/spawners_menu/spawners_menu
 	var/ghostize_time = 0
 	move_resist = INFINITY
-	var/vore_death = FALSE
+	var/vore_death = FALSE //OV ADD - Used for permanent reformation portals
 
 /mob/dead/observer/rogue
 //	see_invisible = SEE_INVISIBLE_LIVING
@@ -1107,6 +1107,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		else
 			client.images -= stored_t_ray_images
 
+//OV edit
 /mob/dead/observer/proc/find_vore_respawn()
 	if(!isobserver(src)) //Make sure they're an observer!
 		return
@@ -1127,3 +1128,4 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	
 	var/move_me = get_turf(where_to_spawn)
 	forceMove(move_me)
+//OV edit end

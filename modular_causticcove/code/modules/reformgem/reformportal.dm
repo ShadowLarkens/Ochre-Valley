@@ -17,16 +17,16 @@ GLOBAL_LIST_EMPTY(reformation_portals)
 
 /obj/structure/respawn_portal/Initialize()
 	. = ..()
-//	soundloop = new(list(src), FALSE)
-// soundloop.start()
+	soundloop = new(list(src), FALSE)
+	soundloop.start()
 
 /obj/structure/respawn_portal/attack_ghost(mob/dead/observer/user)
 	if(QDELETED(user))
 		return
 	if(!in_range(src, user))
 		return
-	var/portal_loc = get_turf(src)
-	user.bring_body(portal_loc)
+	var/portal_loc = get_turf(src) //OV ADD
+	user.bring_body(portal_loc) //OV EDIT
 	user.rise_body()
 	qdel(src)
 
@@ -34,7 +34,7 @@ GLOBAL_LIST_EMPTY(reformation_portals)
 	soundloop.stop()
 	. = ..()
 
-/mob/dead/observer/proc/bring_body(var/portal_loc)
+/mob/dead/observer/proc/bring_body(var/portal_loc) //OV EDIT
 	if(!client)
 		return
 	if(!mind || QDELETED(mind.current))
@@ -55,10 +55,12 @@ GLOBAL_LIST_EMPTY(reformation_portals)
 	client?.verbs -= GLOB.ghost_verbs
 	SStgui.on_transfer(src, mind.current) // Transfer NanoUIs.
 	mind.remove_antag_datum(/datum/antagonist/zombie)
+	//OV edit
 	if(portal_loc)
 		mind.current.forceMove(portal_loc)
 	else
 		mind.current.forceMove(get_turf(src))
+	//OV edit end
 	mind.current.key = key
 	return TRUE
 
@@ -67,7 +69,7 @@ GLOBAL_LIST_EMPTY(reformation_portals)
 	bigbad.revive(TRUE, TRUE)
 	bigbad.alpha = 255
 
-
+//OV edit
 // Permanent respawn points
 
 /obj/structure/respawn_portal/permanent
@@ -99,3 +101,4 @@ GLOBAL_LIST_EMPTY(reformation_portals)
 	user.vore_death = FALSE
 	user.bring_body()
 	user.rise_body()
+//OV edit end
