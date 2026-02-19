@@ -580,6 +580,8 @@
 		startfx.Add(L)
 		startfx.Add(get_belly_surrounding(L.contents))
 		owner.handle_belly_update() // This is run whenever a belly's contents are changed.
+		if(L.pulledby)					//OV ADD - After vore, grabs persist until you move, which makes things a bit weird!
+			L.pulledby.stop_pulling()	//OV ADD - Let's just clean it up here.
 	if(istype(thing,/obj/item))
 		var/obj/item/I = thing
 		startfx.Add(get_belly_surrounding(I.contents))
