@@ -2866,18 +2866,25 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					load_character()
 
 				if("changeslot")
+					// Caustic Edit - Fixes duplicate slot names not showing up + different slot name presentation
 					var/list/choices = list()
+					var/choices_default
 					if(path)
 						var/savefile/S = new /savefile(path)
 						if(S)
 							for(var/i=1, i<=max_save_slots, i++)
 								var/name
 								S.cd = "/character[i]"
-								S["real_name"] >> name
-								if(!name)
-									name = "Slot[i]"
-								choices[name] = i
-					var/choice = tgui_input_list(user, "CHOOSE A HERO","ROGUETOWN", choices)
+								var/nickname = S["nickname"]
+								var/realname = S["real_name"]
+								if(!realname)
+									name = "[i] - \[EMPTY SLOT\]"
+								else
+									name = "[i] - [realname][nickname ? " ([nickname])" : ""]"
+								if(loaded_slot == i)
+									choices_default = name
+					var/choice = tgui_input_list(user, "CHOOSE A HERO","AZURE PEAK", choices, choices_default)
+					// Caustic Edit End
 					if(choice)
 						choice = choices[choice]
 						if(!load_character(choice))
