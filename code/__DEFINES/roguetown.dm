@@ -58,6 +58,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/kobold,\
 	/datum/species/goblinp,\
 	/datum/species/dullahan,\
+	/datum/species/ooze,\
   /datum/species/dwarf/gnome\
 )
 
@@ -83,6 +84,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/demihuman,\
 	/datum/species/harpy,\
 	/datum/species/halforc,\
+	/datum/species/ooze,\
 
 #define RACES_SHUNNED \
 	/datum/species/anthromorphsmall,\
