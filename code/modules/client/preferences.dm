@@ -137,7 +137,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/mastervol = 50
 
 	var/anonymize = TRUE
-	var/masked_examine = FALSE
+	var/masked_examine = TRUE //OV Edit: Because being able to see preferences is soorta important
 	var/full_examine = FALSE
 	var/mute_animal_emotes = FALSE
 	var/autoconsume = FALSE
