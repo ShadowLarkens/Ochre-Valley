@@ -539,9 +539,11 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Bell Collar"
 	path = /obj/item/clothing/neck/roguetown/collar/bell_collar
 
+//OV edit
 /datum/loadout_item/cow_collar
 	name = "Cowbell Collar"
 	path = /obj/item/clothing/neck/roguetown/collar/cow_collar
+//OV edit end
 
 /datum/loadout_item/cursed_collar
 	name = "Cursed Collar"

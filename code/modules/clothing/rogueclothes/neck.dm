@@ -768,6 +768,7 @@
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_JINGLE_BELLS)
 
+//OV edit
 /obj/item/clothing/neck/roguetown/collar/cow_collar
 	name = "cowbell collar"
 	desc = "A band of leather with a bell that alerts all around you to your movements."
@@ -778,6 +779,7 @@
 /obj/item/clothing/neck/roguetown/collar/cow_collar/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_JINGLE_BELLS)
+//OV edit end
 
 /obj/item/clothing/neck/roguetown/collar/feldcollar
 	name = "feldcollar"
