@@ -1,3 +1,5 @@
+GLOBAL_LIST_EMPTY(reformation_portals)
+
 //Testing respawn bullshit because fuck you
 /obj/structure/respawn_portal
 	name = "mysterious portal"
@@ -15,15 +17,16 @@
 
 /obj/structure/respawn_portal/Initialize()
 	. = ..()
-	soundloop = new(list(src), FALSE)
-	soundloop.start()
+//	soundloop = new(list(src), FALSE) //OV REMOVE
+//	soundloop.start() //OV REMOVE
 
 /obj/structure/respawn_portal/attack_ghost(mob/dead/observer/user)
 	if(QDELETED(user))
 		return
 	if(!in_range(src, user))
 		return
-	user.bring_body()
+	var/turf/portal_loc = get_turf(src) //OV ADD
+	user.bring_body(portal_loc) //OV EDIT
 	user.rise_body()
 	qdel(src)
 
@@ -31,7 +34,7 @@
 	soundloop.stop()
 	. = ..()
 
-/mob/dead/observer/proc/bring_body()
+/mob/dead/observer/proc/bring_body(var/turf/portal_loc) //OV EDIT
 	if(!client)
 		return
 	if(!mind || QDELETED(mind.current))
@@ -52,7 +55,12 @@
 	client?.verbs -= GLOB.ghost_verbs
 	SStgui.on_transfer(src, mind.current) // Transfer NanoUIs.
 	mind.remove_antag_datum(/datum/antagonist/zombie)
-	mind.current.forceMove(get_turf(src))
+	//OV edit
+	if(portal_loc)
+		mind.current.forceMove(portal_loc)
+	else
+		mind.current.forceMove(get_turf(src))
+	//OV edit end
 	mind.current.key = key
 	return TRUE
 
@@ -60,3 +68,38 @@
 	var/mob/living/carbon/human/bigbad = mind.current
 	bigbad.revive(TRUE, TRUE)
 	bigbad.alpha = 255
+
+//OV edit
+// Permanent respawn points
+
+/obj/structure/respawn_portal/permanent
+	name = "vore reformation portal"
+	desc = "A gate that's said to spit out Necra's unwanted denizens, only to be used by those who perished inside of another."
+	icon_state = "voreportal"
+	invisibility = INVISIBILITY_OBSERVER
+
+/obj/structure/respawn_portal/permanent/Initialize()
+	. = ..()
+	GLOB.reformation_portals += src
+
+/obj/structure/respawn_portal/permanent/Destroy()
+	. = ..()
+	GLOB.reformation_portals -= src
+
+
+/obj/structure/respawn_portal/permanent/attack_ghost(mob/dead/observer/user)
+	if(!user.vore_death)
+		to_chat(user, span_warning("This portal can only resurrect those who were devoured."))
+		return
+	var/want_to_respawn = tgui_alert(user, "This portal will resurrect you at this location. It is heavily advised that you forget the cirumstances of your death, you must not come back and make a problem for the person who ate you. Are you sure you want to reform?", "Reformation",list("Yes", "No"))
+	if(!want_to_respawn || (want_to_respawn == "No"))
+		return
+	if(QDELETED(user))
+		return
+	if(!in_range(src, user))
+		return
+	user.vore_death = FALSE
+	var/turf/portal_loc = get_turf(src)
+	user.bring_body(portal_loc)
+	user.rise_body()
+//OV edit end

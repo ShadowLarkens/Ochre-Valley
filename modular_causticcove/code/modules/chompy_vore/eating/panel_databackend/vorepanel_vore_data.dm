@@ -147,6 +147,7 @@
 				"emote_active" = selected.emote_active,
 				"entrance_logs" = selected.entrance_logs,
 				"item_digest_logs" = selected.item_digest_logs,
+				"hidden_by_armor" = selected.hidden_by_armor, //OV ADD
 				"name_min" = BELLIES_NAME_MIN,
 				"name_length" = BELLIES_NAME_MAX,
 			)

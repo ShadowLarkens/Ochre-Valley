@@ -45,6 +45,7 @@
 						entry += " - <b><font color='red'>[C.mob.mind.special_role]</font></b>"
 //			entry += " [ADMIN_QUE(C.mob)]"
 			entry += " ([CheckIPCountry(C.address)])"
+			entry += " <A href='byond://?_src_=holder;[HrefToken()];adminmoreinfo=\ref[C.mob]'>(INFO)</A>" //OV ADD
 			if(C.whitelisted())
 				wled++
 				entry += "(WL)"

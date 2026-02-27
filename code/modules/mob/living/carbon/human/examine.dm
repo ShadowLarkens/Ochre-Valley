@@ -815,6 +815,7 @@
 //			else if(!client)
 //				msg += "[m3] a blank, absent-minded stare and appears completely unresponsive to anything. [t_He] may snap out of it soon."
 
+
 	if(length(msg))
 		. += span_warning("[msg.Join("\n")]")
 
@@ -891,6 +892,17 @@
 			medical_text = "[heartbeat ? "[heartbeat] | " : ""]<a href='?src=[REF(src)];inspect_limb=[checked_zone]'>Inspect [parse_zone(checked_zone)]</a>"
 
 	. += medical_text
+
+	
+	//OV edit 
+	// VORE BELLY EXAMINES
+	var/list/vorestrings = list()
+	vorestrings += formatted_vore_examine()
+	for(var/entry in vorestrings)
+		if(entry == "" || entry == null)
+			vorestrings -= entry
+	. += vorestrings
+	//OV edit end
 
 	if(!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) && user != src)
 		if(isliving(user))

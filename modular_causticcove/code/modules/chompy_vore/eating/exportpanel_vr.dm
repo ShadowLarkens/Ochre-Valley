@@ -315,6 +315,7 @@
 			belly_data["storing_nutrition"] = B.storing_nutrition
 			belly_data["entrance_logs"] = B.entrance_logs
 			belly_data["item_digest_logs"] = B.item_digest_logs
+			belly_data["hidden_by_armor"] = B.hidden_by_armor //OV ADD
 			belly_data["eating_privacy_local"] = B.eating_privacy_local
 			belly_data["private_struggle"] = B.private_struggle
 			belly_data["absorbedrename_enabled"] = B.absorbedrename_enabled

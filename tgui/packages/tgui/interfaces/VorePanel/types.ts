@@ -83,6 +83,7 @@ export type bellyDescriptionData = {
   show_liq_fullness: BooleanLike;
   entrance_logs: BooleanLike;
   item_digest_logs: BooleanLike;
+  hidden_by_armor: BooleanLike;
   name_length: number;
   name_min: number;
   displayed_message_types: {

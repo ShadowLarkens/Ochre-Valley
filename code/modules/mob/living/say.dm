@@ -139,16 +139,16 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	if(stat == DEAD)
 		say_dead(original_message)
 		return
+	//OV edit - Check subtles for muffling BEFORE emotes
+	if(check_subtler(original_message, forced) || !can_speak_basic(original_message, ignore_spam, forced))
+		return
 
 	if(check_emote(original_message, forced) || !can_speak_basic(original_message, ignore_spam, forced))
 		return
 
 	if(check_whisper(original_message, forced) || !can_speak_basic(original_message, ignore_spam, forced))
 		return
-	//RATWOOD SUBTLER START
-	if(check_subtler(original_message, forced) || !can_speak_basic(original_message, ignore_spam, forced))
-		return
-	//RATWOOD SUBTLER END
+	//OV edit end
 	if(in_critical && !forced)
 		if(!(crit_allowed_modes[message_mode]))
 			return
@@ -478,8 +478,11 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 				listener_has_ceiling = FALSE
 		if(!hearall)
 			if((!Zs_too && !isobserver(AM)) || message_mode == MODE_WHISPER)
-				if(AM.z != src.z)
-					continue
+				//OV edit
+				if(!istype(loc, /obj/belly) && !istype(loc, /obj/item/micro)) //can't use isbelly because its defined badly here
+					if(AM.z != src.z)
+						continue
+				//OV edit end
 		if(Zs_too && listener_turf.z != speaker_turf.z && !Zs_all)
 			if(!Zs_yell && !HAS_TRAIT(AM, TRAIT_KEENEARS) && !hearall)
 				if(listener_turf.z < speaker_turf.z && listener_has_ceiling)	//Listener is below the speaker and has a ceiling above them
@@ -532,7 +535,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			AM.Hear(eavesrendered, src, message_language, eavesdropping, , spans, message_mode, original_message)
 		else
 			AM.Hear(rendered, src, message_language, (highlighted_message ? highlighted_message : message), , spans, message_mode, original_message)
-			
+
 
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_LIVING_SAY_SPECIAL, src, message)
 

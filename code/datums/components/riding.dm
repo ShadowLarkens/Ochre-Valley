@@ -122,7 +122,7 @@
 								buckled_mob.layer = diroffsets[3]
 							buckled_mob.set_mob_offsets("riding", _x = x2off, _y = y2off)
 							break dir_loop
-	var/list/static/default_vehicle_pixel_offsets = list(TEXT_NORTH = list(0, 0), TEXT_SOUTH = list(0, 0), TEXT_EAST = list(0, 0), TEXT_WEST = list(0, 0))
+//	var/list/static/default_vehicle_pixel_offsets = list(TEXT_NORTH = list(0, 0), TEXT_SOUTH = list(0, 0), TEXT_EAST = list(0, 0), TEXT_WEST = list(0, 0)) //OV REMOVE
 /*	var/px = default_vehicle_pixel_offsets[AM_dir]
 	var/py = default_vehicle_pixel_offsets[AM_dir]
 	if(directional_vehicle_offsets[AM_dir])
@@ -288,6 +288,42 @@
 	user.Paralyze(60)
 	user.visible_message(span_warning("[AM] pushes [user] off of [AM.p_them()]!"), \
 						span_warning("[AM] pushes me off of [AM.p_them()]!"))
+
+//OV edit
+/datum/component/riding/human/handle_vehicle_offsets()
+	var/atom/movable/AM = parent
+	var/AM_dir = "[AM.dir]"
+	var/passindex = 0
+	var/has_fixedeye = FALSE
+	if(AM.has_buckled_mobs())
+		for(var/m in AM.buckled_mobs)
+			if(ishuman(m))
+				var/mob/living/carbon/human/H = m
+				if(H.fixedeye)
+					has_fixedeye = TRUE
+			passindex++
+			var/mob/living/buckled_mob = m
+			var/list/offsets = get_offsets(passindex)
+			var/rider_dir = get_rider_dir(passindex)
+			var/our_scale = buckled_mob.size_multiplier()
+			var/y_scale_math = ((-16*our_scale)+16)
+			if(!has_fixedeye)
+				buckled_mob.setDir(rider_dir)
+				dir_loop:
+					for(var/offsetdir in offsets)
+						if(offsetdir == AM_dir)
+							var/list/diroffsets = offsets[offsetdir]
+							var/x2off
+							var/y2off
+							x2off = diroffsets[1]
+							if(diroffsets.len >= 2)
+								y2off = diroffsets[2]
+							if(diroffsets.len == 3)
+								buckled_mob.layer = diroffsets[3]
+							y2off += y_scale_math
+							buckled_mob.set_mob_offsets("riding", _x = x2off, _y = y2off)
+							break dir_loop
+//OV edit end
 
 /datum/component/riding/cyborg
 	del_on_unbuckle_all = TRUE

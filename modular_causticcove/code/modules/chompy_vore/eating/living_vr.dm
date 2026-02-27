@@ -299,11 +299,16 @@
 // Returns examine messages for bellies
 //
 /mob/living/proc/examine_bellies()
-	if(!show_pudge()) //Some clothing or equipment can hide this.
-		return list()
+//	if(!show_pudge()) //OV REMOVE - Some clothing or equipment can hide this.
+//		return list() //OV REMOVE
 
 	var/list/message_list = list()
 	for(var/obj/belly/B as anything in vore_organs)
+		//OV edit
+		if(B.hidden_by_armor)
+			if(!show_pudge())
+				continue
+		//OV edit end
 		var/bellymessage = B.get_examine_msg()
 		if(bellymessage) message_list += bellymessage
 
@@ -348,7 +353,7 @@
 	/*if(!client?.prefs?.read_preference(/datum/preference/toggle/vchat_enable))
 		return vore_examine_data*/
 
-	return span_details("🤰 | Vore Descriptions", vore_examine_data.Join("\n"))
+	return span_details("Vore Descriptions", vore_examine_data.Join("\n")) //OV EDIT
 
 
 //
