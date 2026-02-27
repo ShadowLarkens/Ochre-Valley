@@ -156,6 +156,15 @@
 			else
 				. += span_notice("Something about them seems... predatory.")
 // Caustic Edit End
+// OV Edit Start
+		var/datum/antagonist/werewolf/WW = mind.has_antag_datum(/datum/antagonist/werewolf)
+		if(WW /*&& WW.transformed*/)
+			if(WW.wolfdesc && length(WW.wolfdesc))
+				// . += span_details("Werewolf RP Description",WW.wolfdesc) // The #define is in 'modular_causticcove/__DEFINES/slop.dm' but its not loaded here! Will use a temp proc until then.
+				. += examine_span_details(span_info("Werewolf Description"),span_info(WW.wolfdesc))
+			else
+				. += span_danger("THE HOWL OF A MAD GOD SHAKES YOUR BONES! FLESH SHORN INTO VISCERA SPRAYS THE WALLS! RIP AND TEAR!")
+// OV Edit End
 		if(SSticker.rulermob == src)
 			. += span_notice("<b>The ruler of this land.</b>")
 		else if(GLOB.lord_titles[name])

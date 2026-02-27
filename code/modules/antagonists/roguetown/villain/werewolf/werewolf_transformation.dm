@@ -163,6 +163,13 @@
 		B.owner = W
 	vore_organs.Cut()
 	// CC Edit End
+	// OV Edit Start
+	var/datum/antagonist/werewolf/WW = mind?.has_antag_datum(/datum/antagonist/werewolf)
+	if(WW)
+		W.real_name = WW.wolfname
+		W.name = WW.wolfname
+		WW.apply_verbs(W)
+	// OV Edit End
 	mind.transfer_to(W)
 	skills?.known_skills = list()
 	skills?.skill_experience = list()
@@ -238,6 +245,11 @@
 		B.owner = W
 	vore_organs.Cut()
 	// CC Edit End
+	// OV Edit Start
+	// var/datum/antagonist/werewolf/WW = mind?.has_antag_datum(/datum/antagonist/werewolf)
+	// if(WW)
+		// WW.apply_verbs(W)
+	// OV Edit End
 	W.RemoveSpell(new /obj/effect/proc_holder/spell/self/howl)
 	W.RemoveSpell(new /obj/effect/proc_holder/spell/self/claws)
 	W.RemoveSpell(new /obj/effect/proc_holder/spell/targeted/woundlick)

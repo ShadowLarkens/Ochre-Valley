@@ -48,7 +48,28 @@
 	var/resisting_transformation = FALSE // Caustic Edit
 	var/ignore_transformation_resist = FALSE // Caustic Edit
 	var/wolfname = "Verewolf"
+// OV EDIT START
+	var/rename_used = FALSE
+	var/wolfdesc
+	var/wolfdesc_raw // Used in recalling raw description info someone placed before it gets modified.
+	var/list/werewolf_verbs = list(
+		/mob/living/carbon/human/proc/werewolf_changename,
+		/mob/living/carbon/human/proc/werewolf_changedesc
+	)
 
+/datum/antagonist/werewolf/proc/apply_verbs(mob/M)
+	if(!M) return
+	for(var/verb_path in werewolf_verbs)
+		M.verbs |= verb_path
+
+/datum/antagonist/werewolf/proc/remove_verbs(mob/M)
+	if(!M) return
+	for(var/verb_path in werewolf_verbs)
+		M.verbs -= verb_path
+
+/proc/examine_span_details(title, content) // This feels dumb. Original define at 'modular_causticcove/__DEFINES/slop.dm', it's not loaded when 'code/modules/mob/living/carbon/human/examine.dm' is. -- Umbree.
+    return "<details><summary>[title]</summary>[content]</details>"
+// OV EDIT END
 /datum/antagonist/werewolf/lesser
 	name = "Lesser Verewolf"
 	increase_votepwr = FALSE
@@ -81,13 +102,20 @@
 	owner.special_role = name
 	if(increase_votepwr)
 		forge_werewolf_objectives()
-	
+	// OV Edit Start
+	var/mob/M = owner?.current
+	apply_verbs(M)
+	// OV Edit End
 	wolfname = "[pick(GLOB.wolf_prefixes)] [pick(GLOB.wolf_suffixes)]"
 	return ..()
 
 /datum/antagonist/werewolf/on_removal()
 	if(!silent && owner.current)
 		to_chat(owner.current,span_danger("I am no longer a [special_role]!"))
+	// OV Edit Start
+	var/mob/M = owner?.current
+	remove_verbs(M)
+	// OV Edit End
 	owner.special_role = null
 	return ..()
 
