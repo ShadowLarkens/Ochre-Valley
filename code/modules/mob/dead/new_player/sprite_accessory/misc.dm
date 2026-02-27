@@ -118,8 +118,8 @@
 	icon_state = "monstermaw"
 	layer = BODY_LAYER
 	color_disabled = FALSE
-	color_keys = 2
-	color_key_names = list("Teeth", "Head")
+	color_keys = 3
+	color_key_names = list("Teeth", "Head", "Upper eye")
  /// CAUSTIC EDIT end
 
 /datum/sprite_accessory/accessory
