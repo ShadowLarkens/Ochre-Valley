@@ -70,10 +70,11 @@
 				leprosy = 3
 	//heart attack stuff
 	handle_heart()
-	update_stamina()
 	update_energy()
-	if(charflaw && !charflaw.ephemeral && mind)
-		charflaw.flaw_on_life(src)
+	update_stamina()
+	for(var/datum/charflaw/cf in charflaws)
+		if(!cf.ephemeral && mind)
+			cf.flaw_on_life(src)
 	if(health <= 0)
 		adjustOxyLoss(0.5)
 	if(mode == NPC_AI_OFF && !client && !HAS_TRAIT(src, TRAIT_NOSLEEP))
@@ -104,8 +105,11 @@
 //Caustic Edit - Adding an on_moved call for flaws!
 /mob/living/carbon/human/Moved(atom/OldLoc, Dir)
 	. = ..()
-	if(charflaw && !charflaw.ephemeral && mind)
-		charflaw.flaw_on_moved(src, OldLoc, Dir)
+	if(mind)
+		time_of_last_move = world.time //This keeps track of the tick count since the human mob last moved, to be referenced later at any time! Only bothering to track it if the mob has a mind, IE a player (for stopping hunger and thirst loss currently!)
+	for(var/datum/charflaw/cf in src.charflaws)
+		if(cf && !cf.ephemeral && mind)
+			cf.flaw_on_moved(src, OldLoc, Dir)
 //Caustic Edit End
 
 /mob/living/carbon/human/DeadLife()
@@ -168,7 +172,6 @@
 /mob/living/carbon/human/SoakMob(locations)
 	. = ..()
 	var/coverhead
-//	var/coverfeet
 	//add belt slots to this for rusting
 	var/list/body_parts = list(head, wear_mask, wear_wrists, wear_shirt, wear_neck, cloak, wear_armor, wear_pants, backr, backl, gloves, shoes, belt, s_store, glasses, ears, wear_ring) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
 	for(var/bp in body_parts)
@@ -178,14 +181,10 @@
 			var/obj/item/clothing/C = bp
 			if(zone2covered(BODY_ZONE_HEAD, C.body_parts_covered))
 				coverhead = TRUE
-//			if(zone2covered(BODY_ZONE_PRECISE_L_FOOT, C.body_parts_covered))
-//				coverfeet = TRUE
 	if(locations & HEAD)
-		if(!coverhead)
+		// An exception for Abyssorites, since otherwise they gain stress in rain when they shouldn't.
+		if(!coverhead && !HAS_TRAIT(src, TRAIT_ABYSSOR_SWIM))
 			add_stress(/datum/stressevent/coldhead)
-//	if(locations & FEET)
-//		if(!coverfeet)
-//			add_stress(/datum/stressevent/coldfeet)
 
 //END FIRE CODE
 

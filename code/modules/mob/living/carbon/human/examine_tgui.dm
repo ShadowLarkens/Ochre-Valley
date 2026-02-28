@@ -34,7 +34,7 @@
 		ui = new(user, src, "ExaminePanel")
 		ui.open()
 
-/datum/examine_panel/familiar/ui_data(mob/user) //altered and condensed version used for familiars. sorry
+/datum/examine_panel/familiar/ui_static_data(mob/user) //altered and condensed version used for familiars. sorry
 
 	var/flavor_text
 	var/flavor_text_nsfw //probably breaks if i remove it entirely, just leaving it null
@@ -46,14 +46,14 @@
 	var/song_url
 	var/has_song = FALSE
 	var/is_vet = FALSE
-	var/is_naked = FALSE
+	// var/is_naked = FALSE // Caustic Edit: Removes naked requirement to view NSFW flavortext
 	var/obscured = FALSE
 
 	var/datum/preferences/prefs = holder.client?.prefs
 	var/datum/familiar_prefs/fam_pref = prefs?.familiar_prefs
 
-	flavor_text = fam_pref.familiar_flavortext
-	ooc_notes = fam_pref.familiar_ooc_notes
+	flavor_text = fam_pref.familiar_flavortext_display
+	ooc_notes = fam_pref.familiar_ooc_notes_display
 	headshot = fam_pref.familiar_headshot_link
 	char_name = fam_pref.familiar_name
 	song_url = prefs.ooc_extra
@@ -63,15 +63,6 @@
 
 	if(song_url)
 		has_song = TRUE
-
-	ooc_notes = html_encode(ooc_notes)
-	ooc_notes = parsemarkdown_basic(ooc_notes, hyperlink=TRUE)
-	ooc_notes_nsfw = html_encode(ooc_notes_nsfw)
-	ooc_notes_nsfw = parsemarkdown_basic(ooc_notes_nsfw, hyperlink=TRUE)
-	flavor_text = html_encode(flavor_text)
-	flavor_text = parsemarkdown_basic(flavor_text, hyperlink=TRUE)
-	flavor_text_nsfw = html_encode(flavor_text_nsfw)
-	flavor_text_nsfw = parsemarkdown_basic(flavor_text_nsfw, hyperlink=TRUE)
 
 	var/list/data = list(
 		// Identity
@@ -85,15 +76,21 @@
 		"flavor_text_nsfw" = flavor_text_nsfw,
 		"ooc_notes_nsfw" = ooc_notes_nsfw,
 		"img_gallery" = img_gallery,
-		"is_playing" = is_playing,
 		"has_song" = has_song,
 		"is_vet" = is_vet,
-		"is_naked" = is_naked,
+		// "is_naked" = is_naked, // Caustic Edit: Removes naked requirement to view NSFW flavortext
+	)
+
+	return data
+
+/datum/examine_panel/familiar/ui_data(mob/user)
+	var/list/data = list( 
+		"is_playing" = is_playing,
 	)
 	return data
 
-/datum/examine_panel/ui_data(mob/user)
-
+// Where MOST of the examine panel data lives because it don't update mid game
+/datum/examine_panel/ui_static_data(mob/user)
 	var/flavor_text
 	var/flavor_text_nsfw
 	var/obscured
@@ -105,19 +102,21 @@
 	var/song_url
 	var/has_song = FALSE
 	var/is_vet = FALSE
-	var/is_naked = FALSE
+	// var/is_naked = FALSE // Caustic Edit: Removes naked requirement to view NSFW flavortext
 	var/datum/antagonist/vampire/vampireplayer = user.mind?.has_antag_datum(/datum/antagonist/vampire)
 	var/datum/antagonist/lich/lichplayer = user.mind?.has_antag_datum(/datum/antagonist/lich)
 
 	if(ishuman(holder))
 		var/mob/living/carbon/human/holder_human = holder
+		/* Caustic Edit: Removes naked requirement to view NSFW flavortext
 		if(!(holder.wear_armor && holder.wear_armor.flags_inv) && !(holder.wear_shirt && holder.wear_shirt.flags_inv))
 			is_naked = TRUE
+		*/
 		obscured = ((!isobserver(user)) && !holder_human.client?.prefs?.masked_examine) && ((holder_human.wear_mask && (holder_human.wear_mask.flags_inv & HIDEFACE)) || (holder_human.head && (holder_human.head.flags_inv & HIDEFACE)))
-		flavor_text = obscured ? "Obscured" : holder.flavortext
-		flavor_text_nsfw = obscured ? "Obscured" : holder.nsfwflavortext
-		ooc_notes += holder.ooc_notes
-		ooc_notes_nsfw += holder.erpprefs
+		flavor_text = obscured ? "Obscured" : holder.flavortext_cached
+		flavor_text_nsfw = obscured ? "Obscured" : holder.nsfwflavortext_cached
+		ooc_notes += holder.ooc_notes_cached
+		ooc_notes_nsfw += holder.erpprefs_cached
 		char_name = holder.name
 		song_url = holder.ooc_extra
 		is_vet = holder.check_agevet()
@@ -133,12 +132,12 @@
 			headshot = "headshot_red.png"
 
 	else if(pref)
-		is_naked = TRUE
+		// is_naked = TRUE // Caustic Edit: Removes naked requirement to view NSFW flavortext
 		obscured = FALSE
-		flavor_text = pref.flavortext
-		flavor_text_nsfw = pref.nsfwflavortext
-		ooc_notes = pref.ooc_notes
-		ooc_notes_nsfw = pref.erpprefs
+		flavor_text = pref.flavortext_cached
+		flavor_text_nsfw = pref.nsfwflavortext_cached
+		ooc_notes = pref.ooc_notes_cached
+		ooc_notes_nsfw = pref.erpprefs_cached
 		if(vampireplayer && (!SEND_SIGNAL(pref, COMSIG_DISGUISE_STATUS))&& !isnull(pref.vampire_headshot_link)) //vampire with their disguise down and a valid headshot
 			headshot = pref.vampire_headshot_link
 		else if (lichplayer && !isnull(pref.lich_headshot_link))//Lich with a valid headshot
@@ -155,15 +154,6 @@
 	if(song_url)
 		has_song = TRUE
 
-	ooc_notes = html_encode(ooc_notes)
-	ooc_notes = parsemarkdown_basic(ooc_notes, hyperlink=TRUE)
-	ooc_notes_nsfw = html_encode(ooc_notes_nsfw)
-	ooc_notes_nsfw = parsemarkdown_basic(ooc_notes_nsfw, hyperlink=TRUE)
-	flavor_text = html_encode(flavor_text)
-	flavor_text = parsemarkdown_basic(flavor_text, hyperlink=TRUE)
-	flavor_text_nsfw = html_encode(flavor_text_nsfw)
-	flavor_text_nsfw = parsemarkdown_basic(flavor_text_nsfw, hyperlink=TRUE)
-
 	var/list/data = list(
 		// Identity
 		"character_name" = obscured ? "Unknown" : char_name,
@@ -176,10 +166,15 @@
 		"flavor_text_nsfw" = flavor_text_nsfw,
 		"ooc_notes_nsfw" = ooc_notes_nsfw,
 		"img_gallery" = img_gallery,
-		"is_playing" = is_playing,
 		"has_song" = has_song,
 		"is_vet" = is_vet,
-		"is_naked" = is_naked,
+		// "is_naked" = is_naked, // Caustic Edit: Removes naked requirement to view NSFW flavortext
+	)
+	return data
+
+/datum/examine_panel/ui_data(mob/user)
+	var/list/data = list(
+		"is_playing" = is_playing,
 	)
 	return data
 

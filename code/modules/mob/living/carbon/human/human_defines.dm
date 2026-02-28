@@ -123,6 +123,12 @@
 	var/nsfwflavortext = null
 	var/erpprefs = null
 
+	// Cached version
+	var/flavortext_cached = ""
+	var/nsfwflavortext_cached = ""
+	var/ooc_notes_cached = ""
+	var/erpprefs_cached = ""
+
 	var/list/img_gallery = list()
 	
 
@@ -167,7 +173,7 @@
 	var/next_tempo_cull
 
 
-	var/datum/charflaw/charflaw
+	var/list/charflaws = list()
 
 	// curse list and cooldown
 	var/list/curses = list()
@@ -195,3 +201,7 @@
 	var/can_do_sex = TRUE
 
 	fovangle = FOV_DEFAULT
+
+	//Caustic Edit
+	var/time_of_last_move = 0
+	//Caustic Edit End

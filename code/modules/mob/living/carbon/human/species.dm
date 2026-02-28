@@ -17,7 +17,13 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/list/possible_ages = ALL_AGES_LIST
 	var/sexes = 1		// whether or not the race has sexual characteristics. at the moment this is only 0 for skeletons and shadows
 	var/patreon_req = 0
+	var/base_name
+	var/sub_name
+	var/psydonic = FALSE
+	var/origin = "Azuria"
+	var/origin_default = /datum/virtue/origin/azuria
 	var/max_age = 75
+	var/is_subrace = FALSE
 	var/list/offset_features = list(OFFSET_ID = list(0,0), OFFSET_GLOVES = list(0,0),\
 	OFFSET_CLOAK = list(0,0), OFFSET_FACEMASK = list(0,0), OFFSET_HEAD = list(0,0), \
 	OFFSET_FACE = list(0,0), OFFSET_BELT = list(0,0), OFFSET_BACK = list(0,0), \
@@ -104,7 +110,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/changesource_flags = NONE
 
 	/// Wording for skin tone on examine and on character setup
-	var/skin_tone_wording = "Skin Tone"
+	var/skin_tone_wording = "Ancestry"
+
+	/// Wording for origin examines if the species skin tone is a bit too goofy for it
+	var/use_skin_tone_wording_for_examine = TRUE
 	/// Bodyparts to override base ones.
 	var/list/bodypart_overrides = list()
 	/// List of organs this species has.
@@ -174,6 +183,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/holder_type = /obj/item/holder/micro
 	//Caustic Edit End
 
+	var/preload = TRUE
+
 ///////////
 // PROCS //
 ///////////
@@ -204,6 +215,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		limbs_id = name
 	if(!clothes_id)
 		clothes_id = id
+	if(!sub_name)
+		sub_name = name
+	if(!base_name)
+		base_name = name
 	..()
 
 /datum/species/proc/after_creation(mob/living/carbon/human/H)
@@ -356,7 +371,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		else
 			var/new_type = slot_mutantorgans[slot]
 			if(new_type)
-				neworgan = new new_type()
+				neworgan = SSwardrobe.provide_type(new_type)
 				neworgan.build_colors_for_accessory(source_key_list)
 
 		var/used_neworgan = FALSE
@@ -947,7 +962,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 ////////
 
 /datum/species/proc/handle_digestion(mob/living/carbon/human/H)
-
 	//The fucking TRAIT_FAT mutation is the dumbest shit ever. It makes the code so difficult to work with
 //	if(HAS_TRAIT_FROM(H, TRAIT_FAT, OBESITY))//I share my pain, past coder.
 //		if(H.overeatduration < 100)
@@ -980,7 +994,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				H.Jitter(5)
 			hunger_rate = 10 * HUNGER_FACTOR*/
 //		hunger_rate *= H.physiology.hunger_mod
-		H.adjust_nutrition(-hunger_rate)
+		if(!H.mind || world.time < H.time_of_last_move + 10 MINUTES)
+			H.adjust_nutrition(-hunger_rate)
 
 		var/obj/item/organ/breasts/breasts = H.has_breasts()
 		if(breasts)
@@ -998,7 +1013,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		// THEY HUNGER
 		var/hunger_rate = HUNGER_FACTOR
 //		hunger_rate *= H.physiology.hunger_mod
-		H.adjust_hydration(-hunger_rate)
+		if(!H.mind || world.time < H.time_of_last_move + 10 MINUTES)
+			H.adjust_hydration(-hunger_rate)
 
 
 	if (H.nutrition > NUTRITION_LEVEL_FULL)
@@ -1036,10 +1052,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 //					H.add_movespeed_modifier(MOVESPEED_ID_HUNGRY, override = TRUE, multiplicative_slowdown = (1.5 * (1 - E.get_charge(H) / 100)))
 //			else
 //				H.remove_movespeed_modifier(MOVESPEED_ID_HUNGRY)
+
 	if(HAS_TRAIT(H, TRAIT_NOHUNGER)) //hunger is for BABIES
 		H.nutrition = NUTRITION_LEVEL_DEATHLESS
 		H.hydration = HYDRATION_LEVEL_DEATHLESS
-
 
 	switch(H.nutrition)
 //		if(NUTRITION_LEVEL_FAT to INFINITY) //currently disabled/999999 define
@@ -1186,6 +1202,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
 		to_chat(user, span_warning("I don't want to harm [target]!"))
 		return FALSE
+	if(user.rogue_sneaking)
+		user.mob_timers[MT_FOUNDSNEAK] = world.time
+		user.update_sneak_invis(reset = TRUE)
 	if(target.check_block())
 		target.visible_message(span_warning("[target] blocks [user]'s attack!"), \
 						span_danger("I block [user]'s attack!"), span_hear("I hear a swoosh!"), COMBAT_MESSAGE_RANGE, user)
@@ -1664,7 +1683,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		var/obj/item/bodypart/affecting = target.get_bodypart(check_zone(selzone))
 		if(!affecting)
 			affecting = target.get_bodypart(BODY_ZONE_CHEST)
-		var/armor_block = target.run_armor_check(selzone, "blunt", blade_dulling = BCLASS_BLUNT, armor_penetration = BLUNT_DEFAULT_PENFACTOR)
+		var/armor_block = target.run_armor_check(selzone, "blunt", blade_dulling = BCLASS_BLUNT)
 		var/damage = user.get_punch_dmg()
 		if(!target.apply_damage(damage, user.dna.species.attack_type, affecting, armor_block))
 			target.next_attack_msg += VISMSG_ARMOR_BLOCKED
@@ -1735,8 +1754,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 	if(!affecting)
 		return
-	var/datum/intent/effect/int = user.used_intent
-	if(istype(int, /datum/intent/effect) && selzone)
+	var/datum/intent/int = user.used_intent
+	if((int.intent_effect) && selzone)
 		var/do_effect = FALSE
 		if(length(int.target_parts))
 			if(selzone in int.target_parts)
@@ -1806,7 +1825,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(text)
 			user.filtered_balloon_alert(TRAIT_COMBAT_AWARE, text, show_self = FALSE)
 
-	if(H.client?.prefs.floating_text_toggles & HITZONE_TEXT)
+	if(H.client?.prefs.combat_toggles & HITZONE_TEXT)
 		H.balloon_alert(H, "[bodyzone2readablezone(selzone)]...")
 
 	var/armor_block = H.run_armor_check(selzone, I.d_type, "", "",pen, damage = Iforce, blade_dulling=bladec, peeldivisor = user.used_intent.peel_divisor, intdamfactor = used_intfactor, used_weapon = I)
@@ -2378,3 +2397,21 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/modifier = -distance
 	if(!prob(STASPD+skill_modifier+modifier))
 		Paralyze(15)
+
+
+/// Returns a list of all organ typepaths this species probably has
+/datum/species/proc/get_organs(include_brain = TRUE)
+	var/list/preload = list()
+	for(var/slot in organs)
+		var/type_to_load = organs[slot]
+		if(!ispath(type_to_load))
+			continue
+
+		if(type_to_load == /obj/item/organ/brain && !include_brain)
+			continue
+
+		preload += type_to_load
+	return preload
+
+/datum/species/proc/get_types_to_preload()
+	return get_organs(FALSE)

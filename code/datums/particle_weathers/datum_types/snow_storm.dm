@@ -71,9 +71,6 @@
 		L.adjust_bodytemperature(-rand(5, 15))
 	//Caustic Edit End
 
-/turf
-	var/turf_flags = TURF_EFFECT_AFFECTABLE
-
 /turf/Exited(atom/movable/gone, direction)
 	if(!istype(gone))
 		return

@@ -3,6 +3,10 @@
 	desc = "You are able to eat grass by grazing."
 
 /datum/virtue/utility/grazer/apply_to_human(mob/living/carbon/human/recipient)
+	var/obj/item/organ/stomach/old_gut = recipient.getorgan(/obj/item/organ/stomach)
+	if(old_gut)
+		old_gut.Remove(recipient)
+		qdel(old_gut)
 	var/obj/item/organ/stomach/grazer/gut = new()
 	gut.Insert(recipient)
 	recipient.dna.organ_dna[ORGAN_SLOT_STOMACH]:organ_type = /obj/item/organ/stomach/grazer

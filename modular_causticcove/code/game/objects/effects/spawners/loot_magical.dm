@@ -7,7 +7,6 @@
 		//mats
 		/obj/item/magic/melded/t1 = 1,
 		/obj/item/magic/infernal/ash = 6,
-		/obj/item/magic/fairydust = 6,
 		/obj/item/magic/elemental/mote = 6
 	)
 
@@ -20,7 +19,6 @@
 		//mats
 		/obj/item/magic/melded/t2 = 1,
 		/obj/item/magic/infernal/fang = 7,
-		/obj/item/magic/iridescentscale = 7,
 		/obj/item/magic/elemental/shard = 7
 	)
 
@@ -35,7 +33,6 @@
 		/obj/item/magic/melded/t3 = 1,
 		/obj/item/magic/voidstone = 1,
 		/obj/item/magic/infernal/core = 8,
-		/obj/item/magic/heartwoodcore = 8,
 		/obj/item/magic/elemental/fragment = 8
 	)
 

@@ -797,13 +797,10 @@
 /turf/open/floor/rogue/ruinedwood/platform,
 /area/rogue/indoors/eventarea)
 "gw" = (
-/obj/effect/decal/cobbleedge{
-	dir = 4
-	},
 /obj/effect/decal/cleanable/dirt/cobweb{
 	dir = 4
 	},
-/turf/open/floor/rogue/naturalstone,
+/turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
 "gz" = (
 /obj/structure/fermentation_keg/water,
@@ -915,6 +912,10 @@
 "jz" = (
 /turf/open/floor/rogue/carpet/lord/left,
 /area/rogue/indoors/eventarea)
+"jA" = (
+/obj/item/reagent_containers/lux_impure,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/inhumen)
 "jG" = (
 /turf/open/floor/rogue/woodturned/nosmooth,
 /area/rogue/indoors/eventarea)
@@ -1297,7 +1298,7 @@
 /area/rogue)
 "sK" = (
 /obj/structure/fluff/statue/femalestatue/zizo{
-	desc = "An ancient statue depicting an elven woman.";
+	desc = "An ancient statue depicting an elven woman. An inscription reads: She who split that which was one into that which is many.";
 	name = "Ancient Statue";
 	pixel_y = 0
 	},
@@ -1409,6 +1410,7 @@
 /obj/item/broom,
 /obj/item/natural/cloth,
 /obj/item/reagent_containers/glass/bucket,
+/obj/item/clothing/suit/roguetown/shirt/dress/maid,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/inhumen)
 "va" = (
@@ -1447,7 +1449,9 @@
 	pixel_x = 32;
 	pixel_y = 0
 	},
-/obj/structure/closet/crate/chest/crate,
+/obj/structure/closet/crate/chest/crate{
+	name = "Spare Robes Crate"
+	},
 /obj/item/clothing/suit/roguetown/shirt/robe/black,
 /obj/item/clothing/suit/roguetown/shirt/robe/black,
 /obj/item/clothing/suit/roguetown/shirt/robe/black,
@@ -1630,7 +1634,9 @@
 /turf/open/floor/rogue/underworld/space/quiet,
 /area/rogue/underworld/dream)
 "Bd" = (
-/obj/structure/roguemachine/scomm,
+/obj/structure/roguemachine/scomm{
+	scom_tag = "Unknown Location"
+	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/inhumen)
 "Bi" = (
@@ -1693,7 +1699,10 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
-/obj/item/reagent_containers/glass/bottle,
+/obj/item/reagent_containers/glass/bottle/frankenbrew{
+	pixel_x = 4;
+	pixel_y = 4
+	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/inhumen)
 "Dm" = (
@@ -1733,6 +1742,7 @@
 /obj/effect/decal/cleanable/dirt/cobweb{
 	dir = 8
 	},
+/obj/structure/closet/crate/coffin/vampire,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/inhumen)
 "DG" = (
@@ -1864,9 +1874,48 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/inhumen)
 "Ht" = (
-/obj/structure/roguerock,
-/obj/effect/decal/cobbleedge,
-/turf/open/floor/rogue/naturalstone,
+/obj/structure/closet/crate/chest/crate{
+	storage_capacity = 200;
+	name = "Crate of Disguises"
+	},
+/obj/item/clothing/suit/roguetown/shirt/undershirt,
+/obj/item/clothing/suit/roguetown/shirt/undershirt,
+/obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2,
+/obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2,
+/obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1,
+/obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1,
+/obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut,
+/obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut,
+/obj/item/clothing/suit/roguetown/shirt/undershirt/priest,
+/obj/item/clothing/suit/roguetown/shirt/undershirt/priest,
+/obj/item/clothing/under/roguetown/trou/leather/atgervi,
+/obj/item/clothing/under/roguetown/trou/leather/atgervi,
+/obj/item/clothing/under/roguetown/trou/leathertights,
+/obj/item/clothing/under/roguetown/trou/leathertights,
+/obj/item/clothing/suit/roguetown/shirt/dress/gown/fallgown,
+/obj/item/clothing/suit/roguetown/shirt/dress/gown/summergown,
+/obj/item/clothing/suit/roguetown/shirt/dress/gown/wintergown,
+/obj/item/clothing/suit/roguetown/shirt/dress/maid,
+/obj/item/clothing/suit/roguetown/shirt/dress/silkydress,
+/obj/item/clothing/cloak/templar/astratan,
+/obj/item/clothing/cloak/templar/pestran,
+/obj/item/clothing/cloak/templar/necran,
+/obj/item/clothing/suit/roguetown/shirt/robe/abyssor,
+/obj/item/clothing/head/roguetown/roguehood/abyssor,
+/obj/item/clothing/head/roguetown/necrahood,
+/obj/item/clothing/suit/roguetown/shirt/robe/necra,
+/obj/item/clothing/suit/roguetown/shirt/robe/dendor,
+/obj/item/clothing/head/roguetown/dendormask,
+/obj/item/clothing/suit/roguetown/shirt/robe/eora,
+/obj/item/clothing/head/roguetown/eoramask,
+/obj/item/clothing/suit/roguetown/shirt/robe/astrata,
+/obj/item/clothing/head/roguetown/roguehood/astrata,
+/obj/item/clothing/suit/roguetown/shirt/robe/noc,
+/obj/item/clothing/head/roguetown/roguehood/nochood,
+/obj/item/clothing/cloak/templar/undivided,
+/obj/item/clothing/cloak/undivided,
+/obj/item/clothing/neck/roguetown/psicross/undivided,
+/turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/inhumen)
 "Hy" = (
 /turf/open/floor/rogue/tile/masonic/spiral,
@@ -2093,6 +2142,16 @@
 /area/rogue/indoors/eventarea)
 "MX" = (
 /obj/structure/closet/crate/chest/old_crate,
+/obj/item/heart_blood_canister/filled,
+/obj/item/heart_blood_canister/filled,
+/obj/item/heart_blood_canister/filled,
+/obj/item/heart_blood_canister/filled,
+/obj/item/heart_blood_canister/filled,
+/obj/item/heart_blood_canister/filled,
+/obj/item/heart_blood_canister/filled,
+/obj/item/heart_blood_canister/filled,
+/obj/item/heart_blood_canister/filled,
+/obj/item/heart_blood_canister/filled,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/inhumen)
 "Nc" = (
@@ -2243,8 +2302,8 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
 "Sp" = (
-/obj/structure/closet/crate/coffin/vampire,
-/turf/open/floor/rogue/hexstone,
+/obj/structure/roguerock,
+/turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
 "Sv" = (
 /turf/open/floor/rogue/dirt,
@@ -2383,7 +2442,10 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
-/obj/item/reagent_containers/glass/bottle,
+/obj/item/reagent_containers/glass/bottle/frankenbrew{
+	pixel_x = 4;
+	pixel_y = 4
+	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/inhumen)
 "Vz" = (
@@ -3084,7 +3146,7 @@ XV
 wN
 TS
 IT
-Sp
+ws
 ws
 fh
 tF
@@ -4259,7 +4321,7 @@ SJ
 TS
 KF
 sY
-ws
+Ht
 vU
 oX
 WC
@@ -6193,7 +6255,7 @@ wN
 wN
 TS
 pV
-ws
+jA
 MX
 BC
 Bd
@@ -7251,8 +7313,8 @@ qO
 qO
 qO
 qO
-Ht
 qO
+Sp
 TS
 qO
 kX
@@ -7381,7 +7443,7 @@ kN
 qO
 qO
 qO
-tE
+qO
 qO
 qO
 qO
@@ -7510,7 +7572,7 @@ Cv
 qO
 qO
 qO
-qO
+eh
 kX
 kX
 qO

@@ -32,6 +32,8 @@
 		TRAIT_STRONGBITE,
 		TRAIT_LYCANRESILENCE,
 		TRAIT_CHUNKYFINGERS, //So they can no longer use weapons at all.
+		TRAIT_UNLYCKERABLE, //Literal archenemy
+		TRAIT_ZOMBIE_IMMUNE
 	)
 	confess_lines = list(
 		"THE BEAST INSIDE ME!",
@@ -43,6 +45,8 @@
 	var/transformed
 	var/transforming
 	var/untransforming
+	var/resisting_transformation = FALSE // Caustic Edit
+	var/ignore_transformation_resist = FALSE // Caustic Edit
 	var/wolfname = "Verewolf"
 
 /datum/antagonist/werewolf/lesser
@@ -57,10 +61,20 @@
 		return span_boldnotice("A young lupine kin.")
 	if(istype(examined_datum, /datum/antagonist/werewolf))
 		return span_boldnotice("An elder lupine kin.")
+	if(istype(examined_datum, /datum/antagonist/maniac))
+		return span_boldnotice("A fool.")
+	if(istype(examined_datum, /datum/antagonist/dreamwalker))
+		return span_boldnotice("The dreamer has this one in his grasp.")
+	if(istype(examined_datum, /datum/antagonist/gnoll))
+		return span_boldnotice("An abomination.")
 	if(examiner.Adjacent(examined))
+		if(istype(examined_datum, /datum/antagonist/lich))
+			return span_boldnotice("A deadite freek.")
 		if(istype(examined_datum, /datum/antagonist/vampire))
+			return span_boldnotice("A putrid vampyr, I should watch my back.")
+		if(istype(examined_datum, /datum/antagonist/vampire/lord))
 			if(transformed)
-				return span_boldwarning("An Ancient Vampire. I must be careful!")
+				return span_boldwarning("An ancient vampyr. I must be careful!")
 
 /datum/antagonist/werewolf/on_gain()
 	greet()
@@ -91,7 +105,7 @@
 		return
 
 /datum/antagonist/werewolf/greet()
-	to_chat(owner.current, span_userdanger("Since a bite long, long ago, Dendor's Madness has welled within me. Before the Moonlight, I will sate my hallowed Hunger."))
+	to_chat(owner.current, span_userdanger("I feel Dendor's madness welling within me. What was its cause... A bite? A curse? Perhaps a blessing? Regardless, the Moonlight calls to me like a siren's song. It promises to help me sate this excruciating Hunger...")) // Caustic Edit: Rewrote text to be a bit more ambiguous
 	return ..()
 
 /datum/antagonist/werewolf/lesser/greet()
