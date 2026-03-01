@@ -75,7 +75,7 @@ GLOBAL_LIST_EMPTY(reformation_portals)
 /obj/structure/respawn_portal/permanent
 	name = "vore reformation portal"
 	desc = "A gate that's said to spit out Necra's unwanted denizens, only to be used by those who perished inside of another."
-	icon = 'icons/roguetown/misc/structure_ov.dmi'
+	icon = 'modular_ochrevalley/icons/roguetown/misc/structure.dmi'
 	icon_state = "voreportal"
 	invisibility = INVISIBILITY_OBSERVER
 
