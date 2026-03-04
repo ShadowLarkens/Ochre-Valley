@@ -72,16 +72,16 @@
 	buff = /datum/status_effect/buff/magic/willpower
 	tier = 2
 	blacklisted = FALSE
-	required_atoms = list(/obj/item/magic/obsidian = 2, /obj/item/magic/iridescentscale = 1)
+	required_atoms = list(/obj/item/magic/obsidian = 2, /obj/item/magic/fae/iridescentscale = 1)
 
 /datum/runeritual/buff/lesserwillpower
 	name = "lesser vitalized willpower"
 	buff = /datum/status_effect/buff/magic/willpower_lesser
 	blacklisted = FALSE
-	required_atoms = list(/obj/item/magic/obsidian = 2, /obj/item/magic/fairydust = 2)
+	required_atoms = list(/obj/item/magic/obsidian = 2, /obj/item/magic/fae/fairydust = 2)
 
 /datum/runeritual/buff/nightvision
 	name = "darksight"
 	buff = /datum/status_effect/buff/darkvision
 	blacklisted = FALSE
-	required_atoms = list(/obj/item/magic/manacrystal = 2, /obj/item/magic/iridescentscale = 1, /obj/item/magic/elemental/shard = 1)
+	required_atoms = list(/obj/item/magic/manacrystal = 2, /obj/item/magic/fae/iridescentscale = 1, /obj/item/magic/elemental/shard = 1)
