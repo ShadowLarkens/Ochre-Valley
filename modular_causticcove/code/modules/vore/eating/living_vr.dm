@@ -1100,10 +1100,10 @@
 	popup.open()
 
 // Full screen belly overlays!
-/obj/screen/fullscreen/belly
+/atom/movable/screen/fullscreen/belly
 	icon = 'modular_causticcove/icons/mob/vore_fullscreens/screen_full_vore_list.dmi'
 
-/obj/screen/fullscreen/belly/fixed
+/atom/movable/screen/fullscreen/belly/fixed
 	icon = 'modular_causticcove/icons/mob/vore_fullscreens/screen_full_vore.dmi'
 	icon_state = ""
 
@@ -1570,7 +1570,7 @@
 
 /mob/living/verb/toggle_afk()
 	set name = "Toggle AFK"
-	set category = "IC.Game"
+	set category = "IC"
 	set desc = "Mark yourself as Away From Keyboard, or clear that status!"
 	if(away_from_keyboard)
 		//remove_status_indicator("afk")

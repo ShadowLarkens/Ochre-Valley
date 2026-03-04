@@ -228,12 +228,12 @@
 /mob/living/Crossed(var/atom/movable/AM)
 	..()
 	var/mob/living/target = AM
-	if(istype(target) && !cmode && !target.cmode && src.lying && target.loc && target.buckled != src)
+	if(!cmode && istype(target) && !target.cmode && src.lying && target.loc && target.buckled != src)
 		// src.lying being true means that in theory this code shouldn't run at the same time as the existing code for this in Bump. Probably.
 		// And optionally, this could be gated behind another preference, to prevent stunlock being abused.
 		if((/*mob_always_swap || */(istype(a_intent, INTENT_HELP) || get_active_held_item() || src.restrained()) && (istype(target.a_intent, INTENT_HELP) || target.get_active_held_item() || target.restrained())) && !target.IsImmobilized() && target.handle_micro_bump_helping(src))
 			return
-		if(!(istype(target.a_intent, INTENT_HELP) || target.restrained()))
+		if(!(istype(target.a_intent, INTENT_HELP) || target.get_active_held_item() || target.restrained()))
 			if(src.step_mechanics_pref && target.step_mechanics_pref)
 				target.handle_micro_bump_other(src)
 			else
@@ -377,13 +377,13 @@
 		return FALSE
 	if(istype(a_intent, INTENT_HARM) && size_ratio < 0.75)
 		return FALSE
-	if(istype(a_intent, INTENT_HELP)) // Theoretically not possible, but just in case.
+	if(istype(a_intent, INTENT_HELP) || get_active_held_item()) // Theoretically not possible, but just in case.
 		return FALSE
 
 	//CHOMPEdit - removed chance to dodge steppies. Get rng out of my combat.
 	now_pushing = 0
 	forceMove(tmob.loc)
-	if(!istype(a_intent, INTENT_HELP))
+	if(!istype(a_intent, INTENT_HELP) && !get_active_held_item())
 		if(tmob.size_multiplier > 0.75 && nofetish) //So we can stun micros with step mechanics off, but prevent macros from stunning regular heights
 			to_chat(pred, span_danger("You pass over [tmob.name]."))
 			to_chat(prey, span_danger("[src.name] passes over you."))

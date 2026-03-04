@@ -59,8 +59,3 @@ GLOBAL_LIST_EMPTY(sizecats)
 		return
 	var/datum/sizecat/sizecat_type = player.prefs.sizecat
 	character.resize(sizecat_type.starting_scale)
-	apply_sizecat(character,sizecat_type)
-
-
-
-

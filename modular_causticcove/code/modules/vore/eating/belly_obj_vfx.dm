@@ -21,7 +21,11 @@
 		return
 
 	if(colorization_enabled)
-		var/atom/movable/screen/fullscreen/fullscreen_overlay = living_prey.overlay_fullscreen("belly", /obj/screen/fullscreen/belly, severity) // preserving save data
+		var/atom/movable/screen/fullscreen/fullscreen_overlay = living_prey.overlay_fullscreen("belly", /atom/movable/screen/fullscreen/belly, severity) // preserving save data
+		if(!fullscreen_overlay)
+			log_runtime("For some reason, unable to create the fullscreen overlay for /fullscreen/belly. The belly_fullscreen var was set to /datum/belly_overlays/[lowertext(belly_fullscreen)] and severity [severity].")
+			return
+
 		var/datum/belly_overlays/lookup_belly_path = text2path("/datum/belly_overlays/[lowertext(belly_fullscreen)]")
 		if(!lookup_belly_path)
 			var/used_fullscreen = belly_fullscreen
@@ -77,7 +81,7 @@
 		fullscreen_overlay.update_for_view(living_prey.client.view)
 		return
 
-	var/atom/movable/screen/fullscreen/fullscreen_overlay = living_prey.overlay_fullscreen("belly", /obj/screen/fullscreen/belly/fixed, severity) //preserving save data
+	var/atom/movable/screen/fullscreen/fullscreen_overlay = living_prey.overlay_fullscreen("belly", /atom/movable/screen/fullscreen/belly/fixed, severity) //preserving save data
 	fullscreen_overlay.icon = 'modular_causticcove/icons/mob/vore_fullscreens/screen_full_vore.dmi'
 	fullscreen_overlay.cut_overlays()
 	fullscreen_overlay.add_overlay(image(fullscreen_overlay.icon, belly_fullscreen))

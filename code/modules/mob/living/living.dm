@@ -273,10 +273,11 @@
 				now_pushing = FALSE
 				return TRUE
 			
-			if(step_mechanics_pref && target.step_mechanics_pref)
-				if(handle_micro_bump_other(target)) return
-			else
-				if(handle_micro_bump_other(target,1)) return
+			if(!(istype(target.a_intent, INTENT_HELP) || target.get_active_held_item() || target.restrained()))
+				if(step_mechanics_pref && target.step_mechanics_pref)
+					if(handle_micro_bump_other(target)) return
+				else
+					if(handle_micro_bump_other(target,1)) return
 	///Caustic edit end
 	//okay, so we didn't switch. but should we push?
 	//not if he's not CANPUSH of course
