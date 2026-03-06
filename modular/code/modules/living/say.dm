@@ -33,6 +33,16 @@
 			for(var/datum/component/portal_clothes/portal in the_clothing.GetComponents(/datum/component/portal_clothes))
 				message_admins("found portal")
 				portal_clothing += portal
+		for(var/obj/item/legwears/the_clothing in the_human.contents)
+			message_admins("clothing [the_clothing]")
+			for(var/datum/component/portal_clothes/portal in the_clothing.GetComponents(/datum/component/portal_clothes))
+				message_admins("found portal")
+				portal_clothing += portal
+		for(var/obj/item/piercings/the_clothing in the_human.contents)
+			message_admins("clothing [the_clothing]")
+			for(var/datum/component/portal_clothes/portal in the_clothing.GetComponents(/datum/component/portal_clothes))
+				message_admins("found portal")
+				portal_clothing += portal
 		if(!portal_clothing.len)
 			message_admins("empty list")
 			return

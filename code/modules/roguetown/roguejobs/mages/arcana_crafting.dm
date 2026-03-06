@@ -55,6 +55,16 @@
 				/obj/item/magic/melded/t1 = 1)
 	craftdiff = 2
 
+//OV edit
+/datum/crafting_recipe/roguetown/arcana/sendingstone
+	name = "portal stone"
+	result = /obj/item/portal_clothes
+	reqs = list(/obj/item/natural/stone = 1,
+				/obj/item/roguegem/ruby = 2,
+				/obj/item/magic/melded/t1 = 1)
+	craftdiff = 2
+//OV edit end
+
 /datum/crafting_recipe/roguetown/arcana/voidlamptern
 	name = "void lamptern"
 	result = /obj/item/flashlight/flare/torch/lantern/voidlamptern
