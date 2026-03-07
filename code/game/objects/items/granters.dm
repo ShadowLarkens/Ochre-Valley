@@ -580,7 +580,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 
 /obj/item/book/granter/spell/blackstone/mirror_transform // Mirror Transform Spell
     name = "Scroll of Mirror Transform"
-    spell = /obj/effect/proc_holder/spell/invoked/mirror_transform
+    spell = /obj/effect/proc_holder/spell/invoked/mirror_transform_ov //OV Edit: Use the new mirror transform
     spellname = "Mirror Transform"
     icon_state ="scrolldarkred"
     oneuse = TRUE
