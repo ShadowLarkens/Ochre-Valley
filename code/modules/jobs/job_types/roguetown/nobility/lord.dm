@@ -27,7 +27,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	display_order = JDO_LORD
 	tutorial = "Elevated upon your throne through a web of intrigue and political upheaval, you are the absolute authority of these lands and at the center of every plot within it. Every man, woman and child is envious of your position and would replace you in less than a heartbeat: Show them the error of their ways."
 	whitelist_req = FALSE
-	min_pq = null //50
+	min_pq = 20 //OV EDIT
 	max_pq = null
 	round_contrib_points = 4
 	give_bank_account = 1000
@@ -109,6 +109,8 @@ GLOBAL_LIST_EMPTY(lord_titles)
 
 /datum/outfit/job/roguetown/lord/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
+	//OV Edit Start: End discrimination against non-fantasy-Europeans
+	/*
 	var/client/player = H?.client
 	if(player.prefs)
 		if(!istype(player.prefs.virtue_origin, /datum/virtue/origin/azuria) && !istype(player.prefs.virtue_origin, /datum/virtue/origin/grenzelhoft) && !istype(player.prefs.virtue_origin, /datum/virtue/origin/otava) && !istype(player.prefs.virtue_origin, /datum/virtue/origin/etrusca))
@@ -124,7 +126,8 @@ GLOBAL_LIST_EMPTY(lord_titles)
 				to_chat(player, span_notice("No choice detected. Picking a random compatible origin."))
 				new_origin = pick(/datum/virtue/origin/grenzelhoft, /datum/virtue/origin/otava, /datum/virtue/origin/etrusca)
 			change_origin(H, new_origin, "Royal line")
-
+	*/
+	//OV Edit End
 //	SSticker.rulermob = H
 /**
 	Warrior Lord subclass. An evolution from the Daring Twit. This is the original Lord Class.
@@ -437,6 +440,8 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	var/accept_message = "I will serve!"
 	/// Say message when the recruit refuses
 	var/refuse_message = "I refuse."
+	ignore_los = 1 // this needs to ignore normal "range", it looks like
+	range = 3
 
 /obj/effect/proc_holder/spell/self/convertrole/cast(list/targets,mob/user = usr)
 	. = ..()
