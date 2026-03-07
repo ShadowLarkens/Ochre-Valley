@@ -3215,4 +3215,5 @@
 #include "modular_ochrevalley\code\vore_verb.dm"
 
 
+#include "modular_ochrevalley\virtues\combat.dm"
 // END_INCLUDE
