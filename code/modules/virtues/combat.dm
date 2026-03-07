@@ -15,9 +15,17 @@
 		//if (!HAS_TRAIT(recipient, TRAIT_MEDIUMARMOR) && !HAS_TRAIT(recipient, TRAIT_HEAVYARMOR) && !HAS_TRAIT(recipient, TRAIT_DODGEEXPERT) && !HAS_TRAIT(recipient, TRAIT_CRITICAL_RESISTANCE))
 			//Caustic edit
 			ADD_TRAIT(recipient, TRAIT_ARCYNE_T1, TRAIT_GENERIC)
-			recipient.mind?.adjust_spellpoints(3)
+			add_arcyne_potential_spellpoints(recipient, 3)
 	else
-		recipient.mind?.adjust_spellpoints(3) // 3 extra spellpoints since you don't get any spell point from the skill anymore
+		add_arcyne_potential_spellpoints(recipient, 3)
+
+/// Helper: adds spellpoints to utility pool if available, otherwise flat spellpoints
+/datum/virtue/combat/magical_potential/proc/add_arcyne_potential_spellpoints(mob/living/carbon/human/recipient, amount)
+	if(recipient.mind?.spell_point_pools?["utility"])
+		recipient.mind.spell_point_pools["utility"] += amount
+		recipient.mind.check_learnspell()
+	else
+		recipient.mind?.adjust_spellpoints(amount)
 	
 /datum/virtue/combat/devotee
 	name = "Devotee"
@@ -153,7 +161,7 @@
 	desc = "Warfare is changing, and the crossbow is the next pedestal. I have always been ahead of the curve, as compared to my peers."
 	custom_text = "+1 to Crossbows, Up to Legendary, Minimum Apprentice"
 	added_stashed_items = list(
-		"Quiver (Bolts)" = /obj/item/quiver/bolts
+		"Quiver (Bolts)" = /obj/item/quiver/bolt/standard
 	)
 
 /datum/virtue/combat/crossbowman/apply_to_human(mob/living/carbon/human/recipient)
