@@ -173,7 +173,7 @@
 					for(var/mob/living/carbon/human/human in L.loc)
 						if(human == L)
 							continue
-						if(!human.cmode && !human.get_active_held_item() && human.mob_size >= MOB_SIZE_HUMAN)
+						if(!human.cmode && !human.get_active_held_item() && human.mob_size >= MOB_MEDIUM) //Caustic Edit - Changing it from MOB_SIZE_HUMAN to Chomps MOB_MEDIUM
 							myskill += 1
 							helping_items += human.name
 							has_step_ladder = TRUE
@@ -182,7 +182,7 @@
 					for(var/mob/living/simple_animal/animal in L.loc)
 						if(animal == L)
 							continue
-						if(animal.tame && animal.mob_size >= MOB_SIZE_HUMAN)
+						if(animal.tame && animal.mob_size >= MOB_MEDIUM) //Caustic Edit - Changing it from MOB_SIZE_HUMAN to Chomps MOB_MEDIUM
 							myskill += 1
 							helping_items += animal.name
 							has_step_ladder = TRUE

@@ -51,6 +51,10 @@
 		for(var/i in 2 to length(departing_mob.contents))
 			content = departing_mob.contents[i]
 			dat += ", [content.name]"
+			//Caustic Edit - Force-drop all Micros! So they don't get Qdel'd into the abyss!
+			if(istype(content, /obj/item/holder/micro))
+				departing_mob.dropItemToGround(content, TRUE, TRUE)
+			//Caustic Edit End
 		dat += "."
 	if(departing_mob.mind)
 		departing_mob.mind.unknow_all_people()

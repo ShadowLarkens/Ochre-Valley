@@ -784,18 +784,18 @@
 /mob/living/carbon/human/MouseDrop_T(atom/dragged, mob/living/user)
 	if(pulling == dragged && stat == CONSCIOUS)
 		if(isliving(dragged))
-			if(user.grab_state && user.voremode)
+			/*if(user.grab_state && user.voremode) //Caustic - Commenting this out to instead implement it like Chompers has it
 				if(ismob(user.pulling))
 					vore_attackby(dragged, user)
 					user.vore_attackby(user, dragged, src) // User, Pulled, Predator target (which can be user, pulling, or src)
-					return TRUE
+					return TRUE*/
 			//Pick them up. Pick. Them. Up.
-			if(ishuman(dragged) && ishuman(user))
+			/*if(ishuman(dragged) && ishuman(user)) //Caustic - We should be handling this the Chomp way now!
 				var/mob/living/carbon/human/userhuman = user
 				var/mob/living/carbon/human/targethuman = dragged
 				if(targethuman.small_enough(userhuman) && user.grab_state)
 					if(targethuman.attempt_scoop(userhuman))
-						return TRUE
+						return TRUE*/
 			//If they dragged themselves and we're currently aggressively grabbing them try to piggyback (not on cmode)
 			if(user == dragged && can_piggyback(target))
 				if(cmode)

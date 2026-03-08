@@ -10,6 +10,7 @@
 	var/oneuse = TRUE //default this is true, but admins can var this to 0 if we wanna all have a pass around of the rod form book
 	var/used = FALSE //only really matters if oneuse but it might be nice to know if someone's used it for admin investigations perhaps
 	var/dreamcost
+	var/needLit = TRUE //Caustic Edit - Allow for Round-Start Scrolls to bypass the Literacy Requirement
 
 /obj/item/book/granter/proc/turn_page(mob/user)
 	playsound(user, pick('sound/blank.ogg'), 30, TRUE)
@@ -43,7 +44,7 @@
 	if(reading)
 		to_chat(user, span_warning("I'm already reading this!"))
 		return FALSE
-	if(!user.can_read(src))
+	if(needLit && !user.can_read(src)) //Caustic Edit - Add a toggle for if you need literacy or not, for the roundstart loadout ones!
 		return FALSE
 	if(already_known(user))
 		return FALSE
@@ -572,4 +573,11 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
     spellname = "Mirror Transform"
     icon_state ="scrolldarkred"
     oneuse = TRUE
+
+/obj/item/book/granter/spell/blackstone/sizespell/loadout // Loadout specific ones!
+	needLit = FALSE
+
+/obj/item/book/granter/spell/blackstone/mirror_transform/loadout // Mirror Transform Spell
+    needLit = FALSE
+
 //Caustic Edit End

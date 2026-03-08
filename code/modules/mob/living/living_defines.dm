@@ -72,7 +72,7 @@
 	var/ventcrawler = 0 //0 No vent crawling, 1 vent crawling in the nude, 2 vent crawling always
 	var/limb_destroyer = 0 //1 Sets AI behavior that allows mobs to target and dismember limbs with their basic attack.
 
-	var/mob_size = MOB_SIZE_HUMAN
+	var/mob_size = MOB_MEDIUM //Caustic Edit - Changing it from MOB_SIZE_HUMAN to Chomps MOB_MEDIUM
 	var/mob_biotypes = MOB_ORGANIC
 	var/metabolism_efficiency = 1 //more or less efficiency to metabolize helpful/harmful reagents and regulate body temperature..
 	var/has_limbs = 0 //does the mob have distinct limbs?(arms,legs, chest,head)

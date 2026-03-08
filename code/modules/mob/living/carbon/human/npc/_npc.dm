@@ -95,7 +95,7 @@
 		ignore_grab ||= TRUE
 	if(on_fire || buckled || restrained(ignore_grab = ignore_grab))
 		return TRUE
-	if(istype(loc,/obj/item/micro))
+	if(istype(loc,/obj/item/holder))
 		return TRUE
 	return FALSE
 

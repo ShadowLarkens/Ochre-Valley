@@ -8,6 +8,14 @@
 /mob/living/carbon/human/GetVoice()
 	if(GetSpecialVoice())
 		return GetSpecialVoice()
+	if(absorbed && isbelly(loc)) // If absorbed in a belly, check and apply absorbed rename if applicable.
+		var/obj/belly/B = loc
+		if(B.absorbedrename_enabled)
+			var/formatted_name = B.absorbedrename_name
+			formatted_name = replacetext(formatted_name,"%pred", B.owner)
+			formatted_name = replacetext(formatted_name,"%belly", B.get_belly_name())
+			formatted_name = replacetext(formatted_name,"%prey", name)
+			return formatted_name
 	return real_name
 
 /mob/living/carbon/human/IsVocal()
@@ -54,6 +62,11 @@
 	return 0
 
 /mob/living/carbon/human/get_alt_name(var/force = FALSE)
+	if(absorbed && isbelly(loc))
+		var/obj/belly/B = loc
+		if(B.absorbedrename_enabled)
+			return "" // Don't use alt name if under absorbed rename.
+
 	if(force || name != GetVoice())
 		var/datum/mob_descriptor/voice/voice_descriptor = get_descriptor_type(/datum/mob_descriptor/voice)
 		if(!voice_descriptor)

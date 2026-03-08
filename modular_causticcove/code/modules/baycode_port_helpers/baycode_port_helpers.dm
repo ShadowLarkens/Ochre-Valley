@@ -24,7 +24,7 @@
 	for(var/mob/living/L in viewers)
 		living += L
 		if(count_held)
-			for(var/obj/item/micro/H in L.contents)
+			for(var/obj/item/holder/H in L.contents)
 				if(istype(H.held_mob, /mob/living))
 					living += H.held_mob
 	return living
@@ -181,11 +181,11 @@ GLOBAL_LIST_EMPTY(icon_state_lists)
 	var/list/living = list()
 	for(var/mob/living/L in viewers)
 		living += L
-		/*if(count_held) TODO once micros items work again
+		if(count_held) //TODO once micros items work again
 			for(var/obj/item/holder/H in L.contents)
 				if(istype(H.held_mob, /mob/living))
 					living += H.held_mob //CHOMPEdit End
-					*/
+	
 	return living
 
 //Proc to check if a flag is active to use in universal math
@@ -199,4 +199,7 @@ GLOBAL_LIST_EMPTY(icon_state_lists)
 	return health
 
 /mob/living/carbon/human/getActualFuckingHealth()
-	return getMaxHealth() - ((getBruteLoss() + getFireLoss() + getToxLoss() + getOxyLoss()))
+	return health //getMaxHealth() - ((getBruteLoss() + getFireLoss() + getToxLoss() + getOxyLoss()))
+
+/mob/living/proc/nutrition_percent()
+	return 100 * nutrition / maxnutrition

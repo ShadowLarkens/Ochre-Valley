@@ -294,7 +294,7 @@
 	sound = 'sound/magic/astrata_choir.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
-	invocations = "Astrata show me true."
+	invocations = list("Astrata show me true.")
 	invocation_type = "shout"
 	recharge_time = 90 SECONDS
 	devotion_cost = 30

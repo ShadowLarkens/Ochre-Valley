@@ -26,7 +26,7 @@
 	faction = list("hostile")
 	attack_sound = 'sound/blank.ogg'
 	pass_flags = PASSTABLE | PASSGRILLE | PASSMOB
-	mob_size = MOB_SIZE_TINY
+	mob_size = MOB_TINY
 	gold_core_spawnable = HOSTILE_SPAWN
 	var/stepped_sound = 'sound/blank.ogg'
 
@@ -42,5 +42,5 @@
 /mob/living/simple_animal/hostile/retaliate/frog/Crossed(AM as mob|obj)
 	if(!stat && isliving(AM))
 		var/mob/living/L = AM
-		if(L.mob_size > MOB_SIZE_TINY)
+		if(L.mob_size > MOB_TINY)
 			playsound(src, stepped_sound, 50, TRUE)

@@ -68,6 +68,10 @@
 		return
 	if (istype(A, /area/rogue/indoors/deathsedge))	//Stops rotting inside Death's Edge (Death's Door spell area)
 		return
+	//Caustic Edit - If in Belly, don't rot
+	if(isbelly(C.loc))
+		return
+	//Caustic Edit End
 
 	if(!(C.mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD)))
 		qdel(src)
@@ -144,6 +148,10 @@
 	if(L.stat != DEAD)
 		qdel(src)
 		return
+	//Caustic Edit - If in Belly, don't rot
+	if(isbelly(L.loc))
+		return
+	//Caustic Edit End
 	if(amount > 15 MINUTES)
 		if(soundloop && soundloop.stopped)
 			soundloop.start()

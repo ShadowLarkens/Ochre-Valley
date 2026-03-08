@@ -15,6 +15,12 @@
 		if(has_flaw(/datum/charflaw/addiction/paranoid))
 			add_stress(/datum/stressevent/paratalk)
 
+	//Caustic Edit - Add Absorbed Mobs can hear everything their Pred hears
+	if(isbelly(loc) && absorbed)
+		var/mob/living/P = loc.loc
+		if(P.check_language_hear(language))
+			return TRUE
+	//Caustic Edit End
 
 /mob/living/carbon/human/canBeHandcuffed()
 	if(get_num_arms(FALSE) >= 2)

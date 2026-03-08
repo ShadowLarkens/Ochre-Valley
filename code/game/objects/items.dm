@@ -803,6 +803,16 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	else
 		if(twohands_required)
 			wield(user)
+	
+	//Caustic Edit - Ported over from Chompers/Virgo! This handles possessed items.
+	if(src.possessed_voice && src.possessed_voice.len > 1 && !(user.ckey in warned_of_possession)) // CHOMPEdit Is this item possessed?
+		warned_of_possession |= user.ckey
+		tgui_alert_async(user,{"
+		THIS ITEM IS POSSESSED BY A PLAYER CURRENTLY IN THE ROUND. This could be by anomalous means or otherwise.
+		If this is not something you wish to partake in, it is highly suggested you place the item back down.
+		If this is fine to you, ensure that the other player is fine with you doing things to them beforehand!
+		"},"OOC Warning")
+	//Caustic Edit End
 
 /atom/proc/ontable()
 	if(!isturf(src.loc))

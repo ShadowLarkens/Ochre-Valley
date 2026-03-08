@@ -27,7 +27,7 @@
 	obj_damage = 0
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	ventcrawler = VENTCRAWLER_ALWAYS
-	mob_size = MOB_SIZE_TINY
+	mob_size = MOB_TINY
 	movement_type = FLYING
 	speak_emote = list("squeaks")
 	base_intents = list(/datum/intent/bite)

@@ -14,6 +14,10 @@
 	GLOB.mob_living_list += src
 	init_faith()
 
+	//Caustic Edit - Add Spontaneous Vore element
+	AddElement(/datum/element/spontaneous_vore)
+	//Caustic Edit End
+
 /mob/living/Destroy()
 	surgeries = null
 	if(LAZYLEN(status_effects))
@@ -262,10 +266,18 @@
 	///Caustic edit
 	if(ishuman(M) && ishuman(src))
 		var/mob/living/carbon/human/srchuman = src
-		if(srchuman.handle_micro_bump_helping(M))
-			forceMove(M.loc)
-			now_pushing = FALSE
-			return TRUE
+		var/mob/living/target = M
+		if(!cmode && !target.cmode)
+			if(((istype(a_intent, INTENT_HELP) || get_active_held_item() || src.restrained()) && (istype(target.a_intent, INTENT_HELP) || target.get_active_held_item() || target.restrained())) && !target.IsImmobilized() && srchuman.handle_micro_bump_helping(target))
+				forceMove(target.loc)
+				now_pushing = FALSE
+				return TRUE
+			
+			if(!(istype(target.a_intent, INTENT_HELP) || target.get_active_held_item() || target.restrained()))
+				if(step_mechanics_pref && target.step_mechanics_pref)
+					if(handle_micro_bump_other(target)) return
+				else
+					if(handle_micro_bump_other(target,1)) return
 	///Caustic edit end
 	//okay, so we didn't switch. but should we push?
 	//not if he's not CANPUSH of course
@@ -309,7 +321,7 @@
 		return TRUE
 	if(moving_diagonally)// no pushing during diagonal moves.
 		return TRUE
-	if(!client && (mob_size < MOB_SIZE_SMALL))
+	if(!client && (mob_size < MOB_SMALL))
 		return
 	now_pushing = TRUE
 	var/t = get_dir(src, AM)
@@ -1157,6 +1169,11 @@
 			if(riding_datum)
 				for(var/mob/M in buckled_mobs)
 					riding_datum.force_dismount(M)
+	//Caustic Edit - Allow absorbed resistance
+	else if(absorbed && isbelly(loc))
+		var/obj/belly/B = loc
+		B.relay_absorbed_resist(src)
+	//Caustic Edit End
 
 /mob/living/proc/submit(instant = FALSE)
 	set name = "Yield"

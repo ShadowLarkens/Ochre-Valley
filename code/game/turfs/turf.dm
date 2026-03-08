@@ -315,9 +315,9 @@
 	var/mov_name = A.name
 	for(var/i in contents)
 		var/atom/thing = i
-		if(isliving(thing) && isliving(A) && A != thing)
+		/*if(isliving(thing) && isliving(A) && A != thing) //Caustic Edit - Attempting to do Spontaneous Vore the Chompers way
 			var/mob/living/livingA = A
-			livingA.spontaneous_vore_attackby(thing, livingA)
+			livingA.spontaneous_vore_attackby(thing, livingA)*/
 		flags |= thing.intercept_zImpact(A, levels)
 		if(flags & FALL_STOP_INTERCEPTING)
 			break
