@@ -66,7 +66,7 @@ export const AppearanceChanger = () => {
   return (
     <Window width={700} height={650}>
       <Window.Content>
-        <Tabs>
+        <Tabs height="10%">
           <Tabs.Tab selected={tabIndex === 0} onClick={() => setTabIndex(0)}>
             Colors and Gradients
           </Tabs.Tab>
@@ -95,7 +95,7 @@ export const AppearanceChanger = () => {
             Genitals
           </Tabs.Tab>
         </Tabs>
-        <Box height="100%">
+        <Box height="90%">
           {tabIndex === 0 ? <AppearanceChangerColor /> : null}
           {tabIndex === 1 ? <AppearanceChangerHair /> : null}
           {tabIndex === 2 ? <AppearanceChangerFacialHair />: null}
