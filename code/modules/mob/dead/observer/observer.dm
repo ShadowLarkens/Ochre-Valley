@@ -466,7 +466,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(!mind || QDELETED(mind.current))
 		to_chat(src, span_warning("I have no body."))
 		return
-	if(!can_reenter_corpse)
+	if(!can_reenter_corpse || vore_death) //OV Edit
 		to_chat(src, span_warning("I cannot re-enter my body."))
 		return
 	if(mind.current.key && copytext(mind.current.key,1,2)!="@")	//makes sure we don't accidentally kick any clients
