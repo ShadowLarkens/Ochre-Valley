@@ -547,6 +547,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	grid_height = 64
 	grid_width = 32
+	allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/bullet //OV Add: Lets bullet pouches bullet
 
 /obj/item/quiver/bulletpouch/attack_turf(turf/T, mob/living/user)
 	if(arrows.len >= max_storage)
