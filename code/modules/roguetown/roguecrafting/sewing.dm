@@ -1831,7 +1831,7 @@
 /////////////////////////////////
 
 /datum/crafting_recipe/roguetown/sewing/tailor
-	always_availible = FALSE
+	always_availible = TRUE // CC Edit: Drip readded
 
 /datum/crafting_recipe/roguetown/sewing/tailor/naledisash
 	name = "hierophant's sash"
