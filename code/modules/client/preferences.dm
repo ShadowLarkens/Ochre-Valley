@@ -676,10 +676,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			//Character directory
 			
 			dat += "<br><br><b>Show In Directory:</b> <a href='?_src_=prefs;preference=show_in_directory;task=input'>[show_in_directory ? "Yes" : "No"]</a>"
-			dat += "<br><b>Vore Pref Tag:</b> <a href='?_src_=prefs;preference=directory_tag;task=input'>[directory_tag]</a>"
-			dat += "<br><b>ERP Pref Tag:</b> <a href='?_src_=prefs;preference=directory_erptag;task=input'>[directory_erptag]</a>"
-			dat += "<br><b>Gender Tag:</b> <a href='?_src_=prefs;preference=directory_gendertag;task=input'>[directory_gendertag]</a>"
-			dat += "<br><b>Sexuality Tag:</b> <a href='?_src_=prefs;preference=directory_sexualitytag;task=input'>[directory_sexualitytag]</a>"
+			dat += "<br><b>Vore Pref Tag:</b> <a href='?_src_=prefs;preference=directory_tag;task=input'>[directory_tag || "Unset"]</a>"
+			dat += "<br><b>ERP Pref Tag:</b> <a href='?_src_=prefs;preference=directory_erptag;task=input'>[directory_erptag || "Unset"]</a>"
+			dat += "<br><b>Gender Tag:</b> <a href='?_src_=prefs;preference=directory_gendertag;task=input'>[directory_gendertag || "Unset"]</a>"
+			dat += "<br><b>Sexuality Tag:</b> <a href='?_src_=prefs;preference=directory_sexualitytag;task=input'>[directory_sexualitytag || "Unset"]</a>"
 			dat += "<br><b>Directory Ad:</b> <a href='?_src_=prefs;preference=directory_ad;task=input'>Set</a>"
 			dat += "</td>"
 			dat += "</td>"
@@ -2717,6 +2717,14 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				//OV edit
 				if("show_in_directory")
 					show_in_directory = !show_in_directory
+					if(!directory_erptag)
+						directory_erptag = "Unset"
+					if(!directory_tag)
+						directory_tag = "Unset"
+					if(!directory_gendertag)
+						directory_gendertag = "Unset"
+					if(!directory_sexualitytag)
+						directory_sexualitytag = "Unset"
 				if("directory_tag")
 					var/new_choice = tgui_input_list(user, "Choose a vore preference:", "Directory Tag", GLOB.char_directory_tags)
 					if(new_choice)
