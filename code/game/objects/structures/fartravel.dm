@@ -27,8 +27,8 @@
 	if(alert("Are you sure you want to [departing_mob == user ? "depart the round for good (you" : "send this person away (they"] will be removed from the current round, and their role's slot will reopen for another to take)?", "Departing", "Confirm", "Cancel") != "Confirm")
 		return
 	//OV Edit Start: Prompt commend when leaving round
-	if(departing_mob == user && user.client.can_commend(TRUE))
-		user.client.commendsomeone()
+	if(departing_mob == user)
+		user.client.commendsomeone(forced = TRUE)
 	//OV Edit End
 	if(user.incapacitated() || QDELETED(departing_mob) || (departing_mob != user && departing_mob.client) || get_dist(src, dropping) > 2 || get_dist(src, user) > 2)
 		return //Things have changed since the alert happened.
