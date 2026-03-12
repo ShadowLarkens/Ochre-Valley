@@ -3214,6 +3214,7 @@
 #include "modular_ochrevalley\code\datums\loadout\loadout_accessories.dm"
 #include "modular_ochrevalley\code\datums\loadout\loadout_hats.dm"
 #include "modular_ochrevalley\code\modules\jobs\job_types\roguetown\adventurer\types\combat\spellblade_pre_rework.dm"
+#include "modular_ochrevalley\code\modules\mob\mob_helpers.dm"
 #include "modular_ochrevalley\code\modules\mob\dead\new_player\sprite_accessory\antennas.dm"
 #include "modular_ochrevalley\code\modules\mob\dead\new_player\sprite_accessory\wings.dm"
 #include "modular_ochrevalley\code\modules\mob\living\carbon\human\hand_games.dm"
