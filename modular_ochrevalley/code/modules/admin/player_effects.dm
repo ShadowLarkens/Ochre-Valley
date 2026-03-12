@@ -680,6 +680,36 @@
 
 		////////ABILITIES//////////////
 
+		if("spell_buffs")
+			var/mob/living/carbon/human/Tar = target
+			if(!istype(Tar))
+				return
+			Tar.admin_buff(user, "spell")
+			
+		if("order_buffs")
+			var/mob/living/carbon/human/Tar = target
+			if(!istype(Tar))
+				return
+			Tar.admin_buff(user, "order")
+		
+		if("divine_buffs")
+			var/mob/living/carbon/human/Tar = target
+			if(!istype(Tar))
+				return
+			Tar.admin_buff(user, "divine")
+		
+		if("song_buffs")
+			var/mob/living/carbon/human/Tar = target
+			if(!istype(Tar))
+				return
+			Tar.admin_buff(user, "song")
+		
+		if("general_buffs")
+			var/mob/living/carbon/human/Tar = target
+			if(!istype(Tar))
+				return
+			Tar.admin_buff(user, "general")
+
 		/*
 		if("vent_crawl")
 			var/mob/living/Tar = target

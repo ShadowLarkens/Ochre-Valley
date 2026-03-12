@@ -39,7 +39,7 @@ export const PlayerEffects = (props) => {
             Medical
           </Tabs.Tab>
           <Tabs.Tab selected={tab === 2} onClick={() => setTab(2)}>
-            Abilities
+            Effects
           </Tabs.Tab>
           <Tabs.Tab selected={tab === 3} onClick={() => setTab(3)}>
             Inventory
