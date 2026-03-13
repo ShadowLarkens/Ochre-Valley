@@ -1102,6 +1102,13 @@
 		if("stop-orbits")
 			if(target.orbiters)
 				qdel(target.orbiters)
+		
+		if("clear_all_status")
+			var/mob/living/carbon/human/Tar = target
+			if(!istype(Tar))
+				return
+			for(var/datum/status_effect/our_status in Tar.status_effects)
+				our_status.Destroy()
 
 		/*
 		if("revert-mob-tf")

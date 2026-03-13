@@ -13,6 +13,9 @@ export const ControlFixes = (props) => {
       <Button fluid onClick={() => act('popup-box')}>
         Send Message Box
       </Button>
+      <Button fluid onClick={() => act('clear_all_status')}>
+        Clear All Status
+      </Button>
     </Section>
   );
 };
