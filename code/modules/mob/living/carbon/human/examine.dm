@@ -88,10 +88,13 @@
 		var/displayed_headshot
 		var/datum/antagonist/vampire/vampireplayer = src.mind?.has_antag_datum(/datum/antagonist/vampire)
 		var/datum/antagonist/lich/lichplayer = src.mind?.has_antag_datum(/datum/antagonist/lich)
+		var/datum/antagonist/werewolf/werewolfplayer = src.mind?.has_antag_datum(/datum/antagonist/werewolf) // OC Add var
 		if(vampireplayer && (!SEND_SIGNAL(src, COMSIG_DISGUISE_STATUS))&& !isnull(vampire_headshot_link)) //vampire with their disguise down and a valid headshot
 			displayed_headshot = src.vampire_headshot_link
 		else if (lichplayer && !isnull(src.lich_headshot_link))//Lich with a valid headshot
 			displayed_headshot = src.lich_headshot_link
+		else if (werewolfplayer && (werewolfplayer.transformed || istype(src, /mob/living/carbon/human/species/werewolf)) && !isnull(src.werewolf_headshot_link)) //Werewolf with a valid headshot && transformed // OC Add ELSE IF WEREWOLF
+			displayed_headshot = src.werewolf_headshot_link
 		else
 			displayed_headshot = src.headshot_link
 
@@ -143,7 +146,7 @@
 		if(HAS_TRAIT(src, TRAIT_WITCH))
 			if(HAS_TRAIT(user, TRAIT_NOBLE) || HAS_TRAIT(user, TRAIT_INQUISITION) || HAS_TRAIT(user, TRAIT_WITCH))
 				. += span_warning("A witch! Their presence brings an unsettling aura.")
-			else if(HAS_TRAIT(user, TRAIT_COMMIE) || HAS_TRAIT(user, TRAIT_CABAL) || HAS_TRAIT(user, TRAIT_HORDE) || HAS_TRAIT(user, TRAIT_DEPRAVED))
+			else if(HAS_TRAIT(user, TRAIT_FREEMAN) || HAS_TRAIT(user, TRAIT_CABAL) || HAS_TRAIT(user, TRAIT_HORDE) || HAS_TRAIT(user, TRAIT_DEPRAVED))
 				. += span_notice("A practitioner of the old ways.")
 			else
 				. += span_notice("Something about them seems... different.")
@@ -151,11 +154,19 @@
 		if(HAS_TRAIT(src, TRAIT_FERAL))
 			if(HAS_TRAIT(user, TRAIT_NOBLE) || HAS_TRAIT(user, TRAIT_INQUISITION) || HAS_TRAIT(user, TRAIT_WITCH))
 				. += span_warning("A savage wild-folk! Dangerous to let one's guard down around.")
-			else if(HAS_TRAIT(user, TRAIT_COMMIE) || HAS_TRAIT(user, TRAIT_CABAL) || HAS_TRAIT(user, TRAIT_HORDE) || HAS_TRAIT(user, TRAIT_DEPRAVED))
+			else if(HAS_TRAIT(user, TRAIT_FREEMAN) || HAS_TRAIT(user, TRAIT_CABAL) || HAS_TRAIT(user, TRAIT_HORDE) || HAS_TRAIT(user, TRAIT_DEPRAVED))
 				. += span_notice("A denizen of the wilds.")
 			else
 				. += span_notice("Something about them seems... predatory.")
 // Caustic Edit End
+// OV Edit Start
+		if(werewolfplayer && (werewolfplayer.transformed || istype(src, /mob/living/carbon/human/species/werewolf)))
+			if(werewolfplayer.wolfdesc_cached && length(werewolfplayer.wolfdesc_cached))
+				// . += span_details("Werewolf RP Description",werewolfplayer.wolfdesc_cached) // The #define is in 'modular_causticcove/__DEFINES/slop.dm' but its not loaded here! Will use a temp proc until then.
+				. += examine_span_details(span_info("Werewolf Description"),span_info(werewolfplayer.wolfdesc_cached))
+			else
+				. += span_danger("THE HOWL OF A MAD GOD SHAKES YOUR BONES! FLESH SHORN INTO VISCERA SPRAYS THE WALLS! RIP AND TEAR!") // Default 'npc' werewolf examine. Thought it seemed edgy enough.
+// OV Edit End
 		if(SSticker.rulermob == src)
 			. += span_notice("<b>The ruler of this land.</b>")
 		else if(GLOB.lord_titles[name])
@@ -815,6 +826,7 @@
 //			else if(!client)
 //				msg += "[m3] a blank, absent-minded stare and appears completely unresponsive to anything. [t_He] may snap out of it soon."
 
+
 	if(length(msg))
 		. += span_warning("[msg.Join("\n")]")
 
@@ -896,6 +908,17 @@
 			medical_text = "[heartbeat ? "[heartbeat] | " : ""]<a href='?src=[REF(src)];inspect_limb=[checked_zone]'>Inspect [parse_zone(checked_zone)]</a>"
 
 	. += medical_text
+
+	
+	//OV edit 
+	// VORE BELLY EXAMINES
+	var/list/vorestrings = list()
+	vorestrings += formatted_vore_examine()
+	for(var/entry in vorestrings)
+		if(entry == "" || entry == null)
+			vorestrings -= entry
+	. += vorestrings
+	//OV edit end
 
 	if(!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) && user != src)
 		if(isliving(user))
@@ -980,6 +1003,9 @@
 	if(!isnull(trait_exam))
 		. += trait_exam
 
+	if(pose_text)
+		. += fieldset_block("Pose", pose_text, "pose_block")
+
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user, .)
 
 /mob/living/proc/status_effect_examines(pronoun_replacement) //You can include this in any mob's examine() to show the examine texts of status effects!
@@ -1006,13 +1032,13 @@
 	if(HAS_TRAIT(examiner, TRAIT_HERETIC_SEER))
 		seer = TRUE
 
-	if(HAS_TRAIT(src, TRAIT_COMMIE))
+	if(HAS_TRAIT(src, TRAIT_FREEMAN))
 		if(seer)
-			heretic_text += "Matthiosan."
-			if(HAS_TRAIT(examiner, TRAIT_COMMIE))
+			heretic_text += "Matthiosian."
+			if(HAS_TRAIT(examiner, TRAIT_FREEMAN))
 				heretic_text += " To share with. To take with. For all, and us."
-		else if(HAS_TRAIT(examiner, TRAIT_COMMIE))
-			heretic_text += "Comrade!"
+		else if(HAS_TRAIT(examiner, TRAIT_FREEMAN))
+			heretic_text += "Fellow Free Man!"
 	else if((HAS_TRAIT(src, TRAIT_CABAL)))
 		if(seer)
 			heretic_text += "A member of Zizo's cabal."
@@ -1036,7 +1062,7 @@
 	var/heretic_text
 	if(HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 		return
-	if(HAS_TRAIT(src, TRAIT_COMMIE) && HAS_TRAIT(examiner, TRAIT_COMMIE))
+	if(HAS_TRAIT(src, TRAIT_FREEMAN) && HAS_TRAIT(examiner, TRAIT_FREEMAN))
 		heretic_text += "⚖️" //♠ is the original
 	//Defunct as of *fsalute changes, leaving here as a symbol reference.
 	/*else if(HAS_TRAIT(src, TRAIT_CABAL) && HAS_TRAIT(examiner, TRAIT_CABAL))
@@ -1086,7 +1112,7 @@
 	var/villain_text
 	if(mind)
 		if(mind.special_role == "Bandit")
-			if(HAS_TRAIT(examiner, TRAIT_COMMIE))
+			if(HAS_TRAIT(examiner, TRAIT_FREEMAN))
 				villain_text = span_notice("Free man!")
 			if(HAS_TRAIT(src,TRAIT_KNOWNCRIMINAL))
 				villain_text = span_userdanger("BANDIT!")

@@ -61,6 +61,7 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	var/datum/spawners_menu/spawners_menu
 	var/ghostize_time = 0
 	move_resist = INFINITY
+	var/vore_death = FALSE //OV ADD - Used for permanent reformation portals
 
 /mob/dead/observer/rogue
 //	see_invisible = SEE_INVISIBLE_LIVING
@@ -462,10 +463,10 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set hidden = 1
 	if(!client)
 		return
-	if(!mind || QDELETED(mind.current))
+	if(!mind || QDELETED(mind.current) || vore_death) //OV EDIT
 		to_chat(src, span_warning("I have no body."))
 		return
-	if(!can_reenter_corpse)
+	if(!can_reenter_corpse || vore_death) //OV Edit
 		to_chat(src, span_warning("I cannot re-enter my body."))
 		return
 	if(mind.current.key && copytext(mind.current.key,1,2)!="@")	//makes sure we don't accidentally kick any clients
@@ -479,6 +480,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	client.change_view(CONFIG_GET(string/default_view))
 	client?.verbs -= GLOB.ghost_verbs
 	SStgui.on_transfer(src, mind.current) // Transfer NanoUIs.
+	mind.current.aghosted = null //OV ADD
 	mind.current.key = key
 	return TRUE
 
@@ -1106,3 +1108,26 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 			client.images += t_ray_images
 		else
 			client.images -= stored_t_ray_images
+
+//OV edit
+/mob/dead/observer/proc/find_vore_respawn()
+	if(!isobserver(src)) //Make sure they're an observer!
+		return
+	
+	var/list/respawn_portals = list()
+
+	for(var/obj/structure/respawn_portal/permanent/our_portal in GLOB.reformation_portals)
+		respawn_portals += our_portal
+
+	if(!respawn_portals.len)
+		to_chat(src, span_warning("No permanent reformation portals have been found."))
+		return
+	
+	var/where_to_spawn = tgui_input_list(src, "Which portal do you wish to move to?", "Reformation Portals", respawn_portals)
+
+	if(!where_to_spawn)
+		return
+	
+	var/move_me = get_turf(where_to_spawn)
+	forceMove(move_me)
+//OV edit end

@@ -21,16 +21,16 @@
 
 	var/del_on_unbuckle_all = FALSE
 
-/datum/component/riding/no_ocean/Initialize()//no copy paste
-	. = ..()
-	forbid_turf_typecache = typecacheof(/turf/open/water/ocean/deep)
-
 /datum/component/riding/Initialize()
 	if(!ismovableatom(parent))
 		return COMPONENT_INCOMPATIBLE
 	RegisterSignal(parent, COMSIG_MOVABLE_BUCKLE, PROC_REF(vehicle_mob_buckle))
 	RegisterSignal(parent, COMSIG_MOVABLE_UNBUCKLE, PROC_REF(vehicle_mob_unbuckle))
 	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(vehicle_moved))
+
+/datum/component/riding/no_ocean/Initialize()//no copy paste
+	. = ..()
+	forbid_turf_typecache = typecacheof(/turf/open/water/ocean/deep)
 
 /datum/component/riding/proc/vehicle_mob_unbuckle(datum/source, mob/living/M, force = FALSE)
 	var/atom/movable/AM = parent
@@ -118,11 +118,40 @@
 							x2off = diroffsets[1]
 							if(diroffsets.len >= 2)
 								y2off = diroffsets[2]
+							if(passindex > 1)
+								if(AM.dir == EAST)
+									x2off -= 10
+								else if(AM.dir == WEST)
+									x2off += 10
+							if(passindex == 1 && length(AM.buckled_mobs) > 1)
+								if(AM.dir == EAST)
+									x2off += 2
+								else if(AM.dir == WEST)
+									x2off -= 2
 							if(diroffsets.len == 3)
 								buckled_mob.layer = diroffsets[3]
+							else
+								if(AM.dir == SOUTH)
+									// South: passenger < rider < mount
+									if(passindex == 1)
+										buckled_mob.layer = MOB_LAYER
+									else
+										buckled_mob.layer = BELOW_MOB_LAYER
+								else if(AM.dir == NORTH)
+									// North: driver > mount, passenger > driver
+									if(passindex == 1)
+										buckled_mob.layer = ABOVE_MOB_LAYER
+									else
+										buckled_mob.layer = ABOVE_ALL_MOB_LAYER
+								else
+									// East/West: driver > passenger
+									if(passindex == 1)
+										buckled_mob.layer = ABOVE_MOB_LAYER
+									else
+										buckled_mob.layer = MOB_LAYER
 							buckled_mob.set_mob_offsets("riding", _x = x2off, _y = y2off)
 							break dir_loop
-	var/list/static/default_vehicle_pixel_offsets = list(TEXT_NORTH = list(0, 0), TEXT_SOUTH = list(0, 0), TEXT_EAST = list(0, 0), TEXT_WEST = list(0, 0))
+//	var/list/static/default_vehicle_pixel_offsets = list(TEXT_NORTH = list(0, 0), TEXT_SOUTH = list(0, 0), TEXT_EAST = list(0, 0), TEXT_WEST = list(0, 0)) //OV REMOVE
 /*	var/px = default_vehicle_pixel_offsets[AM_dir]
 	var/py = default_vehicle_pixel_offsets[AM_dir]
 	if(directional_vehicle_offsets[AM_dir])
@@ -186,27 +215,25 @@
 		return
 	last_vehicle_move = world.time
 
-	if(keycheck(user))
-		var/turf/next = get_step(AM, direction)
-		var/turf/current = get_turf(AM)
-		if(!istype(next) || !istype(current))
-			return	//not happening.
-		if(!turf_check(next, current))
-			to_chat(user, span_warning("My [AM] can not go onto [next]!"))
-			return
-		if(!isturf(AM.loc))
-			return
-		step(AM, direction)
-
-		if((direction & (direction - 1)) && (AM.loc == next))		//moved diagonally
-			last_move_diagonal = TRUE
-		else
-			last_move_diagonal = FALSE
-
-		handle_vehicle_layer()
-		handle_vehicle_offsets()
-	else
+	if(!keycheck(user))
 		to_chat(user, span_warning("You'll need the keys in one of my hands to [drive_verb] [AM]."))
+		return TRUE
+	var/turf/next = get_step(AM, direction)
+	var/turf/current = get_turf(AM)
+	if(!istype(next) || !istype(current))
+		return
+	if(!turf_check(next, current))
+		to_chat(user, span_warning("My [AM] can not go onto [next]!"))
+		return
+	if(!isturf(AM.loc))
+		return
+	step(AM, direction)
+	if((direction & (direction - 1)) && (AM.loc == next))
+		last_move_diagonal = TRUE
+	else
+		last_move_diagonal = FALSE
+	handle_vehicle_layer()
+	handle_vehicle_offsets()
 	return TRUE
 
 /datum/component/riding/proc/Unbuckle(atom/movable/M)
@@ -288,6 +315,42 @@
 	user.Paralyze(60)
 	user.visible_message(span_warning("[AM] pushes [user] off of [AM.p_them()]!"), \
 						span_warning("[AM] pushes me off of [AM.p_them()]!"))
+
+//OV edit
+/datum/component/riding/human/handle_vehicle_offsets()
+	var/atom/movable/AM = parent
+	var/AM_dir = "[AM.dir]"
+	var/passindex = 0
+	var/has_fixedeye = FALSE
+	if(AM.has_buckled_mobs())
+		for(var/m in AM.buckled_mobs)
+			if(ishuman(m))
+				var/mob/living/carbon/human/H = m
+				if(H.fixedeye)
+					has_fixedeye = TRUE
+			passindex++
+			var/mob/living/buckled_mob = m
+			var/list/offsets = get_offsets(passindex)
+			var/rider_dir = get_rider_dir(passindex)
+			var/our_scale = buckled_mob.size_multiplier()
+			var/y_scale_math = ((-16*our_scale)+16)
+			if(!has_fixedeye)
+				buckled_mob.setDir(rider_dir)
+				dir_loop:
+					for(var/offsetdir in offsets)
+						if(offsetdir == AM_dir)
+							var/list/diroffsets = offsets[offsetdir]
+							var/x2off
+							var/y2off
+							x2off = diroffsets[1]
+							if(diroffsets.len >= 2)
+								y2off = diroffsets[2]
+							if(diroffsets.len == 3)
+								buckled_mob.layer = diroffsets[3]
+							y2off += y_scale_math
+							buckled_mob.set_mob_offsets("riding", _x = x2off, _y = y2off)
+							break dir_loop
+//OV edit end
 
 /datum/component/riding/cyborg
 	del_on_unbuckle_all = TRUE

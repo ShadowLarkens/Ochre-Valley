@@ -810,6 +810,10 @@
 	max_integrity = 300
 	dir = SOUTH
 
+/obj/structure/fluff/statue/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right-click to access your personal stash. This not only contains the loadout you might've asseembled in the character creation menu, but virtue- and role-specific items as well.")
+
 /obj/structure/fluff/statue/Initialize()
 	. = ..()
 	var/static/list/loc_connections = list(COMSIG_ATOM_EXIT = PROC_REF(on_exit))
@@ -1088,7 +1092,7 @@
 	)
 
 /obj/structure/fluff/statue/evil/attackby(obj/item/W, mob/user, params)
-	if(!HAS_TRAIT(user, TRAIT_COMMIE))
+	if(!HAS_TRAIT(user, TRAIT_FREEMAN))
 		return
 	var/donatedamnt = W.get_real_price()
 	if(user.mind)
@@ -1186,7 +1190,7 @@
 	. = ..()
 	var/mob/living/carbon/H = user
 	if(user.mind?.antag_datums)
-		if(living_player_count() <= 25) //Only works if less than 25 people in a round. Otherwise good fucking luck lol
+		if(living_player_count() <= 999) //Only works if less than 25 people in a round. Otherwise good fucking luck lol // OV Edit: raised to 999
 			for(var/datum/antagonist/D in user.mind?.antag_datums)
 				if(istype(D, /datum/antagonist/zombie))
 					to_chat(H, span_warning("I press my palm to the cross and focus..."))

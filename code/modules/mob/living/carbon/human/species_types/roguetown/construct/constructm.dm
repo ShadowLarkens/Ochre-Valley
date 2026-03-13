@@ -17,7 +17,7 @@
 	skin_tone_wording = "Material"
 	use_skin_tone_wording_for_examine = FALSE
 	default_color = "FFFFFF"
-	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,NOBLOOD)
+	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,NOBLOOD,MUTCOLORS) //OV EDIT
 	///Caustic edit
 	allowed_taur_types = list(
 		/obj/item/bodypart/taur/lamia,

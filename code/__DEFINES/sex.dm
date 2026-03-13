@@ -76,7 +76,7 @@ GLOBAL_LIST_EMPTY(locked_sex_objects)
 #define CHARGE_FOR_CLIMAX 100
 #define AROUSAL_HARD_ON_THRESHOLD 20
 #define CHARGE_RECHARGE_RATE (CHARGE_FOR_CLIMAX / (2 MINUTES))
-#define AROUSAL_TIME_TO_UNHORNY (5 SECONDS)
+#define AROUSAL_TIME_TO_UNHORNY (10 SECONDS)
 #define SPENT_AROUSAL_RATE (3 / (1 SECONDS))
 #define IMPOTENT_AROUSAL_LOSS_RATE (3 / (1 SECONDS))
 
@@ -105,12 +105,15 @@ GLOBAL_LIST_EMPTY(locked_sex_objects)
 	)
 
 #define PENIS_SIZES_BY_NAME list(\
-	"Small" = SMALL_PENIS_SIZE,\
-	"Average" = NORMAL_PENIS_SIZE,\
+	"Small" = MIN_PENIS_SIZE,\
+	"Average" = DEFAULT_PENIS_SIZE,\
 	"Large" = LARGE_PENIS_SIZE,\
 	"Massive" = MASSIVE_PENIS_SIZE,\
 	"Enormous" = ENORMOUS_PENIS_SIZE,\
 	)
+
+#define EARS_NORMAL 0
+#define EARS_SENSITIVE 1 //Should this be used for ANYTHING else - move it. / Also only works on ANTHROS for some reason
 
 #define TESTICLE_SIZES list(\
 	SMALL_TESTICLES_SIZE,\

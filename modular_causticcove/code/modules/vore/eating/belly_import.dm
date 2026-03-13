@@ -21,7 +21,6 @@
 	var/list/valid_names = list()
 	var/list/valid_lists = list()
 	var/list/updated = list()
-
 	for(var/list/raw_list in input_data)
 		if(length(valid_names) >= BELLIES_MAX)
 			break
@@ -582,6 +581,15 @@
 				new_belly.item_digest_logs = FALSE
 			if(new_item_digest_logs == 1)
 				new_belly.item_digest_logs = TRUE
+
+		//OV edit		
+		if(isnum(belly_data["hidden_by_armor"]))
+			var/new_hidden_by_armor = belly_data["hidden_by_armor"]
+			if(new_hidden_by_armor == 0)
+				new_belly.hidden_by_armor = FALSE
+			if(new_hidden_by_armor == 1)
+				new_belly.hidden_by_armor = TRUE
+		//OV edit end
 
 		if(istext(belly_data["selective_preference"]))
 			var/new_selective_preference = belly_data["selective_preference"]

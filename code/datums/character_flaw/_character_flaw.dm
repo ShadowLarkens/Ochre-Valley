@@ -251,6 +251,14 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		if(world.time > next_check)
 			next_check = world.time + interval
 			var/cnt = 0
+			//OV edit - If you have prey or are in prey, always count as having 1 person nearby (no matter how many you've eaten)
+			for(var/obj/belly/our_belly in user.vore_organs)
+				for(var/mob/living/our_prey in our_belly.contents)
+					if(our_prey.client)
+						cnt = 1
+			if(istype(user.loc,/obj/belly))
+				cnt = 1
+			//OV edit end
 			for(var/mob/living/carbon/human/L in get_hearers_in_view(6, user, RECURSIVE_CONTENTS_CLIENT_MOBS))
 				if(L == user)
 					continue
@@ -289,6 +297,18 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		if(world.time > next_check)
 			next_check = world.time + interval
 			var/cnt = 0
+			//OV edit - Always pass if there's vore
+			for(var/obj/belly/our_belly in user.vore_organs)
+				if(cnt > 3)
+					break
+				for(var/mob/living/our_prey in our_belly.contents)
+					if(our_prey.client)
+						cnt++
+						if(cnt > 3)
+							break
+			if(istype(user.loc,/obj/belly))
+				cnt++
+			//OV edit end
 			for(var/mob/living/carbon/human/L in get_hearers_in_view(7, user, RECURSIVE_CONTENTS_CLIENT_MOBS))
 				if(L == user)
 					continue
@@ -344,6 +364,20 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			next_check = world.time + interval
 			var/cnt = 0
 			var/distfound = FALSE
+			//OV edit - Always remove stress if there's vore, can't get clingier than that
+			for(var/obj/belly/our_belly in user.vore_organs)
+				for(var/mob/living/our_prey in our_belly.contents)
+					if(our_prey.client)
+						cnt++
+						distfound = TRUE
+						user.remove_stress(/datum/stressevent/nopeople)
+						if(cnt >= 2)
+							break
+			if(istype(user.loc,/obj/belly))
+				distfound = TRUE
+				user.remove_stress(/datum/stressevent/nopeople)
+				cnt++
+			//OV edit end
 			for(var/mob/living/carbon/human/L in get_hearers_in_view(2, user))
 				if(L == user)
 					continue
@@ -443,7 +477,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		return
 	var/datum/job/gnoll_job = SSjob.GetJob("Gnoll")
 	var/total_gnoll_positions = gnoll_job.total_positions
-	var/gnoll_increase = get_gnoll_slot_increase(total_gnoll_positions)
+	var/gnoll_increase = SSgnoll_scaling.get_gnoll_slot_increase(total_gnoll_positions)
 
 	if(gnoll_increase >= 1)
 		to_chat(user, span_notice("I have offended graggarite agents, and they may be tracking my scent."))

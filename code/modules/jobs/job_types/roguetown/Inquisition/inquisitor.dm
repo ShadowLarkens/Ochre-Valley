@@ -17,7 +17,7 @@
 	display_order = JDO_INQUISITOR
 	advclass_cat_rolls = list(CTAG_INQUSITOR = 20)
 	give_bank_account = 30
-	min_pq = null //10
+	min_pq = 10 //OV EDIT
 	max_pq = null
 	round_contrib_points = 2
 	job_subclasses = list(
@@ -89,7 +89,7 @@
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 	backr =  /obj/item/storage/backpack/rogue/satchel/otavan
 	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-	beltr = /obj/item/quiver/bolts
+	beltr = /obj/item/quiver/bolt/standard
 	head = /obj/item/clothing/head/roguetown/inqhat
 	mask = /obj/item/clothing/mask/rogue/spectacles/inq/spawnpair
 	gloves = /obj/item/clothing/gloves/roguetown/otavan/psygloves

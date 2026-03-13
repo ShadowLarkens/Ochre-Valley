@@ -130,6 +130,17 @@
 		var/obj/item/bodypart/CBP = def_zone
 		def_zone = CBP.body_zone
 	var/list/body_parts = list(skin_armor, head, wear_mask, wear_wrists, wear_shirt, wear_neck, cloak, wear_armor, wear_pants, backr, backl, gloves, shoes, belt, s_store, glasses, ears, wear_ring) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
+	if(istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/skin_armor/natural_armor))
+		var/obj/item/clothing/suit/roguetown/armor/skin_armor/natural_armor/C = skin_armor
+		if(C.obj_integrity > 1)
+			switch(C.prevent_crits)
+				if(PREVENT_CRITS_NONE)
+					return FALSE
+				if(PREVENT_CRITS_ALL)
+					return TRUE
+				if(PREVENT_CRITS_MOST)
+					if(bclass != BCLASS_PICK)
+						return TRUE
 	for(var/bp in body_parts)
 		if(!bp)
 			continue
@@ -200,7 +211,9 @@
 			P.on_hit(src, 100, def_zone)
 			return BULLET_ACT_HIT
 
-	retaliate(P.firer)
+	var/mob/living/attacker = P?.firer
+	if(attacker)
+		retaliate(attacker)
 	return ..(P, def_zone)
 
 /mob/living/carbon/human/proc/check_reflect(def_zone) //Reflection checks for anything in my l_hand, r_hand, or wear_armor based on the reflection chance of the object
@@ -859,6 +872,12 @@
 				def_zone = BODY_ZONE_L_LEG
 			if(BODY_ZONE_PRECISE_R_FOOT)
 				def_zone = BODY_ZONE_R_LEG
+	if(istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/skin_armor/natural_armor)) //Always return early if natural armor is present, it doesn't allow other armors to work
+		var/obj/item/clothing/suit/roguetown/armor/skin_armor/natural_armor/C = skin_armor
+		if(C.obj_integrity > 0)
+			used = C
+			return used
+		return //return null if no armor
 	var/list/body_parts = list(skin_armor, head, wear_mask, wear_wrists, gloves, wear_neck, cloak, wear_armor, wear_shirt, shoes, wear_pants, backr, backl, belt, s_store, glasses, ears, wear_ring) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
 	for(var/bp in body_parts)
 		if(!bp)
@@ -892,6 +911,14 @@
 				def_zone = BODY_ZONE_L_LEG
 			if(BODY_ZONE_PRECISE_R_FOOT)
 				def_zone = BODY_ZONE_R_LEG
+	if(istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/skin_armor/natural_armor)) //Always return early if natural armor is present, it doesn't allow other armors to work
+		var/obj/item/clothing/suit/roguetown/armor/skin_armor/natural_armor/C = skin_armor
+		var/list/used_armor = list()
+		if(C.obj_integrity > 0)
+			var/val = C.armor.getRating(d_type)
+			if(val > 0)
+				used_armor[C] = C.armor.getRating(d_type)
+		return used_armor
 	var/list/body_parts = list(skin_armor, head, wear_mask, wear_wrists, gloves, wear_neck, cloak, wear_armor, wear_shirt, shoes, wear_pants, backr, backl, belt, s_store, glasses, ears, wear_ring) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
 	var/list/used_armor = list()
 	for(var/bp in body_parts)

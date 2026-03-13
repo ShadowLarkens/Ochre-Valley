@@ -10,7 +10,7 @@
 	allowed_races = ACCEPTED_RACES
 	allowed_patrons = ALL_DIVINE_PATRONS
 	outfit = /datum/outfit/job/roguetown/templar
-	min_pq = null //3 //Deus vult, but only according to the proper escalation rules
+	min_pq = 3 //OV EDIT
 	max_pq = null
 	round_contrib_points = 2
 	total_positions = 4
@@ -394,7 +394,7 @@
 			H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/silver, SLOT_ARMOR, TRUE)
 		if("Crossbow + Shortsword")
-			H.equip_to_slot_or_del(new /obj/item/quiver/bolts, SLOT_BELT_R, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/quiver/bolt/standard, SLOT_BELT_R, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/cuirass, SLOT_ARMOR, TRUE) //Cuirass, not halfplate. Slightly reduced starting armor.
 			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow(H))
 			H.put_in_hands(new /obj/item/rogueweapon/sword/short(H), TRUE)

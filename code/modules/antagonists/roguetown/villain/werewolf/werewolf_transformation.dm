@@ -34,21 +34,6 @@
 			H.werewolf_transform()
 			transforming = FALSE
 			transformed = TRUE // Mark as transformed
-		
-		else if(world.time >= transforming + 30 SECONDS) // play our evil ass sounds
-			if(world.time >= transforming + 34 SECONDS)
-				var/cried_for_dendor = FALSE
-				var/list/werewolf_cries = list('sound/effects/werewolf_sounds/wscream1.ogg',
-												'sound/effects/werewolf_sounds/wscream2.ogg',
-												'sound/effects/werewolf_sounds/wscream3.ogg',
-												'sound/effects/werewolf_sounds/wscream4.ogg',
-												'sound/effects/werewolf_sounds/wscream5.ogg')
-				var/pickedsound = pick(werewolf_cries) // BLEED YOU DRY
-				if(cried_for_dendor == FALSE)
-					playsound(H,pickedsound,200,FALSE)
-					cried_for_dendor = TRUE
-			H.Stun(30)
-			H.Knockdown(30)
 
 		else if (world.time >= transforming + 25 SECONDS) // Stage 2
 			
@@ -131,12 +116,14 @@
 	W.gender = gender
 	W.regenerate_icons()
 	W.stored_mob = src
-
+	W.werewolf_headshot_link = src.werewolf_headshot_link // OC Added Line
+	
 	// Set the werewolf's name from the antagonist datum
 	var/datum/antagonist/werewolf/Were = mind.has_antag_datum(/datum/antagonist/werewolf/)
 	if(Were)
 		W.real_name = Were.wolfname
 		W.name = Were.wolfname
+		Were.apply_verbs(W) // OC Edit: Adds Verbs line.
 	W.limb_destroyer = TRUE
 	W.ambushable = FALSE
 	var/list/dying_world = list('sound/music/cmode/antag/combat_dying_world.ogg' = 1,  // probably best if its not vocals all the time
@@ -238,6 +225,11 @@
 		B.owner = W
 	vore_organs.Cut()
 	// CC Edit End
+	// OV Edit Start
+	// var/datum/antagonist/werewolf/WW = mind?.has_antag_datum(/datum/antagonist/werewolf)
+	// if(WW)
+		// WW.apply_verbs(W)
+	// OV Edit End
 	W.RemoveSpell(new /obj/effect/proc_holder/spell/self/howl)
 	W.RemoveSpell(new /obj/effect/proc_holder/spell/self/claws)
 	W.RemoveSpell(new /obj/effect/proc_holder/spell/targeted/woundlick)

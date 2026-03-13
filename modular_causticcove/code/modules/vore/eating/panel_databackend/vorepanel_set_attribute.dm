@@ -515,6 +515,11 @@
 		if("b_item_digest_logs")
 			host.vore_selected.item_digest_logs = !host.vore_selected.item_digest_logs
 			. = TRUE
+		//OV edit
+		if("b_hidden_by_armor")
+			host.vore_selected.hidden_by_armor = !host.vore_selected.hidden_by_armor
+			. = TRUE
+		//OV edit end
 		if("b_bulge_size")
 			var/new_bulge = text2num(params["val"])
 			if(!isnum(new_bulge))

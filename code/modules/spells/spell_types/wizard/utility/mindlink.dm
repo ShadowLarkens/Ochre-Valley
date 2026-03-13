@@ -9,7 +9,7 @@
 	recharge_time = 3 MINUTES
 	spell_tier = 2
 	invocations = list("Mens Nexu")
-	invocation_type = "whisper"
+	invocation_type = "none" //OV EDIT
 
 	// Charged spell variables
 	chargedloop = /datum/looping_sound/invokegen
@@ -20,7 +20,7 @@
 	movement_interrupt = FALSE
 	charging_slowdown = 2
 	warnie = "spellwarning"
-	ignore_los = TRUE
+	ignore_los = 1
 
 /obj/effect/proc_holder/spell/invoked/mindlink/cast(list/targets, mob/living/user)
 	. = ..()

@@ -14,7 +14,7 @@
 	display_order = JDO_VETERAN
 	whitelist_req = TRUE
 	give_bank_account = 75 //Caustic edit Imagine being landed and starting dirt poor lmao what
-	min_pq = null //5 //Should...probably actually be a veteran of at least a few weeks before trying to teach others
+	min_pq = 5 //OV EDIT
 	max_pq = null
 	round_contrib_points = 2
 
@@ -346,7 +346,7 @@
 			if("Axe + Crossbow")
 				r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-				beltl = /obj/item/quiver/bolts
+				beltl = /obj/item/quiver/bolt/standard
 
 			if ("Spear + Shield")
 				r_hand = /obj/item/rogueweapon/spear

@@ -17,7 +17,7 @@
 	advclass_cat_rolls = list(CTAG_COURTPHYS = 2)
 
 	give_bank_account = TRUE
-	min_pq = null //3 //Please don't kill the duke by operating on strong intent. Play apothecary until you're deserving of the great white beak of doom
+	min_pq = 2 //OV EDIT
 	max_pq = null
 	round_contrib_points = 5
 
@@ -82,7 +82,7 @@
 		/obj/item/natural/worms/leech/cheele = 1, //little buddy
 		/obj/item/reagent_containers/glass/bottle/waterskin = 1,
 		/obj/item/recipe_book/alchemy = 1,)
-	if(H.pronouns == SHE_HER)
+	if(should_wear_femme_clothes(H))
 		head = /obj/item/clothing/head/roguetown/courtphysician/female
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female
 		shirt = /obj/item/clothing/suit/roguetown/shirt/courtphysician/female

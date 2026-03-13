@@ -449,6 +449,14 @@
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
 
+/datum/crafting_recipe/roguetown/sewing/stabardheavy
+	name = "surcoat, overvestments"
+	category = "Tabards"
+	result = list(/obj/item/clothing/cloak/tabard/stabard/crusader/heavy)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 2)
+	craftdiff = 3
+
 /datum/crafting_recipe/roguetown/sewing/abyssortemplartabard
 	name = "tabard, abyssorite templar"
 	category = "Tabards"
@@ -593,6 +601,83 @@
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
+
+//
+
+/datum/crafting_recipe/roguetown/sewing/surcoatgold
+	name = "surcoat of the golden order"
+	category = "Tabards"
+	result = list(/obj/item/clothing/cloak/tabard/stabard/crusader)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/surcoatsilver
+	name = "surcoat of the silver order"
+	category = "Tabards"
+	result = list(/obj/item/clothing/cloak/tabard/stabard/crusader/t)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/surcoatgoldast
+	name = "surcoat of the golden order, astratan"
+	category = "Tabards"
+	result = list(/obj/item/clothing/cloak/tabard/stabard/crusader/astrata)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/surcoatsilverast
+	name = "surcoat of the silver order, astratan"
+	category = "Tabards"
+	result = list(/obj/item/clothing/cloak/tabard/stabard/crusader/t/astrata)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/surcoatgolduni
+	name = "surcoat of the golden order, undivided"
+	category = "Tabards"
+	result = list(/obj/item/clothing/cloak/tabard/stabard/crusader/undivided)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/surcoatsilveruni
+	name = "surcoat of the silver order, undivided"
+	category = "Tabards"
+	result = list(/obj/item/clothing/cloak/tabard/stabard/crusader/t/undivided)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/surcoatblacksteel
+	name = "surcoat of the blacksteel order"
+	category = "Tabards"
+	result = list(/obj/item/clothing/cloak/tabard/stabard/crusader/bsteel)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 3
+	tools = list(/obj/item/needle, /obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader/blacksteel)
+
+/datum/crafting_recipe/roguetown/sewing/surcoatgoldlegacy
+	name = "ancient surcoat of the golden order"
+	category = "Tabards"
+	result = list(/obj/item/clothing/cloak/tabard/stabard/crusader/legacy)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/surcoatsilverlegacy
+	name = "ancient surcoat of the silver order"
+	category = "Tabards"
+	result = list(/obj/item/clothing/cloak/tabard/stabard/crusader/t/legacy)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+//
 
 /datum/crafting_recipe/roguetown/sewing/ravoxgorget
 	name = "ravox gorget"
@@ -1524,6 +1609,14 @@
 	reqs = list(/obj/item/natural/fibers = 5)
 	craftdiff = 2
 
+//OV edit
+/datum/crafting_recipe/roguetown/sewing/bindings
+	name = "cloth bindings"
+	result = list (/obj/item/clothing/suit/roguetown/shirt/bindings)
+	reqs = list(/obj/item/natural/cloth = 2)
+	craftdiff = 1
+//OV edit end
+
 /datum/crafting_recipe/roguetown/sewing/anklets
 	name = "exotic silk anklets"
 	category = "Misc"
@@ -1921,3 +2014,48 @@
 	tools = list(/obj/item/needle)
 	craftdiff = 4
 	sellprice = 25
+
+/* uniquely-skilled subrecipes */
+/datum/crafting_recipe/roguetown/sewing/astratahoodstonekeep
+	name = "turn sun hood into sunwrought visage"
+	category = "Misc"
+	result = list(/obj/item/clothing/head/roguetown/roguehood/astrata/stonekeep)
+	reqs = list(
+		/obj/item/clothing/head/roguetown/roguehood/astrata = 1,
+		/obj/item/clothing/mask/rogue/facemask/goldmask = 1
+	)
+	skillcraft = /datum/skill/magic/holy //Uniquely requires a Holy skill to craft, to encourage its stricter use amongst Acolytes and Clerics.
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/astratahoodstonekeepalt
+	name = "turn sun hood into sunwrought visage"
+	category = "Misc"
+	result = list(/obj/item/clothing/head/roguetown/roguehood/astrata/stonekeep)
+	reqs = list(
+		/obj/item/clothing/head/roguetown/roguehood/astrata = 1,
+		/obj/item/clothing/mask/rogue/facemask/goldmaskc = 1
+	)
+	skillcraft = /datum/skill/magic/holy
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/astratahoodstonekeeptri
+	name = "turn sun hood into sunwrought visage"
+	category = "Misc"
+	result = list(/obj/item/clothing/head/roguetown/roguehood/astrata/stonekeep)
+	reqs = list(
+		/obj/item/clothing/head/roguetown/roguehood/astrata = 1,
+		/obj/item/clothing/mask/rogue/facemask/goldmask/triumph = 1
+	)
+	skillcraft = /datum/skill/magic/holy
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/astratahoodstonekeeptrialt
+	name = "turn sun hood into sunwrought visage"
+	category = "Misc"
+	result = list(/obj/item/clothing/head/roguetown/roguehood/astrata/stonekeep)
+	reqs = list(
+		/obj/item/clothing/head/roguetown/roguehood/astrata = 1,
+		/obj/item/clothing/mask/rogue/facemask/goldmaskc/triumph = 1
+	)
+	skillcraft = /datum/skill/magic/holy
+	craftdiff = 3

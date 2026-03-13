@@ -10,7 +10,7 @@
 	bloody_icon_state = "shoeblood"
 	equip_delay_self = 30
 	resistance_flags = FIRE_PROOF
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	salvage_amount = 0
 	salvage_result = null
 	sellprice = 4 //Important footwear...
@@ -377,6 +377,13 @@
 		return
 	qdel(src)
 *///caustic edit end
+
+// OV edit start
+/obj/item/clothing/shoes/roguetown/boots/armor/matthios/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
+// OV edit end
+
 /obj/item/clothing/shoes/roguetown/boots/armor/zizo
 	max_integrity = ARMOR_INT_SIDE_ANTAG
 	name = "avantyne boots"
@@ -397,6 +404,13 @@
 		return
 	qdel(src)
 *///caustic edit end
+
+// OV edit start
+/obj/item/clothing/shoes/roguetown/boots/armor/zizo/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+// OV edit end
+
 /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	name = "light plated boots"
 	desc = "A pair of boots, further reinforced with leather-strapped plates."

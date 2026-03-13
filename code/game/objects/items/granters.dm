@@ -335,6 +335,14 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	remarks = list("Ventos adversos..", "Terra sibilat..", "Lapides vetusti..")
 	dreamcost = 6
 
+/obj/item/book/granter/spell/blackstone/aerosolize
+	name = "Scroll of Aerosolize"
+	spell = /obj/effect/proc_holder/spell/invoked/aerosolize
+	spellname = "Aerosolize"
+	icon_state ="scrolldarkred"
+	remarks = list("Lapides corrodunt..", "Spuma venenosa..", "Guttae flavescentes..")
+	dreamcost = 6
+
 /obj/item/book/granter/spell/blackstone/guidance
 	name = "Scroll of Guidance"
 	spell = /obj/effect/proc_holder/spell/invoked/guidance
@@ -503,6 +511,12 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	var/spellpoints = 3
 	dreamcost = 12
 
+/obj/item/book/granter/spell_points/already_known(mob/user)
+	if(LAZYLEN(user.mind?.spell_point_pools))
+		to_chat(user, span_warning("My specialized training prevents me from absorbing this kind of knowledge."))
+		return TRUE
+	return ..()
+
 /obj/item/book/granter/spell_points/on_reading_finished(mob/user)
 	var/arcaneskill = user.get_skill_level(/datum/skill/magic/arcane)
 	if(arcaneskill >= SKILL_LEVEL_NOVICE) //Required arcane skill of NOVICE or higher to use the granter
@@ -534,6 +548,12 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	pickup_sound =  'sound/blank.ogg'
 	var/spellpoints = 3
 	dreamcost = 15
+
+/obj/item/book/granter/arcynetyr/already_known(mob/user)
+	if(LAZYLEN(user.mind?.spell_point_pools))
+		to_chat(user, span_warning("My specialized training prevents me from absorbing this kind of knowledge."))
+		return TRUE
+	return ..()
 
 /obj/item/book/granter/arcynetyr/on_reading_finished(mob/user)
 	var/arcaneskill = user.get_skill_level(/datum/skill/magic/arcane)

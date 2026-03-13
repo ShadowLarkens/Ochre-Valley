@@ -149,21 +149,19 @@
 	if(mode == 1) // Arcane mode
 		var/current_arcane = user.get_skill_level(/datum/skill/magic/arcane)
 		if(current_arcane)
+			//OV Edit: Clean all this up
 			if(current_arcane < 6) // Only add if not already capped
-				active_item = TRUE
 				legendaryarcane = FALSE
 				user.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
-				user.change_stat("intelligence", 3)
 				to_chat(user, span_notice("Arcyne lightning crackles across the cuirass, enchanting your mind with forbidden knowledge!"))
-				icon_state ="artificerplate_powered"
-				item_state = "artificerplate_powered"
 			else
-				user.change_stat("intelligence", 3)
 				legendaryarcane = TRUE
-				active_item = TRUE
 				to_chat(user, span_warning("Arcyne lightning crackles across the cuirass, enshrining your mastery over magicka!"))
-				icon_state ="artificerplate_powered"
-				item_state = "artificerplate_powered"
+			user.change_stat(STATKEY_INT, 3)
+			active_item = TRUE
+			icon_state ="artificerplate_powered"
+			item_state = "artificerplate_powered"
+			//OV Edit End
 		else
 			to_chat(user, span_warning("The cuirass feels unnervingly cold to the touch."))
 	if(mode == 2)
@@ -180,8 +178,8 @@
 				legendaryathletics = TRUE
 			active_item = TRUE
 			to_chat(user, span_notice("Arcyne lightning crackles across the cuirass, enchanting your body with adrenalized power!"))
-			user.change_stat("strength", 2)
-			user.change_stat("endurance", 2)
+			user.change_stat(STATKEY_STR, 2) //OV Edit: Use the statkeys!
+			user.change_stat(STATKEY_WIL, 2) //OV Edit
 			icon_state ="artificerplate_powered"
 			item_state = "artificerplate_powered"
 			return
@@ -198,7 +196,7 @@
 					H.adjust_skillrank(/datum/skill/magic/arcane, -1, TRUE)
 				if(H.get_item_by_slot(SLOT_ARMOR) == src)
 					to_chat(H, span_notice("Gone is the intelligence, which bolstered thine arcyna.."))
-					H.change_stat("intelligence", -3)
+					H.change_stat(STATKEY_INT, -3) //OV Edit: Use the statkeys!
 					active_item = FALSE
 					return
 			else
@@ -210,8 +208,8 @@
 					H.adjust_skillrank(/datum/skill/misc/athletics, -1, TRUE)
 				if(H.get_item_by_slot(SLOT_ARMOR) == src)
 					to_chat(H, span_notice("Gone is the strength, which bolstered thine arms.."))
-					user.change_stat("strength", -2)
-					user.change_stat("endurance", -2)
+					user.change_stat(STATKEY_STR, -2) //OV Edit: Use the statkeys!
+					user.change_stat(STATKEY_WIL, -2) //OV Edit
 					active_item = FALSE
 					return
 			else
@@ -261,6 +259,11 @@
 
 /obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_PSYDONIAN_GRIT, "ornate_plate")
+
+/obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("With more blessed silver and an armorsmith's hammer, this armor can be further upgraded.")
+	. += span_info("If a character has the 'Maille Training' trait and has Psydon as their selected patron, they can comfortably wear Psydonic plate armor without suffering any downsides.")
 
 // HEAVY
 /obj/item/clothing/suit/roguetown/armor/plate/full
@@ -349,6 +352,11 @@
 	. = ..()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_PSYDONIAN_GRIT, "ornate_plate")
 
+/obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("With more blessed silver and an armorsmith's hammer, this armor can be further upgraded.")
+	. += span_info("If a character has the 'Maille Training' trait and has Psydon as their selected patron, they can comfortably wear Psydonic plate armor without suffering any downsides.")
+
 /obj/item/clothing/suit/roguetown/armor/plate/fluted/shadowplate
 	name = "scourge breastplate"
 	desc = "More form over function, this armor is fit for demonstration of might rather than open combat. The aged gilding slowly tarnishes away."
@@ -385,6 +393,12 @@
 	qdel(src)
 */ //Caustic Edit End
 
+// OV edit start
+/obj/item/clothing/suit/roguetown/armor/plate/full/matthios/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
+// OV edit end
+
 /obj/item/clothing/suit/roguetown/armor/plate/full/zizo
 	name = "avantyne fullplate"
 	desc = "Impossible angularities, molded into a form more comprehensible to the layman's eyes. It has been called forth from the edge of what should be known, in Her name."
@@ -406,6 +420,12 @@
 		return
 	qdel(src)
 */ //Caustic Edit End
+
+// OV edit start
+/obj/item/clothing/suit/roguetown/armor/plate/full/zizo/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+// OV edit end
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/bikini
 	name = "full-plate corset"
@@ -620,6 +640,11 @@
 	smeltresult = /obj/item/ingot/silverblessed
 	smelt_bar_num = 1
 	sellprice = 123
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("With more blessed silver and an armorsmith's hammer, this armor can be further upgraded.")
+	. += span_info("If a character has the 'Maille Training' trait and has Psydon as their selected patron, they can comfortably wear Psydonic plate armor without suffering any downsides.")
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
 	name = "iron breastplate"

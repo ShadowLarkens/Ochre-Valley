@@ -15,7 +15,7 @@ $include discord.txt
 # There are various options which are hard-locked for security reasons.
 
 ## Server name: This appears at the top of the screen in-game and in the BYOND hub. Uncomment and replace 'tgstation' with the name of your choice.
-SERVERNAME CausticCove
+SERVERNAME OchreValley
 
 ## Server tagline: This will appear right below the server's title.
 # SERVERTAGLINE A generic TG-based server
@@ -24,7 +24,7 @@ SERVERNAME CausticCove
 # SERVERSQLNAME tgstation
 
 ## Station name: The name of the station as it is referred to in-game. If commented out, the game will generate a random name instead.
-STATIONNAME Caustic Cove
+STATIONNAME Ochre Valley
 
 ## Put on byond hub: Uncomment this to put your server on the byond hub.
 #HUB
@@ -55,6 +55,9 @@ ENABLE_LOCALHOST_RANK
 
 ## Uncomment to enable the age prompt system; It asks players for their date of birth upon entry and denies players below a certain age.
 #AGE_PROMPT_SYSTEM
+
+## Log all timers on timer auto reset
+# LOG_TIMERS_ON_BUCKET_RESET
 
 ## Uncomment this entry to have certain jobs require your account to be at least a certain number of days old to select. You can configure the exact age requirement for different jobs by editing
 ## the minimal_player_age variable in the files in folder /code/game/jobs/job/.. for the job you want to edit. Set minimal_player_age to 0 to disable age requirement for that job.
@@ -248,7 +251,7 @@ USEBLACKLIST
 # RULESURL https://wiki.moviesfreepremium.xyz/blackstone/rules
 
 ## Github address
-GITHUBURL https://github.com/wewman222/CC
+GITHUBURL https://github.com/Ochre-Valley/Ochre-Valley
 
 ## Round specific stats address
 ## Link to round specific parsed logs; IE statbus. It is appended with the RoundID automatically by ticker/Reboot()

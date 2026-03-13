@@ -30,7 +30,10 @@
 			emote_type = type_override
 
 	user.log_message("SUBTLE - " + message, LOG_EMOTE)
-	message = "<b>[user]</b> " + message
+	if(findtext(message, "$n"))
+		message = trim(replacetext(message, "$n", "<b>[user]</b>"))
+	else
+		message = "<b>[user]</b> " + message
 /*
 	for(var/mob/M in GLOB.dead_mob_list)
 		if(!M.client || isnewplayer(M))
@@ -77,6 +80,13 @@
 	for(var/mob/living/L in mobsinview)
 		if(!isliving(L) || QDELETED(L)) // mob has since been deleted/destroyed, skip
 			continue
+		//OV edit
+		if(L.aghosted)
+			if(!isclient(L.aghosted))
+				return
+			to_chat(L.aghosted, span_green("(BODY) ")+"[message]")
+			return
+		//OV edit end
 		if(get_dist(get_turf(L), user_loc) <= distance)
 			to_chat(L, "<i>[message]</i>")
 			L.playsound_local(L, 'sound/misc/subtle_emote.ogg', 100)

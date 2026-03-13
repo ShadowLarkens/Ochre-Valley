@@ -94,6 +94,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/vampire_skin = null
 	var/vampire_eyes = null
 	var/vampire_hair = null
+	var/vampire_ears = null
 	var/extra_language = "None" // Extra language
 	var/voice_color = "a0a0a0"
 	var/voice_pitch = 1
@@ -109,6 +110,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/shake = TRUE
 	var/sexable = FALSE
 	var/compliance_notifs = TRUE
+	var/hide_pq = FALSE //OV ADD
 
 	var/list/custom_names = list()
 	var/preferred_ai_core_display = "Blue"
@@ -144,7 +146,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/mastervol = 50
 
 	var/anonymize = TRUE
-	var/masked_examine = FALSE
+	var/masked_examine = TRUE //OV Edit: Because being able to see preferences is soorta important
 	var/full_examine = FALSE
 	var/mute_animal_emotes = FALSE
 	var/autoconsume = FALSE
@@ -190,6 +192,11 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/lich_headshot_link
 	var/vampire_headshot_link
 	var/werewolf_headshot_link //not used but setting up for the future
+	// OC Edit Start // Inregards to werewolf_headshot_link comment above me: Hey, guess what. I'll set it up for ya and then some~!
+	var/werewolf_setname
+	var/werewolf_setdesc
+	var/werewolf_setdesc_cached
+	// OC Edit End
 	var/chatheadshot = FALSE
 	var/ooc_extra
 	var/song_artist
@@ -251,6 +258,11 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	parent = C
 	migrant  = new /datum/migrant_pref(src)
 	familiar_prefs = new /datum/familiar_prefs(src)
+
+	//OV edit
+	if(!sizecat)
+		sizecat = new /datum/sizecat/none
+	//OV edit end
 
 	for(var/custom_name_id in GLOB.preferences_custom_names)
 		custom_names[custom_name_id] = get_default_name(custom_name_id)
@@ -324,6 +336,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	validate_customizer_entries()
 	reset_all_customizer_accessory_colors()
 	randomize_all_customizer_accessories()
+	ensure_sizecat() //OV ADD
 	reset_descriptors()
 	virtue_origin = new pref_species.origin_default
 	taur_type = null
@@ -406,7 +419,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			// ANOTHER ROW HOLY SHIT WE FINALLY A GOD DAMN GRID NOW! WHOA!
 			dat += "<tr style='padding-top: 0px;padding-bottom:0px'>"
 			dat += "<td style='width:33%; text-align:left'>"
-			dat += "<a href='?_src_=prefs;preference=playerquality;task=menu'><b>PQ:</b></a> [get_playerquality(user.ckey, text = TRUE)]"
+			//OV edit
+			if(!hide_pq)
+				dat += "<a href='?_src_=prefs;preference=playerquality;task=menu'><b>PQ:</b></a> [get_playerquality(user.ckey, text = TRUE)]"
+			//OV edit end
 			dat += "</td>"
 
 			dat += "<td style='width:33%;text-align:center'>"
@@ -523,6 +539,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 					virtue = GLOB.virtues[/datum/virtue/none]
 				if(virtuetwo.type in pref_species.restricted_virtues)
 					virtuetwo = GLOB.virtues[/datum/virtue/none]
+			if(virtue.virtuous_only && !statpack.virtuous)
+				virtue = GLOB.virtues[/datum/virtue/none]
 			dat += "<b>Virtue:</b> <a href='?_src_=prefs;preference=virtue;task=input'>[virtue]</a><BR>"
 			if(statpack.virtuous)
 				dat += "<b>Second Virtue:</b> <a href='?_src_=prefs;preference=virtuetwo;task=input'>[virtuetwo]</a><BR>"
@@ -558,7 +576,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<b>Patron:</b> <a href='?_src_=prefs;preference=patron;task=input'>[selected_patron?.name || "FUCK!"]</a><BR>"
 			dat += "<b>Dominance:</b> <a href='?_src_=prefs;preference=domhand'>[domhand == 1 ? "Left-handed" : "Right-handed"]</a><BR>"
 			//Caustic edit
-			dat += "<b>Size Category:</b> <a href='?_src_=prefs;preference=sizecat;task=input'>[sizecat]</a><BR>"
+			dat += "<b>Size Category:</b> [sizecat.name]<BR>" //OV EDIT - No longer needs to be a button
 			//dat += "<b>Pickup able:</b> <a href='?_src_=prefs;preference=pickupable'>[pickupable == 1 ? "Yes" : "No"]</a><BR>"
 			//Caustic edit end
 			dat += "<b>Food Preferences:</b> <a href='?_src_=prefs;preference=culinary;task=menu'>Change</a><BR>"
@@ -1350,7 +1368,19 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		dat += "<a href='?_src_=prefs;preference=vampire_hair;task=input'> <span style='border: 1px solid #161616; background-color: [vampire_hair ? vampire_hair : "#FFFFFF"];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=vampire_hair_clear;task=input'>clear</a></a>"
 	else
 		dat += "<a href='?_src_=prefs;preference=vampire_hair;task=input'>(C)</a>"
+	dat += "<br><b>Vampire Ear Color:</b> "
+	if (!isnull(vampire_ears))
+		dat += "<a href='?_src_=prefs;preference=vampire_ears;task=input'> <span style='border: 1px solid #161616; background-color: [vampire_ears ? vampire_ears : "#FFFFFF"];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=vampire_ears_clear;task=input'>clear</a></a>"
+	else
+		dat += "<a href='?_src_=prefs;preference=vampire_ears;task=input'>(C)</a>"
 	dat += "<BR><b>Quicksilver Resistant:</b> <a href='?_src_=prefs;preference=qsr;task=input'>[qsr_pref ? "Yes" : "No"]</a>"
+	// OC Edit Start
+	dat += "<br><b>Werewolf Headshot:</b> <a href='?_src_=prefs;preference=werewolf_headshot;task=input'>Change</a>"
+	if(werewolf_headshot_link != null)
+		dat += "<br><img src='[werewolf_headshot_link]' width='100px' height='100px'>"
+	dat += "<br><b>Werewolf Name:</b> [werewolf_setname ? werewolf_setname : "None (random)"] (<a href='?_src_=prefs;preference=werewolf_setname;task=input'>Change</a>)"
+	dat += "<br><b>Werewolf Description:</b> [werewolf_setdesc ? "Has One Set" : "None Specified (Default)"] (<a href='?_src_=prefs;preference=werewolf_setdesc;task=input'>Change</a>)"
+	// OC Edit End
 	dat += "</body>"
 
 	dat += "<br><br><br><b>Preset Bounty:</b> "
@@ -1921,6 +1951,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						/datum/language/hellspeak,
 						/datum/language/draconic,
 						/datum/language/celestial,
+						/datum/language/raneshi,
 						/datum/language/grenzelhoftian,
 						/datum/language/kazengunese,
 						/datum/language/lingyuese,
@@ -2010,6 +2041,24 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					vampire_headshot_link = new_vampire_headshot_link
 					to_chat(user, "<span class='notice'>Successfully updated vampire headshot picture</span>")
 					log_game("[user] has set their vampire Headshot image to '[vampire_headshot_link]'.")
+				if("werewolf_headshot")
+					to_chat(user, "<span class='notice'>Please use a relatively SFW image of the head and shoulder area to maintain immersion level. Lastly, ["<span class='bold'>do not use a real life photo or use any image that is less than serious.</span>"]</span>")
+					to_chat(user, "<span class='notice'>If the photo doesn't show up properly in-game, ensure that it's a direct image link that opens properly in a browser.</span>")
+					to_chat(user, "<span class='notice'>Keep in mind that the photo will be downsized to 325x325 pixels, so the more square the photo, the better it will look.</span>")
+					var/new_werewolf_headshot_link = tgui_input_text(user, "Input the Werewolf headshot link (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "Werewolf Headshot", werewolf_headshot_link,  encode = FALSE)
+					if(new_werewolf_headshot_link == null)
+						return
+					if(new_werewolf_headshot_link == "")
+						werewolf_headshot_link = null
+						ShowChoices(user)
+						return
+					if(!valid_headshot_link(user, new_werewolf_headshot_link))
+						werewolf_headshot_link = null
+						ShowChoices(user)
+						return
+					werewolf_headshot_link = new_werewolf_headshot_link
+					to_chat(user, "<span class='notice'>Successfully updated Werewolf headshot picture</span>")
+					log_game("[user] has set their Werewolf Headshot image to '[werewolf_headshot_link]'.")
 				if("legacyhelp")
 					var/list/dat = list()
 					dat += "This slot was around since before major Flavortext / OOC changes.<br>"
@@ -2059,6 +2108,35 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					flavortext_cached = parsemarkdown_basic(html_encode(flavortext), hyperlink = TRUE)
 					to_chat(user, "<span class='notice'>Successfully updated flavortext</span>")
 					log_game("[user] has set their flavortext'.")
+				// OC Edit Stard
+				if("werewolf_setname")
+					var/new_werewolfname = tgui_input_text(user, "The name of this wolf?", "WEREWOLF IDENTITY", encode = FALSE)
+					if(isnull(new_werewolfname))
+						return
+					if(length(new_werewolfname) <= 0)
+						werewolf_setname = null
+						to_chat(user, "<font color='red'>Werewolf name had length of zero, it has been reset. If it remains nothing it will be randomly generated per round!</font>")
+					else
+						new_werewolfname = reject_bad_name(new_werewolfname)
+						if(new_werewolfname)
+							werewolf_setname = new_werewolfname
+							to_chat(user, "<span class='notice'>Successfully updated your Werewolf Name</span>")
+						else
+							to_chat(user, "<font color='red'>Invalid werewolf name. Your name should be at least 2 and at most [MAX_NAME_LEN] characters long. It may only contain the characters A-Z, a-z, -, ', . and ,.</font>")
+				if("werewolf_setdesc")
+					to_chat(user, "<span class='notice'>["<span class='bold'>Werewolf description is only shown when you are a werewolf, of course. There is very little formatting for this as of right now. You may, however, use spoilers for more explicit descriptions by doing; ||this||</span>"]</span>")
+					var/new_werewolfdesc = tgui_input_text(user, "Input your werewolf description:", "WEREWOLF IDENTITY", werewolf_setdesc, multiline = TRUE,  encode = FALSE, bigmodal = TRUE)
+					if(new_werewolfdesc == null)
+						return
+					if(new_werewolfdesc == "")
+						werewolf_setdesc = null
+						ShowChoices(user)
+						return
+					werewolf_setdesc = new_werewolfdesc
+					werewolf_setdesc_cached = parsemarkdown_basic(parse_spoilers(html_encode(werewolf_setdesc)), hyperlink = TRUE)
+					to_chat(user, "<span class='notice'>Successfully updated your Werewolf desc</span>")
+					log_game("[user] has set their werewolf desc.")
+				// OC Edit End
 				if("ooc_notes")
 					to_chat(user, "<span class='notice'>["<span class='bold'>OOC notes should be used for roleplay hooks and general information about your character.</span>"]</span>")
 					var/new_ooc_notes = tgui_input_text(user, "Input your OOC preferences:", "OOC notes", ooc_notes, multiline = TRUE,  encode = FALSE, bigmodal = TRUE)
@@ -2274,13 +2352,18 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					var/new_vampireskin = input(user, "Choose your character's vampire skin color:", "Character Preference","#"+vampire_skin) as color|null
 					if(new_vampireskin)
 						vampire_skin = new_vampireskin
+				if("vampire_ears")
+					var/new_vampireears = input(user, "Choose your character's vampire ear color:", "Character Preference","#"+vampire_ears) as color|null
+					if(new_vampireears)
+						vampire_ears = new_vampireears
 				if("vampire_hair_clear")
 					vampire_hair = null
 				if("vampire_eyes_clear")
 					vampire_eyes = null
 				if("vampire_skin_clear")
 					vampire_skin = null
-
+				if("vampire_ears_clear")
+					vampire_ears = null
 				if("species")
 					var/list/species = list()
 					for(var/A in GLOB.roundstart_races)
@@ -2382,6 +2465,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if (V.restricted == TRUE)
 							if((pref_species.type in V.races))
 								continue
+						if(V.virtuous_only && !statpack.virtuous)
+							continue
 						virtue_choices[V.name] = V
 					virtue_choices = sort_list(virtue_choices)
 					var/result = tgui_input_list(user, "What strength shall you wield?", "VIRTUES",virtue_choices)
@@ -2462,6 +2547,20 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					if(new_body_size)
 						new_body_size = clamp(new_body_size * 0.01, BODY_SIZE_MIN, BODY_SIZE_MAX)
 						features["body_size"] = new_body_size
+						//OV edit
+						ensure_sizecat(new_body_size)
+						switch(new_body_size)
+							if(0 to 0.45)
+								to_chat(user, span_alert("You are now considered a micro."))
+							if(0.45 to 0.85)
+								to_chat(user, span_alert("You are now considered small."))
+							if(0.85 to 1.15)
+								to_chat(user, span_alert("You are now considered a normal height."))
+							if(1.15 to 1.5)
+								to_chat(user, span_alert("You are now considered a giant."))
+							if(1.5 to INFINITY)
+								to_chat(user, span_alert("You are now considered a macro."))
+						//OV edit end
 				//Caustic edit
 				if("sizecat")
 					select_sizecat(user)
@@ -2972,6 +3071,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	character.vampire_skin = vampire_skin
 	character.vampire_eyes = vampire_eyes
 	character.vampire_hair = vampire_hair
+	character.vampire_ears = vampire_ears
 	character.hairstyle = hairstyle
 	character.facial_hairstyle = facial_hairstyle
 	character.detail = detail
@@ -2992,7 +3092,12 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	character.lich_headshot_link = lich_headshot_link
 
 	character.vampire_headshot_link = vampire_headshot_link
-
+	// OC Edit Start
+	character.werewolf_headshot_link = werewolf_headshot_link
+	character.werewolf_setname = werewolf_setname
+	character.werewolf_setdesc = werewolf_setdesc
+	character.werewolf_setdesc_cached = werewolf_setdesc_cached
+	// OC Edit End
 	character.statpack = statpack
 
 	character.flavortext = flavortext
@@ -3204,3 +3309,23 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	dat += GLOB.roleplay_readme
 	popup.set_content(dat.Join())
 	popup.open(FALSE)
+
+//OV edit
+/datum/preferences/proc/ensure_sizecat(new_body_size)
+	if(!new_body_size)
+		new_body_size = features["body_size"]
+		if(!new_body_size)
+			new_body_size = 1
+	switch(new_body_size)
+		if(0 to 0.45)
+			sizecat = new /datum/sizecat/micro
+		if(0.45 to 0.85)
+			sizecat = new /datum/sizecat/small
+		if(0.85 to 1.15)
+			sizecat = new /datum/sizecat/none
+		if(1.15 to 1.5)
+			sizecat = new /datum/sizecat/giant
+		if(1.5 to INFINITY)
+			sizecat = new /datum/sizecat/macro
+//	message_admins("ensure_sizecat run for [sizecat.name] at [new_body_size]")
+//OV edit end

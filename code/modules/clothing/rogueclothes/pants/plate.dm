@@ -82,7 +82,7 @@
 /obj/item/clothing/under/roguetown/platelegs/matthios/Initialize()
 	. = ..()
 	//ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT) //Casutic Edit - Allow dropping of Heretic Armors (so fun can happen :P)
-	AddComponent(/datum/component/cursed_item, TRAIT_COMMIE, "ARMOR")
+	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
 
 /obj/item/clothing/under/roguetown/platelegs/matthios/dropped(mob/living/carbon/human/user)
 	. = ..()
@@ -90,6 +90,12 @@
 		return
 	qdel(src)
 */ //Caustic Edit End
+
+// OV edit start
+/obj/item/clothing/under/roguetown/platelegs/matthios/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
+// OV edit end
 
 /obj/item/clothing/under/roguetown/platelegs/zizo
 	max_integrity = ARMOR_INT_LEG_ANTAG
@@ -116,6 +122,9 @@
 /obj/item/clothing/under/roguetown/platelegs/zizo/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_STEP, 8)
+// OV edit start
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+// OV edit end
 
 /obj/item/clothing/under/roguetown/platelegs/skirt
 	name = "steel plate tassets"
