@@ -57,5 +57,5 @@ GLOBAL_LIST_EMPTY(sizecats)
 		return
 	if (!player.prefs)
 		return
-	var/datum/sizecat/sizecat_type = player.prefs.sizecat
+	//var/datum/sizecat/sizecat_type = player.prefs.sizecat //OV REMOVE
 	//character.resize(sizecat_type.starting_scale) //OV REMOVE - Scale not determined by sizecat here, but other way around
