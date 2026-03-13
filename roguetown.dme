@@ -3209,6 +3209,7 @@
 #include "modular_causticcove\code\modules\vices\bottomless\bottomless.dm"
 #include "modular_causticcove\code\modules\vices\bottomless\maxfood.dm"
 #include "modular_causticcove\code\modules\vices\bottomless\stressevent_gluton.dm"
+#include "modular_ochrevalley\code\inventory_return.dm"
 #include "modular_ochrevalley\code\ooc_escape.dm"
 #include "modular_ochrevalley\code\vore_verb.dm"
 #include "modular_ochrevalley\code\datums\loadout\loadout_accessories.dm"
