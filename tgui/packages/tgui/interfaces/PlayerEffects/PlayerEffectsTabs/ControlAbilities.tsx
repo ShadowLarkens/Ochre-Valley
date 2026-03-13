@@ -22,6 +22,12 @@ export const ControlAbilities = (props) => {
       <Button fluid onClick={() => act('general_buffs')}>
         Give General Buffs
       </Button>
+      <Button fluid onClick={() => act('give_spell')}>
+        Give Spell
+      </Button>
+      <Button fluid onClick={() => act('remove_spell')}>
+        Remove Spell
+      </Button>
     </Section>
   );
 };
