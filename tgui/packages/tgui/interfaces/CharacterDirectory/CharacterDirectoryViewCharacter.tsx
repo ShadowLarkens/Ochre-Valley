@@ -1,5 +1,6 @@
+// OV FILE
 import { Box, Button, Section, Table } from 'tgui-core/components';
-import { MarkdownSpoilerText } from '../common/SpoilerText';
+
 import { getTagColor } from './constants';
 import { validateLink } from './functions';
 import type { mobEntry } from './types';
@@ -23,7 +24,7 @@ export const ViewCharacter = (props: {
         <Box>{overlay.species}</Box>
       </Section>
       <Section title="Vore Tag">
-        <Box p={1} backgroundColor={getTagColor(overlay.tag)}>
+        <Box p={1} backgroundColor={getTagColor(overlay.tag)} textColor={"black"}>
           {overlay.tag}
         </Box>
       </Section>
@@ -104,9 +105,19 @@ export const ViewCharacter = (props: {
           )}
         </Box>
       </Section>
+      <Section title="NSFW OOC Notes">
+        <Box style={{ wordBreak: 'break-all' }} preserveWhitespace>
+          <Table.Cell>{overlay.nsfw_ooc_notes}</Table.Cell>
+        </Box>
+      </Section>
       <Section title="Flavor Text">
         <Box style={{ wordBreak: 'break-all' }} preserveWhitespace>
-          <MarkdownSpoilerText text={overlay.flavor_text || 'Unset.'} />
+          <Table.Cell>{overlay.flavor_text}</Table.Cell>
+        </Box>
+      </Section>
+      <Section title="NSFW Flavor Text">
+        <Box style={{ wordBreak: 'break-all' }} preserveWhitespace>
+          <Table.Cell>{overlay.nsfw_flavor_text}</Table.Cell>
         </Box>
       </Section>
       <Section title="Custom Link">

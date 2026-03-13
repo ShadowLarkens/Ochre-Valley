@@ -1,3 +1,4 @@
+// OV FILE
 import type { BooleanLike } from 'tgui-core/react';
 
 export type Data = {
@@ -22,10 +23,12 @@ export type mobEntry = {
   sexualitytag: string;
   eventtag: string;
   ooc_notes: string;
+  nsfw_ooc_notes: string;
   tag: string;
   erptag: string;
   character_ad: string;
   flavor_text: string;
+  nsfw_flavor_text: string;
   custom_link: string;
   photo: string | null;
 };

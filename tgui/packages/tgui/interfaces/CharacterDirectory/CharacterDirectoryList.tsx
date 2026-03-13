@@ -1,3 +1,4 @@
+// OV FILE
 import { useState } from 'react';
 import { useBackend } from 'tgui/backend';
 import { Button, Image, Section, Stack, Table } from 'tgui-core/components';
@@ -90,7 +91,7 @@ export const CharacterDirectoryList = (props: {
             onSortId={setSortId}
             onSortOrder={setSortOrder}
           >
-            Event Pref
+            Examine
           </SortButton>
           <Table.Cell collapsing textAlign="right">
             View
@@ -102,7 +103,7 @@ export const CharacterDirectoryList = (props: {
             return a[sortId].localeCompare(b[sortId]) * i;
           })
           .map((character, i) => (
-            <Table.Row key={i} backgroundColor={getTagColor(character.tag)}>
+            <Table.Row key={i} backgroundColor={getTagColor(character.tag)} textColor={"black"}>
               <Table.Cell verticalAlign="middle">
                 {character.photo ? (
                   <Stack
@@ -145,6 +146,7 @@ export const CharacterDirectoryList = (props: {
                 <Button
                   onClick={() => onOverlay(character)}
                   color="transparent"
+                  textColor="black"
                   icon="sticky-note"
                   mr={1}
                 >
