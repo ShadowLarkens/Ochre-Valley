@@ -34,6 +34,7 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1)
 	head = /obj/item/clothing/head/roguetown/mentorhat
+	cloak = /obj/item/clothing/cloak/kazengun //OV Add: Added Kazengun Drip to Kazengun Class
 	gloves = /obj/item/clothing/gloves/roguetown/eastgloves1
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
