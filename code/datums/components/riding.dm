@@ -332,7 +332,7 @@
 			var/mob/living/buckled_mob = m
 			var/list/offsets = get_offsets(passindex)
 			var/rider_dir = get_rider_dir(passindex)
-			var/our_scale = buckled_mob.size_multiplier()
+			var/our_scale = buckled_mob.size_multiplier
 			var/y_scale_math = ((-16*our_scale)+16)
 			if(!has_fixedeye)
 				buckled_mob.setDir(rider_dir)

@@ -1,4 +1,3 @@
-<<<<<<<< HEAD:modular_causticcove/code/__DEFINES/vore_defines.dm
 #define RESIZE_MINIMUM 0.2
 #define RESIZE_STANDARD 1
 #define RESIZE_MAXIMUM 2.5
@@ -23,9 +22,6 @@ GLOBAL_LIST_INIT(player_sizes_list, list(
 		"Small" 	= RESIZE_SMALL,
 		"Tiny" 		= RESIZE_TINY))
 
-========
-//OV FILE
->>>>>>>> upstream/main:code/__DEFINES/chomp_vore_defines.dm
 //Blacklist to exclude items from object ingestion. Digestion blacklist located in digest_act_vr.dm
 GLOBAL_LIST_INIT(item_vore_blacklist, list())
 
@@ -582,12 +578,9 @@ GLOBAL_LIST_INIT(slosh, list(
 
 #define MAX_VOICE_FREQ 70000
 #define MIN_VOICE_FREQ 15000
-<<<<<<<< HEAD:modular_causticcove/code/__DEFINES/vore_defines.dm
 
 
 // I don't think these are used anywhere??? I don't know who did what with this port but damn
 
 /// COMSIG used to get messages where they need to go
 #define COMSIG_VISIBLE_MESSAGE "visible_message"
-========
->>>>>>>> upstream/main:code/__DEFINES/chomp_vore_defines.dm

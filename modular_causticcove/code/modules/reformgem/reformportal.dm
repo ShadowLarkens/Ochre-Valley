@@ -21,7 +21,7 @@ GLOBAL_LIST_EMPTY(reformation_portals)
 //	soundloop.start() //OV REMOVE
 
 /obj/structure/respawn_portal/attack_ghost(mob/dead/observer/user) //Bit Jank for now but just copied over the Reform Option code... Maybe this will work? If a Ghost escapes the belly somehow lol
-	/*if(QDELETED(user))
+	if(QDELETED(user))
 		return
 	if(!in_range(src, user))
 		return

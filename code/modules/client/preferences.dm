@@ -2557,7 +2557,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							if(0.85 to 1.15)
 								to_chat(user, span_alert("You are now considered a normal height."))
 							if(1.15 to 1.5)
-								to_chat(user, span_alert("You are now considered a giant."))
+								to_chat(user, span_alert("You are now considered large."))
 							if(1.5 to INFINITY)
 								to_chat(user, span_alert("You are now considered a macro."))
 						//OV edit end
@@ -3324,7 +3324,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		if(0.85 to 1.15)
 			sizecat = new /datum/sizecat/none
 		if(1.15 to 1.5)
-			sizecat = new /datum/sizecat/giant
+			sizecat = new /datum/sizecat/large
 		if(1.5 to INFINITY)
 			sizecat = new /datum/sizecat/macro
 //	message_admins("ensure_sizecat run for [sizecat.name] at [new_body_size]")

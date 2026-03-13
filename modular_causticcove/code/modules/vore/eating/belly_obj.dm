@@ -74,6 +74,7 @@
 	var/prevent_saving = FALSE				// Can this belly be saved? For special bellies that mobs and adminbus might have.
 	var/absorbedrename_enabled = FALSE		// If absorbed prey are renamed.
 	var/absorbedrename_name = "%pred's %belly"	// What absorbed prey are renamed to.
+	var/hidden_by_armor = FALSE 			// OV ADD - Hides belly if covered by clothing
 
 
 	var/vore_sprite_flags = DM_FLAG_VORESPRITE_BELLY
@@ -961,6 +962,7 @@
 	var/mob/dead/observer/G = M.ghostize(FALSE) // Make sure they're out, so we can copy attack logs and such.
 	if(G)
 		G.forceMove(src)
+		G.vore_death = TRUE
 		G.body_backup = M
 		M.enabled = FALSE
 		M.forceMove(G)
