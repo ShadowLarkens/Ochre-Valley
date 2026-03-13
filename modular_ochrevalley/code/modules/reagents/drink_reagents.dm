@@ -1,3 +1,4 @@
+//Descriptions, tastes, and names all done by Dragor
 /datum/reagent/water/bufftea
 	description = ""
 	reagent_state = LIQUID
