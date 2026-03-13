@@ -39,7 +39,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
 	shoes = /obj/item/clothing/shoes/roguetown/gladiator //OV Edit: Fixed pathing for sandals
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
-	ring = /obj/item/clothing/neck/roguetown/psicross/astrata //OV Edit: Moved to ring slot
+	wrists = /obj/item/clothing/neck/roguetown/psicross/astrata //OV Edit: Moved to wrists slot
 	gloves = /obj/item/clothing/gloves/roguetown/plate/kote //OV Edit: Parity with priest + fashion
 	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun
 	backl = /obj/item/storage/backpack/rogue/satchel
