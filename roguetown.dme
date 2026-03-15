@@ -3220,6 +3220,7 @@
 #include "modular_ochrevalley\code\modules\client\client_ov.dm"
 #include "modular_ochrevalley\code\modules\client\verbs\character_directory.dm"
 #include "modular_ochrevalley\code\modules\jobs\job_types\roguetown\adventurer\types\combat\spellblade_pre_rework.dm"
+#include "modular_ochrevalley\code\modules\mob\mob_helpers.dm"
 #include "modular_ochrevalley\code\modules\mob\dead\new_player\sprite_accessory\antennas.dm"
 #include "modular_ochrevalley\code\modules\mob\dead\new_player\sprite_accessory\wings.dm"
 #include "modular_ochrevalley\code\modules\mob\living\carbon\human\hand_games.dm"
@@ -3227,6 +3228,7 @@
 #include "modular_ochrevalley\code\modules\mob\living\living.dm"
 #include "modular_ochrevalley\code\modules\rogueclothes\neck.dm"
 #include "modular_ochrevalley\code\modules\roguetown\roguecrafting\crafting\ammo_and_ranged.dm"
+#include "modular_ochrevalley\virtues\combat.dm"
 #include "modular_ochrevalley\code\modules\spells\spell_types\wizard\utility\appearance_changer.dm"
 #include "modular_ochrevalley\code\modules\spells\spell_types\wizard\utility\mirror_transform.dm"
 // END_INCLUDE

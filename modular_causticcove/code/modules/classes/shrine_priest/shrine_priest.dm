@@ -12,7 +12,7 @@
 	subclass_stats = list(
 		STATKEY_CON = 2,
 		STATKEY_WIL = 2,
-		STATKEY_FOR = 2,
+		STATKEY_LCK = 2, //OV Edit: Fixing stat issue while fixing sandals
 		STATKEY_STR = -1
 	)
 	subclass_skills = list(
@@ -35,12 +35,11 @@
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_2)
 	head = /obj/item/clothing/head/roguetown/mentorhat
 	cloak = /obj/item/clothing/cloak/kazengun
-	gloves = /obj/item/clothing/gloves/roguetown/eastgloves1
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
-	shoes = /datum/supply_pack/rogue/wardrobe/shoes/sandals
+	shoes = /obj/item/clothing/shoes/roguetown/gladiator //OV Edit: Fixed pathing for sandals
 	neck = /obj/item/clothing/neck/roguetown/psicross/astrata
-	gloves = /obj/item/clothing/gloves/roguetown/plate/kote
+	gloves = /obj/item/clothing/gloves/roguetown/plate/kote //OV Edit: Removed unused glove spawn call above
 	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(

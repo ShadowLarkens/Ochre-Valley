@@ -923,7 +923,7 @@
 	swingsound = BLUNTWOOSH_HUGE
 	slot_flags = null//No.
 	smelt_bar_num = 2
-	minstr = 14
+	minstr = 13 //OV Edit: 14 previously, dropped to 13 per Azure Peak Commit 4877 to facilitate Heavy Gronn Mercenary Class
 	wdefense = 3
 	demolition_mod = 1.25 //Oh, yes...
 	pixel_y = -16
