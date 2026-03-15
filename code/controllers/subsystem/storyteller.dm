@@ -597,6 +597,18 @@ SUBSYSTEM_DEF(gamemode)
 		to_chat(world, "\n<h1><font color='purple'>Game will end in [ROUND_END_TIME_VERBAL]</font></h1>")
 		roundvoteend = TRUE
 		round_ends_at = world.time + ROUND_END_TIME
+
+		var/sound/vote_alert = new()
+		vote_alert.file = 'sound/roundend/roundend-vote-sound.ogg'
+		vote_alert.priority = 250
+		vote_alert.channel = CHANNEL_ADMIN
+		vote_alert.frequency = 1
+		vote_alert.wait = 1
+		vote_alert.repeat = 0
+		vote_alert.status = SOUND_STREAM
+		vote_alert.volume = 100
+		for(var/mob/M in GLOB.player_list)
+			SEND_SOUND(M, vote_alert)
 // 		if(roundvoteend)
 // 			if(world.time >= round_ends_at)
 // //				for(var/mob/living/carbon/human/H in GLOB.human_list)
