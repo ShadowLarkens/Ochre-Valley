@@ -30,13 +30,13 @@
 	miracle = FALSE
 
 /obj/effect/proc_holder/spell/invoked/projectile/frostbolt/cast(list/targets, mob/user = user)
-		var/mob/living/carbon/human/H = user
-		var/datum/intent/a_intent = H.a_intent
-		if(istype(a_intent, /datum/intent/special/magicarc))
-			projectile_type = /obj/projectile/magic/frostbolt/arc
-		else
-			projectile_type = /obj/projectile/magic/frostbolt
-		. = ..()
+	var/mob/living/carbon/human/H = user
+	var/datum/intent/a_intent = H.a_intent
+	if(istype(a_intent, /datum/intent/special/magicarc))
+		projectile_type = /obj/projectile/magic/frostbolt/arc
+	else
+		projectile_type = /obj/projectile/magic/frostbolt
+	. = ..()
 
 /obj/projectile/magic/frostbolt
 	name = "Frost Dart"
