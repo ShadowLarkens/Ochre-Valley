@@ -286,9 +286,9 @@
 	randomspread = 1
 	spread = 0
 	can_parry = TRUE
-	equip_delay_self = 1.5
-	unequip_delay_self = 1.5
-	inv_storage_delay = 1 SECONDS	
+	equip_delay_self = 1.5 SECONDS
+	unequip_delay_self = 1.5 SECONDS
+	inv_storage_delay = 2 SECONDS
 	minstr = 6
 	walking_stick = FALSE
 	cartridge_wording = "musketball"
