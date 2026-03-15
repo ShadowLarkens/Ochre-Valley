@@ -592,20 +592,26 @@ SUBSYSTEM_DEF(gamemode)
 		return TRUE
 
 	var/ttime = world.time - SSticker.round_start_time
-	if(ttime >= GLOB.round_timer)
-		if(roundvoteend)
-			if(world.time >= round_ends_at)
-//				for(var/mob/living/carbon/human/H in GLOB.human_list)
-//					if(H.stat != DEAD)
-//						if(H.allmig_reward)
-//							H.adjust_triumphs(H.allmig_reward)
-//							H.allmig_reward = 0
-				return TRUE
-		else
-			if(!SSvote.mode)
-				SSvote.initiate_vote("endround", pick("Zlod", "Sun King", "Gaia", "Moon Queen", "Aeon", "Gemini", "Aries"))
-	else if(roundvoteend && world.time >= round_ends_at)
+// OV Edit: No round end votes
+	if(ttime >= GLOB.round_timer && !roundvoteend)
+		to_chat(world, "\n<h1><font color='purple'>Game will end in [ROUND_END_TIME_VERBAL]</font></h1>")
+		roundvoteend = TRUE
+		round_ends_at = world.time + ROUND_END_TIME
+// 		if(roundvoteend)
+// 			if(world.time >= round_ends_at)
+// //				for(var/mob/living/carbon/human/H in GLOB.human_list)
+// //					if(H.stat != DEAD)
+// //						if(H.allmig_reward)
+// //							H.adjust_triumphs(H.allmig_reward)
+// //							H.allmig_reward = 0
+// 				return TRUE
+// 		else
+// 			if(!SSvote.mode)
+// 				SSvote.initiate_vote("endround", pick("Zlod", "Sun King", "Gaia", "Moon Queen", "Aeon", "Gemini", "Aries"))
+	if(roundvoteend && world.time >= round_ends_at)
 		return TRUE
+// OV Edit End
+
 	if(SSmapping.retainer.head_rebel_decree)
 		if(reb_end_time == 0)
 			to_chat(world, span_boldannounce("The peasant rebels took control of the throne, hail the new community!"))
