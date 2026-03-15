@@ -29,6 +29,7 @@
 	xp_gain = TRUE
 	miracle = FALSE
 
+// OV Edit
 /obj/effect/proc_holder/spell/invoked/projectile/frostbolt/cast(list/targets, mob/user = user)
 	var/mob/living/carbon/human/H = user
 	var/datum/intent/a_intent = H.a_intent
