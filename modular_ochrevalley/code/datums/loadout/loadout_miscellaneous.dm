@@ -1,9 +1,9 @@
-#define ARMOR_LOADOUT_CLOTHING list("blunt" = 20, "slash" = 20, "stab" = 20, "piercing" = 0, "fire" = 0, "acid" = 0)
-
+// loadout
 /obj/item/clothing/suit/roguetown/armor/leather/jacket/artijacket/loadout
     armor = ARMOR_LOADOUT_CLOTHING
 
+//Item
 /datum/loadout_item/artijacket
     name = "artificer jacket"
-	path = /obj/item/clothing/suit/roguetown/armor/leather/jacket/artijacket/loadout
+    path = /obj/item/clothing/suit/roguetown/armor/leather/jacket/artijacket/loadout
     sort_category = "Miscellaneous"
