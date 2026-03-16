@@ -4,7 +4,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 /datum/job/roguetown/lord
 	title = "Grand Duke"
 	f_title = "Grand Duchess"
-	n_title = "Monarch" //OV Add: Gender Neutral Revamp
+	n_title = "Grand Dux" //OV Add: Gender Neutral Revamp
 	flag = LORD
 	department_flag = NOBLEMEN
 	faction = "Station"
