@@ -1048,6 +1048,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			var/used_name = job.display_title || job.title
 			if((titles_pref == TITLES_F) && job.f_title)
 				used_name = "[job.f_title]"
+			if((titles_pref == TITLES_N) && job.n_title) //OV Add: Gender Neutral Revamp
+				used_name = "[job.n_title]" //OV Add: Gender Neutral Revamp
 			lastJob = job
 			if(is_banned_from(user.ckey, rank))
 				HTML += "[used_name]</td> <td><a href='?_src_=prefs;bancheck=[rank]'> BANNED</a></td></tr>"

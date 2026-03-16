@@ -810,6 +810,8 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 		var/title = job_datum.title
 		if(job_datum.f_title && (H.titles_pref == TITLES_F))
 			title = job_datum.f_title
+		if(job_datum.n_title && (H.titles_pref == TITLES_N)) //OV Add: Gender Neutral Revamp
+			title = job_datum.n_title //OV Add: Gender Neutral Revamp
 		H.job = title
 		if(advclass_path)
 			var/datum/advclass/adv_for_title = new advclass_path()
@@ -1070,6 +1072,8 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 		var/title = job_datum.title
 		if(job_datum.f_title && (H.titles_pref == TITLES_F))
 			title = job_datum.f_title
+		if(job_datum.n_title && (H.titles_pref == TITLES_N)) //OV Add: Gender Neutral Revamp
+			title = job_datum.n_title //OV Add: Gender Neutral Revamp
 		
 		// Set the job
 		H.job = title
