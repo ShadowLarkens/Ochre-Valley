@@ -212,6 +212,7 @@
 	name = "lime"
 	seed = /obj/item/seeds/lime
 	desc = "A small, green citrus fruit with a sharp, tangy flavor, often used to add zest to dishes and drinks."
+	icon = 'modular_ochrevalley/icons/roguetown/items/produce.dmi' //OV ADD
 	icon_state = "lime" //OV EDIT
 	tastes = list("lime" = 1)
 	splat_color = "#00FF00"
