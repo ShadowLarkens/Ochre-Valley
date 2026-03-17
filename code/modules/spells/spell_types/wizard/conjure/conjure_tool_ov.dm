@@ -25,7 +25,7 @@
 	// R.smeltresult = null
 	// R.salvage_result = null
 	// R.fiber_salvage = FALSE
-	// Ochre Valley Edit; These are resolved in conjure_weapon calling conjured item dataum? I don't see a difference if there is one.
+	// OV Edit; These are resolved in conjure_weapon calling conjured item dataum? I don't see a difference if there is one.
 	if(!QDELETED(R))
 		R.AddComponent(/datum/component/conjured_item, GLOW_COLOR_ARCANE, user)
 	user.put_in_hands(R)
