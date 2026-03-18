@@ -290,6 +290,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 		directory_gendertag = "Unset"
 	if(!directory_sexualitytag)
 		directory_sexualitytag = "Unset"
+	if(!directory_pvp)
+		directory_pvp = "No PvP"
 	//OV edit end
 
 	//Set the race to properly run race setter logic
@@ -680,6 +682,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<br><b>ERP Pref Tag:</b> <a href='?_src_=prefs;preference=directory_erptag;task=input'>[directory_erptag || "Unset"]</a>"
 			dat += "<br><b>Gender Tag:</b> <a href='?_src_=prefs;preference=directory_gendertag;task=input'>[directory_gendertag || "Unset"]</a>"
 			dat += "<br><b>Sexuality Tag:</b> <a href='?_src_=prefs;preference=directory_sexualitytag;task=input'>[directory_sexualitytag || "Unset"]</a>"
+			dat += "<br><b>PvP Opt-In:</b> <a href='?_src_=prefs;preference=directory_pvp;task=input'>[directory_pvp || "No PvP"]</a>"
 			dat += "<br><b>Directory Ad:</b> <a href='?_src_=prefs;preference=directory_ad;task=input'>Set</a>"
 			dat += "</td>"
 			dat += "</td>"
@@ -2725,6 +2728,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						directory_gendertag = "Unset"
 					if(!directory_sexualitytag)
 						directory_sexualitytag = "Unset"
+					if(!directory_pvp)
+						directory_pvp = "No PvP"
 				if("directory_tag")
 					var/new_choice = tgui_input_list(user, "Choose a vore preference:", "Directory Tag", GLOB.char_directory_tags)
 					if(new_choice)
@@ -2741,6 +2746,10 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					var/new_choice = tgui_input_list(user, "Choose a vore preference:", "Directory Tag", GLOB.char_directory_sexualitytags)
 					if(new_choice)
 						directory_sexualitytag = new_choice
+				if("directory_pvp")
+					var/new_choice = tgui_input_list(user, "Choose your PvP opt-in status (Note, opting into PvP does not mean that proper escalation should not be followed):", "Directory Tag", GLOB.char_directory_pvp)
+					if(new_choice)
+						directory_pvp = new_choice
 				if("directory_ad")
 					var/new_dir_ad = tgui_input_text(user, "Input an ad for your style of ERP to show in the character directory:", "Directory Ad", directory_ad, multiline = TRUE,  encode = FALSE, bigmodal = TRUE)
 					if(new_dir_ad)
