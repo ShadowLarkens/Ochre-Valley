@@ -1237,7 +1237,7 @@
 	var/escape_attempt_prey_message = span_warning(belly_format_string(escape_attempt_messages_prey, R))
 	var/escape_fail_owner_message = span_warning(belly_format_string(escape_fail_messages_owner, R))
 	var/escape_fail_prey_message = span_notice(belly_format_string(escape_fail_messages_prey, R))
-
+	/* // OV Edit - Stop ruining my scenes by making me escape from sleeping pred bellies. I'll OOC-Escape if I want out.
 	if(owner.stat) //If owner is stat (dead, KO) we can actually escape
 		escape_attempt_prey_message = span_warning("[escape_attempt_prey_message] (will take around [escapetime/10] seconds.)")
 		to_chat(R, escape_attempt_prey_message)
@@ -1258,7 +1258,7 @@
 				to_chat(owner, escape_fail_owner_message)
 				return
 			return
-
+	*/
 	var/struggle_user_message = span_alert(belly_format_string(struggle_messages_inside, R))
 
 	if(displayed_message_flags & MS_FLAG_STRUGGLE_OUTSIDE)
