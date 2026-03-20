@@ -2,9 +2,9 @@
 	name = "Ooze"
 	id = "ooze"
 	desc = "<b>Ooze</b><br>\
-	Oozes are gelatinous lifeforms that are controlled by a central core. \
-	They contain no bones or organs like most other life, beyond said core. \
-	However, they are very vulnerable to fire and loss of limbs, \
+	Oozes are gelatinous lifeforms formed from liquid that submerged disembodied lux. \
+	They contain no bones or unqiue organs, but function similarly to other creatures in that regard. \
+	However, they are very vulnerable to loss of limbs, \
 	though they are fortunate in that they can regenerate them through great effort.\
 	THIS IS A WORK IN PROGRESS AND PLAYTEST SPECIES, EXPECT BUGS AND UNFINISHED FEATURES.\
 	PLEASE REPORT ANY ISSUES YOU FIND TO THE DISCORD AND GITHUB!!!!"
@@ -36,7 +36,7 @@
 		OFFSET_NECK_F = list(0,-1), OFFSET_MOUTH_F = list(0,-1), OFFSET_PANTS_F = list(0,0), \
 		OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES_F = list(0,-1), \
 		)
-	race_bonus = list(STAT_PERCEPTION = 1, STAT_CONSTITUTION = -1)
+	race_bonus = list(STAT_PERCEPTION = 1, STAT_INTELLIGENCE = -1)
 	inherent_traits = list(
 						TRAIT_NOBREATH,
 						TRAIT_ZOMBIE_IMMUNE,
