@@ -7,6 +7,7 @@
 #define span_adminprefix(str) ("<span class='adminprefix'>" + str + "</span>")
 #define span_adminsay(str) ("<span class='adminsay'>" + str + "</span>")
 #define span_aiprivradio(str) ("<span class='aiprivradio'>" + str + "</span>")
+#define span_voyeurvice(str) ("<span class ='voyeurvice'>" + str + "</span>")
 #define span_alert(str) ("<span class='alert'>" + str + "</span>")
 #define span_alertalien(str) ("<span class='alertalien'>" + str + "</span>")
 #define span_alertsyndie(str) ("<span class='alertsyndie'>" + str + "</span>")
@@ -173,3 +174,5 @@
 /// Displays a tooltip. Accepts HTML. For the love of all that is holy, ensure input is trusted.
 /// * SPAN_LINKIFY doesn't work here.
 #define SPAN_TOOLTIP_DANGEROUS_HTML(tip, str) ("<span data-component=\"TooltipHTML\" data-html=\"[html_encode(tip)]\" class=\"tooltip\">[str]</span>")
+
+#define span_spoiler(str) ("<span class='spoiler'>" + str + "</span>") // OC EDIT

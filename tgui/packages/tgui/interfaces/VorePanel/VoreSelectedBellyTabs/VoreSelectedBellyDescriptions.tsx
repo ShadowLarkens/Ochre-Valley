@@ -30,6 +30,7 @@ export const VoreSelectedBellyDescriptions = (props: {
     show_liq_fullness,
     entrance_logs,
     item_digest_logs,
+    hidden_by_armor,
     name_length,
     name_min,
   } = bellyDescriptionData;
@@ -195,6 +196,18 @@ export const VoreSelectedBellyDescriptions = (props: {
                     tooltip={
                       (item_digest_logs ? 'Dis' : 'En') +
                       'ables item digest messages being shown to yourself.'
+                    }
+                  />
+                </LabeledList.Item>
+                <LabeledList.Item label="Hidden By Clothes">
+                  <VorePanelEditSwitch
+                    action="set_attribute"
+                    subAction="b_hidden_by_armor"
+                    editMode={editMode}
+                    active={!!hidden_by_armor}
+                    tooltip={
+                      (hidden_by_armor ? 'Dis' : 'En') +
+                      'ables some torso clothes hiding your belly examine info.'
                     }
                   />
                 </LabeledList.Item>

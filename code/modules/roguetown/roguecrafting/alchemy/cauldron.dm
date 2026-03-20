@@ -15,7 +15,7 @@
 	var/mob/living/carbon/human/lastuser
 	fueluse = 20 MINUTES
 	crossfire = FALSE
-
+	roundstart_forbid = TRUE
 /obj/machinery/light/rogue/cauldron/update_icon()
 	..()
 	cut_overlays()
@@ -31,6 +31,11 @@
 			filling.alpha = mix_alpha_from_reagents(reagents.reagent_list)
 			add_overlay(filling)
 	return
+
+/obj/machinery/light/rogue/cauldron/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click the cauldron with a container on the 'FEED' intent to fill it up. Likewise, left-clicking the cauldron with a container on the 'FILL' intent will gradually transfer the cauldron's brew into the container.")
+	. += span_info("Combining certain herbs, powders, and other ingredients can create a wide variety of alchemical wonders.")
 
 /obj/machinery/light/rogue/cauldron/Initialize()
 	create_reagents(500, DRAINABLE | AMOUNT_VISIBLE | REFILLABLE)

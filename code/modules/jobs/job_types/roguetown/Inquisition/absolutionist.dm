@@ -11,7 +11,7 @@
 	selection_color = JCOLOR_INQUISITION
 	outfit = /datum/outfit/job/roguetown/absolver
 	display_order = JDO_ABSOLVER
-	min_pq = null //3 // Low potential for grief. A pacifist by trade. Also needs to know wtf a PSYDON is.
+	min_pq = 3 //OV EDIT
 	max_pq = null
 	round_contrib_points = 2
 	wanderer_examine = FALSE
@@ -107,6 +107,7 @@
 		)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_ABSOLVER, start_maxed = TRUE) // PSYDONIAN MIRACLE-WORKER. LUX-MERGING FREEK.
+	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 
 /obj/effect/proc_holder/spell/invoked/convert_psydon
 	name = "Return to Orthodoxy"
@@ -149,7 +150,7 @@
 
 		target.devotion.Destroy()
 		target.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/projectile/divineblast)
-		target.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/projectile/divineblast/unholyblast)
+		target.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/projectile/unholyblast)
 
 	// Convert to PSYDON
 	target.patron = new user.patron.type()

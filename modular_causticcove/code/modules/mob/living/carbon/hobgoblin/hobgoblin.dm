@@ -139,8 +139,8 @@
 	eyes = new /obj/item/organ/eyes/night_vision/nightmare
 	eyes.Insert(src)
 	src.underwear = "Nude"
-	if(src.charflaw)
-		QDEL_NULL(src.charflaw)
+	for(var/datum/charflaw/cf in src.charflaws)
+		QDEL_NULL(cf)
 	update_body()
 	faction = list("orcs")
 	name = "hoblin"

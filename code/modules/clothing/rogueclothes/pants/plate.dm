@@ -39,10 +39,11 @@
 /obj/item/clothing/under/roguetown/platelegs/aalloy
 	name = "decrepit plate chausses"
 	desc = "Frayed bronze plates, shingled over chausses of rotting leather-and-maille. Voided bowels are all that remains of its former legionnaire."
-	icon_state = "ancientplate_legs"
+	icon_state = "ancientpants"
 	max_integrity = ARMOR_INT_LEG_DECREPIT_PLATE
 	color = "#bb9696"
 	chunkcolor = "#532e25"
+	material_category = ARMOR_MAT_PLATE
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 	prevent_crits = PREVENT_CRITS_NONE
@@ -51,7 +52,7 @@
 /obj/item/clothing/under/roguetown/platelegs/paalloy
 	name = "ancient plate chausses"
 	desc = "Polished gilbranze plates, layered atop silken chausses. Only the few who had embraced undeath were spared from Zizo's ascension; now, they command the undying legionnaires who march forth to sunder creation in Her name."
-	icon_state = "ancientplate_legs"
+	icon_state = "ancientpants"
 	smeltresult = /obj/item/ingot/aaslag
 	sellprice = 10
 
@@ -81,7 +82,7 @@
 /obj/item/clothing/under/roguetown/platelegs/matthios/Initialize()
 	. = ..()
 	//ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT) //Casutic Edit - Allow dropping of Heretic Armors (so fun can happen :P)
-	AddComponent(/datum/component/cursed_item, TRAIT_COMMIE, "ARMOR")
+	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
 
 /obj/item/clothing/under/roguetown/platelegs/matthios/dropped(mob/living/carbon/human/user)
 	. = ..()
@@ -89,6 +90,12 @@
 		return
 	qdel(src)
 */ //Caustic Edit End
+
+// OV edit start
+/obj/item/clothing/under/roguetown/platelegs/matthios/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
+// OV edit end
 
 /obj/item/clothing/under/roguetown/platelegs/zizo
 	max_integrity = ARMOR_INT_LEG_ANTAG
@@ -115,6 +122,9 @@
 /obj/item/clothing/under/roguetown/platelegs/zizo/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_STEP, 8)
+// OV edit start
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+// OV edit end
 
 /obj/item/clothing/under/roguetown/platelegs/skirt
 	name = "steel plate tassets"

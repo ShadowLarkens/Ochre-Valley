@@ -12,9 +12,9 @@ Just a reminder to keep up the best practices, and to ensure that everyone has a
 Do this one like so
 
 Azure
-///Ochre edit
+///OV edit
 Your code
-///Ochre edit end
+///OV edit end
 Azure
 
 This makes it easier for maintainers to keep track of what's ours.

@@ -1,6 +1,6 @@
 /datum/advclass/iconoclast //Support Cleric, Heavy armor, unarmed, miracles.
 	name = "Iconoclast"
-	tutorial = "Trained by an Ecclesial sect, you uphold the Ideological purity of the Matthian Creed. Take from the wealthy, give to the worthless, empower. They will look up to you, in search of the God of Robbery's guidance. Be their light in the dark."
+	tutorial = "Trained by an Ecclesial sect, you uphold the Ideological purity of the Matthiosian Creed. Take from the wealthy, give to the worthless, empower. They will look up to you, in search of the God of Robbery's guidance. Be their light in the dark."
 	extra_context = "Chosen of Matthios gives you weapon skills and as well access to HEAVY ARMOR training. Golden Serpent is limited to his fists (cannot even use shields nor punch weapons) and is forced to have BRONZE ARM / MISSING EYE."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = ACCEPTED_RACES
@@ -17,16 +17,16 @@
 		//Caustic edit end
 	)
 	subclass_skills = list(
+		//Caustic edit
 		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_MASTER,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_MASTER,  // Unarmed if we want to kick ass for the lord(you do, this is what you SHOULD DO!!)
+		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,  // Unarmed if we want to kick ass for the lord(you do, this is what you SHOULD DO!!)
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN, // We can substitute for a sawbones, but aren't as good and dont have access to surgical tools
-		//Caustic edit
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		//Caustic edit end
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
@@ -78,10 +78,12 @@
 				shirt = /obj/item/clothing/suit/roguetown/shirt/robe/monk/holy
 				ADD_TRAIT(H, TRAIT_GNARLYDIGITS, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_CYCLOPS_RIGHT, TRAIT_GENERIC)
+				ADD_TRAIT(H, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_LEGENDARY, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_LEGENDARY, TRUE)
 				H.change_stat(STATKEY_CON, 2)
 				H.change_stat(STATKEY_LCK, -2)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending/lesser)//So he can fix his arm
 				var/static/list/safe_bodyzones = list(
 					BODY_ZONE_HEAD,
 					BODY_ZONE_CHEST,

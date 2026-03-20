@@ -3,7 +3,8 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 	/client/proc/ghost_down,
 	/client/proc/descend,
 	/client/proc/reenter_corpse,
-	/client/proc/dead_observe
+	/client/proc/dead_observe, //OV EDIT
+	/client/proc/find_respawn, //OV ADD
 	))
 
 /client/proc/ghost_up()
@@ -98,3 +99,12 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 	if(istype(src, /mob/dead/observer)) //Be rid of clogging ghost shades
 		qdel(src)
 	return
+
+//OV edit
+/client/proc/find_respawn()
+	set category = "Spirit"
+	set name = "Find Vore Respawns"
+	if(isobserver(mob))
+		var/mob/dead/observer/O = mob
+		O.find_vore_respawn()
+//OV edit end

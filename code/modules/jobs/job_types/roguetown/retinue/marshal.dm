@@ -19,7 +19,7 @@
 
 	give_bank_account = TRUE
 	noble_income = 20
-	min_pq = null //8
+	min_pq = 8 //OV EDIT
 	max_pq = null
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_knight.ogg'
@@ -46,7 +46,7 @@
 	id = /obj/item/scomstone/garrison
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/rogueweapon/scabbard/sheath/noble = 1,
 		/obj/item/signal_horn = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
 		)
@@ -123,12 +123,12 @@
 	)
 
 /datum/outfit/job/roguetown/marshal/kcommander/pre_equip(mob/living/carbon/human/H)
-	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/retinue/coat
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/marshal
 	backr = /obj/item/rogueweapon/sword/long/oathkeeper
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
 	beltl = /obj/item/storage/keyring/marshal
-	l_hand = /obj/item/rogueweapon/scabbard/sword
+	l_hand = /obj/item/rogueweapon/scabbard/sword/noble
 
 /mob/living/carbon/human/proc/request_law()
 	set name = "Request Law"

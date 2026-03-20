@@ -61,11 +61,12 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	var/datum/spawners_menu/spawners_menu
 	var/ghostize_time = 0
 	move_resist = INFINITY
+	var/vore_death = FALSE //OV ADD - Used for permanent reformation portals
 
 /mob/dead/observer/rogue
 //	see_invisible = SEE_INVISIBLE_LIVING
 	sight = 0
-	see_in_dark = 2
+	see_in_dark = 10
 	var/next_gmove
 	var/misting = 0
 	draw_icon = TRUE
@@ -462,10 +463,10 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set hidden = 1
 	if(!client)
 		return
-	if(!mind || QDELETED(mind.current))
+	if(!mind || QDELETED(mind.current) || vore_death) //OV EDIT
 		to_chat(src, span_warning("I have no body."))
 		return
-	if(!can_reenter_corpse)
+	if(!can_reenter_corpse || vore_death) //OV Edit
 		to_chat(src, span_warning("I cannot re-enter my body."))
 		return
 	if(mind.current.key && copytext(mind.current.key,1,2)!="@")	//makes sure we don't accidentally kick any clients
@@ -479,6 +480,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	client.change_view(CONFIG_GET(string/default_view))
 	client?.verbs -= GLOB.ghost_verbs
 	SStgui.on_transfer(src, mind.current) // Transfer NanoUIs.
+	mind.current.aghosted = null //OV ADD
 	mind.current.key = key
 	return TRUE
 
@@ -578,8 +580,6 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set name = "Teleport"
 	set desc= "Teleport to a location"
 	set hidden = 1
-	if(!check_rights(R_WATCH))
-		return
 	if(!isobserver(usr))
 		to_chat(usr, span_warning("Not when you're not dead!"))
 		return
@@ -609,7 +609,11 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set name = "Orbit" // "Haunt"
 	set desc = ""
 	set hidden = 1
-	var/list/mobs = getpois(mobs_only=1,skip_mindless=1)
+	var/list/mobs
+	if(usr.client in GLOB.admins)
+		mobs = getpois(mobs_only=TRUE,skip_mindless=TRUE,skip_antighost=FALSE)
+	else
+		mobs = getpois(mobs_only=TRUE,skip_mindless=TRUE)
 
 	var/input = input("Who?!", "Haunt", null, null) as null|anything in mobs
 	var/mob/target = mobs[input]
@@ -661,15 +665,14 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set name = "Jump to Mob"
 	set desc = ""
 	set hidden = 1
-	if(!check_rights(R_WATCH))
-		return
+
 	if(isobserver(usr)) //Make sure they're an observer!
 
 
 		var/list/dest = list() //List of possible destinations (mobs)
 		var/target = null	   //Chosen target.
 
-		dest += getpois(mobs_only=1) //Fill list, prompt user with list
+		dest += getpois(mobs_only=TRUE) //Fill list, prompt user with list
 		target = input("Please, select a player!", "Jump to Mob", null, null) as null|anything in dest
 
 		if (!target)//Make sure we actually have a target
@@ -1105,3 +1108,26 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 			client.images += t_ray_images
 		else
 			client.images -= stored_t_ray_images
+
+//OV edit
+/mob/dead/observer/proc/find_vore_respawn()
+	if(!isobserver(src)) //Make sure they're an observer!
+		return
+	
+	var/list/respawn_portals = list()
+
+	for(var/obj/structure/respawn_portal/permanent/our_portal in GLOB.reformation_portals)
+		respawn_portals += our_portal
+
+	if(!respawn_portals.len)
+		to_chat(src, span_warning("No permanent reformation portals have been found."))
+		return
+	
+	var/where_to_spawn = tgui_input_list(src, "Which portal do you wish to move to?", "Reformation Portals", respawn_portals)
+
+	if(!where_to_spawn)
+		return
+	
+	var/move_me = get_turf(where_to_spawn)
+	forceMove(move_me)
+//OV edit end

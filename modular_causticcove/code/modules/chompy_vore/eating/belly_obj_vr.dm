@@ -127,7 +127,7 @@
 	//Actual full digest modes
 	var/tmp/static/list/digest_modes = list(DM_HOLD,DM_DIGEST,DM_ABSORB,DM_DRAIN,DM_SELECT,DM_UNABSORB,DM_HEAL,DM_EGG)
 	//Digest mode addon flags
-	var/tmp/static/list/mode_flag_list = list("Numbing" = DM_FLAG_NUMBING, "Stripping" = DM_FLAG_STRIPPING, "Muffles" = DM_FLAG_THICKBELLY, "Affect Worn Items" = DM_FLAG_AFFECTWORN, "TURBO MODE" = DM_FLAG_TURBOMODE)
+	var/tmp/static/list/mode_flag_list = list("Numbing" = DM_FLAG_NUMBING, "Stripping" = DM_FLAG_STRIPPING, "Muffles" = DM_FLAG_THICKBELLY, "Affect Worn Items" = DM_FLAG_AFFECTWORN, "TURBO MODE" = DM_FLAG_TURBOMODE, "Strip Digest" = DM_FLAG_STRIP_DIGEST)	//OV EDIT
 	//Item related modes
 	var/tmp/static/list/item_digest_modes = list(IM_HOLD,IM_DIGEST_FOOD,IM_DIGEST,IM_DIGEST_PARALLEL,IM_SMELTING)
 	//drain modes
@@ -274,6 +274,7 @@
 	var/entrance_logs = TRUE				// Belly-specific entry message toggle.
 	var/noise_freq = 42500					// Tasty sound prefs.
 	var/item_digest_logs = FALSE			// Chat messages for digested items.
+	var/hidden_by_armor = FALSE				// OV ADD - Hides belly if covered by clothing
 	var/storing_nutrition = FALSE			// Storing gained nutrition as paste instead of absorbing it.
 	var/belchchance = 0						// % Chance of pred belching on prey struggle
 
@@ -464,6 +465,7 @@
 	"absorbedrename_enabled",
 	"absorbedrename_name",
 	"item_digest_logs",
+	"hidden_by_armor",//OV ADD
 	"show_fullness_messages",
 	"digest_max",
 	"egg_type",
@@ -1025,10 +1027,14 @@
 
 	// If digested prey is also a pred... anyone inside their bellies gets moved up.
 	if(is_vore_predator(M))
-		M.release_vore_contents(include_absorbed = TRUE, silent = TRUE)
+		SSinventory_return.preserve_or_eject_belly_contents(M)	//OV EDIT - Preserve any unaccounted for belly contents before releasing things
 
 	//Drop all items into the belly.
 	//if(CONFIG_GET(flag/items_survive_digestion))
+	if(mode_flags & DM_FLAG_STRIP_DIGEST && M.client?.prefs_vr.strip_pref)		//OV ADD START - INVENTORY RETURN PORT FROM RS#1261
+		SSinventory_return.catalogue_full_inventory(M)
+	else
+		SSinventory_return.digest_inventory_preserve(M)	//OV ADD END
 	var/Itemlist = M.get_equipped_items(TRUE)
 	Itemlist += M.held_items
 	for(var/obj/item/W in Itemlist)
@@ -1102,6 +1108,7 @@
 	var/mob/dead/observer/G = M.ghostize(TRUE) // Make sure they're out, so we can copy attack logs and such.
 	if(G)
 		G.forceMove(owner)
+		G.vore_death = TRUE //OV ADD
 		if(G.client && G.client.prefs.digestion_noises)
 			SEND_SOUND(G, sfx)
 	M.clear_fullscreen("belly")
@@ -1743,6 +1750,7 @@
 	dupe.entrance_logs = entrance_logs
 	dupe.noise_freq = noise_freq
 	dupe.item_digest_logs = item_digest_logs
+	dupe.hidden_by_armor = hidden_by_armor //OV ADD
 	dupe.show_fullness_messages = show_fullness_messages
 	dupe.belchchance = belchchance
 	dupe.digest_max = digest_max

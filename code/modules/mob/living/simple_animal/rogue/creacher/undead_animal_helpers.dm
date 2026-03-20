@@ -30,7 +30,7 @@
 		return
 	to_chat(H, span_danger("A growing cold seeps into my body. I feel horrible... REALLY horrible..."))
 	H.infected = TRUE
-	H.apply_status_effect(/datum/status_effect/zombie_infection, infection_timer, "wound")
+	H.apply_status_effect(/datum/status_effect/zombie_infection, infection_timer, FALSE)
 
 GLOBAL_LIST_INIT(animal_to_undead, list(
 	/mob/living/simple_animal/hostile/retaliate/rogue/saiga = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead,
@@ -43,8 +43,11 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 /datum/component/deadite_animal_reanimation
 	var/reanimation_timer
 	var/undead_to_spawn
+	var/attempt_later_reanimate //Caustic Edit - Var to only attempt a loop of the timer this many times
 
 /datum/component/deadite_animal_reanimation/Initialize()
+	attempt_later_reanimate = 3 //Caustic Edit - Init the loop counter
+
 	if(!istype(parent, /mob/living/simple_animal))
 		return COMPONENT_INCOMPATIBLE
 
@@ -59,6 +62,21 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 
 /datum/component/deadite_animal_reanimation/proc/reanimate()
 	var/mob/living/simple_animal/mob = parent
+
+	//Caustic Edit - Add a prevention and loop the timer if someone living is nearby
+	if(attempt_later_reanimate > 0)
+		var/client_mobs = get_hearers_in_range(6, mob, SPATIAL_GRID_CONTENTS_TYPE_CLIENTS)
+		if(length(client_mobs))
+			for(var/mob/living/player_mob as anything in client_mobs)
+				if(player_mob.stat == CONSCIOUS)
+					attempt_later_reanimate--
+					if(attempt_later_reanimate >= 0)
+						reanimation_timer = addtimer(CALLBACK(src, PROC_REF(reanimate)), 1.5 MINUTES, TIMER_STOPPABLE)
+					else
+						UnregisterFromParent()
+					return
+	//Caustic Edit End
+
 	if(!prob(get_reanimation_chance()) || QDELETED(mob) || mob.stat != DEAD)
 		UnregisterFromParent()
 		return

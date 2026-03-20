@@ -7,7 +7,7 @@
 //	where you would want the updater procs below to run
 
 //	This also works with decimals.
-#define SAVEFILE_VERSION_MAX	33.9
+#define SAVEFILE_VERSION_MAX	35
 
 /*
 SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Carn
@@ -95,6 +95,29 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 						species_name = "Venardine"
 		_load_species(S, species_name)
+	if(current_version < 35) // Migrate old 3-slot loadout to gear_list
+		gear_list = list()
+		var/list/old_keys = list(
+			list("loadout", "loadout_1_hex"),
+			list("loadout2", "loadout_2_hex"),
+			list("loadout3", "loadout_3_hex"),
+		)
+		for(var/list/pair in old_keys)
+			var/loadout_type
+			S[pair[1]] >> loadout_type
+			if(!loadout_type || !ispath(loadout_type))
+				continue
+			var/datum/loadout_item/LI = GLOB.loadout_items[loadout_type]
+			if(!LI || LI.name == "Parent loadout datum")
+				continue
+			var/list/meta = list()
+			var/old_hex
+			S[pair[2]] >> old_hex
+			if(old_hex)
+				if(old_hex[1] != "#")
+					old_hex = "#[old_hex]"
+				meta["color"] = old_hex
+			gear_list[LI.name] = meta
 
 /datum/preferences/proc/load_path(ckey,filename="preferences.sav")
 	if(!ckey)
@@ -135,6 +158,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["be_special"] 		>> be_special
 	S["triumphs"]			>> triumphs
 	S["musicvol"]			>> musicvol
+	S["lobbymusicvol"]		>> lobbymusicvol
+	S["ambiencevol"]		>> ambiencevol
 	S["anonymize"]			>> anonymize
 	S["masked_examine"]		>> masked_examine
 	S["full_examine"]		>> full_examine
@@ -148,15 +173,18 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["crt"]				>> crt
 	S["grain"]				>> grain
 	S["sexable"]			>> sexable
+	S["hide_pq"]			>> hide_pq //OV ADD
 	S["shake"]				>> shake
 	S["mastervol"]			>> mastervol
 	S["lastclass"]			>> lastclass
+	S["compliance_notifs"]  >> compliance_notifs
 
 
 	S["default_slot"]		>> default_slot
 	S["chat_toggles"]		>> chat_toggles
 	S["toggles"]			>> toggles
-	S["floating_text_toggles"]>> floating_text_toggles
+	S["combat_toggles"]		>> combat_toggles
+	S["ghost_toggles"]		>> ghost_toggles
 	S["admin_chat_toggles"]	>> admin_chat_toggles
 	S["ghost_form"]			>> ghost_form
 	S["ghost_orbit"]		>> ghost_orbit
@@ -174,6 +202,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["widescreenpref"]	    >> widescreenpref
 	S["menuoptions"]		>> menuoptions
 	S["enable_tips"]		>> enable_tips
+	S["attack_blip_frequency"] >> attack_blip_frequency
 	S["tip_delay"]			>> tip_delay
 	S["pda_style"]			>> pda_style
 	S["pda_color"]			>> pda_color
@@ -188,7 +217,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		update_preferences(needs_update, S)		//needs_update = savefile_version if we need an update (positive integer)
 
 	//Sanitize
-	asaycolor		= sanitize_ooccolor(sanitize_hexcolor(asaycolor, 6, 1, initial(asaycolor)))
+	// asaycolor		= sanitize_ooccolor(sanitize_hexcolor(asaycolor, 6, 1, initial(asaycolor))) // OV Remove: STOP sanitizing asay colors!
 	ooccolor		= sanitize_ooccolor(sanitize_hexcolor(ooccolor, 6, 1, initial(ooccolor)))
 	lastchangelog	= sanitize_text(lastchangelog, initial(lastchangelog))
 	UI_style		= sanitize_inlist(UI_style, GLOB.available_ui_styles, GLOB.available_ui_styles[1])
@@ -205,13 +234,15 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	windowflashing	= sanitize_integer(windowflashing, 0, 1, initial(windowflashing))
 	default_slot	= sanitize_integer(default_slot, 1, max_save_slots, initial(default_slot))
 	toggles			= sanitize_integer(toggles, 0, INFINITY, initial(toggles))
-	floating_text_toggles = sanitize_integer(floating_text_toggles, 0, INFINITY, initial(floating_text_toggles))
+	combat_toggles = sanitize_integer(combat_toggles, 0, INFINITY, initial(combat_toggles))
+	ghost_toggles = sanitize_integer(ghost_toggles, 0, INFINITY, initial(ghost_toggles))
 	admin_chat_toggles = sanitize_integer(admin_chat_toggles, 0, INFINITY, initial(admin_chat_toggles))
 	chat_toggles = sanitize_integer(chat_toggles, 0, INFINITY, initial(chat_toggles))
 	clientfps		= sanitize_integer(clientfps, 0, 1000, 0)
 	parallax		= sanitize_integer(parallax, PARALLAX_INSANE, PARALLAX_DISABLE, null)
 	ambientocclusion	= sanitize_integer(ambientocclusion, 0, 1, initial(ambientocclusion))
 	auto_fit_viewport	= sanitize_integer(auto_fit_viewport, 0, 1, initial(auto_fit_viewport))
+	attack_blip_frequency = sanitize_integer(attack_blip_frequency, 0, 100, ATTACK_BLIP_PREF_DEFAULT)
 	widescreenpref  = sanitize_integer(widescreenpref, 0, 1, initial(widescreenpref))
 	ghost_form		= sanitize_inlist(ghost_form, GLOB.ghost_forms, initial(ghost_form))
 	ghost_orbit 	= sanitize_inlist(ghost_orbit, GLOB.ghost_orbits, initial(ghost_orbit))
@@ -258,6 +289,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["asaycolor"], asaycolor)
 	WRITE_FILE(S["triumphs"], triumphs)
 	WRITE_FILE(S["musicvol"], musicvol)
+	WRITE_FILE(S["lobbymusicvol"], lobbymusicvol)
+	WRITE_FILE(S["ambiencevol"], ambiencevol)
 	WRITE_FILE(S["anonymize"], anonymize)
 	WRITE_FILE(S["masked_examine"], masked_examine)
 	WRITE_FILE(S["full_examine"], full_examine)
@@ -270,6 +303,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["no_redflash"], no_redflash)
 	WRITE_FILE(S["crt"], crt)
 	WRITE_FILE(S["sexable"], sexable)
+	WRITE_FILE(S["hide_pq"], hide_pq) //OV ADD
 	WRITE_FILE(S["shake"], shake)
 	WRITE_FILE(S["lastclass"], lastclass)
 	WRITE_FILE(S["mastervol"], mastervol)
@@ -291,7 +325,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["default_slot"], default_slot)
 	WRITE_FILE(S["toggles"], toggles)
 	WRITE_FILE(S["chat_toggles"], chat_toggles)
-	WRITE_FILE(S["floating_text_toggles"], floating_text_toggles)
+	WRITE_FILE(S["combat_toggles"], combat_toggles)
+	WRITE_FILE(S["ghost_toggles"], ghost_toggles)
 	WRITE_FILE(S["admin_chat_toggles"], admin_chat_toggles)
 	WRITE_FILE(S["ghost_form"], ghost_form)
 	WRITE_FILE(S["ghost_orbit"], ghost_orbit)
@@ -313,9 +348,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["pda_style"], pda_style)
 	WRITE_FILE(S["pda_color"], pda_color)
 	WRITE_FILE(S["key_bindings"], key_bindings)
+	WRITE_FILE(S["attack_blip_frequency"] , attack_blip_frequency)
+	WRITE_FILE(S["compliance_notifs"], compliance_notifs)
+
 	///Caustic edit
 	WRITE_FILE(S["epilepsy"], epilepsy)
 	///Caustic edit end
+	
 	return TRUE
 
 
@@ -341,14 +380,19 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		S["race_bonus"] >> race_bonus
 
 /datum/preferences/proc/_load_flaw(S)
-	var/charflaw_type
-	S["charflaw"]			>> charflaw_type
-	if(charflaw_type)
-		charflaw = new charflaw_type()
+	charflaws = list()
+	var/list/charflaw_types
+	S["charflaws"] >> charflaw_types
+	if(charflaw_types && length(charflaw_types))
+		for(var/flaw_type in charflaw_types)
+			if(flaw_type)
+				charflaws.Add(new flaw_type())
+	// Backwards compatibility: load old single charflaw format
 	else
-		charflaw = pick(GLOB.character_flaws)
-		charflaw = GLOB.character_flaws[charflaw]
-		charflaw = new charflaw()
+		var/charflaw_type
+		S["charflaw"] >> charflaw_type
+		if(charflaw_type)
+			charflaws.Add(new charflaw_type())
 
 /datum/preferences/proc/_load_culinary_preferences(S)
 	var/list/loaded_culinary_preferences
@@ -372,8 +416,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 /datum/preferences/proc/_load_virtue(S)
 	var/virtue_type
 	var/virtuetwo_type
+	var/origin_type
 	S["virtue"] >> virtue_type
 	S["virtuetwo"] >> virtuetwo_type
+	S["virtue_origin"] >> origin_type
 	if (virtue_type)
 		virtue = new virtue_type()
 	else
@@ -383,46 +429,23 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		virtuetwo = new virtuetwo_type
 	else
 		virtuetwo = new /datum/virtue/none
+	
+	if(origin_type)
+		virtue_origin = new origin_type
+	else
+		virtue_origin = new /datum/virtue/none
 
 	load_extra_virtue(S)
 
-/datum/preferences/proc/_load_loadout(S)
-	var/loadout_type
-	S["loadout"] >> loadout_type
-	if (loadout_type)
-		loadout = new loadout_type()
+/datum/preferences/proc/_load_gear_list(savefile/S)
+	S["gear_list"] >> gear_list
+	if(!islist(gear_list))
+		gear_list = list()
+	// Validate: remove items that no longer exist
+	for(var/item_name in gear_list)
+		if(!(item_name in GLOB.loadout_items_by_name))
+			gear_list -= item_name
 
-/datum/preferences/proc/_load_loadout2(S)
-	var/loadout_type2
-	S["loadout2"] >> loadout_type2
-	if (loadout_type2)
-		loadout2 = new loadout_type2()
-
-/datum/preferences/proc/_load_loadout3(S)
-	var/loadout_type3
-	S["loadout3"] >> loadout_type3
-	if (loadout_type3)
-		loadout3 = new loadout_type3()
-/datum/preferences/proc/_load_loadout4(S)
-	var/loadout_type4
-	S["loadout4"] >> loadout_type4
-	if (loadout_type4)
-		loadout4 = new loadout_type4()
-
-/datum/preferences/proc/_load_loadout5(S)
-	var/loadout_type5
-	S["loadout5"] >> loadout_type5
-	if (loadout_type5)
-		loadout5 = new loadout_type5()
-
-/datum/preferences/proc/_load_loadout_colours(S)
-	S["loadout_1_hex"] >> loadout_1_hex
-	S["loadout_2_hex"] >> loadout_2_hex
-	S["loadout_3_hex"] >> loadout_3_hex
-	///Caustic edit
-	S["loadout_4_hex"] >> loadout_4_hex
-	S["loadout_5_hex"] >> loadout_5_hex
-	///Caustic edit end
 
 /datum/preferences/proc/_load_height(S)
 	var/preview_height
@@ -450,6 +473,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["vampire_skin"]		>> vampire_skin
 	S["vampire_hair"]		>> vampire_hair
 	S["vampire_eyes"]		>> vampire_eyes
+	S["vampire_ears"]		>> vampire_ears
 	S["extra_language"]		>> extra_language
 	S["voice_color"]		>> voice_color
 	S["voice_pitch"]		>> voice_pitch
@@ -469,7 +493,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["feature_mcolor3"]	>> features["mcolor3"]
 	S["feature_ethcolor"]	>> features["ethcolor"]
 	S["pronouns"]			>> pronouns
+	S["titles_pref"]		>> titles_pref
+	S["clothes_pref"]		>> clothes_pref
 	S["voice_type"]			>> voice_type
+	S["voice_pack"]			>> voice_pack
 	S["nickname"]			>> nickname
 	S["highlight_color"]	>> highlight_color
 	S["taur_type"]			>> taur_type
@@ -521,12 +548,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	// LETHALSTONE edit: jank-ass load our statpack choice
 	_load_statpack(S)
 
-	_load_loadout(S)
-	_load_loadout2(S)
-	_load_loadout3(S)
-	_load_loadout4(S)
-	_load_loadout5(S)
-	_load_loadout_colours(S)
+	_load_gear_list(S)
 
 	_load_combat_music(S)
 
@@ -589,7 +611,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["werewolf_headshot_link"]			>> werewolf_headshot_link
 	if(!valid_headshot_link(null, werewolf_headshot_link, TRUE))
 		werewolf_headshot_link = null
-
+	// OC Edit Start
+	S["werewolf_setname"]			>> werewolf_setname
+	S["werewolf_setdesc"]			>> werewolf_setdesc
+	// OC Edit End
 	S["qsr"] 			>> qsr_pref
 	S["flavortext"]			>> flavortext
 	S["ooc_notes"]			>> ooc_notes
@@ -607,6 +632,16 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["preset_bounty_severity_b_key"] >> preset_bounty_severity_b_key
 	S["preset_bounty_crime"] >> preset_bounty_crime
 
+	//OV edit
+	S["show_in_directory"] >> show_in_directory
+	S["directory_tag"] >> directory_tag
+	S["directory_erptag"] >> directory_erptag
+	S["directory_gendertag"] >> directory_gendertag
+	S["directory_sexualitytag"] >> directory_sexualitytag
+	S["directory_pvp"] >> directory_pvp
+	S["directory_ad"] >> directory_ad
+	//OV edit end
+
 	S["img_gallery"]	>> img_gallery
 	img_gallery = SANITIZE_LIST(img_gallery)
 
@@ -616,6 +651,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	S["pronouns"] >> pronouns
 	S["voice_type"] >> voice_type
+	S["voice_pack"] >> voice_pack
 	S["body_size"] >> features["body_size"]
 	if (!features["body_size"])
 		features["body_size"] = BODY_SIZE_NORMAL
@@ -624,6 +660,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(needs_update >= 0)
 		update_character(needs_update, S)		//needs_update == savefile_version if we need an update (positive integer)
 
+	// Regenerate cache for flavor texts etc. Must be UNCONDITIONAL because prefs is on client.
+	// We use empty string if they are empty, so the previous slot's data don't get kept in the cache.
+	flavortext_cached = flavortext ? parsemarkdown_basic(html_encode(flavortext), hyperlink = TRUE) : ""
+	ooc_notes_cached = ooc_notes ? parsemarkdown_basic(html_encode(ooc_notes), hyperlink = TRUE) : ""
+	nsfwflavortext_cached = nsfwflavortext ? parsemarkdown_basic(html_encode(nsfwflavortext), hyperlink = TRUE) : ""
+	erpprefs_cached = erpprefs ? parsemarkdown_basic(html_encode(erpprefs), hyperlink = TRUE) : ""
+	werewolf_setdesc_cached = werewolf_setdesc ? parsemarkdown_basic(parse_spoilers(html_encode(werewolf_setdesc)), hyperlink = TRUE) : "" // OC Edit
 	//Sanitize
 
 	real_name = reject_bad_name(real_name)
@@ -658,7 +701,12 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	backpack		= sanitize_inlist(backpack, GLOB.backpacklist, initial(backpack))
 	jumpsuit_style	= sanitize_inlist(jumpsuit_style, GLOB.jumpsuitlist, initial(jumpsuit_style))
 	uplink_spawn_loc = sanitize_inlist(uplink_spawn_loc, GLOB.uplink_spawn_loc_list, initial(uplink_spawn_loc))
-	pronouns = sanitize_text(pronouns, THEY_THEM)
+	if(pronouns in GLOB.pronouns_list)	//In case we have an invalid one after pronoun changes. - Feb. 2026
+		pronouns = sanitize_text(pronouns, THEY_THEM)
+	else
+		pronouns = THEY_THEM
+	titles_pref = sanitize_text(titles_pref, TITLES_M)
+	clothes_pref = sanitize_text(clothes_pref, CLOTHES_M)
 	voice_type = sanitize_text(voice_type, VOICE_TYPE_MASC)
 	features["mcolor"]	= sanitize_hexcolor(features["mcolor"], 6, 0)
 	features["mcolor2"]	= sanitize_hexcolor(features["mcolor2"], 6, 0)
@@ -724,6 +772,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["vampire_skin"]		, vampire_skin)
 	WRITE_FILE(S["vampire_hair"]		, vampire_hair)
 	WRITE_FILE(S["vampire_eyes"]		, vampire_eyes)
+	WRITE_FILE(S["vampire_ears"]		, vampire_ears)
 	WRITE_FILE(S["extra_language"]		, extra_language)
 	WRITE_FILE(S["voice_color"]			, voice_color)
 	WRITE_FILE(S["voice_pitch"]			, voice_pitch)
@@ -737,7 +786,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["uplink_loc"]			, uplink_spawn_loc)
 	WRITE_FILE(S["randomise"]			, randomise)
 	WRITE_FILE(S["species"]				, pref_species.name)
-	WRITE_FILE(S["charflaw"]			, charflaw.type)
+	var/list/charflaw_types = list()
+	for(var/datum/charflaw/cf in charflaws)
+		charflaw_types.Add(cf.type)
+	WRITE_FILE(S["charflaws"]			, charflaw_types)
 	WRITE_FILE(S["feature_mcolor"]		, features["mcolor"])
 	WRITE_FILE(S["feature_mcolor2"]		, features["mcolor2"])
 	WRITE_FILE(S["feature_mcolor3"]		, features["mcolor3"])
@@ -780,6 +832,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["headshot_link"] , headshot_link)
 	WRITE_FILE(S["vampire_headshot_link"] , vampire_headshot_link)
 	WRITE_FILE(S["werewolf_headshot_link"] , werewolf_headshot_link)
+	// OC Edit S
+	WRITE_FILE(S["werewolf_setname"] , werewolf_setname)
+	WRITE_FILE(S["werewolf_setdesc"] , html_decode(werewolf_setdesc))
+	// OC Edit E
 	WRITE_FILE(S["lich_headshot_link"] , lich_headshot_link)
 	WRITE_FILE(S["qsr"] , qsr_pref)
 	WRITE_FILE(S["preset_bounty_enabled"] , preset_bounty_enabled)
@@ -797,10 +853,14 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["song_title"] , song_title)
 	WRITE_FILE(S["char_accent"] , char_accent)
 	WRITE_FILE(S["voice_type"] , voice_type)
+	WRITE_FILE(S["voice_pack"] , voice_pack)
 	WRITE_FILE(S["pronouns"] , pronouns)
+	WRITE_FILE(S["titles_pref"] , titles_pref)
+	WRITE_FILE(S["clothes_pref"] , clothes_pref)
 	WRITE_FILE(S["statpack"] , statpack.type)
 	WRITE_FILE(S["virtue"] , virtue.type)
 	WRITE_FILE(S["virtuetwo"], virtuetwo.type)
+	WRITE_FILE(S["virtue_origin"], virtue_origin.type)
 	WRITE_FILE(S["race_bonus"], race_bonus)
 	WRITE_FILE(S["combat_music"], combat_music.type)
 	WRITE_FILE(S["body_size"] , features["body_size"])
@@ -808,28 +868,17 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["erpprefs"] , html_decode(erpprefs))
 	WRITE_FILE(S["img_gallery"] , img_gallery)
 
-	if(loadout)
-		WRITE_FILE(S["loadout"] , loadout.type)
-	else
-		WRITE_FILE(S["loadout"] , null)
-	if(loadout2)
-		WRITE_FILE(S["loadout2"] , loadout2.type)
-	else
-		WRITE_FILE(S["loadout2"] , null)
-	if(loadout3)
-		WRITE_FILE(S["loadout3"] , loadout3.type)
-	else
-		WRITE_FILE(S["loadout3"] , null)
-	//Cove edit start
-	if(loadout4)
-		WRITE_FILE(S["loadout4"] , loadout4.type)
-	else
-		WRITE_FILE(S["loadout4"] , null)
-	if(loadout5)
-		WRITE_FILE(S["loadout5"] , loadout5.type)
-	else
-		WRITE_FILE(S["loadout5"] , null)
-	//Cove edit end
+	//OV edit
+	WRITE_FILE(S["show_in_directory"] , show_in_directory)
+	WRITE_FILE(S["directory_tag"] , directory_tag)
+	WRITE_FILE(S["directory_erptag"] , directory_erptag)
+	WRITE_FILE(S["directory_gendertag"] , directory_gendertag)
+	WRITE_FILE(S["directory_sexualitytag"] , directory_sexualitytag)
+	WRITE_FILE(S["directory_pvp"] , directory_pvp) //OV ADD
+	WRITE_FILE(S["directory_ad"] , directory_ad)
+	//OV edit end
+
+	WRITE_FILE(S["gear_list"], gear_list)
 
 	//Familiar Files
 	WRITE_FILE(S["familiar_name"] , familiar_prefs.familiar_name)
@@ -841,18 +890,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["familiar_ooc_extra"] , familiar_prefs.familiar_ooc_extra)
 	WRITE_FILE(S["familiar_ooc_extra_link"] , familiar_prefs.familiar_ooc_extra_link)
 
-	WRITE_FILE(S["loadout_1_hex"], loadout_1_hex)
-	WRITE_FILE(S["loadout_2_hex"], loadout_2_hex)
-	WRITE_FILE(S["loadout_3_hex"], loadout_3_hex)
+
+
 	//Caustic edit
-	WRITE_FILE(S["loadout_4_hex"], loadout_4_hex)
-	WRITE_FILE(S["loadout_5_hex"], loadout_5_hex)
-	//save_vore_prefs(S)
 	save_sizecat(S)
 	save_extra_virtue(S)
 	save_pickupable(S)
 	//Caustic edit end
-
 	return TRUE
 
 

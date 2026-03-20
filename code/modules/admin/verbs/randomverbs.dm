@@ -567,7 +567,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 /client/proc/cmd_admin_gib_self()
 	set name = "Gibself"
-	set category = "-Fun-"
+	set category = "-GameMaster-"
 
 	var/confirm = alert(src, "You sure?", "Confirm", "Yes", "No")
 	if(confirm == "Yes")
@@ -651,7 +651,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 
 /client/proc/run_weather()
-	set category = "-Fun-"
+	set category = "-GameMaster-"
 	set name = "Run Weather"
 	set desc = ""
 	set hidden = 1 //Replaced by particle weather
@@ -716,7 +716,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 /client/proc/smite(mob/living/target as mob)
 	set name = "Smite"
-	set category = "-Fun-"
+	set category = "-GameMaster-"
 	if(!check_rights(R_ADMIN) || !check_rights(R_FUN))
 		return
 	var/static/list/punishment_list = list(
@@ -957,3 +957,32 @@ Traitors and the like can also be revived with the previous role mostly intact.
 			REMOVE_TRAIT(D,chosen_trait,source)
 			message_admins("Admin [key_name_admin(usr)] remove trait [chosen_trait] from [D]!")
 			log_admin("Admin [key_name_admin(usr)] remove trait [chosen_trait] from [D]!")
+
+//OV edit
+//reenable PQ on request
+/client/proc/reenable_pq()
+	set category = "-Admin-"
+	set name = "Reenable players PQ"
+
+	if(!check_rights(R_ADMIN))
+		return
+
+	var/list/pq_off = list()
+	for(var/client/the_client in GLOB.clients)
+		if(the_client.prefs)
+			if(the_client.prefs.hide_pq)
+				pq_off += the_client
+	
+	if(!pq_off.len)
+		to_chat(usr, "No clients found with PQ disabled")
+		return
+	
+	var/client/chosen_one = tgui_input_list(usr, "Which client wants their PQ values enabled again?", "Enable PQ", pq_off)
+	if(!chosen_one)
+		return
+	chosen_one.prefs.hide_pq = FALSE
+	chosen_one.prefs.save_preferences()
+	to_chat(chosen_one, "You can now see PQ again.")
+	to_chat(usr, "[chosen_one] can now see PQ again.")
+	log_and_message_admins("[usr] has re-enabled PQ for [chosen_one]")
+//OV edit end

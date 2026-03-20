@@ -15,7 +15,7 @@
 		STATKEY_WIL = 3,
 		STATKEY_PER = 2, // Adv mage get 2 perception so whatever. It is useful for aiming body parts but have no direct synergy with spells. 
 		STATKEY_LCK = 1,
-		STATKEY_CON = 1,
+		STATKEY_CON = -1,
 		//Caustic edit end
 	)
 	age_mod = /datum/class_age_mod/court_magician
@@ -59,9 +59,3 @@
 	if(H.age == AGE_OLD)
 		head = /obj/item/clothing/head/roguetown/wizhat/gen
 		armor = /obj/item/clothing/suit/roguetown/shirt/robe
-
-	if(!istype(H.patron, /datum/patron/inhumen/matthios))
-		var/inputty = input(H, "Would you like to change your patron to Matthios?", "The Transactor calls", "No") as anything in list("Yes", "No")
-		if(inputty == "Yes")
-			to_chat(H, span_warning("My former deity has abandoned me.. Matthios is my new master."))
-			H.set_patron(/datum/patron/inhumen/matthios)

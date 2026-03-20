@@ -32,6 +32,8 @@
 		TRAIT_STRONGBITE,
 		TRAIT_LYCANRESILENCE,
 		TRAIT_CHUNKYFINGERS, //So they can no longer use weapons at all.
+		TRAIT_UNLYCKERABLE, //Literal archenemy
+		TRAIT_ZOMBIE_IMMUNE
 	)
 	confess_lines = list(
 		"THE BEAST INSIDE ME!",
@@ -43,8 +45,36 @@
 	var/transformed
 	var/transforming
 	var/untransforming
+	var/resisting_transformation = FALSE // Caustic Edit
+	var/ignore_transformation_resist = FALSE // Caustic Edit
 	var/wolfname = "Verewolf"
+	var/static/list/dendor_cries = list('sound/effects/werewolf_sounds/wscream1.ogg',
+								'sound/effects/werewolf_sounds/wscream2.ogg',
+								'sound/effects/werewolf_sounds/wscream3.ogg',
+								'sound/effects/werewolf_sounds/wscream4.ogg',
+								'sound/effects/werewolf_sounds/wscream5.ogg')
+// OV EDIT START
+	var/allow_rename = FALSE
+	var/wolfdesc
+	var/wolfdesc_cached
+	var/list/werewolf_verbs = list(
+		/mob/living/carbon/human/proc/werewolf_changename,
+		/mob/living/carbon/human/proc/werewolf_changedesc
+	)
 
+/datum/antagonist/werewolf/proc/apply_verbs(mob/M)
+	if(!M) return
+	for(var/verb_path in werewolf_verbs)
+		M.verbs |= verb_path
+
+/datum/antagonist/werewolf/proc/remove_verbs(mob/M)
+	if(!M) return
+	for(var/verb_path in werewolf_verbs)
+		M.verbs -= verb_path
+
+/proc/examine_span_details(title, content) // This feels dumb. Original define at 'modular_causticcove/__DEFINES/slop.dm', it's not loaded when 'code/modules/mob/living/carbon/human/examine.dm' is. -- Umbree.
+    return "<details><summary>[title]</summary>[content]</details>"
+// OV EDIT END
 /datum/antagonist/werewolf/lesser
 	name = "Lesser Verewolf"
 	increase_votepwr = FALSE
@@ -57,23 +87,52 @@
 		return span_boldnotice("A young lupine kin.")
 	if(istype(examined_datum, /datum/antagonist/werewolf))
 		return span_boldnotice("An elder lupine kin.")
+	if(istype(examined_datum, /datum/antagonist/maniac))
+		return span_boldnotice("A fool.")
+	if(istype(examined_datum, /datum/antagonist/dreamwalker))
+		return span_boldnotice("The dreamer has this one in his grasp.")
+	if(istype(examined_datum, /datum/antagonist/gnoll))
+		return span_boldnotice("An abomination.")
 	if(examiner.Adjacent(examined))
+		if(istype(examined_datum, /datum/antagonist/lich))
+			return span_boldnotice("A deadite freek.")
 		if(istype(examined_datum, /datum/antagonist/vampire))
+			return span_boldnotice("A putrid vampyr, I should watch my back.")
+		if(istype(examined_datum, /datum/antagonist/vampire/lord))
 			if(transformed)
-				return span_boldwarning("An Ancient Vampire. I must be careful!")
+				return span_boldwarning("An ancient vampyr. I must be careful!")
 
 /datum/antagonist/werewolf/on_gain()
 	greet()
 	owner.special_role = name
 	if(increase_votepwr)
 		forge_werewolf_objectives()
-	
-	wolfname = "[pick(GLOB.wolf_prefixes)] [pick(GLOB.wolf_suffixes)]"
+	// OV Edit Start
+	var/mob/living/carbon/human/H = owner?.current
+	if(H)
+		if(H.werewolf_setname && length(H.werewolf_setname) > 0)
+			wolfname = H.werewolf_setname
+			allow_rename = FALSE
+		else
+			wolfname = "[pick(GLOB.wolf_prefixes)] [pick(GLOB.wolf_suffixes)]"
+			allow_rename = TRUE
+		if(H.werewolf_setdesc && H.werewolf_setdesc_cached)
+			wolfdesc = H.werewolf_setdesc
+			wolfdesc_cached = H.werewolf_setdesc_cached
+		apply_verbs(H)
+	else
+		wolfname = "[pick(GLOB.wolf_prefixes)] [pick(GLOB.wolf_suffixes)]"
+		allow_rename = TRUE
+	// OV Edit End
 	return ..()
 
 /datum/antagonist/werewolf/on_removal()
 	if(!silent && owner.current)
 		to_chat(owner.current,span_danger("I am no longer a [special_role]!"))
+	// OV Edit Start
+	var/mob/M = owner?.current
+	remove_verbs(M)
+	// OV Edit End
 	owner.special_role = null
 	return ..()
 
@@ -91,12 +150,18 @@
 		return
 
 /datum/antagonist/werewolf/greet()
-	to_chat(owner.current, span_userdanger("Since a bite long, long ago, Dendor's Madness has welled within me. Before the Moonlight, I will sate my hallowed Hunger."))
+	to_chat(owner.current, span_userdanger("I feel Dendor's madness welling within me. What was its cause... A bite? A curse? Perhaps a blessing? Regardless, the Moonlight calls to me like a siren's song. It promises to help me sate this excruciating Hunger...")) // Caustic Edit: Rewrote text to be a bit more ambiguous
+	var/picked_sound = pick(dendor_cries)
+	owner.current.playsound_local(get_turf(owner.current), picked_sound, 100)
 	return ..()
 
 /datum/antagonist/werewolf/lesser/greet()
-	// leave this empty so that lesser verevolf's dont get the greeting on bite.
-	// there is probably a better way to do this but this works until sm1 smarter inevitably rewrites WW.
+	// DO NOT call parent. 
+	// lesser verevolfs should always be created by alpha bites, which have their own way of informing the user
+	// they are a werewolf. despite this, i still want to provide a new audio cue in the form of [THE CRY].
+	// remove it if it's obstructive. thx.
+	var/picked_sound = pick(dendor_cries)
+	owner.current.playsound_local(get_turf(owner.current), picked_sound, 100)
 
 /mob/living/carbon/human/proc/can_werewolf()
 	if(!mind)
@@ -219,6 +284,7 @@
 	embedding = list("embedded_pain_multiplier" = 0, "embed_chance" = 0, "embedded_fall_chance" = 0)
 	item_flags = DROPDEL
 	special = /datum/special_intent/axe_swing	//Good pairing for area denial for WW's.
+	experimental_inhand = FALSE
 
 /obj/item/rogueweapon/werewolf_claw/right
 	icon_state = "claw_r"

@@ -69,6 +69,18 @@
 		)
 	craftdiff = 0
 
+//OV edit
+/datum/crafting_recipe/roguetown/survival/cow_collar
+	name = "cowbell collar"
+	category = "Clothes"
+	result = /obj/item/clothing/neck/roguetown/collar/cow_collar
+	reqs = list(
+		/obj/item/natural/hide/cured = 1,
+		/obj/item/ingot/iron = 1,
+		)
+	craftdiff = 0
+//OV edit end
+
 /datum/crafting_recipe/roguetown/survival/feldcollar
 	name = "feldcollar"
 	category = "Clothes"

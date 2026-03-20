@@ -44,7 +44,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shadowshirt //padded is too strong I guess.
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
-	wrists = /obj/item/clothing/wrists/roguetown/splintarms
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
 		/obj/item/flashlight/flare/torch/lantern = 1,
@@ -52,7 +52,7 @@
 		/obj/item/rogueweapon/huntingknife/idagger/navaja = 1,
 		)
 	if(H.mind)
-		var/weapons = list("Intrepid Leader - Dual Longswords", "Calculating Tactician - Crossbow + Shortsword")
+		var/weapons = list("Intrepid Leader - Dual Longswords", "Calculating Tactician - Crossbow + Shortsword", "Stalwart Captain - Flamberge") //OV Edit: More Greatswords for Mercs on request
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
 			if("Intrepid Leader - Dual Longswords") //It's badass fuck you
@@ -68,10 +68,18 @@
 				H.change_stat(STATKEY_PER, -2)
 			if("Calculating Tactician - Crossbow + Shortsword") 
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_MASTER, TRUE)
-				beltr = /obj/item/quiver/bolts
+				beltr = /obj/item/quiver/bolt/standard
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 				beltl = /obj/item/rogueweapon/scabbard/sword
 				l_hand = /obj/item/rogueweapon/sword/short
+			if("Stalwart Captain - Flamberge") //OV Edit: Curvy Sword wooooo
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+				r_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge
+				backr = /obj/item/rogueweapon/scabbard/gwstrap
+				H.change_stat(STATKEY_SPD, -2)
+				H.change_stat(STATKEY_STR, 2)
+				H.change_stat(STATKEY_CON, 2)
+				H.change_stat(STATKEY_INT, -2) //OV Edit End
 	H.merctype = 3
 
 /datum/advclass/mercenary/etrusca/balestrieri
@@ -121,7 +129,7 @@
 	beltl = /obj/item/rogueweapon/scabbard/sword
 	l_hand = /obj/item/rogueweapon/sword/short
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/jackchain
-	beltr = /obj/item/quiver/bolts
+	beltr = /obj/item/quiver/bolt/standard
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants

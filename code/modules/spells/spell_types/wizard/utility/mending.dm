@@ -14,6 +14,7 @@
 	spell_tier = 2 // Utility. Faster repairs.
 	glow_color = GLOW_COLOR_ARCANE
 	glow_intensity = GLOW_INTENSITY_LOW
+	ignore_los = TRUE // temp. cus it breaks if it doesnt have this maybe
 
 	miracle = FALSE
 
@@ -78,6 +79,9 @@
 			return
 	return //Finished the mending; Lets stop trying to repair.
 
+	deactivate(user)
+
+	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/mending/lesser
 	name = "Lesser Mending"

@@ -113,6 +113,8 @@
 	var/headshot_link = null
 	var/standard_headshot_link = null //used to store headshots when swapping for antag ones
 	var/flavortext = null
+	/// For setpose
+	var/pose_text = ""
 	var/ooc_notes = null
 	var/ooc_extra
 	var/rumour = null
@@ -122,6 +124,12 @@
 	var/received_resident_key = FALSE
 	var/nsfwflavortext = null
 	var/erpprefs = null
+
+	// Cached version
+	var/flavortext_cached = ""
+	var/nsfwflavortext_cached = ""
+	var/ooc_notes_cached = ""
+	var/erpprefs_cached = ""
 
 	var/list/img_gallery = list()
 	
@@ -143,11 +151,17 @@
 	var/vampire_skin = null
 	var/vampire_eyes = null
 	var/vampire_hair = null
+	var/vampire_ears = null
 	//An alternative headshot link that can be used when users want to use it for a special role like while a vampire, werewolf, bandit, etc.
 	var/vampire_headshot_link
 	var/lich_headshot_link
 	//setting up the hooks for this, but not shown yet
 	var/werewolf_headshot_link
+	// OC Edit Start -- Also using werewolf_headshot_link.
+	var/werewolf_setname
+	var/werewolf_setdesc
+	var/werewolf_setdesc_cached
+	// OC Edit End
 
 	/// Whether our FOV cone is overridden to be hidden. Simple bool.
 	var/viewcone_override
@@ -167,7 +181,7 @@
 	var/next_tempo_cull
 
 
-	var/datum/charflaw/charflaw
+	var/list/charflaws = list()
 
 	// curse list and cooldown
 	var/list/curses = list()
@@ -195,3 +209,7 @@
 	var/can_do_sex = TRUE
 
 	fovangle = FOV_DEFAULT
+
+	//Caustic Edit
+	var/time_of_last_move = 0
+	//Caustic Edit End

@@ -105,6 +105,8 @@
 	. = ..()
 	if(message_mode != MODE_WHISPER)
 		send_voice(message)
+	else	//OV ADD
+		playsound(get_turf(src), 'modular_ochrevalley/sounds/message_effects/whisper.ogg', 25, FALSE, -5,frequency = rand(25000, 50000))	//OV ADD
 
 /mob/living/carbon/human/proc/send_voice(message, skip_thingy)
 	if(!message || !length(message))
