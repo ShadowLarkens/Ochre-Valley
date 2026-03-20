@@ -131,29 +131,36 @@
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach/ooze,
 		)
 
+////// ORGAN SPRITES, provided by VelSlime
 /obj/item/organ/brain/ooze
 	name = "Ooze Neural Core"
+	icon = 'modular_ochrevalley/icons/obj/velslime.dmi'
 	organ_flags = ORGAN_ORGANIC
 	decoy_override = TRUE
 
 /obj/item/organ/heart/ooze
 	name = "Ooze Fluid Pump"
+	icon = 'modular_ochrevalley/icons/obj/velslime.dmi'
 	organ_flags = ORGAN_ORGANIC
 
 /obj/item/organ/eyes/ooze
 	name = "Ooze Occular Sensors"
+	icon = 'modular_ochrevalley/icons/obj/velslime.dmi'
 	organ_flags = ORGAN_ORGANIC
 
 /obj/item/organ/tongue/ooze
 	name = "Ooze Taste Buds"
+	icon = 'modular_ochrevalley/icons/obj/velslime.dmi'
 	organ_flags = ORGAN_ORGANIC
 
 /obj/item/organ/stomach/ooze
 	name = "Ooze Digestive Chamber"
+	icon = 'modular_ochrevalley/icons/obj/velslime.dmi'
 	organ_flags = ORGAN_ORGANIC
 
 /obj/item/organ/liver/ooze
 	name = "Ooze Detoxification Organelle"
+	icon = 'modular_ochrevalley/icons/obj/velslime.dmi'
 	organ_flags = ORGAN_ORGANIC
 
 /datum/species/ooze/check_roundstart_eligible()
