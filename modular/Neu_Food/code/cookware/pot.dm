@@ -105,7 +105,7 @@
 	icon_state = "teapot"
 	fill_icon_thresholds = null
 	dropshrink = 1.0
-	volume = 99
+	volume = 90 //OV Edit: This is so frustrating to use if it's not a multiple of 30.
 	sellprice = 0
 
 /obj/item/reagent_containers/glass/bucket/pot/carved/getonmobprop(tag)
