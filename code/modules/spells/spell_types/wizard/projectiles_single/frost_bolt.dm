@@ -39,7 +39,7 @@
 		projectile_type = /obj/projectile/magic/frostbolt
 	. = ..()
 // OV Edit End
-// OV Edit End
+
 /obj/projectile/magic/frostbolt
 	name = "Frost Dart"
 	icon_state = "ice_2"
