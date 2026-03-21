@@ -254,6 +254,9 @@
 		//CC Start
 		/datum/sprite_accessory/ears/big/caustic/bunny_large,
 		//CC End
+		//OV Add Start
+		/datum/sprite_accessory/ears/big/ochre/bunny_tall
+		//OV Add End
 	)
 
 // ---- Lizard
