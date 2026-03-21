@@ -68,6 +68,8 @@
 	var/obj/item/bodypart/affecting = C.get_bodypart(BODY_ZONE_CHEST)
 	if(affecting && dismember_wound && !isooze(C)) //OV EDIT - Oozes don't get wounds left behind when bits fall off
 		affecting.add_wound(dismember_wound)
+	else if(affecting && dismember_wound && isooze(C))
+		C.visible_message(span_danger("[C]'s wound closes rapidly to stem the flow of plasm."))
 	playsound(C, pick(dismemsound), 50, FALSE, -1)
 
 	var/stress2give = /datum/stressevent/viewdismember
@@ -106,7 +108,7 @@
 	if(!HAS_TRAIT(C, TRAIT_NOPAIN))
 		C.emote("painscream")
 
-	if(!(NOBLOOD in C.dna?.species?.species_traits))
+	if(!(NOBLOOD in C.dna?.species?.species_traits) && !(INVISBLOOD in C.dna?.species?.species_traits)) //OV EDIT
 		add_mob_blood(C)
 
 	if(stress2give && C.mind) //Shouldn't be freaking out over a boglin getting their shit rocked.

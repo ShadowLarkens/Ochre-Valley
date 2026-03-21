@@ -11,7 +11,7 @@
 
 
 	default_color = "79F299"
-	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,MUTCOLORS)
+	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,MUTCOLORS,INVISBLOOD)
 	default_features = MANDATORY_FEATURE_LIST
 	use_skintones = FALSE
 	possible_ages = ALL_AGES_LIST
