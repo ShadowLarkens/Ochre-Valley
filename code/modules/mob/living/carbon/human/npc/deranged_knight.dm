@@ -1,7 +1,7 @@
 /* *
  * Deranged Knight
  * A miniboss for quest system, designed to be a high-level challenge for multiple players.
- * Uses fuckoff gear that should not be looted - hence snowflake dismemberment code.
+ * Gear uses /datum/component/item_on_drop/dust to crumble on removal, preventing looting.
  */
 
 GLOBAL_LIST_INIT(matthios_aggro, world.file2list("strings/rt/matthiosaggrolines.txt"))
@@ -29,9 +29,11 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	var/preset = "matthios"
 	var/forced_preset = "" // If set, force a specific preset instead of randomizing.
 
+	// CC Edit Start
 	//We are the biggest and baddest for boss fights... We're smart, and well trained.
 	smart_combatant = TRUE
 	special_attacker = TRUE
+	// CC Edit End
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/retaliate(mob/living/L)
 	var/newtarg = target
@@ -66,7 +68,23 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	var/head = get_bodypart(BODY_ZONE_HEAD)
 	if(head)
 		UnregisterSignal(head, COMSIG_MOB_DISMEMBER)
+	if(outfit_weapon)
+		if(iscarbon(outfit_weapon.loc))
+			var/mob/living/carbon/looter = outfit_weapon.loc
+			to_chat(loc, span_warning("[outfit_weapon]'s energies fade, as [src] breathes their last, and it crumbles to dust.."))
+		QDEL_NULL(outfit_weapon)
 	return ..()
+
+/mob/living/carbon/human/species/human/northern/deranged_knight/proc/outfit_dk(datum/outfit/outfit)
+	if(!outfit)
+		return
+	equipOutfit(outfit)
+	if(!outfit.r_hand)
+		return
+	for(var/obj/item/equipped_item in held_items)
+		if(istype(equipped_item, outfit.r_hand))
+			outfit_weapon = equipped_item
+			break
 
 /// Snowflake DK behavior for decaps. Yes, they turn to dust prior to decaps.
 /mob/living/carbon/human/species/human/northern/deranged_knight/proc/handle_drop_limb(obj/item/bodypart/bodypart, special)
@@ -85,7 +103,6 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_CRIT_THRESHOLD, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_STUCKITEMS, TRAIT_GENERIC)
 	if(forced_preset)
 		preset = forced_preset
 	else
