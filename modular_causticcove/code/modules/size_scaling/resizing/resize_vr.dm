@@ -161,16 +161,18 @@
 	//Get the old Sizecat on someone, trigger it's removal, and then apply the new one! So that buffs/debuffs are based on your size at the time!
 	remove_sizecat(src)
 
-	if(new_size < 0.35) //From RESIZE_MINIMUM to 0.35 is Micro
+	//OV edit
+	if(new_size < 0.5) //From RESIZE_MINIMUM to 0.5 is Micro
 		apply_sizecat(src, new /datum/sizecat/micro)
-	else if(new_size < 0.8) //From 0.35 to 0.8 is Small
+	else if(new_size < 0.85) //From 0.5 to 0.85 is Small
 		apply_sizecat(src, new /datum/sizecat/small)
-	else if(new_size < 1.35) //From 0.8 to 1.35 is None (to account for the scale being different on each end cause it's a multiplier)
+	else if(new_size < 1.15) //From 0.85 to 1.15 is None (to account for the scale being different on each end cause it's a multiplier)
 		apply_sizecat(src, new /datum/sizecat/none)
-	else if(new_size < 1.85) //From 1.35 to 1.85 is Large
+	else if(new_size < 1.5) //From 1.15 to 1.5 is Large
 		apply_sizecat(src, new /datum/sizecat/large)
-	else //From 1.85 to 2.5 is Macro
+	else //From 1.5 to 2 is Macro
 		apply_sizecat(src, new /datum/sizecat/macro)
+	//OV edit end
 
 /mob/living/carbon/human/resize(var/new_size, var/animate = TRUE, var/uncapped = FALSE, var/ignore_prefs = FALSE, var/aura_animation = FALSE, var/allow_stripping = FALSE) //CHOMPEdit - Disable aura_animation. Too expensive for something you can't even see.
 	if(!resizable && !ignore_prefs)
