@@ -959,17 +959,28 @@
 		M.enabled = FALSE
 		M.forceMove(hasMMI)
 	else*/
-	var/mob/dead/observer/G = M.ghostize(FALSE) // Make sure they're out, so we can copy attack logs and such.
-	if(G)
-		G.forceMove(src)
-		G.vore_death = TRUE
-		G.body_backup = M
-		M.enabled = FALSE
-		M.forceMove(G)
+	//OV edit
+	M.reset_view(null)
+	var/sfx
+	if(!fancy_vore)
+		sfx = sound(get_sfx("classic_death_sounds"))
 	else
-		qdel(M)
-	
+		sfx = sound(get_sfx("fancy_death_prey"))
+	var/mob/dead/observer/G = M.ghostize(TRUE) // Make sure they're out, so we can copy attack logs and such.
+	if(G)
+		G.forceMove(owner)
+		G.vore_death = TRUE //OV ADD
+		if(G.client && G.client.prefs.digestion_noises)
+			SEND_SOUND(G, sfx)
+	M.clear_fullscreen("belly")
+	M.previewing_belly = null
+	M.x = 1
+	M.y = 1
+	M.z = 1
+	M.alpha = 0 
 	owner.handle_belly_update()
+	playsound(src, sfx, vary = 1, vol = 75, falloff = VORE_SOUND_FALLOFF, frequency = noise_freq, preference = "digestion_noises")
+	//OV edit end
 
 // Handle a mob being absorbed
 /obj/belly/proc/absorb_living(mob/living/M)
