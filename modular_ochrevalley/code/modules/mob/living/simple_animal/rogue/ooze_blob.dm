@@ -113,15 +113,15 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/get_sound(input)
 	switch(input)
 		if("aggro")
-			return pick('sound/vo/mobs/vw/aggro (1).ogg','sound/vo/mobs/vw/aggro (2).ogg')
+			return pick('sound/foley/gross.ogg')
 		if("pain")
-			return pick('sound/vo/mobs/vw/pain (1).ogg','sound/vo/mobs/vw/pain (2).ogg','sound/vo/mobs/vw/pain (3).ogg')
+			return pick('sound/foley/butcher.ogg')
 		if("death")
-			return pick('sound/vo/mobs/vw/death (1).ogg','sound/vo/mobs/vw/death (2).ogg','sound/vo/mobs/vw/death (3).ogg','sound/vo/mobs/vw/death (4).ogg','sound/vo/mobs/vw/death (5).ogg')
+			return pick('sound/foley/bubb (1).ogg')
 		if("idle")
-			return pick('sound/vo/mobs/vw/idle (1).ogg','sound/vo/mobs/vw/idle (2).ogg','sound/vo/mobs/vw/idle (3).ogg','sound/vo/mobs/vw/idle (4).ogg')
+			return pick('sound/foley/water_land2.ogg','sound/foley/water_land3.ogg')
 		if("cidle")
-			return pick('sound/vo/mobs/vw/bark (1).ogg','sound/vo/mobs/vw/bark (2).ogg','sound/vo/mobs/vw/bark (3).ogg','sound/vo/mobs/vw/bark (4).ogg','sound/vo/mobs/vw/bark (5).ogg','sound/vo/mobs/vw/bark (6).ogg','sound/vo/mobs/vw/bark (7).ogg')
+			return pick('sound/foley/water_land2.ogg','sound/foley/water_land3.ogg')
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/taunted(mob/user)
 	emote("aggro")
@@ -135,45 +135,45 @@
 		Retaliate()
 		GiveTarget(pulledby)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/simple_limb_hit(zone)
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/simple_limb_hit(zone) // BLOB :D
 	if(!zone)
 		return ""
 	switch(zone)
 		if(BODY_ZONE_PRECISE_R_EYE)
-			return "head"
+			return "blob"
 		if(BODY_ZONE_PRECISE_L_EYE)
-			return "head"
+			return "blob"
 		if(BODY_ZONE_PRECISE_NOSE)
-			return "nose"
+			return "blob"
 		if(BODY_ZONE_PRECISE_MOUTH)
-			return "mouth"
+			return "blob"
 		if(BODY_ZONE_PRECISE_SKULL)
-			return "head"
+			return "blob"
 		if(BODY_ZONE_PRECISE_EARS)
-			return "head"
+			return "blob"
 		if(BODY_ZONE_PRECISE_NECK)
-			return "neck"
+			return "blob"
 		if(BODY_ZONE_PRECISE_L_HAND)
-			return "foreleg"
+			return "blob"
 		if(BODY_ZONE_PRECISE_R_HAND)
-			return "foreleg"
+			return "blob"
 		if(BODY_ZONE_PRECISE_L_FOOT)
-			return "leg"
+			return "blob"
 		if(BODY_ZONE_PRECISE_R_FOOT)
-			return "leg"
+			return "blob"
 		if(BODY_ZONE_PRECISE_STOMACH)
-			return "stomach"
+			return "blob"
 		if(BODY_ZONE_PRECISE_GROIN)
-			return "tail"
+			return "blob"
 		if(BODY_ZONE_HEAD)
-			return "head"
+			return "blob"
 		if(BODY_ZONE_R_LEG)
-			return "leg"
+			return "blob"
 		if(BODY_ZONE_L_LEG)
-			return "leg"
+			return "blob"
 		if(BODY_ZONE_R_ARM)
-			return "foreleg"
+			return "blob"
 		if(BODY_ZONE_L_ARM)
-			return "foreleg"
+			return "blob"
 	return ..()
 
