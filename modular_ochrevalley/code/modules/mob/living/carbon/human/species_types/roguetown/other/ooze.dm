@@ -206,7 +206,6 @@
 	if(ishuman(caster))
 		var/mob/living/carbon/human/human_caster = caster
 		shape.color = "#[human_caster.dna.features["mcolor"]]"
-		message_admins("colour changed to [shape.color]")
 	H = new(shape,src,caster)
 	shape.name = "[shape]"
 
