@@ -58,4 +58,9 @@ GLOBAL_LIST_EMPTY(sizecats)
 	if (!player.prefs)
 		return
 	//var/datum/sizecat/sizecat_type = player.prefs.sizecat //OV REMOVE
-	//character.resize(sizecat_type.starting_scale) //OV REMOVE - Scale not determined by sizecat here, but other way around
+	//OV edit
+	if(ishuman(character))
+		var/mob/living/carbon/human/us = character
+		var/new_body_size = us.dna.features["body_size"]
+		character.resize(new_body_size, forced = TRUE)
+	//OV edit end

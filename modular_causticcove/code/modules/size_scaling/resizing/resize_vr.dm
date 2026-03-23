@@ -98,7 +98,7 @@
  * * aura_animation - CHANGE_ME. Default: TRUE
  * * allow_stripping - CHANGE_ME.  Default: FALSE
  */
-/mob/living/proc/resize(var/new_size, var/animate = TRUE, var/uncapped = FALSE, var/ignore_prefs = FALSE, var/aura_animation = FALSE, var/allow_stripping = FALSE) //CHOMPEdit - Disable aura_animation. Too expensive for something you can't even see.
+/mob/living/proc/resize(var/new_size, var/animate = TRUE, var/uncapped = FALSE, var/ignore_prefs = FALSE, var/aura_animation = FALSE, var/allow_stripping = FALSE, var/forced = FALSE) //CHOMPEdit - Disable aura_animation. Too expensive for something you can't even see.
 	/*if(!uncapped) //This part handles uncapping the size limits based on area... Potentially add it back later?
 		if((z in using_map.station_levels) && CONFIG_GET(flag/pixel_size_limit))
 			var/size_diff = ((runechat_y_offset() / size_multiplier) * new_size) // This returns 32 multiplied with the new size
@@ -122,7 +122,7 @@
 
 	new_size = clamp(new_size, RESIZE_MINIMUM, RESIZE_MAXIMUM) //Removed the above cause it mainly handles the Dorms oversize stuff. Not really needed yet?
 
-	if(size_multiplier == new_size)
+	if((size_multiplier == new_size) && !forced)
 		return 1
 
 	if(animate)
@@ -174,7 +174,7 @@
 		apply_sizecat(src, new /datum/sizecat/macro)
 	//OV edit end
 
-/mob/living/carbon/human/resize(var/new_size, var/animate = TRUE, var/uncapped = FALSE, var/ignore_prefs = FALSE, var/aura_animation = FALSE, var/allow_stripping = FALSE) //CHOMPEdit - Disable aura_animation. Too expensive for something you can't even see.
+/mob/living/carbon/human/resize(var/new_size, var/animate = TRUE, var/uncapped = FALSE, var/ignore_prefs = FALSE, var/aura_animation = FALSE, var/allow_stripping = FALSE, var/forced = FALSE) //CHOMPEdit - Disable aura_animation. Too expensive for something you can't even see.
 	if(!resizable && !ignore_prefs)
 		return 1
 	var/previous_scale = size_multiplier
@@ -206,7 +206,7 @@
 			apply_hud(index, HI)*/
 
 // Optimize mannequins - never a point to animating or doing HUDs on these.
-/mob/living/carbon/human/dummy/mannequin/resize(var/new_size, var/animate = TRUE, var/uncapped = FALSE, var/ignore_prefs = FALSE, var/aura_animation = TRUE, var/allow_stripping = FALSE)
+/mob/living/carbon/human/dummy/mannequin/resize(var/new_size, var/animate = TRUE, var/uncapped = FALSE, var/ignore_prefs = FALSE, var/aura_animation = TRUE, var/allow_stripping = FALSE, var/forced = FALSE)
 	size_multiplier = new_size
 
 /**
