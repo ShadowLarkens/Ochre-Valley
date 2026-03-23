@@ -188,13 +188,19 @@
 	defprob = 70
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/suffering
+	name = "suffering ooze"
 	melee_damage_lower = 1
 	melee_damage_upper = 1
 	del_on_deaggro = null
 	defprob = 70
-	move_to_delay = 7
+	move_to_delay = 20
 	STASTR = 2
 	STASPD = 2
+
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/suffering/revive(full_heal = FALSE, admin_revive = FALSE)
+	var/obj/shapeshift_holder/ooze_death/H = locate() in src
+	if(H)
+		H.restore()
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/ooze/Shapeshift(mob/living/caster)
 	var/obj/shapeshift_holder/H = locate() in caster
@@ -215,3 +221,47 @@
 	if(do_gib)
 		playsound(caster.loc, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
 		caster.spawn_gibs(FALSE)
+
+/obj/shapeshift_holder/ooze_death/Initialize(mapload,mob/living/caster)
+	if(!caster)
+		return ..()
+	shape = loc
+	if(!istype(shape))
+		CRASH("shapeshift holder created outside mob/living")
+	stored = caster
+	if(stored.mind)
+		stored.mind.transfer_to(shape)
+	stored.forceMove(src)
+	stored.notransform = TRUE
+	shape.visible_message(span_warning("[stored] has lost their form, they are vulnerable and near death."),span_warningbig("You have been near killed, you can no longer maintain your form. You will need to be revived to return to your humen form."))
+	playsound(shape.loc, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
+	slink = soullink(/datum/soullink/shapeshift, stored , shape)
+	slink.source = src
+
+/obj/shapeshift_holder/ooze_death/restore(death=FALSE, knockout=0)
+	if(restoring || QDELETED(src))
+		return
+
+	restoring = TRUE
+	qdel(slink)
+	if (stored)
+		stored.forceMove(get_turf(src))
+		stored.notransform = FALSE
+
+		// leave a track to indicate something has shifted out here
+		var/obj/effect/track/the_evidence = new(stored.loc)
+		the_evidence.handle_creation(stored)
+		the_evidence.track_type = "expanding animal tracks into humanoid footprints"
+		the_evidence.ambiguous_track_type = "curious footprints"
+		the_evidence.base_diff = 6
+
+	if(shape && shape.mind)
+		shape.mind?.transfer_to(stored)
+	stored.revive(full_heal = TRUE, admin_revive = FALSE)
+	stored.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/ooze)
+	stored.Knockdown(200)
+	stored.Stun(200)
+	stored.apply_status_effect(/datum/status_effect/debuff/revived)
+	stored.adjust_fire_stacks(2)
+	qdel(shape)
+	shape = null
