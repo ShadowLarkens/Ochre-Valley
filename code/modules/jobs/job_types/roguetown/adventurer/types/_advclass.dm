@@ -148,6 +148,9 @@
 	addtimer(CALLBACK(H,TYPE_PROC_REF(/mob/living/carbon/human, add_credit), TRUE), 20)
 	if(cmode_music)
 		H.cmode_music = cmode_music
+	
+	if(isooze(H))
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/ooze)
 
 /*
 	Whoa! we are checking requirements here!

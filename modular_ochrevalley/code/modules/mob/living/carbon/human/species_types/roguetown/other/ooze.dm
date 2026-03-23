@@ -166,3 +166,53 @@
 /datum/species/ooze/check_roundstart_eligible()
 	return TRUE
 
+//SLIME FORM WOOO
+
+/obj/effect/proc_holder/spell/targeted/shapeshift/ooze
+	name = "Blob Form"
+	desc = ""
+	overlay_state = ""
+	gesture_required = TRUE
+	chargetime = 5 SECONDS
+	recharge_time = 50
+	cooldown_min = 50
+	die_with_shapeshifted_form = FALSE
+	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/transformed
+	convert_damage = FALSE
+	do_gib = FALSE
+
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/transformed
+	melee_damage_lower = 9
+	melee_damage_upper = 14
+	del_on_deaggro = null
+	defprob = 70
+
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/suffering
+	melee_damage_lower = 1
+	melee_damage_upper = 1
+	del_on_deaggro = null
+	defprob = 70
+	move_to_delay = 7
+	STASTR = 2
+	STASPD = 2
+
+/obj/effect/proc_holder/spell/targeted/shapeshift/ooze/Shapeshift(mob/living/caster)
+	var/obj/shapeshift_holder/H = locate() in caster
+	if(H)
+		to_chat(caster, span_warning("You're already shapeshifted!"))
+		return
+
+	var/mob/living/shape = new shapeshift_type(caster.loc)
+	if(ishuman(caster))
+		var/mob/living/carbon/human/human_caster = caster
+		shape.color = "#[human_caster.dna.features["mcolor"]]"
+		message_admins("colour changed to [shape.color]")
+	H = new(shape,src,caster)
+	shape.name = "[shape]"
+
+	clothes_req = FALSE
+	human_req = FALSE
+
+	if(do_gib)
+		playsound(caster.loc, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
+		caster.spawn_gibs(FALSE)
