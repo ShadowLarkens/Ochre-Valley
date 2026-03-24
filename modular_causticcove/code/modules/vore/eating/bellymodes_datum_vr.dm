@@ -103,6 +103,10 @@ GLOBAL_LIST_INIT(digest_modes, list())
 			B.owner_adjust_nutrition(offset * (4.5 * damage_gain / difference) * L.get_digestion_nutrition_modifier() * B.owner.get_digestion_efficiency_modifier()) //4.5 nutrition points per health point. Normal same size 100+100 health prey with average weight would give 900 points if the digestion was instant. With all the size/weight offset taxes plus over time oxyloss+hunger taxes deducted with non-instant digestion, this should be enough to not leave the pred starved.
 	else
 		B.owner_adjust_nutrition(offset * (4.5 * damage_gain / difference) * L.get_digestion_nutrition_modifier() * B.owner.get_digestion_efficiency_modifier())
+	//OV edit
+	if((L.getActualFuckingHealth()) <= -100)
+		B.handle_digestion_death(L)
+	//OV edit end
 	if(L.stat != oldstat)
 		return list("to_update" = TRUE)
 

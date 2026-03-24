@@ -199,7 +199,7 @@ GLOBAL_LIST_EMPTY(icon_state_lists)
 	return health
 
 /mob/living/carbon/human/getActualFuckingHealth()
-	return health //getMaxHealth() - ((getBruteLoss() + getFireLoss() + getToxLoss() + getOxyLoss()))
+	return getMaxHealth() - ((getBruteLoss() + getFireLoss() + getToxLoss() + getOxyLoss())) //OV EDIT
 
 /mob/living/proc/nutrition_percent()
 	return 100 * nutrition / maxnutrition

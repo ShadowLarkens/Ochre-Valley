@@ -1077,7 +1077,7 @@
 			return TRUE
 		if("Health")
 			var/mob/living/ourtarget = target
-			to_chat(user, span_notice("Current health reading for \The [ourtarget]: [ourtarget.health] / [ourtarget.getMaxHealth()] "))
+			ourtarget.chat_healthbar(user) //OV EDIT
 			return TRUE
 		if("Process")
 			var/mob/living/ourtarget = target
@@ -1121,7 +1121,7 @@
 					return FALSE
 		if("Health Check")
 			var/mob/living/carbon/human/H = target
-			var/target_health = round((H.health/H.getMaxHealth())*100)
+			var/target_health = round((H.getActualFuckingHealth()/H.getMaxHealth())*100) //OV EDIT
 			var/condition
 			var/condition_consequences
 			to_chat(user, span_warning("\The [target] is at [target_health]% health."))
