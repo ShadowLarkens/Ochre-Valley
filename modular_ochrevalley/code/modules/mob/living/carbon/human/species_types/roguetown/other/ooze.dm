@@ -153,7 +153,7 @@
 //		ORGAN_SLOT_LUNGS = /obj/item/organ/lungs/ooze,
 		ORGAN_SLOT_EYES = /obj/item/organ/eyes/ooze,
 		ORGAN_SLOT_EARS = /obj/item/organ/ears,
-		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue/ooze,
+		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue/wild_tongue/ooze,
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver/ooze,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach/ooze,
 		)
@@ -175,7 +175,7 @@
 	icon = 'modular_ochrevalley/icons/obj/velslime.dmi'
 	organ_flags = ORGAN_ORGANIC
 
-/obj/item/organ/tongue/ooze
+/obj/item/organ/tongue/wild_tongue/ooze
 	name = "Ooze Taste Buds"
 	icon = 'modular_ochrevalley/icons/obj/velslime.dmi'
 	organ_flags = ORGAN_ORGANIC
