@@ -48,7 +48,7 @@
 	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/conjure_tool/mage/cast(list/targets, mob/living/user = usr)
-	if(user.get_skill_level(/datum/skill/magic/arcane) < SKILL_LEVEL_JOURNEYMAN)
+	if(user.get_skill_level(/datum/skill/magic/arcane) < SKILL_LEVEL_JOURNEYMAN && !(HAS_TRAIT(user, TRAIT_ARCYNE_T2) || HAS_TRAIT(user, TRAIT_ARCYNE_T3) || HAS_TRAIT(user, TRAIT_ARCYNE_T4))) //Some magic classes only get apprentice arcane magic??
 		tool_selection = bad_tool_options
 	else
 		tool_selection = tool_options //In case we leveled up since last using the spell
