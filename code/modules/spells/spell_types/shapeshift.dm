@@ -88,6 +88,10 @@
 	if(!H)
 		return
 
+	if(istype(H.shape, /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/suffering))
+		to_chat(caster, span_warning("You have no strength to manipulate your form."))
+		return
+
 	H.restore()
 
 	if(pick_again == TRUE)
