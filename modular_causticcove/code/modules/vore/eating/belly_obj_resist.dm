@@ -7,9 +7,13 @@
 
 	living_prey.setClickCooldown(50)
 
+	//OV edit - Stop ruining my scenes by making me escape from sleeping pred bellies. I'll OOC-Escape if I want out.
+	/*
 	if(owner.stat) //If owner is stat (dead, KO) we can actually escape
 		resist_default_escape(living_prey, prey_item)
 		return
+	*/
+	//OV edit end
 
 	if(displayed_message_flags & MS_FLAG_STRUGGLE_OUTSIDE)
 		resist_struggle_outside(living_prey)
