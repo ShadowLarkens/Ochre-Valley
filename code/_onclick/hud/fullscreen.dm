@@ -278,3 +278,11 @@
 
 /atom/movable/screen/fullscreen/dreaming/waking_up
 	icon_state = "wake_up"
+
+//OV edit
+/atom/movable/screen/fullscreen/scrolls
+	icon = 'modular_ochrevalley/icons/mob/screen_full.dmi'
+	icon_state = "scrolls"
+	show_when_dead = TRUE
+	plane = FULLSCREEN_PLANE
+//OV edit end
