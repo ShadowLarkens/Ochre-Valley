@@ -241,6 +241,7 @@
 		shape.color = "#[human_caster.dna.features["mcolor"]]"
 	H = new(shape,src,caster)
 	shape.name = "[shape]"
+	shape.faction = caster.faction
 
 	clothes_req = FALSE
 	human_req = FALSE
