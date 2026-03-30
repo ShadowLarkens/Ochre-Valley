@@ -14,3 +14,12 @@
 		if(!islist(response))
 			log_runtime("Can't reach AMIA")
 			return FALSE
+//OV Edit Start
+/proc/ahelphandled(ticketid, handler)
+	if(CONFIG_GET(flag/amia_enabled))
+		var/constring = amia_constring() + "ahelphandled?ticketid=[ticketid]&handler=[handler]"
+		var/list/response = world.Export(constring)
+		if(!islist(response))
+			log_runtime("Can't reach AMIA")
+			return FALSE
+//OV Edit End
