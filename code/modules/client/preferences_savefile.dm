@@ -542,7 +542,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	_load_flaw(S)
 	//Caustic edit
 //	_load_sizecat(S) //OV EDIT - Not needed, set based on scale now
-	_load_pickupable(S)
+	//_load_pickupable(S)
 	//Caustic edit end
 	_load_culinary_preferences(S)
 	// LETHALSTONE edit: jank-ass load our statpack choice
@@ -895,7 +895,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	//Caustic edit
 	save_sizecat(S)
 	save_extra_virtue(S)
-	save_pickupable(S)
+	//save_pickupable(S)
 	//Caustic edit end
 	return TRUE
 

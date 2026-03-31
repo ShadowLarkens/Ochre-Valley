@@ -590,7 +590,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<b>Dominance:</b> <a href='?_src_=prefs;preference=domhand'>[domhand == 1 ? "Left-handed" : "Right-handed"]</a><BR>"
 			//Caustic edit
 			dat += "<b>Size Category:</b> [sizecat.name]<BR>" //OV EDIT - No longer needs to be a button
-			dat += "<b>Pickup able:</b> <a href='?_src_=prefs;preference=pickupable'>[pickupable == 1 ? "Yes" : "No"]</a><BR>"
+			//dat += "<b>Pickup able:</b> <a href='?_src_=prefs;preference=pickupable'>[pickupable == 1 ? "Yes" : "No"]</a><BR>"
 			//Caustic edit end
 			dat += "<b>Food Preferences:</b> <a href='?_src_=prefs;preference=culinary;task=menu'>Change</a><BR>"
 
@@ -2581,7 +2581,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							if(0.85 to 1.15)
 								to_chat(user, span_alert("You are now considered a normal height."))
 							if(1.15 to 1.5)
-								to_chat(user, span_alert("You are now considered a giant."))
+								to_chat(user, span_alert("You are now considered large."))
 							if(1.5 to INFINITY)
 								to_chat(user, span_alert("You are now considered a macro."))
 						//OV edit end
@@ -3033,7 +3033,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 								if(loaded_slot == i)
 									choices_default = name
 								choices[name] = i
-					var/choice = tgui_input_list(user, "CHOOSE A HERO","AZURE PEAK", choices, choices_default)
+					var/choice = tgui_input_list(user, "CHOOSE A HERO","CAUSTIC COVE", choices, choices_default)
 					// Caustic Edit End
 					if(choice)
 						choice = choices[choice]
@@ -3051,8 +3051,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				if("lore_primer")
 					LorePopup(user)
 				//Caustic edit
-				if("pickupable")
-					pickupable = !pickupable
+				//if("pickupable")
+				//	pickupable = !pickupable
 				//Caustic edit end
 
 				
@@ -3390,7 +3390,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		if(0.85 to 1.15)
 			sizecat = new /datum/sizecat/none
 		if(1.15 to 1.5)
-			sizecat = new /datum/sizecat/giant
+			sizecat = new /datum/sizecat/large
 		if(1.5 to INFINITY)
 			sizecat = new /datum/sizecat/macro
 //	message_admins("ensure_sizecat run for [sizecat.name] at [new_body_size]")

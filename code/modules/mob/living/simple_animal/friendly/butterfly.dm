@@ -21,7 +21,7 @@
 	movement_type = FLYING
 	pass_flags = PASSTABLE | PASSGRILLE | PASSMOB
 	ventcrawler = VENTCRAWLER_ALWAYS
-	mob_size = MOB_SIZE_TINY
+	mob_size = MOB_TINY
 	mob_biotypes = MOB_ORGANIC|MOB_BUG
 	gold_core_spawnable = FRIENDLY_SPAWN
 	verb_say = "flutters"

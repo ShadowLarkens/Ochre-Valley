@@ -46,7 +46,7 @@
 /obj/structure/plasticflaps/CanAStarPass(ID, to_dir, caller)
 	if(isliving(caller))
 		var/mob/living/M = caller
-		if(!M.ventcrawler && M.mob_size != MOB_SIZE_TINY)
+		if(!M.ventcrawler && M.mob_size != MOB_TINY)
 			return FALSE
 	var/atom/movable/M = caller
 	if(M && M.pulling)
@@ -63,7 +63,7 @@
 
 	else if(isliving(A)) // You Shall Not Pass!
 		var/mob/living/M = A
-		if((M.mobility_flags & MOBILITY_STAND) && !M.ventcrawler && M.mob_size != MOB_SIZE_TINY)	//If your not laying down, or a ventcrawler or a small creature, no pass.
+		if((M.mobility_flags & MOBILITY_STAND) && !M.ventcrawler && M.mob_size != MOB_TINY)	//If your not laying down, or a ventcrawler or a small creature, no pass.
 			return FALSE
 	return ..()
 
