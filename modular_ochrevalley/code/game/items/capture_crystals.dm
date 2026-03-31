@@ -23,6 +23,7 @@
 	var/spawn_mob_name = "A mob"
 	var/capture_chance_modifier = 1		//So we can have special subtypes with different capture rates!
 	var/loadout = FALSE
+	sellprice = 100
 
 /obj/item/capture_crystal/Initialize(mapload)
 	. = ..()
@@ -571,14 +572,17 @@
 /obj/item/capture_crystal/great
 	name = "great capture crystal"
 	capture_chance_modifier = 1.5
+	sellprice = 150
 
 /obj/item/capture_crystal/ultra
 	name = "ultra capture crystal"
 	capture_chance_modifier = 2
+	sellprice = 200
 
 /obj/item/capture_crystal/master
 	name = "master capture crystal"
 	capture_chance_modifier = 100
+	sellprice = 500
 
 /mob/living
 	var/capture_crystal = TRUE		//If TRUE, the mob is capturable. Otherwise it isn't.
