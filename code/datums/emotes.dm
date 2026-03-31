@@ -77,7 +77,7 @@
 		for(var/thing in user.contents)
 			if(!istype(thing,/obj/item/holder/micro))
 				continue
-			var/obj/item/micro/M = thing
+			var/obj/item/holder/micro/M = thing
 			if(M.held_mob == src)
 				continue
 			mobsadjacent |= M.held_mob
