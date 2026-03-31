@@ -28,6 +28,15 @@
 	. = ..()
 	update_icon()
 
+/obj/item/capture_crystal/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Touch this to a player to give them the option to be capture, or throw it at a non-player mob to attempt to capture them.")
+	. += span_info("Captured creatures can be released by using the crystal inhand or tossing it on the ground, they will be set to an allied faction.")
+	. += span_info("Released creatures can be recalled to the crystal by using it inhand. There is a 30 second cooldown between releasing, capturing and recalling.")
+	. += span_info("Use middle mouse on the crystal inhand to destroy it, releasing any creatures inside from your control.")
+	. += span_info("Whilst holding the crystal, you can send commands using a new spell to player controlled mobs.")
+
+
 //Let's make sure we clean up our references and things if the crystal goes away (such as when it's digested)
 /obj/item/capture_crystal/Destroy()
 	if(bound_mob)
@@ -65,14 +74,6 @@
 	else if(!bound_mob)
 		to_chat(M, span_notice("\The [src] emits an unpleasant tone... There is nothing to command."))
 		playsound(src, 'modular_ochrevalley/sounds/capture_crystal/capture-crystal-negative.ogg', 75, 1, -1)
-	else if(isanimal(bound_mob) && !bound_mob.client)
-		if(!isnull(bound_mob.get_AI_stance()))
-			var/datum/ai_controller/AI = bound_mob.ai_controller
-			bound_mob.hostile = !AI.hostile
-			if(!AI.hostile)
-				AI.set_stance(STANCE_IDLE)
-			to_chat(M, span_notice("\The [bound_mob] is now [AI.hostile ? "hostile" : "passive"]."))
-			log_admin("[key_name_admin(M)] set [bound_mob] to [AI.hostile].")
 	else if(bound_mob.client)
 		var/transmit_msg = tgui_input_text(user, "What is your command?", "Command")
 		if(length(transmit_msg) >= MAX_MESSAGE_LEN)
@@ -90,6 +91,7 @@
 		playsound(src, 'modular_ochrevalley/sounds/capture_crystal/capture-crystal-negative.ogg', 75, 1, -1)
 
 //Lets the owner get AI controlled bound mobs to follow them, or tells player controlled mobs to follow them.
+/*
 /obj/item/capture_crystal/verb/follow_owner()
 	set name = "Toggle Follow"
 	set category = "Object"
@@ -105,6 +107,7 @@
 		playsound(src, 'modular_ochrevalley/sounds/capture_crystal/capture-crystal-negative.ogg', 75, 1, -1)
 	else if(bound_mob.client)
 		to_chat(bound_mob, span_notice("\The [owner] wishes for you to follow them."))
+	/*
 	else if(bound_mob in contents)
 		if(!bound_mob.ai_controller)
 			to_chat(M, span_notice("\The [src] emits an unpleasant tone... \The [bound_mob] is not able to follow your command."))
@@ -131,13 +134,15 @@
 		else
 			AI.set_follow(M)
 			to_chat(M, span_notice("\The [src] chimes~ \The [bound_mob] started following following [AI.leader]."))
+	*/
+*/
 
 //Don't really want people 'haha funny' capturing and releasing one another willy nilly. So! If you wanna release someone, you gotta destroy the thingy.
 //(Which is consistent with how it works with digestion anyway.)
-/obj/item/capture_crystal/verb/destroy_crystal()
-	set name = "Destroy Crystal"
-	set category = "Object"
-	set src in usr
+/obj/item/capture_crystal/proc/destroy_crystal()
+	//set name = "Destroy Crystal"
+	//set category = "Object"
+	//set src in usr
 	if(!ismob(loc))
 		return
 	var/mob/living/M = src.loc
@@ -147,11 +152,20 @@
 		M.visible_message("\The [M] crushes \the [src] into dust...", "\The [src] cracks and disintegrates in your hand.")
 		qdel(src)
 
+/obj/item/capture_crystal/MiddleClick(mob/user, params)
+	. = ..()
+	if(user == owner)
+		var/confirm = tgui_alert(user, "Are you sure you wish to destroy the crystal?", "Destroy Crystal", list("Destroy", "Cancel"))
+		if(confirm != "Destroy")
+			return
+		destroy_crystal()
+
+
 //If you catch something/someone and want to give it to someone else though, that's fine.
-/obj/item/capture_crystal/verb/release_ownership()
-	set name = "Release Ownership"
-	set category = "Object"
-	set src in usr
+/obj/item/capture_crystal/proc/release_ownership()
+	//set name = "Release Ownership"
+	//set category = "Object"
+	//set src in usr
 	if(!ismob(loc))
 		return
 	var/mob/living/M = src.loc
@@ -164,7 +178,16 @@
 		UnregisterSignal(owner, COMSIG_QDELETING)
 		owner = null
 
+/obj/item/capture_crystal/attack_right(mob/user)
+	. = ..()
+	if(user == owner)
+		var/confirm = tgui_alert(user, "Are you sure you wish to release ownership of the crystal?", "Destroy Crystal", list("Release", "Cancel"))
+		if(confirm != "Release")
+			return
+		release_ownership()
+
 //Let's make inviting ghosts be an option you can do instead of an automatic thing!
+/*
 /obj/item/capture_crystal/verb/invite_ghost()
 	set name = "Enhance (Toggle Ghost Join)"
 	set category = "Object"
@@ -184,8 +207,8 @@
 		to_chat(U, span_notice("\The [src] emits an unpleasant tone... \The [bound_mob] is not eligable for enhancement."))
 		playsound(src, 'modular_ochrevalley/sounds/capture_crystal/capture-crystal-problem.ogg', 75, 1, -1)
 		return		//Need to type cast the mob so it can detect ghostjoin
-	var/mob/living/simple_animal/M = bound_mob
 	/*
+	var/mob/living/simple_animal/M = bound_mob
 	if(M.ghostjoin)
 		M.ghostjoin = FALSE
 		to_chat(U, span_notice("\The [bound_mob] is no longer eligable to be joined by ghosts."))
@@ -195,6 +218,7 @@
 	else
 		to_chat(U, span_notice("You decided against it."))
 	*/
+*/
 
 /obj/item/capture_crystal/update_icon()
 	. = ..()
@@ -276,12 +300,13 @@
 		return
 	knowyoursignals(M, U)
 	owner = U
-	if(isanimal(M))
-		var/mob/living/simple_animal/S = M
+	//if(isanimal(M))
+		//var/mob/living/simple_animal/S = M
 		//S.revivedby = U.name
 	if(!bound_mob)
 		bound_mob = M
 		bound_mob.capture_caught = TRUE
+		bound_mob.faction = U.faction
 		//persist_storable = FALSE
 	desc = "A glowing crystal in what appears to be some kind of steel housing."
 
@@ -292,8 +317,8 @@
 	var/capture_chance = ((1 - (M.health / M.getMaxHealth())) * 100)	//Inverted health percent! 100% = 0%
 	//So I don't know how this works but here's a kind of explanation
 	//Basic chance + ((Mob's max health - minimum calculated health) / (Max allowed health - Min allowed health)*(Chance at Max allowed health - Chance at minimum allowed health)
-	capture_chance += 35 + ((M.getMaxHealth() - 5)/ (1000-5)*(-100 - 35))
-	//Basically! Mobs over 1000 max health will be unable to be caught without using status effects.
+	capture_chance += 35 + ((M.getMaxHealth() - 5)/ (300-5)*(-100 - 35))
+	//Basically! Mobs over 300 max health will be unable to be caught without using status effects.
 	//Thanks Aronai!
 	var/effect_count = 0	//This will give you a smol chance to capture if you have applied status effects, even if the chance would ordinarily be <0
 	if(M.stat == UNCONSCIOUS)
@@ -322,6 +347,8 @@
 		capture_chance += 0.1
 		effect_count += 1
 	*/
+
+	capture_chance = (capture_chance/M.capture_difficulty)
 
 	capture_chance *= capture_chance_modifier
 
@@ -422,8 +449,8 @@
 			recall(user)
 			active = TRUE
 		else									//Shoot, it didn't work and now it's mad!!!
-			S.ai_controller.GiveTarget(user)
-			user.visible_message("\The [src] bonks into \the [S], angering it!")
+			//S.ai_controller.GiveTarget(user)
+			//user.visible_message("\The [src] bonks into \the [S], angering it!")
 			playsound(src, 'modular_ochrevalley/sounds/capture_crystal/capture-crystal-negative.ogg', 75, 1, -1)
 			to_chat(user, span_notice("\The [src] clicks unsatisfyingly."))
 		update_icon()
@@ -556,3 +583,33 @@
 /mob/living
 	var/capture_crystal = TRUE		//If TRUE, the mob is capturable. Otherwise it isn't.
 	var/capture_caught = FALSE		//If TRUE, the mob has already been caught, and so cannot be caught again.
+	var/capture_difficulty = 1		//Difficulty to capture mobs in capture crystals
+
+/datum/action/item_action/command
+	name = "Command"
+
+//Crafting!
+
+/datum/crafting_recipe/roguetown/arcana/capture_crystal_basic
+	name = "capture crystal"
+	result = /obj/item/capture_crystal/basic
+	reqs = list(/obj/item/ingot/iron = 1,
+				/obj/item/roguegem/violet = 1,
+				/obj/item/magic/melded/t1 = 1)
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/arcana/capture_crystal_great
+	name = "capture crystal (great)"
+	result = /obj/item/capture_crystal/great
+	reqs = list(/obj/item/ingot/iron = 1,
+				/obj/item/roguegem/ruby = 1,
+				/obj/item/magic/melded/t2 = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/arcana/capture_crystal_ultra
+	name = "capture crystal (ultra)"
+	result = /obj/item/capture_crystal/ultra
+	reqs = list(/obj/item/ingot/iron = 1,
+				/obj/item/roguegem/diamond = 1,
+				/obj/item/magic/melded/t3 = 1)
+	craftdiff = 4
