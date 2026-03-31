@@ -1459,6 +1459,7 @@
 	verbage = "weaves"
 	craftdiff = 0
 
+//OV edit
 /datum/crafting_recipe/roguetown/structure/bookcase
 	name = "bookcase"
 	category = "Misc"
@@ -1478,3 +1479,4 @@
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 3
+//OV edit end
