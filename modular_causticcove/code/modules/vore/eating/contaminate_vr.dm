@@ -107,3 +107,15 @@ GLOBAL_LIST_INIT(gurgled_overlays, list(
 		for(var/obj/item/O in contents)
 			O.gurgle_contaminate(item_storage, contamination_flavor, contamination_color)
 	..()
+
+// OV Add Start: Add washing off gurgles
+/obj/item/wash_act(clean = CLEAN_WEAK)
+	. = ..()
+	if(cleanname)
+		name = cleanname
+	if(cleandesc)
+		desc = cleandesc
+	if(gurgled)
+		gurgled = FALSE
+		cut_overlay(GLOB.gurgled_overlays[gurgled_color])
+// OV Add End
