@@ -74,6 +74,13 @@
 		for(var/mob/living/M in range(user, targetrange))
 			if(M != user)
 				mobsadjacent += M
+		for(var/thing in user.contents)
+			if(!istype(thing,/obj/item/micro))
+				continue
+			var/obj/item/micro/M = thing
+			if(M.held_mob == src)
+				continue
+			mobsadjacent |= M.held_mob
 		if(mobsadjacent.len)
 			chosenmob = input("[key] who?") in mobsadjacent
 		if(chosenmob)
