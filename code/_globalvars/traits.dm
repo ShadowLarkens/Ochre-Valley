@@ -157,6 +157,9 @@ GLOBAL_LIST_INIT(traits_by_type, list(
 		//Caustic edit
 		TRAIT_NECRAS_ABATEMENT,
 		//Caustic edit end
+		//Ochre Add Start
+		TRAIT_LYFE_DRINK,
+		//Ochre Add End
 		TRAIT_ENGINEERING_GOGGLES,
 		TRAIT_EQUESTRIAN,
 		TRAIT_DUSTABLE,

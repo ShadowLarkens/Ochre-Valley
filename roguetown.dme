@@ -211,6 +211,10 @@
 #include "modular_causticcove\code\__DEFINES\vore_prefs.dm"
 //Caustic Modular Defines End
 
+//Ochre Modular Defines
+#include "modular_ochrevalley\code\_DEFINES\traits.dm"
+//Ochre Modular Defines End
+
 #include "code\__HELPERS\_auxtools_api.dm"
 #include "code\__HELPERS\_lists.dm"
 #include "code\__HELPERS\_logging.dm"
@@ -3249,6 +3253,7 @@
 #include "modular_ochrevalley\code\vore_verb.dm"
 
 
+#include "modular_ochrevalley\code\datums\character_flaw\_character_flaw.dm"
 #include "modular_ochrevalley\code\datums\stress\negative_events.dm"
 #include "modular_ochrevalley\code\datums\loadout\loadout_accessories.dm"
 #include "modular_ochrevalley\code\datums\loadout\loadout_miscellaneous.dm"

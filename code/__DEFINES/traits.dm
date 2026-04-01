@@ -522,6 +522,9 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_FOOD_STIPEND = span_notice("The creachers of the vomitorium know my touch, and will pull costs for their products directly from the treasury for me."),
 	TRAIT_STANDARD_BEARER = span_info("The banner is my lifeline. Just as I am to it. The retinue know to rally around me, so long as I keep it safe."),
 	TRAIT_FOG_WARDED = span_info("I am protected from Necra's deadly fog. The revenants won't find me... for now."),
+	//Ochre Add Start
+	TRAIT_LYFE_DRINK = span_bloody("I hunger for fresh lyfe's blood."),
+	//Ochre Add End
 ))
 
 // trait accessor defines
