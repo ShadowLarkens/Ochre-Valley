@@ -59,8 +59,11 @@
 			addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))
 		//OV ADD Start
 		if(HAS_TRAIT(src, TRAIT_LYFE_DRINK))
-			adjust_nutrition(15 * CLIENT_VITAE_MULTIPLIER)
-			adjust_hydration(15 * CLIENT_VITAE_MULTIPLIER)
+			var/gained_food = 15
+			if(victim.mind)
+				gained_food = gained_food * CLIENT_VITAE_MULTIPLIER
+			adjust_nutrition(gained_food)
+			adjust_hydration(gained_food)
 			//OV Add End: Hemovore Nutrient and Hydration procs, piggybacking off Vamp Multipliers
 			return
 
