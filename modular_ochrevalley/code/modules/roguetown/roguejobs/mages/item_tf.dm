@@ -9,6 +9,12 @@
 	can_be_scribed = TRUE
 	rituals = list(/datum/runeritual/item_tf::name = /datum/runeritual/item_tf)
 
+/obj/effect/decal/cleanable/roguerune/arcyne/item_tf/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Use the rune with ONE item and ONE humen on it to merge the humen into the item.")
+	. += span_info("This can be reversed by putting the possessed item back onto the rune and using it again.")
+	. += span_info("Be wary that destroying the item in any way (including using it in crafting) will KILL the mob inside.")
+
 /obj/effect/decal/cleanable/roguerune/arcyne/item_tf/invoke(list/invokers, datum/runeritual/runeritual)
 	if(!..())	//VERY important. Calls parent and checks if it fails. parent/invoke has all the checks for ingredients
 		return
