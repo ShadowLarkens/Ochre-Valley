@@ -1778,7 +1778,8 @@
 	desc = "I am magically astute."
 	icon_state = "buff"
 
-/datum/status_effect/buff/magic/strength
+//OV ADD - Empowerment Section //OV Edit AP Merge 4.2.26 - Commented Out Pending Rework
+/* /datum/status_effect/buff/magic/strength
 	id = "strength"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/magic/strength
 	effectedstats = list("strength" = 3)
@@ -1937,7 +1938,8 @@
 /atom/movable/screen/alert/status_effect/buff/magic/perception/lesser
 	name = "lesser arcane perception"
 	desc = "I can see somethings."
-	icon_state = "buff"
+	icon_state = "buff" */
+//OV Add End - Empowerment Section
 
 /datum/status_effect/buff/nocblessing
 	id = "nocblessing"

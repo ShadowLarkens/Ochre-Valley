@@ -371,7 +371,7 @@ GLOBAL_LIST(teleport_runes)
 	do_invoke_glow()
 
 
-/obj/effect/decal/cleanable/roguerune/arcyne/empowerment
+/* /obj/effect/decal/cleanable/roguerune/arcyne/empowerment //OV Add - Empowerment //OV Edit AP Merge 4.2.26 - Commented Out Pending Rework
 	name = "Empowerment Array"
 	desc = "arcane symbols pulse upon the ground..."
 	icon = 'icons/effects/96x96.dmi'
@@ -428,7 +428,7 @@ GLOBAL_LIST(teleport_runes)
 			living_invoker.apply_damage(invoke_damage, BRUTE)
 			to_chat(living_invoker,  span_italics("[src] saps your strength!"))
 
-	do_invoke_glow()
+	do_invoke_glow() */
 
 /obj/effect/decal/cleanable/roguerune/arcyne/enchantment
 	name = "Imbuement Array"
