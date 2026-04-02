@@ -1,7 +1,7 @@
 import { useState } from 'react';
+import { useBackend } from 'tgui/backend';
 import { Box, Button, Input, Section, Stack } from 'tgui-core/components';
 import { createSearch } from 'tgui-core/string';
-import { useBackend } from 'tgui/backend';
 import type { DesiredData } from '../types';
 
 export const ImportDataSelector = (props: {
@@ -61,6 +61,7 @@ export const ImportDataSelector = (props: {
 
   function handleImport() {
     const bellies = filteredData[activeTab]?.bellies ?? {};
+
     const selected = Object.values(bellies).filter((b) =>
       selectedBellies.has(String(b.name)),
     );
@@ -120,6 +121,45 @@ export const ImportDataSelector = (props: {
                 </Stack>
               </Section>
             </Stack.Item>
+          </Stack>
+        </Section>
+      </Stack.Item>
+      <Stack.Item grow>
+        <Section
+          scrollable
+          fill
+          title="Soulcatcher"
+          buttons={
+            <Button
+              disabled={!(activeTab && filteredData[activeTab]?.soulcatcher)}
+              onClick={() =>
+                act('import_soulcatcher', {
+                  data: filteredData[activeTab]?.soulcatcher,
+                })
+              }
+            >
+              Import
+            </Button>
+          }
+        >
+          <Stack fill vertical>
+            {!!filteredData[activeTab] &&
+              (filteredData[activeTab].soulcatcher ? (
+                <Stack.Item>
+                  {filteredData[activeTab].soulcatcher.name}
+                </Stack.Item>
+              ) : (
+                <>
+                  <Stack.Item>
+                    <Box color="red">No data Found</Box>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Box color="red">
+                      {`Version ${filteredData[activeTab]?.version} < 0.2`}
+                    </Box>
+                  </Stack.Item>
+                </>
+              ))}
           </Stack>
         </Section>
       </Stack.Item>

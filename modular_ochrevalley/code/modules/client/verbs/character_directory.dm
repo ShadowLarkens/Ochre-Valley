@@ -3,6 +3,7 @@ GLOBAL_LIST_INIT(char_directory_tags, list("Pred", "Pred-Pref", "Prey", "Prey-Pr
 GLOBAL_LIST_INIT(char_directory_erptags, list("Dominant", "Dom-Pref", "Submissive", "Sub-Pref", "Switch", "No ERP", "Unset"))
 GLOBAL_LIST_INIT(char_directory_sexualitytags, list("Straight", "Bisexual", "Pansexual", "Gay", "Lesbian", "Asexual", "Demisexual", "Flexible", "Other", "Unset"))
 GLOBAL_LIST_INIT(char_directory_gendertags, list("Male", "Female", "Feminine", "Masculine", "Nonbinary", "Trans Man", "Trans Woman", "Other", "Flexible", "Ungendered", "Unset"))
+GLOBAL_LIST_INIT(char_directory_pvp, list("No PvP", "Ask First", "Open to PvP"))
 
 /client/verb/show_character_directory()
 	set name = "Character Directory"
@@ -42,12 +43,14 @@ GLOBAL_LIST_INIT(char_directory_gendertags, list("Male", "Female", "Feminine", "
 		data["personalErpTag"] = user.mind.directory_erptag || "Unset"
 		data["personalGenderTag"] = user.mind.directory_gendertag || "Unset"
 		data["personalSexualityTag"] = user.mind.directory_sexualitytag || "Unset"
+		data["personalPvPTag"] = user.mind.directory_pvp || "No PvP"
 	else if (user?.client?.prefs)
 		data["personalVisibility"] = user.client.prefs.show_in_directory
 		data["personalTag"] = user.client.prefs.directory_tag || "Unset"
 		data["personalErpTag"] = user.client.prefs.directory_erptag || "Unset"
 		data["personalGenderTag"] = user.client.prefs.directory_gendertag || "Unset"
 		data["personalSexualityTag"] = user.client.prefs.directory_sexualitytag || "Unset"
+		data["personalPvPTag"] = user.client.prefs.directory_pvp || "No PvP"
 
 	return data
 
@@ -92,6 +95,7 @@ GLOBAL_LIST_EMPTY(chardirectory_photos)
 		var/tag
 		var/erptag
 		var/character_ad
+		var/pvp
 		var/photo = C.mob?.get_chardirectory_photo()
 		if (C.mob?.mind) //could use ternary for all three but this is more efficient
 			tag = C.mob.mind.directory_tag || "Unset"
@@ -99,12 +103,14 @@ GLOBAL_LIST_EMPTY(chardirectory_photos)
 			character_ad = C.mob.mind.directory_ad
 			gendertag = C.mob.mind.directory_gendertag || "Unset"
 			sexualitytag = C.mob.mind.directory_sexualitytag || "Unset"
+			pvp = C.mob.mind.directory_pvp || "No PvP"
 		else
 			tag = C.prefs.directory_tag || "Unset"
 			erptag = C.prefs.directory_erptag || "Unset"
 			character_ad = C.prefs.directory_ad
 			gendertag = C.prefs.directory_gendertag || "Unset"
 			sexualitytag = C.prefs.directory_sexualitytag || "Unset"
+			pvp = C.prefs.directory_pvp || "No PvP"
 
 		if(ishuman(C.mob))
 			var/mob/living/carbon/human/H = C.mob
@@ -167,6 +173,7 @@ GLOBAL_LIST_EMPTY(chardirectory_photos)
 			"ooc_notes" = ooc_notes,
 			"tag" = tag,
 			"erptag" = erptag,
+			"pvptag" = pvp,
 			"character_ad" = character_ad,
 			"flavor_text" = flavor_text,
 			"nsfw_flavor_text" = nsfw_flavor_text,
@@ -217,6 +224,11 @@ GLOBAL_LIST_EMPTY(chardirectory_photos)
 			if(!new_erptag)
 				return
 			return set_for_mind_or_prefs(user, action, new_erptag, can_set_prefs, can_set_mind)
+		if ("setPvPTag")
+			var/list/new_pvp = tgui_input_list(user, "Choose your PvP opt-in status (Note, opting into PvP does not mean that proper escalation should not be followed):", "Directory Tag", GLOB.char_directory_pvp)
+			if(!new_pvp)
+				return
+			return set_for_mind_or_prefs(user, action, new_pvp, can_set_prefs, can_set_mind)
 		if ("setVisible")
 			var/visible = TRUE
 			if (can_set_mind)

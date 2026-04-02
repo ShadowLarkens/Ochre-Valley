@@ -46,10 +46,19 @@
 #define BLOODPOL_REGEN 2
 
 //Sizes of mobs, used by mob/living/var/mob_size
-#define MOB_SIZE_TINY 0
-#define MOB_SIZE_SMALL 1
-#define MOB_SIZE_HUMAN 2
-#define MOB_SIZE_LARGE 3
+//Caustic Edit - Changing these to fit the Chomp Changes for Size Shifting purposes. They use what seems to be a linear system, probably to allow fitting _more_ of smaller mobs into a Closet/whatever?
+#define MOB_HUGE  		40
+#define MOB_LARGE		30
+#define MOB_MEDIUM 		20
+#define MOB_SMALL 		10
+#define MOB_TINY 		5
+#define MOB_MINISCULE	1
+// Originals --
+//#define MOB_SIZE_TINY 0
+//#define MOB_SIZE_SMALL 1
+//#define MOB_SIZE_HUMAN 2
+//#define MOB_SIZE_LARGE 3
+//Caustic Edit End
 
 //Ventcrawling defines
 #define VENTCRAWLER_NONE   0

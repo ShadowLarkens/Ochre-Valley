@@ -1,10 +1,24 @@
+/obj/effect/proc_holder/spell/invoked/conjure_tool
+	var/list/bad_tool_options = list(
+		"Axe" = /obj/item/rogueweapon/stoneaxe,
+		"Hammer" = /obj/item/rogueweapon/hammer/stone,
+		"Knife" = /obj/item/rogueweapon/huntingknife/stoneknife,
+		"Hoe" = /obj/item/rogueweapon/hoe/stone,
+		"Fishing Rod" = /obj/item/fishingrod,
+	)
+	var/list/tool_selection
+
+/obj/effect/proc_holder/spell/invoked/conjure_tool/Initialize()
+	. = ..()
+	tool_selection = tool_options //Because we can't do this statically, apparently?
+
 /obj/effect/proc_holder/spell/invoked/conjure_tool/cast(list/targets, mob/living/user = usr)
 	// Ochre Valley - Modified to add 'UNCONJURE.'
 	var/list/choices = list()
 	if(conjured_tool)
 		choices["-- Unconjure Current Tool --"] = "UNCONJURE"
-	for(var/name in tool_options)
-		choices[name] = tool_options[name]
+	for(var/name in tool_selection)
+		choices[name] = tool_selection[name]
 	var/selection = input(user, "Choose a tool", "Conjure Tool") as anything in choices
 	if(!selection)
 		return
@@ -25,13 +39,20 @@
 	// R.smeltresult = null
 	// R.salvage_result = null
 	// R.fiber_salvage = FALSE
-	// Ochre Valley Edit; These are resolved in conjure_weapon calling conjured item dataum? I don't see a difference if there is one.
+	// OV Edit; These are resolved in conjure_weapon calling conjured item dataum? I don't see a difference if there is one.
 	if(!QDELETED(R))
 		R.AddComponent(/datum/component/conjured_item, GLOW_COLOR_ARCANE, user)
 	user.put_in_hands(R)
 	user.visible_message(span_warning("[R] forms in [user]'s hands!"))
 	conjured_tool = R
 	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/conjure_tool/mage/cast(list/targets, mob/living/user = usr)
+	if(user.get_skill_level(/datum/skill/magic/arcane) < SKILL_LEVEL_JOURNEYMAN && !(HAS_TRAIT(user, TRAIT_ARCYNE_T2) || HAS_TRAIT(user, TRAIT_ARCYNE_T3) || HAS_TRAIT(user, TRAIT_ARCYNE_T4))) //Some magic classes only get apprentice arcane magic??
+		tool_selection = bad_tool_options
+	else
+		tool_selection = tool_options //In case we leveled up since last using the spell
+	return ..()
 
 /obj/effect/proc_holder/spell/invoked/conjure_tool/Destroy()
 	if(conjured_tool)

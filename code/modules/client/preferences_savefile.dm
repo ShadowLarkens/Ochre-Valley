@@ -217,7 +217,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		update_preferences(needs_update, S)		//needs_update = savefile_version if we need an update (positive integer)
 
 	//Sanitize
-	asaycolor		= sanitize_ooccolor(sanitize_hexcolor(asaycolor, 6, 1, initial(asaycolor)))
+	// asaycolor		= sanitize_ooccolor(sanitize_hexcolor(asaycolor, 6, 1, initial(asaycolor))) // OV Remove: STOP sanitizing asay colors!
 	ooccolor		= sanitize_ooccolor(sanitize_hexcolor(ooccolor, 6, 1, initial(ooccolor)))
 	lastchangelog	= sanitize_text(lastchangelog, initial(lastchangelog))
 	UI_style		= sanitize_inlist(UI_style, GLOB.available_ui_styles, GLOB.available_ui_styles[1])
@@ -542,7 +542,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	_load_flaw(S)
 	//Caustic edit
 //	_load_sizecat(S) //OV EDIT - Not needed, set based on scale now
-	_load_pickupable(S)
+	//_load_pickupable(S)
 	//Caustic edit end
 	_load_culinary_preferences(S)
 	// LETHALSTONE edit: jank-ass load our statpack choice
@@ -638,6 +638,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["directory_erptag"] >> directory_erptag
 	S["directory_gendertag"] >> directory_gendertag
 	S["directory_sexualitytag"] >> directory_sexualitytag
+	S["directory_pvp"] >> directory_pvp
 	S["directory_ad"] >> directory_ad
 	//OV edit end
 
@@ -873,6 +874,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["directory_erptag"] , directory_erptag)
 	WRITE_FILE(S["directory_gendertag"] , directory_gendertag)
 	WRITE_FILE(S["directory_sexualitytag"] , directory_sexualitytag)
+	WRITE_FILE(S["directory_pvp"] , directory_pvp) //OV ADD
 	WRITE_FILE(S["directory_ad"] , directory_ad)
 	//OV edit end
 
@@ -893,7 +895,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	//Caustic edit
 	save_sizecat(S)
 	save_extra_virtue(S)
-	save_pickupable(S)
+	//save_pickupable(S)
 	//Caustic edit end
 	return TRUE
 

@@ -489,7 +489,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		if(!hearall)
 			if((!Zs_too && !isobserver(AM)) || message_mode == MODE_WHISPER)
 				//OV edit
-				if(!istype(loc, /obj/belly) && !istype(loc, /obj/item/micro) && !istype(AM.loc, /obj/belly) && !istype(AM.loc, /obj/item/micro)) //can't use isbelly because its defined badly here
+				if(!istype(loc, /obj/belly) && !istype(loc, /obj/item/holder/micro) && !istype(AM.loc, /obj/belly) && !istype(AM.loc, /obj/item/holder/micro)) //can't use isbelly because its defined badly here
 					if(AM.z != src.z)
 						continue
 				//OV edit end

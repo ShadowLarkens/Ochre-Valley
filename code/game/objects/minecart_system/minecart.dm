@@ -245,7 +245,7 @@
 	if(isliving(bumped_atom))
 		var/obj/structure/minecart_rail/rail = locate() in loc
 		var/mob/living/bumper = bumped_atom
-		if(bumper.mob_size <= MOB_SIZE_SMALL)
+		if(bumper.mob_size <= MOB_SMALL)
 			return
 		if(!do_after(bumper, 1.5 SECONDS, src))
 			return
