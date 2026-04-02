@@ -20,7 +20,7 @@ GLOBAL_LIST_EMPTY(reformation_portals)
 //	soundloop = new(list(src), FALSE) //OV REMOVE
 //	soundloop.start() //OV REMOVE
 
-/obj/structure/respawn_portal/attack_ghost(mob/dead/observer/user)
+/obj/structure/respawn_portal/attack_ghost(mob/dead/observer/user) //Bit Jank for now but just copied over the Reform Option code... Maybe this will work? If a Ghost escapes the belly somehow lol
 	if(QDELETED(user))
 		return
 	if(!in_range(src, user))
@@ -68,6 +68,7 @@ GLOBAL_LIST_EMPTY(reformation_portals)
 
 /mob/dead/observer/proc/rise_body()
 	var/mob/living/carbon/human/bigbad = mind.current
+	bigbad.enabled = TRUE
 	bigbad.revive(TRUE, TRUE)
 	bigbad.alpha = 255
 

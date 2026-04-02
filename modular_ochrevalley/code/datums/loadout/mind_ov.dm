@@ -6,6 +6,7 @@
 	var/directory_erptag
 	var/directory_gendertag
 	var/directory_sexualitytag
+	var/directory_pvp //OV ADD
 	var/directory_ad
 
 /mob/living/mind_initialize()
@@ -17,3 +18,4 @@
 		mind.directory_ad = client.prefs.directory_ad
 		mind.directory_gendertag = client.prefs.directory_gendertag
 		mind.directory_sexualitytag = client.prefs.directory_sexualitytag
+		mind.directory_pvp = client.prefs.directory_pvp

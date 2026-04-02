@@ -182,6 +182,10 @@
 /mob/living/carbon/human/set_species(datum/species/mrace, icon_update = TRUE, datum/preferences/pref_load = null)
 	set waitfor = 0
 	
+	//Caustic Edit - Add in Micro Holders on a per-species basis, in case we want functionally different ones based on species. Not a bad idea? Will it be used? Eeeh who knows
+	if(mrace.holder_type)
+		holder_type = mrace.holder_type
+	//Caustic Edit End
 	if(pref_load)
 		skin_tone = pref_load.skin_tone
 	..()
@@ -265,9 +269,9 @@
 /datum/dna/proc/update_body_size()
 	if(!holder || current_body_size == features["body_size"])
 		return
-	var/change_multiplier = features["body_size"] / current_body_size
+	var/change_multiplier = features["body_size"] / current_body_size 
 	//We update the translation to make sure our character doesn't go out of the southern bounds of the tile
-	var/translate = ((change_multiplier-1) * 32)/2
+	var/translate = ((change_multiplier-1) * 32)/2 
 	holder.transform = holder.transform.Scale(change_multiplier, change_multiplier)
 	holder.transform = holder.transform.Translate(0, translate)
 	current_body_size = features["body_size"]

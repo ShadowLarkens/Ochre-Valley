@@ -154,7 +154,8 @@ GLOBAL_LIST_INIT(admin_verbs_fun, list(
 	/client/proc/manage_fog_schedule,
 	/client/proc/run_custom_particle_weather,
 	/client/proc/show_tip,
-	/client/proc/smite
+	/client/proc/smite,
+	/client/proc/player_effects, //OV ADD
 	))
 GLOBAL_PROTECT(admin_verbs_fun)
 GLOBAL_LIST_INIT(admin_verbs_spawn, list(/datum/admins/proc/spawn_atom, /datum/admins/proc/podspawn_atom, /client/proc/respawn_character, /datum/admins/proc/beaker_panel))
@@ -295,7 +296,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 
 /client/proc/add_admin_verbs()
 	if(holder)
-		control_freak = CONTROL_FREAK_SKIN | CONTROL_FREAK_MACROS
+		// control_freak = CONTROL_FREAK_SKIN | CONTROL_FREAK_MACROS // OV Edit: disabled control_freak
 
 		var/rights = holder.rank.rights
 		verbs += GLOB.admin_verbs_default

@@ -24,7 +24,6 @@ export const ItemModeSpan = {
 export const AddonIcon = {
   Numbing: '',
   Stripping: '',
-  'Leave Remains': '',
   Muffles: 'bi-volume-mute',
   'Affect Worn Items': '',
   'Jams Sensors': 'bi-wifi-off',
@@ -53,7 +52,6 @@ export const AutotransferFlagIcon = {
   Items: '',
   Trash: '',
   Eggs: '',
-  Remains: '',
   'Indigestible Items': '',
   'Recyclable Items': '',
   Ores: '',

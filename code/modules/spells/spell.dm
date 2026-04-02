@@ -798,9 +798,12 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		return FALSE
 
 	// deny horsespellers
+	//OV Edit: Allow buckled spelling
+	/*
 	if(user.client && user.buckled)
 		return FALSE
-
+	*/
+	//OV Edit End
 	if(!charge_check(user))
 		return FALSE
 

@@ -20,6 +20,7 @@
 		slapcraft_recipes = slapcraft_recipe_list,\
 		)
 
+/*// OV Removal Start
 /obj/item/ash/Crossed(mob/living/L)
 	. = ..()
 	if(istype(L))
@@ -30,3 +31,4 @@
 			prob2break = 100
 		if(prob(prob2break))
 			qdel(src)
+*/// OV Removal End
