@@ -3270,6 +3270,7 @@
 #include "modular_ochrevalley\code\modules\rogueclothes\neck.dm"
 #include "modular_ochrevalley\code\modules\reagents\drink_reagents.dm"
 #include "modular_ochrevalley\virtues\combat.dm"
+#include "modular_ochrevalley\virtues\utility.dm"
 #include "modular_ochrevalley\code\modules\spells\spell_types\wizard\misc\aetherknife.dm"
 #include "modular_ochrevalley\code\modules\spells\spell_types\wizard\utility\appearance_changer.dm"
 #include "modular_ochrevalley\code\modules\spells\spell_types\wizard\utility\mirror_transform.dm"
