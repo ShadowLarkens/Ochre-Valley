@@ -3270,6 +3270,7 @@
 #include "modular_ochrevalley\code\modules\mob\living\emote.dm"
 #include "modular_ochrevalley\code\modules\mob\living\living.dm"
 #include "modular_ochrevalley\code\modules\rogueclothes\neck.dm"
+#include "modular_ochrevalley\code\modules\roguetown\roguecrafting\crafting\ammo_and_ranged.dm"
 #include "modular_ochrevalley\code\modules\reagents\drink_reagents.dm"
 #include "modular_ochrevalley\virtues\combat.dm"
 #include "modular_ochrevalley\virtues\utility.dm"
