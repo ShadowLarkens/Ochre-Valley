@@ -1,7 +1,7 @@
 /datum/crafting_recipe/roguetown/survival/arquebuspouchcraft
 	name = "arquebus bullet pouch"
 	category = "Ranged"
-	result = /obj/item/quiver/sling/
+	result = /obj/item/quiver/bulletpouch
 	reqs = list(
 		/obj/item/natural/fibers = 1,
 		/obj/item/natural/hide/cured = 1,
