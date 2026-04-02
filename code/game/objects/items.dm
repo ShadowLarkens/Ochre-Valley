@@ -1751,6 +1751,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		str += "<b>[initial(S.name)]</b> and a hammer."
 	if(sewrepair)
 		str += "<b>Sewing</b> and a needle."
+	if(mob_possession)
+		str += "<br>There is something unusually <b>ALIVE</b> about this." //OV ADD
 	str = span_info(str)
 	. += str
 
