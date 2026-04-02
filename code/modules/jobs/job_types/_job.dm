@@ -5,6 +5,8 @@
 	var/display_title
 	// Display only title for feminine character
 	var/f_title
+	// Display only title for androgynous character //OV Add: Gender Neutral Revamp
+	var/n_title //OV Add: Gender Neutral Revamp
 
 	//Job access. The use of minimal_access or access is determined by a config setting: config.jobs_have_minimal_access
 	var/list/minimal_access = list()		//Useful for servers which prefer to only have access given to the places a job absolutely needs (Larger server population)
@@ -181,6 +183,8 @@
 	var/used_name = display_title || title
 	if((titles == TITLES_F) && f_title)
 		used_name = f_title
+	if((titles == TITLES_N) && n_title) //OV Add: Gender Neutral Revamp
+		used_name = n_title //OV Add: Gender Neutral Revamp
 	return used_name
 
 /client/proc/job_greet(var/datum/job/greeting_job)
@@ -256,6 +260,8 @@
 		var/used_title = display_title || title
 		if((H.titles_pref == TITLES_F) && f_title)
 			used_title = f_title
+		if((H.titles_pref == TITLES_N) && n_title) //OV Add: Gender Neutral Revamp
+			used_title = n_title //OV Add: Gender Neutral Revamp
 		scom_announce("[H.real_name] the [used_title] arrives to Azure Peak.")
 
 	if(give_bank_account)

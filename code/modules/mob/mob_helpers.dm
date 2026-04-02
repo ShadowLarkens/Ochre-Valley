@@ -1082,6 +1082,8 @@
 		used_title =  J.display_title || J.title
 		if(J.f_title && (titles_pref == TITLES_F))
 			used_title = J.f_title
+		if(J.n_title && (titles_pref == TITLES_N)) //OV Add: Gender Neutral Revamp
+			used_title = J.n_title //OV Add: Gender Neutral Revamp
 		if(J.advjob_examine)
 			used_title = advjob
 	return used_title

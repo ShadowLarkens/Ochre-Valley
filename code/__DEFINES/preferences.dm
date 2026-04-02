@@ -150,8 +150,9 @@ GLOBAL_LIST_INIT(pronouns_list, list(HE_HIM, SHE_HER, THEY_THEM, IT_ITS))
 
 #define TITLES_M	"Lord / Ser"
 #define TITLES_F	"Lady / Dame"
+#define TITLES_N	"Non-Binary" //OV Add: Gender Neutral Revamp
 
-GLOBAL_LIST_INIT(titles_list, list(TITLES_M, TITLES_F))
+GLOBAL_LIST_INIT(titles_list, list(TITLES_M, TITLES_F,TITLES_N)) //OV Edit: Gender Neutral Revamp
 
 #define CLOTHES_M "Masculine"
 #define CLOTHES_F "Feminine"
