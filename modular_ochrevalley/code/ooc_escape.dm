@@ -17,6 +17,10 @@
 	var/atom/where = loc
 	var/msg = "has OOC escaped. "
 	forceMove(get_turf(src))
+	if(isitem(where))
+		var/obj/item/the_loc = where
+		if(the_loc.mob_possession)
+			the_loc.mob_possession = null
 	if(isbelly(where))	//For vore
 		if(pulledby)
 			pulledby.stop_pulling()

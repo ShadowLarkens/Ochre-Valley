@@ -277,6 +277,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	/// does this item/weapon circumvent two-stage death during dismemberment? (do not add this to anything but ultra rare shit)
 	var/vorpal = FALSE
 
+	var/mob/living/mob_possession = null //OV ADD
+
 /obj/item/Initialize()
 	. = ..()
 	if(!pixel_x && !pixel_y && !bigboy)
