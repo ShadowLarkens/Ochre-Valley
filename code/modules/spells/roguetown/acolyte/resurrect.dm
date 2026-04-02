@@ -77,6 +77,11 @@
 			to_chat(user, span_warning("I need a holy [initial(temp_structure.name)] near [target]."))
 			revert_cast()
 			return FALSE
+		//OV edit
+		if(istype(target, /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/suffering))
+			target.revive()
+			return TRUE
+		//OV edit
 		if(!target.check_revive(user))
 			revert_cast()
 			return FALSE
