@@ -29,9 +29,9 @@
 		potential_targets |= L
 	
 	for(var/thing in contents)
-		if(!istype(thing,/obj/item/micro))	//U can also eat players in your hand
+		if(!istype(thing,/obj/item/holder/micro))	//U can also eat players in your hand
 			continue
-		var/obj/item/micro/M = thing
+		var/obj/item/holder/micro/M = thing
 		if(M.held_mob == src)
 			continue
 		if(!vore_pref_compat(src,M.held_mob))

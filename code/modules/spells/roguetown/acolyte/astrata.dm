@@ -148,6 +148,11 @@
 		return FALSE
 
 	var/mob/living/target = targets[1]
+	//OV edit
+	if(istype(target, /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/suffering))
+		target.revive()
+		return TRUE
+	//OV edit end
 	if(!target.check_revive(user))
 		revert_cast()
 		return FALSE
@@ -294,7 +299,7 @@
 	sound = 'sound/magic/astrata_choir.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
-	invocations = "Astrata show me true."
+	invocations = list("Astrata show me true.")
 	invocation_type = "shout"
 	recharge_time = 90 SECONDS
 	devotion_cost = 30

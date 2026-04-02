@@ -23,7 +23,7 @@
 	var/allow_objects = FALSE
 	var/allow_dense = FALSE
 	var/dense_when_open = FALSE //if it's dense when open or not
-	var/max_mob_size = MOB_SIZE_HUMAN //Biggest mob_size accepted by the container
+	var/max_mob_size = MOB_MEDIUM //Biggest mob_size accepted by the container //Caustic Edit - Changing this to fit with the Chomper's Naming Scheme
 	var/mob_storage_capacity = 2 // how many human sized mob/living can fit together inside a closet.
 	var/storage_capacity = 30 //This is so that someone can't pack hundreds of items in a locker/crate then open it in a populated area to crash clients.
 	var/open_sound = 'sound/misc/cupboard_open.ogg'
@@ -136,7 +136,7 @@
 		return FALSE
 //	var/turf/T = get_turf(src)
 //	for(var/mob/living/L in T)
-//		if(L.anchored || horizontal && L.mob_size > MOB_SIZE_TINY && L.density)
+//		if(L.anchored || horizontal && L.mob_size > MOB_TINY && L.density)
 //			if(user)
 //				to_chat(user, span_danger("There's something large on top of [src], preventing it from opening.") )
 //			return FALSE
@@ -148,7 +148,7 @@
 //		if(closet != src && !closet.wall_mounted)
 //			return FALSE
 //	for(var/mob/living/L in T)
-//		if(L.anchored || horizontal && L.mob_size > MOB_SIZE_TINY && L.density)
+//		if(L.anchored || horizontal && L.mob_size > MOB_TINY && L.density)
 //			if(user)
 //				to_chat(user, span_danger("There's something too large in [src], preventing it from closing."))
 //			return FALSE
@@ -201,7 +201,7 @@
 		var/mob/living/L = AM
 		if(L.anchored || (L.buckled && L.buckled != src) || L.incorporeal_move || L.has_buckled_mobs())
 			return FALSE
-		if(L.mob_size > MOB_SIZE_TINY) // Tiny mobs are treated as items.
+		if(L.mob_size > MOB_TINY) // Tiny mobs are treated as items.
 			if(horizontal && L.density)
 				return FALSE
 			if(L.mob_size > max_mob_size)

@@ -207,11 +207,12 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 		log_admin_private("Ticket #[id]: [key_name(initiator)]: [name] - heard by [admin_number_present] non-AFK admins who have +BAN.")
 		if(admin_number_present <= 0)
 			to_chat(C, span_notice("No active admins are online, your adminhelp was sent to the admin irc."))
-			heard_by_no_admins = TRUE
+			
 		*/
 		var/list/admemes = get_admin_counts(0)["present"]
 		if(admemes.len <= 0)
 			log_admin_private("No readminned admemes are present...")
+			heard_by_no_admins = TRUE //OV Edit: Need this back
 			if(CONFIG_GET(flag/amia_enabled))
 				log_admin_private("Automatic Mia is enabled, sending their whines to discord.")
 				to_chat(C, span_notice("No active admins are online. Your ahelp will try to be relayed to the admin channel now. Thank you for your patience"))
@@ -231,6 +232,10 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 /datum/admin_help/proc/AddInteraction(formatted_message)
 	if(heard_by_no_admins && usr && usr.ckey != initiator_ckey)
 		heard_by_no_admins = FALSE
+		//OV Edit: Ochrebot things
+		if(CONFIG_GET(flag/amia_enabled))
+			ahelphandled(id, usr.ckey)
+		//OV Edit End
 		send2irc(initiator_ckey, "Ticket #[id]: Answered by [key_name(usr)]")
 	_interactions += "[time_stamp()]: [formatted_message]"
 
@@ -278,6 +283,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 	var/admin_msg = span_adminnotice("<span class='adminhelp'>Ticket [TicketHref("#[id]", ref_src)]</span><b>: [LinkedReplyName(ref_src)] [FullMonty(ref_src)]:</b> <span class='linkify'>[keywords_lookup(msg)]</span>")
 
 	AddInteraction("<font color='red'>[LinkedReplyName(ref_src)]: [msg]</font>")
+	log_admin_private("Ticket #[id]: [key_name(initiator)]: [msg]") // OV Edit: please log adminhelps........
 
 	//send this msg to all admins
 	for(var/client/X in GLOB.admins)

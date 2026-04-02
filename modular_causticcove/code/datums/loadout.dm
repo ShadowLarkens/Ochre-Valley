@@ -4,11 +4,11 @@
 
 /datum/loadout_item/sizespell //I'd have this even further up the list if I could, but I don't want to needlessly edit the Azure loadouts
 	name = "Scroll of Enlarge/Reduce"
-	path = /obj/item/book/granter/spell/blackstone/sizespell
+	path = /obj/item/book/granter/spell/blackstone/sizespell/loadout
 
 /datum/loadout_item/mirror_transform 
     name = "Scroll of Mirror Transform"
-    path = /obj/item/book/granter/spell/blackstone/mirror_transform
+    path = /obj/item/book/granter/spell/blackstone/mirror_transform/loadout
 
 /obj/item/clothing/head/roguetown/mentorhat/loadout
 	armor = ARMOR_LOADOUT_CLOTHING

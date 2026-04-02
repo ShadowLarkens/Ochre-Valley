@@ -1,12 +1,14 @@
 /datum/job/roguetown/prince
 	title = "Prince"
 	f_title = "Princess"
+	n_title = "Princet" //OV Add: Gender Neutral Revamp
 	flag = PRINCE
 	department_flag = NOBLEMEN
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 2
 	f_title = "Princess"
+	n_title = "Princet" //OV Add: Gender Neutral Revamp
 	allowed_races = RACES_ALL_KINDS //Caustic edit from RACES_NO_CONSTRUCT
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT)

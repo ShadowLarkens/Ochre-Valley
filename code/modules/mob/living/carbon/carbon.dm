@@ -171,11 +171,11 @@
 			visible_message("<span class='danger'>[src] crashes into [victim]!",\
 				"<span class='danger'>I violently crash into [victim]!</span>")
 			playsound(src,"genblunt",100,TRUE)
-			var/nomprob
+			/*var/nomprob //Caustic Edit - Commented this out, and it was added but never marked lol, but it was for the unfinished vore implementation
 			if(voremode)
 				nomprob = ((get_stat(STATKEY_LCK - 10) * 10) + ((get_stat(STATKEY_STR) - 10) * 10) + (get_stat(STATKEY_SPD)))
 				if(prob(nomprob))
-					spontaneous_vore_attackby(victim, src)
+					spontaneous_vore_attackby(victim, src)*/
 
 
 //Throwing stuff
@@ -667,7 +667,7 @@
 					var/mob/living/carbon/C = src
 					C.add_stress(/datum/stressevent/vomit)
 	else
-		if(NOBLOOD in dna?.species?.species_traits)
+		if(NOBLOOD in dna?.species?.species_traits || (INVISBLOOD in dna.species.species_traits)) //OV EDIT
 			return TRUE
 		if(message)
 			visible_message("<span class='danger'>[vomit_source] coughs up blood!</span>", "<span class='danger'>I cough up blood!</span>")

@@ -30,10 +30,20 @@
 			emote_type = type_override
 
 	user.log_message("SUBTLE - " + message, LOG_EMOTE)
-	if(findtext(message, "$n"))
-		message = trim(replacetext(message, "$n", "<b>[user]</b>"))
+	// OV Edit Start: Build the styled name for chat
+	var/mob/living/carbon/human/human
+	if(ishuman(user))
+		human = user
+	var/styled_name
+	if(human && human.voice_color)
+		styled_name = "<span style='color:#[human.voice_color];text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>[user]</b></span>"
 	else
-		message = "<b>[user]</b> " + message
+		styled_name = "<b>[user]</b>"
+	if(findtext(message, "$n"))
+		message = trim(replacetext(message, "$n", "[styled_name]"))
+	else
+		message = "[styled_name] " + message
+	// OV Edit End
 /*
 	for(var/mob/M in GLOB.dead_mob_list)
 		if(!M.client || isnewplayer(M))

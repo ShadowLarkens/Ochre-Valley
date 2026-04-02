@@ -14,6 +14,7 @@
 
 
 	f_title = "Soilbride"
+	n_title = "Soilbound" //OV Add: Gender Neutral Revamp
 	outfit = /datum/outfit/job/roguetown/farmer
 	display_order = 24
 	give_bank_account = TRUE

@@ -8,6 +8,7 @@ export type Data = {
   personalEventTag: string;
   personalGenderTag: string;
   personalSexualityTag: string;
+  personalPvPTag: string;
   directory: mobEntry[];
 };
 
@@ -21,7 +22,7 @@ export type mobEntry = {
   ooc_notes_style: BooleanLike;
   gendertag: string;
   sexualitytag: string;
-  eventtag: string;
+  pvptag: string;
   ooc_notes: string;
   nsfw_ooc_notes: string;
   tag: string;
