@@ -328,8 +328,8 @@
 	embedchance = 100
 	woundclass = BCLASS_PIERCE
 	flag = "piercing"
-	armor_penetration = PEN_NONE
-	speed = 0.1
+	armor_penetration = PEN_BSTEEL //OV Edit - Gun Adjustments
+	speed = 0.4 //OV Edit - Gun Adjustments
 	npc_simple_damage_mult = 2 // I know this isn't used in Azure Peak but trust me some downstream guys are going to thank me for this because everything that uses it shoots so fucking slow that even volves are hard to kill.
 
 /obj/item/ammo_casing/caseless/rogue/bullet
