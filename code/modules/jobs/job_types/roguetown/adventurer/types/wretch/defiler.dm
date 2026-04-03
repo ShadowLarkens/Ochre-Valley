@@ -1,4 +1,4 @@
-/datum/advclass/wretch/shrine_defiler
+/* /datum/advclass/wretch/shrine_defiler //OV Edit AP Merge 4.2.26 - Commented Out Pending Rework
 	name = "Shrine Defiler"
 	tutorial = "Curiosity got the best of you. You serve no master, other than PROGRESS itself. Your old charge is long gone. And yet, you are still here. You seek to spread your inhumen energies to the town- Willingly, or not."
 	allowed_sexes = list(MALE, FEMALE)
@@ -43,4 +43,4 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
-	H.set_blindness(0)
+	H.set_blindness(0) */

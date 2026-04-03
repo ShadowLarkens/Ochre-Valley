@@ -131,8 +131,8 @@
 			else
 				headshot = holder.headshot_link
 			img_gallery = holder.img_gallery
-			if(is_naked)
-				nsfw_img_gallery = holder.nsfw_img_gallery
+			// if(is_naked) //OV Edit - Commented out
+			nsfw_img_gallery = holder.nsfw_img_gallery
 		if(!headshot)
 			headshot = "headshot_red.png"
 
@@ -150,8 +150,8 @@
 		else
 			headshot = pref.headshot_link
 		img_gallery = pref.img_gallery
-		if(is_naked)
-			nsfw_img_gallery = pref.nsfw_img_gallery
+		// if(is_naked) //OV edit - commented out
+		nsfw_img_gallery = pref.nsfw_img_gallery
 		char_name = pref.real_name
 		song_url = pref.ooc_extra
 		is_vet = viewing.check_agevet()

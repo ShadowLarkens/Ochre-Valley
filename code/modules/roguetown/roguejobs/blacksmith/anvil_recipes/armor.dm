@@ -410,7 +410,6 @@
 /datum/anvil_recipe/armor/iron/wildguard
 	name = "Wild Guard, Iron"
 	req_bar = /obj/item/ingot/iron
-	req_blade = /obj/item/blade/iron_plate
 	created_item = /obj/item/clothing/mask/rogue/wildguard
 	createditem_num = 1
 	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron

@@ -31,12 +31,12 @@
 	advclass_cat_rolls = list(CTAG_WILDSOUL = 20)//I don't understand how this works and it scares me
 	display_order = JDO_WILDSOUL 
 	cmode_music = 'modular_causticcove/sound/music/combat_wildsoul.ogg'
-	virtue_restrictions = list(/datum/virtue/utility/noble, /datum/virtue/utility/deathless, /datum/virtue/utility/resident, /datum/virtue/items/rich) // Wildman McCryptidson shouldnt be anything that contradicts such. Also no deathless, cause natural armor on direbear.
+	virtue_restrictions = list(/datum/virtue/utility/noble, /datum/virtue/utility/hollow) // Wildman McCryptidson shouldnt be anything that contradicts such. Also no deathless, cause natural armor on direbear.
 	job_subclasses = list(
 		/datum/advclass/wildsoul/direbear,
 		/datum/advclass/wildsoul/mantid,
-		/datum/advclass/wildsoul/lampternfly,
-		/datum/advclass/wildsoul/zad
+		// /datum/advclass/wildsoul/lampternfly, //OV Edit AP Merge 4.2.26 - Commented Out Pending Rework
+		/datum/advclass/wildsoul/zad,
 	)
 
 /datum/advclass/wildsoul/direbear
@@ -129,7 +129,7 @@
 	H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/skin_armor/natural_armor(H)
 	give_feral_eyes(H)
 
-/datum/advclass/wildsoul/lampternfly
+/* /datum/advclass/wildsoul/lampternfly //OV Edit AP Merge 4.2.26 - Commented Out pending Rework
 	name = "Soul of the Lampternfly"
 	tutorial = "Some things in this world have a magical spark to them; you're one of them. Having an immensely potent arcyne nature, even without training, you're capable of commanding many magycks; but be careful, for an opposing hunter's command of a bow can prove just as deadly."
 	traits_applied = list(TRAIT_ARCYNE_T3, TRAIT_MAGEARMOR, TRAIT_WOODWALKER, TRAIT_ALCHEMY_EXPERT)
@@ -181,7 +181,7 @@
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_EXPERT, TRUE)
 		H.mind?.adjust_spellpoints(6)
-	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
+	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard() */
 
 /datum/advclass/wildsoul/zad
 	name = "Soul of the Zad"

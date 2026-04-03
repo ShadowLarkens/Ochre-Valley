@@ -19,7 +19,7 @@
 
 	pass_flags = PASSMOB //We don't want them to block players.
 	possible_rmb_intents = list(/datum/rmb_intent/weak) //We're a weak lil guy!!! ... We can also steal as a weak lil guy!!!
-	base_intents = list(INTENT_HELP, /datum/intent/special/magicarc) //Help, Arc...
+	base_intents = list(INTENT_HELP) //Help, Arc...
 	melee_damage_lower = 10
 	melee_damage_upper = 15
 
@@ -103,7 +103,7 @@
 				mind.AddSpell(new /obj/effect/proc_holder/spell/self/smolder_shroud)
 			//Free Blink! How neat! Allows you to teleport around instantly every 10 seconds.
 			if("Glimmering Jaunt")
-				mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/blink/glimmer_hare)
+				mind.AddSpell(new /datum/action/cooldown/spell/blink/glimmer_hare)
 			//Applies temporary invisibility on everyone around the familiar for 5 seconds.
 			if("Verdant Veil")
 				mind.AddSpell(new /obj/effect/proc_holder/spell/self/verdant_veil)
@@ -142,7 +142,7 @@
 			if("Smoldering Shroud")
 				mind.AddSpell(new /obj/effect/proc_holder/spell/self/smolder_shroud)
 			if("Glimmering Jaunt")
-				mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/blink/glimmer_hare)
+				mind.AddSpell(new /datum/action/cooldown/spell/blink/glimmer_hare)
 			if("Verdant Veil")
 				mind.AddSpell(new /obj/effect/proc_holder/spell/self/verdant_veil)
 			if("Grave Scent")
