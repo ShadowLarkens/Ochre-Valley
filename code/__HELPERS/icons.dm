@@ -774,12 +774,12 @@ world
 	//Try to remove/optimize this section ASAP, CPU hog.
 	//Determines if there's directionals.
 	if(render_icon && curdir != SOUTH)
-		if (
+		/* if (
 			!length(icon_states_fast(icon(curicon, curstate, NORTH))) \
 			&& !length(icon_states_fast(icon(curicon, curstate, EAST))) \
 			&& !length(icon_states_fast(icon(curicon, curstate, WEST))) \
-		)
-			base_icon_dir = SOUTH
+		) */
+		base_icon_dir = SOUTH
 
 	if(!base_icon_dir)
 		base_icon_dir = curdir
@@ -909,12 +909,12 @@ world
 
 	#undef PROCESS_OVERLAYS_OR_UNDERLAYS
 
-/proc/icon_states_fast(file)
+/* /proc/icon_states_fast(file) //OV Edit AP Merge 4.2.26 - Comments out because they removed so much icon stuff
 	if(isnull(file))
 		return null
 	if(isnull(GLOB.icon_states_cache[file]))
 		compile_icon_states_cache(file)
-	return GLOB.icon_states_cache[file]
+	return GLOB.icon_states_cache[file] */
 //OV edit end
 
 /proc/getIconMask(atom/A)//By yours truly. Creates a dynamic mask for a mob/whatever. /N
