@@ -164,7 +164,14 @@
 	ADD_TRAIT(src, TRAIT_NOFALLDAMAGE1, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_CHUNKYFINGERS, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC)
-	AddComponent(/datum/component/footstep, footstep_type) //Make sure all of them get this fancy Arcyne
+	AddComponent(/datum/component/footstep, footstep_type)
+	TryAddFlight()
+
+/mob/living/simple_animal/pet/familiar/proc/TryAddFlight()
+	if(movement_type & (FLYING | FLOATING))
+		verbs += list(/mob/living/simple_animal/proc/fly_up,
+		/mob/living/simple_animal/proc/fly_down)
+
 
 /mob/living/simple_animal/pet/familiar/proc/can_bite()
 	for(var/obj/item/grabbing/grab in grabbedby) //Grabbed by the mouth
