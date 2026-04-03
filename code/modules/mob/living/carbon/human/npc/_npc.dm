@@ -57,16 +57,13 @@
 	///our current cell grid
 	var/datum/cell_tracker/our_cells
 
+	//CC ADD
 	//If we utilize special attacks or not; All is handled within do_best_melee_attack() chain.
 	var/special_attacker = FALSE
 
 	//If we utilize our intents further outside of strong intent.
 	var/smart_combatant = FALSE
-
-/mob/living/carbon/human/Initialize()
-	. = ..()
-	our_cells = new(interesting_dist, interesting_dist, 1)
-	set_new_cells()
+	//CC ADD END
 
 /mob/living/carbon/human/Destroy()
 	our_cells = null
@@ -894,6 +891,7 @@
 			if(!OffWeapon) // wield it!
 				Weapon.attack_self(src)
 
+		//CC ADD AAAAAAAAAAA
 		//Lets spice things up.
 		var/did_we_change_intent = FALSE
 		if(istype(Weapon, /obj/item/rogueweapon))
@@ -930,6 +928,7 @@
 							swap_rmb_intent(/datum/rmb_intent/aimed)
 							try_special_attack(target)
 							return TRUE
+							//CC ADD END AAAAAAAAAAAA
 
 		if(!did_we_change_intent) //Always default regardless.
 			rog_intent_change(1)
