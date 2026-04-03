@@ -35,7 +35,7 @@ SUBSYSTEM_DEF(gnoll_scaling)
 
 	switch(mode)
 		if(GNOLL_SCALING_SINGLE)
-			target_slots = 1
+			target_slots = 4
 		if(GNOLL_SCALING_FLAT)
 			target_slots = 2
 		if(GNOLL_SCALING_DYNAMIC)
