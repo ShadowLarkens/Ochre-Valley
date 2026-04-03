@@ -101,7 +101,7 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 
 	var/datum/virtue/virtue_type = player.prefs.virtue
 	var/datum/virtue/virtuetwo_type = player.prefs.virtuetwo
-	var/datum/virtue/extravirtue_type = player.prefs.extravirtue
+	var/datum/virtue/extravirtue_type = player.prefs.extravirtue //OV Edit
 	var/datum/virtue/origin_type = player.prefs.virtue_origin
 	var/language_type = player.prefs.extra_language
 	if(virtue_type)
@@ -114,12 +114,13 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 			apply_virtue(character, virtuetwo_type)
 		else
 			to_chat(character, "Incorrect Second Virtue parameters! It will not be applied.")
+	//OV Add Start
 	if(extravirtue_type)
-		if(virtue_check(extravirtue_type, heretic))
+		if(virtue_check(extravirtue_type, heretic, species))
 			apply_virtue(character, extravirtue_type)
 		else
 			to_chat(character, "Incorrect Extra Virtue parameters! It will not be applied.")
-			
+		//OV Add End	
 	if(origin_type)
 		if((language_type && language_type != "None"))
 			character.grant_language(language_type)

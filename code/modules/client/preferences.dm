@@ -544,14 +544,26 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				virtue = GLOB.virtues[/datum/virtue/none]
 			if(!virtuetwo)
 				virtuetwo = GLOB.virtues[/datum/virtue/none]
+			//OV Add start
+			if(!extravirtue)
+				extravirtue = GLOB.virtues[/datum/virtue/none]
+			//OV Add End
 			var/virtue_html
 			if(length(pref_species.restricted_virtues))
 				if(virtue.type in pref_species.restricted_virtues)
 					virtue = GLOB.virtues[/datum/virtue/none]
 				if(virtuetwo.type in pref_species.restricted_virtues)
 					virtuetwo = GLOB.virtues[/datum/virtue/none]
+				//OV Add start
+				if(extravirtue.type in pref_species.restricted_virtues)
+					extravirtue = GLOB.virtues[/datum/virtue/none]
+				//OV Add End
 			if(istype(virtue, virtuetwo) && !virtue.stackable)
 				virtuetwo = GLOB.virtues[/datum/virtue/none]
+			//OV Add start
+			if(istype(virtue, extravirtue) && !virtue.stackable)
+				extravirtue = GLOB.virtues[/datum/virtue/none]
+			//OV Add end
 			if(virtue.virtuous_only && !statpack.virtuous)
 				virtue = GLOB.virtues[/datum/virtue/none]
 			var/tricost_virt = 0
@@ -571,6 +583,24 @@ GLOBAL_LIST_EMPTY(chosen_names)
 					virtue_html += "[dat_html][tooltip_html]"
 			if(length(virtue.picked_choices) < virtue.max_choices)
 				virtue_html += "   <a href='?_src_=prefs;preference=subvirtue;task=input'>[(virtue.choice_costs[(virtue.picked_choices.len + 1)] <= 0) ? "<font color = '#a08357'>" : ""]Pick Bonus[(virtue.choice_costs[(virtue.picked_choices.len + 1)] <= 0) ? "</font>" : ""] [(virtue.choice_costs[(virtue.picked_choices.len + 1)] > 0) ? "([virtue.choice_costs[(virtue.picked_choices.len + 1)]] TRI)" : ""] </a><br>"
+			//OV Add Start
+			if(length(extravirtue.extra_choices) && length(extravirtue.picked_choices))
+				for(var/i in 1 to length(extravirtue.picked_choices))
+					tricost_virt += extravirtue.choice_costs[i]
+			virtue_html += "<b>Extra Virtue[tricost_virt ? " <font color = '#d1c8bb'>([tricost_virt] TRI)</font>" : ""]:</b> <a href='?_src_=prefs;preference=extravirtue;task=input'><b><font color = '#cfa971'>[extravirtue]</font></b></a><BR>"
+			if(length(extravirtue.extra_choices) && length(extravirtue.picked_choices))
+				for(var/i in 1 to length(extravirtue.picked_choices))
+					var/choice = extravirtue.picked_choices[i]
+					var/tooltip
+					var/choice_string = choice
+					var/dat_html = "   <a href='?_src_=prefs;preference=subvirtue_extra;task=remove;index=[i]'><i>[choice_string]</i></a>"
+					if(LAZYACCESS(extravirtue.choice_tooltips, choice))
+						tooltip = TRUE
+					var/tooltip_html = tooltip ? "<a href='?_src_=prefs;preference=subvirtue_extra;task=tooltip;tooltip=[choice]'>(?)</a><br>" : "<br>"
+					virtue_html += "[dat_html][tooltip_html]"
+			if(length(extravirtue.picked_choices) < extravirtue.max_choices)
+				virtue_html += "   <a href='?_src_=prefs;preference=subvirtue_extra;task=input'>[(extravirtue.choice_costs[(extravirtue.picked_choices.len + 1)] <= 0) ? "<font color = '#a08357'>" : ""]Pick Bonus[(extravirtue.choice_costs[(extravirtue.picked_choices.len + 1)] <= 0) ? "</font>" : ""] [(extravirtue.choice_costs[(extravirtue.picked_choices.len + 1)] > 0) ? "([extravirtue.choice_costs[(extravirtue.picked_choices.len + 1)]] TRI)" : ""] </a><br>"
+			//OV Add End
 			if(statpack.virtuous)
 				tricost_virt = 0
 				if(length(virtuetwo.extra_choices) && length(virtuetwo.picked_choices))
@@ -592,7 +622,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			else
 				virtuetwo = GLOB.virtues[/datum/virtue/none]
 			///CC Edit
-			dat += get_extra_virtue_htmlpick() 
+			// dat += get_extra_virtue_htmlpick() 
 			///CC Edit End
 
 			var/virtue_fieldset
@@ -1569,6 +1599,28 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		else if(task == "tooltip")
 			var/tooltip = href_list["tooltip"]
 			to_chat(user, span_notice(virtuetwo.choice_tooltips[tooltip]))
+
+	//OV Add start
+	else if(href_list["preference"] == "subvirtue_extra")
+		var/task = href_list["task"]
+		if(task == "input")
+			if(length(extravirtue.picked_choices) < extravirtue.max_choices)
+				var/list/subchoices = extravirtue.extra_choices.Copy()
+				for(var/choice in subchoices)
+					if(choice in extravirtue.picked_choices)
+						subchoices.Remove(choice)
+				var/result = tgui_input_list(user, "What strength shall you wield?", "VIRTUES", subchoices)
+				if(result)
+					extravirtue.picked_choices.Add(result)
+		else if(task == "remove")
+			var/index = text2num(href_list["index"])
+			if(index && (index >= 1) && (index <= extravirtue.picked_choices.len))
+				var/v_to_remove = extravirtue.picked_choices[index]
+				extravirtue.picked_choices.Remove(v_to_remove)
+		else if(task == "tooltip")
+			var/tooltip = href_list["tooltip"]
+			to_chat(user, span_notice(extravirtue.choice_tooltips[tooltip]))
+	//OV Add end
 
 	else if(href_list["preference"] == "charflaw")
 		var/task = href_list["task"]
