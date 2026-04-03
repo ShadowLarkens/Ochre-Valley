@@ -81,29 +81,34 @@ SUBSYSTEM_DEF(garbage)
 	msg += "|F:[fail_counts.Join(",")]"
 	return ..()
 
+// OV Edit Start: JSON Logging
 /datum/controller/subsystem/garbage/Shutdown()
 	//Adds the del() log to the qdel log file
-	var/list/dellog = list()
+	var/list/del_log = list()
 
 	//sort by how long it's wasted hard deleting
 	sortTim(items, cmp=/proc/cmp_qdel_item_time, associative = TRUE)
 	for(var/path in items)
 		var/datum/qdel_item/I = items[path]
-		dellog += "Path: [path]"
+		var/list/entry = list()
+		del_log[path] = entry
 		if (I.failures)
-			dellog += "\tFailures: [I.failures]"
-		dellog += "\tqdel() Count: [I.qdels]"
-		dellog += "\tDestroy() Cost: [I.destroy_time]ms"
+			entry["Failures"] = I.failures
+		entry["qdel() Count"] = I.qdels
+		entry["Destroy() Cost (ms)"] = I.destroy_time
+
 		if (I.hard_deletes)
-			dellog += "\tTotal Hard Deletes [I.hard_deletes]"
-			dellog += "\tTime Spent Hard Deleting: [I.hard_delete_time]ms"
+			entry["Total Hard Deletes"] = I.hard_deletes
+			entry["Time Spend Hard Deleting (ms)"] = I.hard_delete_time
 		if (I.slept_destroy)
-			dellog += "\tSleeps: [I.slept_destroy]"
+			entry["Total Sleeps"] = I.slept_destroy
 		if (I.no_respect_force)
-			dellog += "\tIgnored force: [I.no_respect_force] times"
+			entry["Total Ignored Force"] = I.no_respect_force
 		if (I.no_hint)
-			dellog += "\tNo hint: [I.no_hint] times"
-	log_qdel(dellog.Join("\n"))
+			entry["Total No Hint"] = I.no_hint
+
+	log_qdel("", del_log)
+// OV Edit End
 
 /datum/controller/subsystem/garbage/fire()
 	//the fact that this resets its processing each fire (rather then resume where it left off) is intentional.
