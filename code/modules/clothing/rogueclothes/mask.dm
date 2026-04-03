@@ -540,6 +540,7 @@
 	desc = "Runes and wards, meant for daemons; the gold has somehow rusted in unnatural, impossible agony. The most prominent of these etchings is in the shape of the Naledian psycross. Armored to protect the wearer's face."
 	max_integrity = 100
 	armor = ARMOR_PLATE
+	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
 	flags_inv = HIDEFACE|HIDESNOUT
 	sellprice = 25
 
@@ -556,7 +557,8 @@
 	max_integrity = 150
 	armor = ARMOR_PLATE
 	flags_inv = HIDEFACE|HIDESNOUT
-	sellprice = 25
+	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
+	sellprice = 25 //CC edit
 
 /obj/item/clothing/mask/rogue/silkmask
 	name = "giltsilk mask"
