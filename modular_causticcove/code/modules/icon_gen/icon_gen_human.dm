@@ -4,7 +4,6 @@
 	var/originaldir = dir
 	for(var/D in showDirs)
 		setDir(D)
-		POST_OVERLAY_CHANGE(src)
 		var/icon/partial = getFlatIcon(src)
 		if(partial.Width() > 32 || partial.Height() > 32)
 			var/middlewidthstart = ((partial.Width() - 32) / 2) +1
