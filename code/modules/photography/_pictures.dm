@@ -1,3 +1,7 @@
+// OV Add Start: This file's gotta go
+#error This file is incompatible with JSON logging and must be turned off!
+// OV Add End
+
 /datum/picture
 	var/picture_name = "picture"
 	var/picture_desc = ""

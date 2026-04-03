@@ -115,6 +115,7 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/datum/admins/proc/extend_round,
 	/client/proc/cmd_admin_set_ic_date, /* Set custom IC date for events */
 	/client/proc/reenable_pq, //OV ADD
+	/client/proc/log_viewer_new, // OV Add: JSON Logging
 	)
 GLOBAL_LIST_INIT(admin_verbs_ban, list(
 	/client/proc/unban_panel,

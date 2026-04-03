@@ -83,6 +83,9 @@ ENABLE_LOCALHOST_RANK
 ## Allows admins to bypass job playtime requirements.
 #USE_EXP_RESTRICTIONS_ADMIN_BYPASS
 
+## Should we also log entries as human readable
+LOG_AS_HUMAN_READABLE
+
 ## log OOC channel
 LOG_OOC
 
