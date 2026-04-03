@@ -109,6 +109,9 @@
 /proc/log_say(text)
 	logger.Log(LOG_CATEGORY_GAME_SAY, text)
 
+/proc/log_npc_say(text)
+    logger.Log(LOG_CATEGORY_GAME_SAY, text)
+
 /proc/log_ooc(text)
 	logger.Log(LOG_CATEGORY_GAME_OOC, text)
 
