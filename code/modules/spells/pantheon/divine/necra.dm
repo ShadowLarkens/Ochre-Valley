@@ -472,18 +472,20 @@ var/global/mob/_corpse_sort_ref = null
 	user.last_necra_ping = 0
 
 	switch(judgement)
-		if(NECRA_HATES)
-			to_chat(user, span_purple("<i>You feel utterly scorned as your breath is nearly completely taken away.</i>"))
-			user.Jitter(10)
-			user.emote("breathgasp")
-			user.adjustOxyLoss(40)
+		// OV Edit - No hand slapping from Necra!
+		// if(NECRA_HATES)
+			// to_chat(user, span_purple("<i>You feel utterly scorned as your breath is nearly completely taken away.</i>"))
+			// user.Jitter(10)
+			// user.emote("breathgasp")
+			// user.adjustOxyLoss(40)
 
-		if(NECRA_DISAPPROVES)
-			to_chat(user, span_purple("<i>The Undermaiden answers your pleas with clear disapproval.</i>"))
-			user.emote("whimper")
-			user.Jitter(5)
+		// if(NECRA_DISAPPROVES)
+			// to_chat(user, span_purple("<i>The Undermaiden answers your pleas with clear disapproval.</i>"))
+			// user.emote("whimper")
+			// user.Jitter(5)
 
-		if(NECRA_NEUTRAL)
+		if(NECRA_HATES || NECRA_DISAPPROVES || NECRA_NEUTRAL)
+			// Ov Edit End - moves hate and disapproval into neutral so that Necra's less of a bitch about finding dead bodies.
 			to_chat(user, span_purple("<i>A cold, indifferent presence answers to your pleas. You feel her hand.</i>"))
 
 		if(NECRA_APPROVES)
