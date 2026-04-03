@@ -1,7 +1,7 @@
 /* *
  * Deranged Knight
  * A miniboss for quest system, designed to be a high-level challenge for multiple players.
- * Uses fuckoff gear that should not be looted - hence snowflake dismemberment code.
+ * Gear uses /datum/component/item_on_drop/dust to crumble on removal, preventing looting.
  */
 
 GLOBAL_LIST_INIT(matthios_aggro, world.file2list("strings/rt/matthiosaggrolines.txt"))
@@ -25,7 +25,6 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 		/datum/rmb_intent/weak
 	)
 	npc_max_jump_stamina = 0
-	var/is_silent = FALSE /// Determines whether or not we will scream our funny lines at people.
 	var/preset = "matthios"
 	var/forced_preset = "" // If set, force a specific preset instead of randomizing.
 	var/obj/item/outfit_weapon
@@ -42,16 +41,19 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	if(target)
 		aggressive=1
 		wander = TRUE
-	if(!is_silent && target != newtarg)
-		if(preset == "matthios")
-			say(pick(GLOB.matthios_aggro))
-		else if(preset == "zizo")
-			say(pick(GLOB.zizo_aggro))
-		else if(preset == "graggar")
-			say(pick(GLOB.graggar_aggro))
-		else if(preset == "hedgeknight")
-			say(pick(GLOB.hedgeknight_aggro))
-		pointed(target)
+	if(target != newtarg)
+		var/list/saylines
+		switch(preset)
+			if("matthios")
+				saylines = GLOB.matthios_aggro
+			if("zizo")
+				saylines = GLOB.zizo_aggro
+			if("graggar")
+				saylines = GLOB.graggar_aggro
+			if("hedgeknight")
+				saylines = GLOB.hedgeknight_aggro
+		if(npc_combat_dialogue(saylines, prob_chance = 50, cooldown = 0))
+			pointed(target)
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/should_target(mob/living/L)
 	if(L.stat != CONSCIOUS)
@@ -177,32 +179,30 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 		face_atom(get_step(src,pick(GLOB.cardinals)))
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/handle_combat()
-	if(prob(3))
-		if(preset == "matthios")
-			say(pick(GLOB.matthios_aggro))
-		else if(preset == "zizo")
-			say(pick(GLOB.zizo_aggro))
-		else if(preset == "graggar")
-			say(pick(GLOB.graggar_aggro))
-		else if(preset == "hedgeknight")
-			say(pick(GLOB.hedgeknight_aggro))
 	if(mode == NPC_AI_HUNT)
-		if(prob(5))
-			emote("laugh")
-		else if(prob(5))
-			emote("warcry")
+		var/list/saylines
+		switch(preset)
+			if("matthios")
+				saylines = GLOB.matthios_aggro
+			if("zizo")
+				saylines = GLOB.zizo_aggro
+			if("graggar")
+				saylines = GLOB.graggar_aggro
+			if("hedgeknight")
+				saylines = GLOB.hedgeknight_aggro
+		npc_combat_dialogue(saylines, list("laugh", "warcry"), prob_chance = 5, say_chance = 50)
 	. = ..()
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/death(gibbed, nocutscene)
 	if(preset == "matthios")
 		if(prob(95))
-			say("Matthios, I have failed you...", forced = TRUE)
+			say("Matthios, I have failed you...", forced = TRUE, npc_speech = TRUE)
 		else
-			say("Matthios, is this true?!", forced = TRUE)
+			say("Matthios, is this true?!", forced = TRUE, npc_speech = TRUE)
 	else if(preset == "zizo")
-		say("Zizo, forgive me!", forced = TRUE)
+		say("Zizo, forgive me!", forced = TRUE, npc_speech = TRUE)
 	else if(preset == "graggar")
-		say("No more... Blood!")
+		say("No more... Blood!", npc_speech = TRUE)
 	emote("painscream")
 	. = ..()
 	if(!gibbed)

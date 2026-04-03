@@ -13,7 +13,11 @@
 	// CC edit. No default medium armor class here.
 	smelt_bar_num = 1
 	stack_fovs = TRUE
-	sellprice = 30 //Helmets are really important.
+	sellprice = 30 //Helmets are really important. //CC Edit
+
+/obj/item/clothing/head/roguetown/helmet/heavy/ComponentInitialize()
+	..()
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/bronze
 	name = "bronze barbute"
@@ -23,12 +27,11 @@
 	item_state = "bronzebarbute"
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
-	armor = ARMOR_PLATE_BRONZE
+	armor = ARMOR_BRONZE
 	block2add = FOV_BEHIND
 	smeltresult = /obj/item/ingot/bronze
 	max_integrity = ARMOR_INT_HELMET_HEAVY_BRONZE
 	armor_class = ARMOR_CLASS_MEDIUM
-	prevent_crits = PREVENT_CRITS_ALL
 	smelt_bar_num = 1
 	stack_fovs = TRUE
 
@@ -65,8 +68,11 @@
 	material_category = ARMOR_MAT_PLATE
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
-	prevent_crits = PREVENT_CRITS_NONE
-	sellprice = 20 //Even slag helmets are better than nothing.
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi' //Uses the new 'greatplume + orle' system. If this glitches out, I made sure to include a fully-prepared 32x32 version - with details - in head.dmi.
+	bloody_icon = 'icons/effects/blood64.dmi'
+	sellprice = 20 //Even slag helmets are better than nothing. //CC Edit
 
 /obj/item/clothing/head/roguetown/helmet/heavy/aalloy/attackby(obj/item/W, mob/living/user, params)
 	..()
@@ -181,7 +187,11 @@
 	desc = "Polished gilbranze plates, pounded to form a visored helmet. Zizo commands progress, and progress commands sacrifice; let these sundered legionnaires rise again, to spill the blood of unenlightened fools. A coiled pocket is perched atop the rim, awaiting to be plumed."
 	icon_state = "ancientbarbute"
 	smeltresult = /obj/item/ingot/aaslag
-	sellprice = 20
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi' //Uses the new 'greatplume + orle' system. If this glitches out, I made sure to include a fully-prepared 32x32 version - with details - in head.dmi.
+	bloody_icon = 'icons/effects/blood64.dmi'
+	sellprice = 20 //CC Edit
 
 /obj/item/clothing/head/roguetown/helmet/heavy/paalloy/attackby(obj/item/W, mob/living/user, params)
 	..()
@@ -195,6 +205,15 @@
 		if(loc == user && ishuman(user))
 			var/mob/living/carbon/H = user
 			H.update_inv_head()
+
+/obj/item/clothing/head/roguetown/helmet/heavy/paalloy/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/guard
 	name = "steel savoyard"
@@ -221,8 +240,7 @@
 	material_category = ARMOR_MAT_PLATE
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
-	prevent_crits = PREVENT_CRITS_NONE
-	sellprice = 20
+	sellprice = 20 //CC Edit
 
 /obj/item/clothing/head/roguetown/helmet/heavy/guard/paalloy
 	name = "ancient savoyard"
@@ -258,7 +276,7 @@
 	name = "golden helmet"
 	desc = "A resplendant barbute, masterfully forged from pure gold. Its nasalguard is marked by a holy sigil, and its interior is fitted with a besilked arming cap. Even in absolute darkness, the polished surface sparkles with imbued sunlight."
 	icon_state = "goldbarbute"
-	armor = ARMOR_GOLD //Renders its wearer completely invulnerable to damage. The caveat is, however..
+	armor = ARMOR_INDESTRUCTIBLE //Renders its wearer completely invulnerable to damage. The caveat is, however..
 	max_integrity = ARMOR_INT_SIDE_GOLD // ..is that it's extraordinarily fragile. To note, this is lower than even Decrepit-tier armor.
 	armor_class = ARMOR_CLASS_HEAVY //Ceremonial. Heavy is the head that bares the burden.
 	anvilrepair = null
@@ -331,7 +349,10 @@
 	material_category = ARMOR_MAT_PLATE
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
-	prevent_crits = PREVENT_CRITS_NONE
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi' //Uses the new 'greatplume + orle' system. If this glitches out, I made sure to include a fully-prepared 32x32 version - with details - in head.dmi.
+	bloody_icon = 'icons/effects/blood64.dmi'
 
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/paalloy
 	name = "ancient bascinet"
@@ -339,6 +360,10 @@
 	icon_state = "ancientknight"
 	item_state = "ancientknight"
 	smeltresult = /obj/item/ingot/aaslag
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi' //Uses the new 'greatplume + orle' system. If this glitches out, I made sure to include a fully-prepared 32x32 version - with details - in head.dmi.
+	bloody_icon = 'icons/effects/blood64.dmi'
 
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/fluted
 	name = "fluted armet"
@@ -432,7 +457,7 @@
 	name = "golden knight's armet"
 	desc = "A resplendant armet, masterfully forged from pure gold. Hexagrammic etchings of a holy sigil line its visor, and its interior is fitted with a besilked arming cap. Even in absolute darkness, the polished surface sparkles with imbued sunlight."
 	icon_state = "goldknight"
-	armor = ARMOR_GOLD //Renders its wearer completely invulnerable to damage. The caveat is, however..
+	armor = ARMOR_INDESTRUCTIBLE //Renders its wearer completely invulnerable to damage. The caveat is, however..
 	max_integrity = ARMOR_INT_SIDE_GOLD // ..is that it's extraordinarily fragile. To note, this is lower than even Decrepit-tier armor.
 	armor_class = ARMOR_CLASS_HEAVY //Ceremonial. Heavy is the head that bares the burden.
 	anvilrepair = null
@@ -980,7 +1005,7 @@
 	emote_environment = 3
 	body_parts_covered = HEAD|HAIR|EARS
 	flags_inv = HIDEEARS|HIDEHAIR
-	block2add = FOV_BEHIND
+	block2add = FOV_DEFAULT
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 	sellprice = 50
@@ -1094,7 +1119,6 @@
 	desc = "An assembly of woven trunk, kept alive by ancient song, now twisted and warped for battle and scorn."
 	body_parts_covered = FULL_HEAD | NECK
 	armor = ARMOR_BLACKOAK //Resistant to blunt & stab, but very weak to slash.
-	prevent_crits = PREVENT_CRITS_ALL
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	icon_state = "welfhead"
@@ -1116,7 +1140,6 @@
 	icon_state = "frogmouth"
 	item_state = "frogmouth"
 	emote_environment = 3
-	prevent_crits = PREVENT_CRITS_ALL
 	body_parts_covered = FULL_HEAD|NECK
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR
 	block2add = FOV_RIGHT|FOV_LEFT
@@ -1222,7 +1245,6 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEFACIALHAIR
 	icon_state = "matthioshelm"
 	max_integrity = ARMOR_INT_HELMET_ANTAG
-	prevent_crits = PREVENT_CRITS_ALL
 	worn_x_dimension = 64
 	worn_y_dimension = 64
 	bloody_icon = 'icons/effects/blood64.dmi'
@@ -1240,7 +1262,6 @@
 	icon_state = "graggarplatehelm"
 	max_integrity = ARMOR_INT_HELMET_ANTAG
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEFACIALHAIR
-	prevent_crits = PREVENT_CRITS_ALL
 	var/active_item = FALSE
 	sellprice = 200 //Heretical..!
 
@@ -1273,31 +1294,24 @@
 	adjustable = CAN_CADJUST
 	icon_state = "zizobarbute"
 	max_integrity = ARMOR_INT_HELMET_ANTAG
-	prevent_crits = PREVENT_CRITS_ALL
-	peel_threshold = 4
 	chunkcolor = "#363030"
 	material_category = ARMOR_MAT_PLATE
-	var/frogstyle = FALSE
-	sellprice = 200 //Heretical..!
+	toggle_icon_state = TRUE
+	sellprice = 200 //Heretical..! //CC Edit
 
-/obj/item/clothing/head/roguetown/helmet/heavy/zizo/MiddleClick(mob/user)
-	frogstyle = !frogstyle
-	to_chat(user, span_info("My avantyne greathelmet shifts into the style of [frogstyle ? "a froggemund" : "a barbute"]."))
-	if(frogstyle)
-		icon_state = "zizofrogmouth"
-		name = "avantyne froggemund"
-		desc = "Crystallized inzanity, brought to a lower plane of existence and flared into a wide-collared froggemund. It has been called forth from the edge of reality, in Her name."
-		flags_inv = HIDEFACE|HIDESNOUT|HIDEEARS
-		body_parts_covered = HEAD|EARS|HAIR
-		adjustable = CANT_CADJUST
-	else
-		icon_state = "zizobarbute"
-		name = "avantyne barbute"
-		desc = "Crystallized inzanity, brought to a lower plane of existence and flared into a visored aegis. It has been called forth from the edge of reality, in Her name."
-		adjustable = CAN_CADJUST
-	update_icon()
-	user.update_inv_head()
+/obj/item/clothing/head/roguetown/helmet/heavy/zizo/frogge
+	icon_state = "zizofrogmouth"
+	name = "avantyne froggemund"
+	desc = "Crystallized inzanity, brought to a lower plane of existence and flared into a wide-collared froggemund. It has been called forth from the edge of reality, in Her name."
+	flags_inv = HIDEFACE|HIDESNOUT|HIDEEARS
+	body_parts_covered = HEAD|EARS|HAIR
+	adjustable = CANT_CADJUST
 
+/obj/item/clothing/head/roguetown/helmet/heavy/zizo/volfhelm
+	name = "avantyne volf-face bascinet"
+	desc = "An unholy combination of a bastardised volf-face bascinet, along with avantyne reinforcements. Progress is an agonising process."
+	icon_state = "volfplate_avantyne"
+	item_state = "volfplate_avantyne"
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizo/Initialize()
 	. = ..()

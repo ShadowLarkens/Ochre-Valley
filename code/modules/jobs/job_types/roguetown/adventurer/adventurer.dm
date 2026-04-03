@@ -56,7 +56,8 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 		/datum/advclass/mage,
 		/datum/advclass/mage/spellsinger,
 		/datum/advclass/mage/spellblade,
-		/datum/advclass/mage/prereworkspellblade, // OV Add
+		/datum/advclass/mage/spellfist,
+		// /datum/advclass/mage/prereworkspellblade, // OV Add //OV Edit Ap merge 4.2.26 - Commented out pending rework
 		/datum/advclass/ranger,
 		/datum/advclass/ranger/wayfarer,
 		/datum/advclass/ranger/bombadier,

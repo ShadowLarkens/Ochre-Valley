@@ -405,6 +405,11 @@
 	salvage_amount = 1
 	sellprice = 2 //Gross.
 
+/obj/item/clothing/suit/roguetown/shirt/tribalrag/gladiator
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	name = "gladiator's rags"
+	desc = "What we do in life, echoes in eternity."
+
 /obj/item/clothing/suit/roguetown/shirt/robe/archivist
 	name = "archivist's robe"
 	desc = "Robes belonging to seekers of knowledge."
@@ -674,11 +679,11 @@
 	item_state = "weddingdress"
 	sellprice = 35
 
-/obj/item/clothing/suit/roguetown/shirt/exoticsilkbra
-	name = "exotic silk bra"
+/obj/item/clothing/suit/roguetown/shirt/silkbra
+	name = "giltsilk bra"
 	desc = "An exquisite bra crafted from the finest silk and adorned with gold rings. It leaves little to the imagination."
-	icon_state = "exoticsilkbra"
-	item_state = "exoticsilkbra"
+	icon_state = "silkbra"
+	item_state = "silkbra"
 	body_parts_covered = CHEST
 	boobed = TRUE
 	sewrepair = TRUE
@@ -763,7 +768,7 @@
 
 /obj/item/clothing/suit/roguetown/shirt/dress/maid
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
-	name = "maid dress"
+	name = "servant dress"
 	desc = "A distinctive black dress that should be kept clean and tidy - unless you want to be disciplined."
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
 	boobed = TRUE
@@ -777,21 +782,23 @@
 /obj/item/clothing/suit/roguetown/shirt/dress/maid/attack_right(mob/user)
 	switch(open_wear)
 		if(FALSE)
-			name = "open maid dress"
+			name = "open servant dress"
 			body_parts_covered = null
 			open_wear = TRUE
 			flags_inv = HIDEBOOB
 			to_chat(usr, span_warning("Now wearing radically!"))
 		if(TRUE)
-			name = "maid dress"
+			name = "servant dress"
 			body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
 			open_wear = FALSE
 			flags_inv = HIDEBOOB|HIDECROTCH
 			to_chat(usr, span_warning("Now wearing normally!"))
 	update_icon()
-	if(ismob(loc))
-		var/mob/L = loc
-		L.update_inv_armor()
+	if(user)
+		if(ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_cloak()
+			H.update_inv_armor()
 
 /obj/item/clothing/suit/roguetown/shirt/courtphysician
 	name = "sanguine vest"
@@ -844,3 +851,31 @@
 		if(get_detail_color())
 			pic.color = get_detail_color()
 		add_overlay(pic)
+
+/obj/item/clothing/suit/roguetown/shirt/dress/maidfancy
+	name = "maid dress"
+	desc = "A dress befitting the housekeeper of a lord's staff. While not as intricate as a royal's, it is indicative of the house's status."
+	body_parts_covered = CHEST|GROIN|ARMS|VITALS
+	sleeved = 'icons/roguetown/clothing/special/onmob/sleeves_maids.dmi'
+	r_sleeve_status = SLEEVE_NORMAL
+	l_sleeve_status = SLEEVE_NORMAL
+	boobed = TRUE
+	icon_state = "maiddressfancy"
+	item_state = "maiddressfancy"
+	detail_tag = "_detail"
+	detail_color = CLOTHING_DARK_GREY
+
+/obj/item/clothing/suit/roguetown/shirt/dress/maidservant
+	name = "servant gown"
+	sleeved = 'icons/roguetown/clothing/special/onmob/sleeves_maids.dmi'
+	desc = "A dress worn by those of manors and noble staff. Commonly black, though some estates dye them to their house colors."
+	icon_state = "maidgown"
+	item_state = "maidgown"
+	detail_color = CLOTHING_DARK_GREY
+
+/obj/item/clothing/suit/roguetown/shirt/undershirt/formal
+	name = "formal shirt"
+	desc = "A comfortable yet functional dress shirt often worn by the staff of a noble household."
+	icon_state = "butlershirt"
+	item_state = "butlershirt"
+	sleeved = 'icons/roguetown/clothing/special/onmob/sleeves_maids.dmi'

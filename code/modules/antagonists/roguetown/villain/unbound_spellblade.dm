@@ -18,43 +18,10 @@
 	forge_objectives()
 
 /datum/antagonist/unbound_spellblade/proc/skeletonize()
-	if(isdwarf(owner.current))
-		owner.current.set_species(/datum/species/human/northern)
-
 	var/mob/living/carbon/human/L = owner.current
-	for(var/datum/charflaw/cf in L.charflaws)
-		L.charflaws.Remove(cf)
-		QDEL_NULL(cf)
-	L.hairstyle = "Bald"
-	L.facial_hairstyle = "Shaved"
-	L.mob_biotypes = MOB_UNDEAD
-	var/obj/item/organ/eyes/eyes = L.getorganslot(ORGAN_SLOT_EYES)
-	if(eyes)
-		eyes.Remove(L, TRUE)
-		QDEL_NULL(eyes)
-	eyes = new /obj/item/organ/eyes/night_vision/zombie
-	eyes.Insert(L)
-	for(var/obj/item/bodypart/B in L.bodyparts)
-		B.skeletonize(FALSE)
-	L.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/simple/claw)
-	L.update_a_intents()
-
-	L.update_body()
-	L.update_hair()
-	L.update_body_parts(redraw = TRUE)
-
-	ADD_TRAIT(L, TRAIT_NOMOOD, TRAIT_GENERIC)
-	ADD_TRAIT(L, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC)
-	ADD_TRAIT(L, TRAIT_NOLIMBDISABLE, TRAIT_GENERIC)
-	ADD_TRAIT(L, TRAIT_NOHUNGER, TRAIT_GENERIC)
-	ADD_TRAIT(L, TRAIT_NOBREATH, TRAIT_GENERIC)
-	ADD_TRAIT(L, TRAIT_NOPAIN, TRAIT_GENERIC)
-	ADD_TRAIT(L, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
-	ADD_TRAIT(L, TRAIT_NOSLEEP, TRAIT_GENERIC)
-	ADD_TRAIT(L, TRAIT_SHOCKIMMUNE, TRAIT_GENERIC)
+	L.become_skeleton()
 	ADD_TRAIT(L, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(L, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
-	ADD_TRAIT(L, TRAIT_SELF_SUSTENANCE, TRAIT_GENERIC)
+	ADD_TRAIT(L, TRAIT_ARCYNE, TRAIT_GENERIC)
 
 /datum/antagonist/unbound_spellblade/proc/equip_spellblade()
 	owner.unknow_all_people()
@@ -181,7 +148,7 @@
 
 	subclass_selected = null
 	var/selection_html = get_spellblade_chant_html(src, H, "undead")
-	H << browse(selection_html, "window=spellblade_chant;size=1100x900")
+	H << browse(selection_html, "window=spellblade_chant;size=1300x1000")
 	onclose(H, "spellblade_chant", src)
 
 	var/open_time = world.time
@@ -199,27 +166,26 @@
 	if(H.mind)
 		switch(subclass_selected)
 			if("blade")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/caedo)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/air_strike)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/leyline_anchor)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/blade_storm)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/caedo)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/air_strike)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/leyline_anchor)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/blade_storm)
 			if("phalangite")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/azurean_phalanx)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/azurean_javelin)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/advance)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gate_of_reckoning)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/azurean_phalanx)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/azurean_pilum)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/advance)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/gate_of_reckoning)
 			if("macebearer")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/shatter)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/tremor)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/charge)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/cataclysm)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/shatter)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/tremor)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/charge)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/cataclysm)
 
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/recall_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/empower_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/bind_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
-		H.mind.set_spell_point_pools(list("utility" = 4))
+		H.mind.AddSpell(new /datum/action/cooldown/spell/recall_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/empower_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
+		H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4, "ward" = TRUE))
 
 	H.adjust_blindness(-3)
 	var/helmets = list(

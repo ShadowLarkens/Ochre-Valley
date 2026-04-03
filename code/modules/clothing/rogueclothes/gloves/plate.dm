@@ -17,7 +17,7 @@
 
 	grid_width = 64
 	grid_height = 32
-	unarmed_bonus = 1.2
+	unarmed_bonus = 3
 
 /obj/item/clothing/gloves/roguetown/plate/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
@@ -41,8 +41,7 @@
 	material_category = ARMOR_MAT_PLATE
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
-	prevent_crits = PREVENT_CRITS_NONE
-	sellprice = 5
+	sellprice = 5 //CC Edit
 
 /obj/item/clothing/gloves/roguetown/plate/paalloy
 	name = "ancient plate gauntlets"
