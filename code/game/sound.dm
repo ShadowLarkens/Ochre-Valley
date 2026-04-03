@@ -80,7 +80,7 @@
 				if(M.client?.prefs?.mute_animal_emotes)
 					continue
 
-			if(pref_toggle)	//We check for its absence, mostly because the default state of relevant prefs here is "ON" rather than off.
+			if(pref_toggle && isnum(pref_toggle))	//We check for its absence, mostly because the default state of relevant prefs here is "ON" rather than off. //OV Edit
 				if(!(M.client?.prefs?.toggles & pref_toggle))
 					continue
 
@@ -122,7 +122,10 @@
 		return FALSE
 
 	if(!S)
-		S = sound(get_sfx(soundin))
+		if(istype(soundin, /sound)) //OV edit start
+			S = soundin
+		else
+			S = sound(get_sfx(soundin)) //OV edit end
 
 	S.wait = 0 //No queue
 	S.channel = channel
@@ -148,6 +151,7 @@
 	var/vol2use = vol
 	if(client.prefs)
 		vol2use = vol * (client.prefs.mastervol * 0.01)
+		//OV Edit - Vore Sound Prefs
 		if(pref_toggle)
 			switch(pref_toggle)
 				if("digestion_noises")
@@ -156,6 +160,10 @@
 				if("eating_noises")
 					if(!client.prefs.eating_noises)
 						return
+				if("belch_noises")
+					if(!client.prefs.belch_noises)
+						return
+		//OV Edit End
 	vol2use = min(vol2use, 100)
 
 	S.volume = vol2use
