@@ -60,7 +60,7 @@
 			extravirtue.on_load()
 
 /datum/preferences/proc/save_extra_virtue(S)
-	WRITE_FILE(S["extravirtue"], extravirtue.type)
+	WRITE_FILE(S["extravirtue"], extravirtue)
 
 /datum/preferences/proc/get_extra_virtue_htmlpick()
 	return "<b>Extra Virtue:</b> <a href='?_src_=prefs;preference=extravirtue;task=input'>[extravirtue]</a><BR>"
