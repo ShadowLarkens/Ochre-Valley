@@ -7,7 +7,7 @@
 /datum/migrant_role/heartfelt/hand
 	name = "Hand of Heartfelt"
 	advclass_cat_rolls = list(CTAG_HFT_HAND = 20)
-	allowed_races = ACCEPTED_RACES
+	allowed_races = RACES_ALL_KINDS //OV Edit
 	grant_lit_torch = TRUE
 	show_wanderer_examine = FALSE
 	advjob_examine = FALSE
@@ -52,6 +52,6 @@
 /datum/migrant_role/heartfelt/retinue
 	name = "Heartfelt Retinue"
 	advclass_cat_rolls = list(CTAG_HFT_RETINUE = 20)
-	allowed_races = ACCEPTED_RACES
+	allowed_races = RACES_ALL_KINDS //OV Edit
 	grant_lit_torch = FALSE
 	show_wanderer_examine = FALSE
