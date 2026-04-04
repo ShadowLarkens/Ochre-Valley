@@ -1,7 +1,5 @@
 //Loadout Items
 
-#define ARMOR_LOADOUT_CLOTHING list("blunt" = 20, "slash" = 20, "stab" = 20, "piercing" = 0, "fire" = 0, "acid" = 0)
-
 /datum/loadout_item/sizespell //I'd have this even further up the list if I could, but I don't want to needlessly edit the Azure loadouts
 	name = "Scroll of Enlarge/Reduce"
 	path = /obj/item/book/granter/spell/bonechill/sizespell/loadout
@@ -11,40 +9,40 @@
     path = /obj/item/book/granter/spell/bonechill/mirror_transform/loadout
 
 /obj/item/clothing/head/roguetown/mentorhat/loadout
-	armor = ARMOR_LOADOUT_CLOTHING
+	armor = ARMOR_CLOTHING
 
 /obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit/loadout
-	armor = ARMOR_LOADOUT_CLOTHING
+	armor = ARMOR_CLOTHING
 
 /obj/item/clothing/mask/rogue/facemask/yoruku_kitsune/loadout
-	armor = ARMOR_LOADOUT_CLOTHING
+	armor = ARMOR_CLOTHING
 
 /obj/item/clothing/mask/rogue/facemask/yoruku_oni/loadout
-	armor = ARMOR_LOADOUT_CLOTHING
+	armor = ARMOR_CLOTHING
 
 /obj/item/clothing/head/roguetown/mentorhat/loadout
-	armor = ARMOR_LOADOUT_CLOTHING
+	armor = ARMOR_CLOTHING
 
 /obj/item/clothing/gloves/roguetown/eastgloves1/loadout
-	armor = ARMOR_LOADOUT_CLOTHING
+	armor = ARMOR_CLOTHING
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1/loadout
-	armor = ARMOR_LOADOUT_CLOTHING
+	armor = ARMOR_CLOTHING
 
 /obj/item/clothing/head/roguetown/grenzelhofthat/loadout
-	armor = ARMOR_LOADOUT_CLOTHING
+	armor = ARMOR_CLOTHING
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/loadout
-	armor = ARMOR_LOADOUT_CLOTHING
+	armor = ARMOR_CLOTHING
 
 /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/loadout
-	armor = ARMOR_LOADOUT_CLOTHING
+	armor = ARMOR_CLOTHING
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants/loadout
-	armor = ARMOR_LOADOUT_CLOTHING
+	armor = ARMOR_CLOTHING
 
 /obj/item/clothing/shoes/roguetown/grenzelhoft/loadout
-	armor = ARMOR_LOADOUT_CLOTHING
+	armor = ARMOR_CLOTHING
 
 //Eastern
 
