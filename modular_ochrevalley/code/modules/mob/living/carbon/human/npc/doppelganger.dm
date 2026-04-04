@@ -41,6 +41,8 @@
 	for(var/mob/living/carbon/human/our_target in range(15, src))
 		if(our_target == src)
 			continue
+		if(istype(our_target, /mob/living/carbon/human/species/human/northern/doppelganger)) //Don't copy other doppelgangers
+			continue
 		if(full_clone(our_target, TRUE, TRUE))
 			cloned_target = TRUE
 			for(var/obj/item/equipped_item in get_equipped_items() + held_items)
