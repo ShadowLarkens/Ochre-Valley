@@ -51,7 +51,7 @@
 				ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
 			return TRUE
 
-/mob/living/carbon/human/species/human/northern/doppelganger/death()
+/mob/living/carbon/human/species/human/northern/doppelganger/death(gibbed, nocutscene = FALSE)
 	var/obj/item/reagent_containers/doppel_heart/our_heart = new /obj/item/reagent_containers/doppel_heart(get_turf(src))
 	var/highest_stat = "str"
 	var/current_value = STASTR
