@@ -187,7 +187,7 @@
 
 	if(length(virtue_limits) && H.client)
 		for(var/virtuetype in virtue_limits)
-			if(istype(H.client.prefs?.virtue, virtuetype) || istype(H.client.prefs?.virtuetwo, virtuetype))
+			if(istype(H.client.prefs?.virtue, virtuetype) || istype(H.client.prefs?.virtuetwo, virtuetype) || istype(H.client.prefs?.extravirtue, virtuetype)) //OV Edit - Extra virtue
 				return FALSE
 
 	if(length(vice_limits) && H.client)

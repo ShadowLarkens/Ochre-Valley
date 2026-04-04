@@ -705,6 +705,11 @@
 					if(istype(player.prefs.virtuetwo, virtuetype))
 						advdat += "[player.prefs.virtuetwo.name]<br>"
 						found_issue = TRUE
+					//OV Add - Extra Virtue
+					if(istype(player.prefs.extravirtue, virtuetype))
+						advdat += "[player.prefs.extravirtue.name]<br>"
+						found_issue = TRUE
+					//OV Add Start - Extra Virtue
 
 			if(length(subclass.vice_limits))
 				for(var/vicetype in subclass.vice_limits)
@@ -744,7 +749,7 @@
 		var/datum/advclass/subclass = SSrole_class_handler.get_advclass_by_name(initial(subclasspath.name))
 		if(length(subclass.virtue_limits))
 			for(var/virtuetype in subclass.virtue_limits)
-				if(istype(player.prefs.virtue, virtuetype) || istype(player.prefs.virtuetwo, virtuetype))
+				if(istype(player.prefs.virtue, virtuetype) || istype(player.prefs.virtuetwo, virtuetype) || istype(player.prefs.extravirtue, virtuetype)) //OV Edit - Extra Virtue
 					return TRUE
 
 		if(length(subclass.vice_limits))
