@@ -38,30 +38,30 @@
 
 /datum/vore_preferences
 	//Actual preferences
-	var/digestable = FALSE
-	var/devourable = FALSE
-	var/absorbable = FALSE
-	var/feeding = FALSE
+	var/digestable = TRUE
+	var/devourable = TRUE
+	var/absorbable = TRUE
+	var/feeding = TRUE
 	var/can_be_drop_prey = FALSE
 	var/can_be_drop_pred = FALSE
 	var/can_be_afk_prey = FALSE
 	var/can_be_afk_pred = FALSE
 	var/allow_spontaneous_tf = FALSE
 	//var/digest_leave_remains = FALSE
-	var/allowmobvore = FALSE
-	var/permit_healbelly = FALSE
+	var/allowmobvore = TRUE
+	var/permit_healbelly = TRUE
 	var/noisy = FALSE
 	var/eating_privacy_global = FALSE //Makes eating attempt/success messages only reach for subtle range if true, overwritten by belly-specific var
 	var/vore_death_privacy = FALSE //Makes it so that vore deaths don't get advertised to ghosts
-	var/allow_mimicry = FALSE
-	var/allowtemp = FALSE //Can be affected by belly temperature
+	var/allow_mimicry = TRUE
+	var/allowtemp = TRUE //Can be affected by belly temperature
 
 	// These are 'modifier' prefs, do nothing on their own but pair with drop_prey/drop_pred settings.
-	var/drop_vore = FALSE
-	var/stumble_vore = FALSE
-	var/slip_vore = FALSE
-	var/throw_vore = FALSE
-	var/food_vore = FALSE
+	var/drop_vore = TRUE
+	var/stumble_vore = TRUE
+	var/slip_vore = TRUE
+	var/throw_vore = TRUE
+	var/food_vore = TRUE
 	var/spont_belly_rear = null
 	var/spont_belly_left = null
 	var/spont_belly_right = null
@@ -78,16 +78,16 @@
 	var/vore_sprite_multiply = list("stomach" = FALSE, "taur belly" = FALSE)
 	var/allow_mind_transfer = FALSE
 
-	var/phase_vore = FALSE
+	var/phase_vore = TRUE
 	var/noisy_full = FALSE
 	var/receive_reagents = FALSE
 	var/give_reagents = FALSE
-	var/apply_reagents = FALSE
+	var/apply_reagents = TRUE
 	var/latejoin_vore = FALSE
 	var/latejoin_prey = FALSE
-	var/autotransferable = FALSE
+	var/autotransferable = TRUE
 	var/strip_pref = FALSE
-	var/contaminate_pref = FALSE
+	var/contaminate_pref = TRUE
 	var/no_latejoin_vore_warning = FALSE // Only load, when... no_latejoin_vore_warning_persists
 	var/no_latejoin_prey_warning = FALSE // Only load, when... no_latejoin_vore_warning_persists
 	var/no_latejoin_vore_warning_time = 15 // Only load, when... no_latejoin_vore_warning_persists
@@ -268,21 +268,21 @@
 
 	//Quick sanitize
 	if(isnull(digestable))
-		digestable = FALSE
+		digestable = TRUE
 	if(isnull(devourable))
-		devourable = FALSE
+		devourable = TRUE
 	if(isnull(resizable))
-		resizable = FALSE
+		resizable = TRUE
 	if(isnull(feeding))
-		feeding = FALSE
+		feeding = TRUE
 	if(isnull(absorbable))
-		absorbable = FALSE
+		absorbable = TRUE
 	if(isnull(allowmobvore))
-		allowmobvore = FALSE
+		allowmobvore = TRUE
 	if(isnull(allowtemp))
-		allowtemp = FALSE
+		allowtemp = TRUE
 	if(isnull(permit_healbelly))
-		permit_healbelly = FALSE
+		permit_healbelly = TRUE
 	if(isnull(selective_preference))
 		selective_preference = DM_DEFAULT
 	if(isnull(size_strip_preference))
@@ -302,33 +302,33 @@
 	if(isnull(allow_spontaneous_tf))
 		allow_spontaneous_tf = FALSE
 	if(isnull(step_mechanics_pref))
-		step_mechanics_pref = FALSE
+		step_mechanics_pref = TRUE
 	if(isnull(pickup_pref))
 		pickup_pref = TRUE
 	if(isnull(belly_prefs))
 		belly_prefs = list()
 	if(isnull(drop_vore))
-		drop_vore = FALSE
+		drop_vore = TRUE
 	if(isnull(slip_vore))
-		slip_vore = FALSE
+		slip_vore = TRUE
 	if(isnull(throw_vore))
-		throw_vore = FALSE
+		throw_vore = TRUE
 	if(isnull(stumble_vore))
-		stumble_vore = FALSE
+		stumble_vore = TRUE
 	if(isnull(food_vore))
-		food_vore = FALSE
+		food_vore = TRUE
 	if(isnull(consume_liquid_belly))
 		consume_liquid_belly = FALSE
 	if(isnull(digest_pain))
-		digest_pain = FALSE
+		digest_pain = TRUE
 	if(isnull(nutrition_message_visible))
-		nutrition_message_visible = FALSE
+		nutrition_message_visible = TRUE
 	if(isnull(weight_message_visible))
-		weight_message_visible = FALSE
+		weight_message_visible = TRUE
 	if(isnull(eating_privacy_global))
 		eating_privacy_global = FALSE
 	if(isnull(allow_mimicry))
-		allow_mimicry = FALSE
+		allow_mimicry = TRUE
 	if(isnull(nutrition_messages))
 		nutrition_messages = list(
 							"They are starving! You can hear their stomach snarling from across the room!",
@@ -365,7 +365,7 @@
 		allow_mind_transfer = FALSE
 
 	if(isnull(phase_vore))
-		phase_vore = FALSE
+		phase_vore = TRUE
 	if(isnull(latejoin_vore))
 		latejoin_vore = FALSE
 	if(isnull(latejoin_prey))
@@ -375,17 +375,17 @@
 	if(isnull(give_reagents))
 		give_reagents = FALSE
 	if(isnull(apply_reagents))
-		apply_reagents = FALSE
+		apply_reagents = TRUE
 	if(isnull(noisy_full))
 		noisy_full = FALSE
 	if(isnull(autotransferable))
-		autotransferable = FALSE
+		autotransferable = TRUE
 	if(isnull(vore_sprite_multiply))
 		vore_sprite_multiply = list("stomach" = FALSE, "taur belly" = FALSE)
 	if(isnull(strip_pref))
-		strip_pref = FALSE
+		strip_pref = TRUE
 	if(isnull(contaminate_pref))
-		contaminate_pref = FALSE
+		contaminate_pref = TRUE
 	if(isnull(no_latejoin_vore_warning))
 		no_latejoin_vore_warning = FALSE
 	if(isnull(no_latejoin_prey_warning))
