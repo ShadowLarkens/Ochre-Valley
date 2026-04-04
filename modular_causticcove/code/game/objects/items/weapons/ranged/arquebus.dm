@@ -19,7 +19,7 @@
 	bigboy = TRUE
 	gripsprite = TRUE
 	wlength = WLENGTH_LONG
-	slot_flags = ITEM_SLOT_BACK // OV Edit - We have a perfectly good icon for this already, stop using those awful gw straps.
+	slot_flags = ITEM_SLOT_BACK // OV Edit - Removing CC edit that makes this null.
 	w_class = WEIGHT_CLASS_BULKY
 	randomspread = 1
 	spread = 0
