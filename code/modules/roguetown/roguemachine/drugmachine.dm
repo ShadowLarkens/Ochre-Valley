@@ -267,7 +267,7 @@
 	held_items[/obj/item/clothing/mask/cigarette/rollie/ziggara] = list("PRICE" = rand(20,35),"NAME" = "ziggara")
 	// Caustic Edit - Sui Dust, Mirror Transform
 	held_items[/obj/item/alch/transisdust] = list("PRICE" = rand(25,37),"NAME" = "sui dust")
-	held_items[/obj/item/book/granter/spell/blackstone/mirror_transform] = list("PRICE" = rand(30,40), "NAME" = "scroll of mirror transform")
+	held_items[/obj/item/book/granter/spell/bonechill/mirror_transform] = list("PRICE" = rand(30,40), "NAME" = "scroll of mirror transform")
 	// Caustic Edit End
 	// azure peak addition start - lipstick
 	held_items[/obj/item/lipstick] = list("PRICE" = rand(33,50),"NAME" = "red lipstick")

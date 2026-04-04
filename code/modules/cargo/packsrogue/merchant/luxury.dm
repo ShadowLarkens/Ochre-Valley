@@ -150,4 +150,4 @@
 /datum/supply_pack/rogue/luxury/sizescroll
 	name = "Scroll of Reduce/Enlarge"
 	cost = 15
-	contains = list(/obj/item/book/granter/spell/blackstone/sizespell)
+	contains = list(/obj/item/book/granter/spell/bonechill/sizespell)
