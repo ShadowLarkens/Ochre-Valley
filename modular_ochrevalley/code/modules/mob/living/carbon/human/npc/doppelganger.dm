@@ -69,6 +69,7 @@
 		highest_stat = "int"
 	our_heart.affected_stat = highest_stat
 	.=..()
+	dust(src)
 
 /mob/living/carbon/human/species/human/northern/doppelganger/ambush
 	aggressive=1
