@@ -181,7 +181,7 @@
 	if(sheathed)
 		return FALSE
 
-	if(istype(A, /obj/item/rogueweapon)) // OV Edit - Removed hacky CC edit.
+	if(istype(A, /obj/item/rogueweapon)) // OV Edit - Removed CC work-around.
 		if(A.w_class >= WEIGHT_CLASS_BULKY)
 			return TRUE
 
