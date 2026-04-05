@@ -20,12 +20,30 @@
 		/datum/rmb_intent/riposte,\
 		/datum/rmb_intent/weak
 	)
-	var/is_silent = FALSE /// Determines whether or not we will scream our funny lines at people.
+	var/is_silent = TRUE /// Determines whether or not we will scream our funny lines at people.
+	var/custom_speech = TRUE // New one specifically for doppelgangers
 	npc_max_jump_stamina = 0
 	var/cloned_target = FALSE // Check whether to clone someone or not
 
 	smart_combatant = TRUE
 	special_attacker = TRUE
+
+	var/list/dying_voicelines = list(
+		"Augh, no...",
+		"I only wanted a chance.",
+		"I was the real one..."
+	)
+
+	var/list/combat_voicelines = list(
+		"Help me!",
+		"I'm the real one!",
+		"They're fake!",
+		"What the fuck.",
+		"Who-",
+		"They're me!",
+		"Get them!!!",
+		"???"
+	)
 
 
 /mob/living/carbon/human/species/human/northern/doppelganger/Life()
@@ -34,7 +52,6 @@
 		handle_doppelganger()
 
 /mob/living/carbon/human/species/human/northern/doppelganger/proc/handle_doppelganger()
-	message_admins("Entered doppel")
 	if(cloned_target)
 		return FALSE
 
@@ -52,26 +69,30 @@
 			return TRUE
 
 /mob/living/carbon/human/species/human/northern/doppelganger/death(gibbed, nocutscene = FALSE)
-	var/obj/item/reagent_containers/doppel_heart/our_heart = new /obj/item/reagent_containers/doppel_heart(get_turf(src))
-	var/highest_stat = "str"
-	var/current_value = STASTR
-	if(STASPD > current_value)
-		highest_stat = "spd"
-		current_value = STASPD
-	if(STACON > current_value)
-		highest_stat = "con"
-		current_value = STACON
-	if(STAWIL > current_value)
-		highest_stat = "wil"
-		current_value = STAWIL
-	if(STAPER > current_value)
-		highest_stat = "per"
-		current_value = STAPER
-	if(STAINT > current_value)
-		highest_stat = "int"
-	our_heart.affected_stat = highest_stat
+	if(custom_speech)
+		say(doppel_voiceline(TRUE))
+	if(!gibbed)
+		var/obj/item/reagent_containers/doppel_heart/our_heart = new /obj/item/reagent_containers/doppel_heart(get_turf(src))
+		var/highest_stat = "str"
+		var/current_value = STASTR
+		if(STASPD > current_value)
+			highest_stat = "spd"
+			current_value = STASPD
+		if(STACON > current_value)
+			highest_stat = "con"
+			current_value = STACON
+		if(STAWIL > current_value)
+			highest_stat = "wil"
+			current_value = STAWIL
+		if(STAPER > current_value)
+			highest_stat = "per"
+			current_value = STAPER
+		if(STAINT > current_value)
+			highest_stat = "int"
+		our_heart.affected_stat = highest_stat
 	.=..()
-	dust(src)
+	if(!gibbed)
+		dust(FALSE, FALSE, TRUE)
 
 /mob/living/carbon/human/species/human/northern/doppelganger/ambush
 	aggressive=1
@@ -134,10 +155,119 @@
 
 /mob/living/carbon/human/species/human/northern/doppelganger/handle_combat()
 	if(mode == NPC_AI_HUNT)
-		if(prob(2)) // do not make this big or else they NEVER SHUT UP
-			emote("laugh")
+		if(prob(3)) // do not make this big or else they NEVER SHUT UP
+			if(prob(35))
+				emote("laugh")
+			else if(custom_speech)
+				say(doppel_voiceline(FALSE))
 	. = ..()
 
+/mob/living/carbon/human/species/human/northern/doppelganger/proc/doppel_voiceline(var/dying)
+	var/mob/living/carbon/human/selected_audience
+	for(var/mob/living/carbon/human/audience in range(7, src))
+		if(!audience.client) //Only troll players
+			continue
+		if(audience.nickname == "Please Change Me") //Make sure they have a real nickname
+			continue
+		if(audience.name == name) //Don't plea to ourselves
+			continue
+		if(audience == src)
+			continue
+		selected_audience = audience
+		break
+	
+	var/our_message
+	
+	if(dying)
+		if(patron)
+			switch(patron.name)
+				if("Psydon")
+					dying_voicelines += "Allfather, I could not endure any longer..."
+				if("Undivided")
+					dying_voicelines += "I fall into the arms of the ten..."
+				if("Xylix")
+					dying_voicelines += "Xylix, did I amuse you?"
+				if("Ravox")
+					dying_voicelines += "Ravox, was I unjust?"
+				if("Abyssor")
+					dying_voicelines += "Sink me into the abyss of dreams."
+				if("Astrata")
+					dying_voicelines += "Sun, please shine your light on me one last time..."
+				if("Dendor")
+					dying_voicelines += "Argh- NOW I AM ONE WITH THE TREEFATHER!"
+				if("Eora")
+					dying_voicelines += "Into the bosom I fall..."
+				if("Malum")
+					dying_voicelines += "What was I if not a beautiful creation?"
+				if("Necra")
+					dying_voicelines += "My lady, I was always ready."
+				if("Noc")
+					dying_voicelines += "I have never seen the night so dark..."
+				if("Pestra")
+					dying_voicelines += "Imbue my heart unto others, it is my gift to you."
+				if("Baotha")
+					dying_voicelines += "What an interruption..."
+				if("Graggar")
+					dying_voicelines += "I fought to the end..."
+				if("Matthios")
+					dying_voicelines += "You stole my right to a lyfe."
+				if("Zizo")
+					dying_voicelines += "What am I?"
+		if(selected_audience)
+			dying_voicelines += "[selected_audience.real_name], why?"
+		our_message = pick(dying_voicelines)
+		return our_message
+	
+	if(selected_audience)
+		combat_voicelines += "Help, [selected_audience.nickname]!"
+		combat_voicelines += "Please, [selected_audience.real_name]!"
+		combat_voicelines += "[selected_audience.nickname]!"
+		combat_voicelines += "I'm the real [real_name]!"
+		combat_voicelines += "It's me, [real_name]!"
+		combat_voicelines += "[selected_audience.real_name]..."
+		if(target)
+			combat_voicelines += "[selected_audience.nickname], get [target]!"
+			combat_voicelines += "[target] is a fake!"
+	
+	if(patron)
+		switch(patron.name)
+			if("Psydon")
+				combat_voicelines += "I will ENDURE!"
+			if("Undivided")
+				combat_voicelines += "By the Ten!"
+			if("Xylix")
+				combat_voicelines += "HAHAHA!"
+			if("Ravox")
+				combat_voicelines += "I will deliver you unto justice!"
+			if("Abyssor")
+				combat_voicelines += "I shall crash a tide upon you!"
+			if("Astrata")
+				combat_voicelines += "Light guide my hand!"
+			if("Dendor")
+				combat_voicelines += "For the call of the wilds!"
+			if("Eora")
+				combat_voicelines += "I have Eora's love about me."
+			if("Malum")
+				combat_voicelines += "I am a divine instrument!"
+			if("Necra")
+				combat_voicelines += "Fear not, I shall bury you proper."
+			if("Noc")
+				combat_voicelines += "For the moon."
+			if("Pestra")
+				combat_voicelines += "I shall soothe what ails you."
+			if("Baotha")
+				combat_voicelines += "Oh, what joy!"
+			if("Graggar")
+				combat_voicelines += "I WILL kill you!"
+			if("Matthios")
+				combat_voicelines += "This is justice!"
+			if("Zizo")
+				combat_voicelines += "What manner of creation are you?"
+	our_message = pick(combat_voicelines)
+	return our_message
+
+
+///////////////FULL CLONE PROC - May move to its own place one day
 
 /mob/living/carbon/human/proc/full_clone(var/mob/living/carbon/human/our_target, var/npc_setup, var/include_equipment)
 	if(!ishuman(our_target))
@@ -145,7 +275,6 @@
 	if(our_target == src)
 		return FALSE
 	
-	message_admins("ENTERED FULL CLONE")
 
 	if(npc_setup)
 		ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
@@ -159,6 +288,11 @@
 	dna.features = our_target.dna.features.Copy()
 	name = our_target.name
 	real_name = our_target.real_name
+	patron = our_target.patron
+	pronouns = our_target.pronouns
+	mob_descriptors = our_target.mob_descriptors.Copy()
+	voice_type = our_target.voice_type
+	
 
 	//head
 	for(var/obj/item/bodypart/head/our_head in bodyparts)
@@ -407,6 +541,9 @@
 		if(equipping_hand2)
 			var/obj/item/our_equipment = new equipping_hand2.type(src)
 			put_in_hands(our_equipment)
+		var/obj/item/equipping_skin = our_target.skin_armor
+		if(equipping_skin)
+			skin_armor = new equipping_skin.type(src)
 	
 	update_body()
 	update_hair()
