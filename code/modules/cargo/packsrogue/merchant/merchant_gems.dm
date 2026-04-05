@@ -47,7 +47,7 @@
 ///CC Edit
 /datum/supply_pack/rogue/gems/reform
 	name = "Gem of Reformation"
-	cost = 15 //OV Edit - Pricejak
+	cost = 5 //OV Edit - Pricejak
 	contains = list(/obj/item/reformation_gem)
 
 ///CC Edit End
