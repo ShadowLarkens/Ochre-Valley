@@ -141,10 +141,10 @@
 	H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/skin_armor/natural_armor(H)
 	give_feral_eyes(H)
 
-/* /datum/advclass/wildsoul/lampternfly //OV Edit AP Merge 4.2.26 - Commented Out pending Rework
+/datum/advclass/wildsoul/lampternfly //OV Edit AP Merge 4.5.26 - RE-ENABLED 
 	name = "Soul of the Lampternfly"
 	tutorial = "Some things in this world have a magical spark to them; you're one of them. Having an immensely potent arcyne nature, even without training, you're capable of commanding many magycks; but be careful, for an opposing hunter's command of a bow can prove just as deadly."
-	traits_applied = list(TRAIT_ARCYNE_T3, TRAIT_MAGEARMOR, TRAIT_WOODWALKER, TRAIT_ALCHEMY_EXPERT)
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_WOODWALKER, TRAIT_ALCHEMY_EXPERT)
 	category_tags = list(CTAG_WILDSOUL)
 	subclass_stats = list(
 		STATKEY_STR = -1, // 9 stats weighted, with a focus on their intelligence and awareness
@@ -153,7 +153,8 @@
 		STATKEY_SPD = 2,
 		STATKEY_LCK = 1
 	)
-	subclass_spellpoints = 12 // With their default spells, they have a total of 16 spell points before other sources.
+	age_mod = /datum/class_age_mod/adv_mage
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 4, "ward" = TRUE) //OV Edit - GO MY BALANCE JAK
 	subclass_skills = list( //still can't read lol
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
@@ -188,12 +189,9 @@
 	H.put_in_hands(new /obj/item/clothing/neck/roguetown/collar/leather/nomagic(H), TRUE) //either for "they tried and failed to capture me" roleplay or for people who REALLY want a challenge
 	give_feral_eyes(H)
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/nondetection) // Makes sense for them to have the tools to be hidden.
+		H.mind.AddSpell(new /datum/action/cooldown/spell/nondetection) // Makes sense for them to have the tools to be hidden.
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/blindness)
-	if(H.age == AGE_OLD)
-		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_EXPERT, TRUE)
-		H.mind?.adjust_spellpoints(6)
-	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard() */
+	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 
 /datum/advclass/wildsoul/zad
 	name = "Soul of the Zad"
