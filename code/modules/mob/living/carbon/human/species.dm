@@ -152,6 +152,11 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		/datum/descriptor_choice/prominent_four,
 	)
 
+	// Associative list of stat (STAT_STRENGTH, etc) bonuses used to differentiate each race. They should ALWAYS be positive.
+	var/list/race_bonus = list()
+	var/construct = 0
+	var/gibs_on_shapeshift = FALSE
+
 	var/obj/item/mutanthands
 
 	/// List of organ customizers for preferences to customize organs.
