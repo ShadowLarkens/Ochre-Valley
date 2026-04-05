@@ -66,7 +66,7 @@
 
 	if(name in unknown_names)
 		. = list(span_info("ø ------------ ø\nThis is <EM>[name]</EM>."))
-	else if(obscure_name && !client?.prefs?.masked_examine)
+	else if(obscure_name) // && !client?.prefs?.masked_examine) OV Edit - Allows Masked Individuals to still hide face and name but keep exmaine text
 		. = list(span_info("ø ------------ ø\nThis is an unknown <EM>[name]</EM>."))
 	else
 		on_examine_face(user)
