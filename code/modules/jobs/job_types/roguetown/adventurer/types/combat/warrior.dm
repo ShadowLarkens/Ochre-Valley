@@ -296,13 +296,13 @@
 			gloves = /obj/item/clothing/gloves/roguetown/bandages
 			H.change_stat(STATKEY_SPD, -1) //Little more protection, little less speed.
 			H.change_stat(STATKEY_PER, 1) //Allows for more critical usage of the Whip's strengths.
-		if ("Discipline - Unarmed")
+		if("Discipline - Unarmed")
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 			ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
 			head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 			gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 			armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/barbarian
-		if ("Discipline - Bodybuilder") //its really not that good
+		if("Discipline - Bodybuilder") //its really not that good
 			H.adjust_skillrank_up_to(/datum/skill.combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			armor = /obj/item/clothing/suit/roguetown/armor/manual/pushups/leather
 			r_hand = /obj/item/rogueweapon/greatsword/iron
@@ -324,6 +324,18 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/rogueweapon/huntingknife/bronze = 1,
 		)
+	var/techniques = list("Dropkick - Pushback + Extra Damage", "Chokeslam - Stamina Damage", "Stunner - Dazed Debuff", "Headbutt - Vulnerable Debuff") // cool wrestling moves
+	var/technique_choice = input(H,"Choose your TECHNIQUE.", "TOSS THEM.") as anything in techniques
+	if("Discipline - Unarmed")
+		switch(technique_choice)
+			if("Dropkick - Pushback + Extra Damage")
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dropkick)
+			if("Chokeslam - Stamina Damage")
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/chokeslam)
+			if("Stunner - Dazed Debuff")
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/stunner)
+			if("Headbutt - Vulnerable Debuff")
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/headbutt)
 
 /datum/advclass/sfighter/ironclad
 	name = "Ironclad"
