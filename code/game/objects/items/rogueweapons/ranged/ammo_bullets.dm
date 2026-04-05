@@ -319,17 +319,17 @@
 // GUNPOWDER AMMO
 /obj/projectile/bullet/reusable/bullet
 	name = "lead ball"
-	damage = 30
+	damage = 60 //OV Edit - Damage Tweaks
 	damage_type = BRUTE
 	icon_state = "musketball_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/bullet
 	range = 30
-	hitsound = 'sound/combat/hits/hi_arrow2.ogg'
+	hitsound = 'sound/combat/hits/hi_bolt (3).ogg' //OV Edit - Gun stuff
 	embedchance = 100
 	woundclass = BCLASS_PIERCE
 	flag = "piercing"
 	armor_penetration = PEN_BSTEEL //OV Edit - Gun Adjustments
-	speed = 0.4 //OV Edit - Gun Adjustments
+	speed = 0.1
 	npc_simple_damage_mult = 2 // I know this isn't used in Azure Peak but trust me some downstream guys are going to thank me for this because everything that uses it shoots so fucking slow that even volves are hard to kill.
 
 /obj/item/ammo_casing/caseless/rogue/bullet
@@ -337,6 +337,7 @@
 	desc = "A small lead sphere. This should go well with gunpowder."
 	projectile_type = /obj/projectile/bullet/reusable/bullet
 	caliber = "musketball"
+	icon = 'icons/roguetown/weapons/ranged/sling_mob.dmi'
 	icon_state = "musketball"
 	dropshrink = 0.5
 	possible_item_intents = list(/datum/intent/use)
