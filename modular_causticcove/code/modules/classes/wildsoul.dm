@@ -35,7 +35,7 @@
 	job_subclasses = list(
 		/datum/advclass/wildsoul/direbear,
 		/datum/advclass/wildsoul/mantid,
-		// /datum/advclass/wildsoul/lampternfly, //OV Edit AP Merge 4.2.26 - Commented Out Pending Rework
+		/datum/advclass/wildsoul/lampternfly,
 		/datum/advclass/wildsoul/zad,
 	)
 
