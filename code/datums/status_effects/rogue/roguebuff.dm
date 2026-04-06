@@ -2348,7 +2348,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/artificerint
 	name = "Artificer Arcyne"
-	desc = "This armor fills me with arcyne power and knowledge"
+	desc = "This armor fills me with arcyne power and knowledge."
 	icon_state = "buff"
 
 /datum/status_effect/buff/artificerstr
@@ -2358,31 +2358,31 @@
 
 /atom/movable/screen/alert/status_effect/buff/artificerstr
 	name = "Artificer Athletic"
-	desc = "This armor fills me with atheletic power and strength"
+	desc = "This armor fills me with atheletic power and strength."
 	icon_state = "buff"
 
 //construct buffing
 /datum/status_effect/buff/windup
-	id = "windup"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/windup
-	effectedstats = list(STATKEY_SPD = 1, STATKEY_WIL = 1)
-	duration = 15 MINUTES
+    id = "windup"
+    alert_type = /atom/movable/screen/alert/status_effect/buff/windup
+    effectedstats = list(STATKEY_SPD = 1, STATKEY_WIL = 1)
+    duration = 45 MINUTES
 
 /atom/movable/screen/alert/status_effect/buff/windup
-	name = "Drill Windup"
-	desc = "a drill has wound up my core, making me faster"
-	icon_state = "buff"
+    name = "Drill Windup"
+    desc = "Malum's own drill has wound me up. I am faster, now."
+    icon_state = "buff"
 
 /datum/status_effect/buff/tuneup
-	id = "tuneup"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/tuneup
-	effectedstats = list(STATKEY_CON = 1)
-	duration = 15 MINUTES
+    id = "tuneup"
+    alert_type = /atom/movable/screen/alert/status_effect/buff/tuneup
+    effectedstats = list(STATKEY_CON = 1, STATKEY_PER = 1)
+    duration = 45 MINUTES
 
 /atom/movable/screen/alert/status_effect/buff/tuneup
-	name = "Wrench Tuneup"
-	desc = "a wrench has turned me up, helping steel myself for more damage"
-	icon_state = "buff"
+    name = "Wrench Tuneup"
+    desc = "Malum's own wrench powers me. I can withstand more damage, now."
+    icon_state = "buff"
 
 #define ORDERBRINGER_FILTER "orderbringer"
 
