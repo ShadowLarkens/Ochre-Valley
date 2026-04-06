@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "grand rite now excludes faetouched alongside other hag allies"
