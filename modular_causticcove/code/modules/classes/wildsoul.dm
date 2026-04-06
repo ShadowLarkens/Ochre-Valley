@@ -186,7 +186,7 @@
 	head = /obj/item/clothing/head/roguetown/roguehood
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	pants = /obj/item/clothing/under/roguetown/loincloth/brown
-	H.put_in_hands(new /obj/item/clothing/neck/roguetown/collar/leather/nomagic(H), TRUE) //either for "they tried and failed to capture me" roleplay or for people who REALLY want a challenge
+	r_hand = /obj/item/clothing/neck/roguetown/collar/leather/nomagic //either for "they tried and failed to capture me" roleplay or for people who REALLY want a challenge
 	give_feral_eyes(H)
 	if(H.mind)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/nondetection) // Makes sense for them to have the tools to be hidden.
