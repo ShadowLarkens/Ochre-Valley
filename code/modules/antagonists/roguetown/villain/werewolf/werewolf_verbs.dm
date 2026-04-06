@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
-// Wolf modular verb time : Added by Ochre Valley / OV									   //
+// Wolf modular verb time : Added by Ochre Valley // OV	Edit							   //
 // Add your verb here and then add it to the list at werewolf.dm : var/list/werewolf_verbs //
 // Hopefully this is self explanatory of how to handle things.							   //
 /////////////////////////////////////////////////////////////////////////////////////////////

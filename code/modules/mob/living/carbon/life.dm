@@ -156,6 +156,15 @@
 
 /mob/living/carbon/proc/get_complex_pain()
 	. = 0
+
+	//Caustic Edit - Add check for digest pain pref
+	if(!digest_pain)
+		if(isbelly(loc))
+			var/obj/belly/b = loc
+			if(b.digest_mode == DM_DIGEST || b.digest_mode == DM_SELECT)
+				return FALSE
+	//Caustic Edit End
+
 	var/has_adrenaline = HAS_TRAIT(src, TRAIT_ADRENALINE_RUSH)
 	for(var/obj/item/bodypart/limb as anything in bodyparts)
 		if(limb.status == BODYPART_ROBOTIC || limb.skeletonized)
@@ -554,6 +563,15 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 			energy_add(sleepy_mod * 4)
 		if(buckled?.sleepy)
 			sleepy_mod = buckled.sleepy
+		//OV edit
+		if(HAS_TRAIT(src, TRAIT_REGROW_LIMBS))
+			var/list/limb_list = list(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG)
+			for(var/zone in limb_list)
+				var/obj/item/bodypart/limb = get_bodypart(zone)
+				if(!limb && nutrition > 250)
+					regenerate_limb(zone)
+					nutrition -= 250
+		//OV edit end
 		else if(isturf(loc)) //No illegal tech.
 			var/obj/structure/bed/rogue/bed = locate() in loc
 			if(bed)

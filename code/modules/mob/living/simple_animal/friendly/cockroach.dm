@@ -11,7 +11,7 @@
 	minbodytemp = 270
 	maxbodytemp = INFINITY
 	pass_flags = PASSTABLE | PASSGRILLE | PASSMOB
-	mob_size = MOB_SIZE_TINY
+	mob_size = MOB_TINY
 	mob_biotypes = MOB_ORGANIC|MOB_BUG
 	response_disarm_continuous = "shoos"
 	response_disarm_simple = "shoo"
@@ -35,7 +35,7 @@
 	if(ismob(AM))
 		if(isliving(AM))
 			var/mob/living/A = AM
-			if(A.mob_size > MOB_SIZE_SMALL && !(A.movement_type & FLYING))
+			if(A.mob_size > MOB_SMALL && !(A.movement_type & FLYING))
 				if(prob(squish_chance))
 					if(ishuman(A))
 						var/mob/living/carbon/human/H = A

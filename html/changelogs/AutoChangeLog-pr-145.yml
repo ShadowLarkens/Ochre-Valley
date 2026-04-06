@@ -1,0 +1,4 @@
+author: "Ryumi"
+delete-after: True
+changes:
+  - admin: "Stopped custom asay colors from being erroneously limited by the game, but for real this time."

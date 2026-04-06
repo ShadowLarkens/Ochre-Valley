@@ -17,7 +17,7 @@
 	var/list/blacklist
 	/// Jobs that have slots changed /datum/job = num
 	var/list/slot_adjust
-	/// Jobs that have title adjustments. Don't adjust the title title, only display_title /datum/job = list(display_title = "Lord Commander", f_title = "Lady Commander"))
+	/// Jobs that have title adjustments. Don't adjust the title title, only display_title /datum/job = list(display_title = "Lord Commander", f_title = "Lady Commander", n_title = "Commander")) //OV Edit: Gender Neutral Revamp
 	var/list/title_adjust
 	/// Job that have tutorial adjustments /datum/job = list("Good")
 	var/list/tutorial_adjust
@@ -43,6 +43,7 @@
 		var/datum/job/J = SSjob.GetJobType(job)
 		J.display_title = title_adjust[job]["display_title"]
 		J.f_title = title_adjust[job]["f_title"]
+		J.n_title = title_adjust[job]["n_title"] //OV Add: Gender Neutral Revamp
 	for(var/job as anything in tutorial_adjust)
 		var/datum/job/J = SSjob.GetJobType(job)
 		J?.tutorial = tutorial_adjust[job]

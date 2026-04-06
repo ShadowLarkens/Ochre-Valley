@@ -28,7 +28,7 @@
 
 	speak_chance = 1
 	turns_per_move = 5
-	mob_size = MOB_SIZE_SMALL
+	mob_size = MOB_SMALL
 	density = FALSE
 	// Caustic Edit Start
 	health = 50 // They seem to start off with no HP, this should help. enough to survive most hits at least once, but still die if they endanger themselves.

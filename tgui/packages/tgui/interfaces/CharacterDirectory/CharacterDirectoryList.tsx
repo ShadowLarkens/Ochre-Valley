@@ -85,13 +85,13 @@ export const CharacterDirectoryList = (props: {
             ERP Tag
           </SortButton>
           <SortButton
-            ourId="eventtag"
+            ourId="pvptag"
             sortId={sortId}
             sortOrder={sortOrder}
             onSortId={setSortId}
             onSortOrder={setSortOrder}
           >
-            Examine
+            PvP Opt-In
           </SortButton>
           <Table.Cell collapsing textAlign="right">
             View
@@ -140,7 +140,7 @@ export const CharacterDirectoryList = (props: {
               </Table.Cell>
               <Table.Cell verticalAlign="middle">{character.erptag}</Table.Cell>
               <Table.Cell verticalAlign="middle">
-                {character.eventtag}
+                {character.pvptag}
               </Table.Cell>
               <Table.Cell verticalAlign="middle" collapsing textAlign="right">
                 <Button

@@ -17,7 +17,7 @@
 	health = 660
 	maxHealth = 660
 	pass_flags = PASSTABLE | PASSMOB
-	mob_size = MOB_SIZE_SMALL
+	mob_size = MOB_SMALL
 	milkies = FALSE
 	melee_damage_lower = 60
 	melee_damage_upper = 90

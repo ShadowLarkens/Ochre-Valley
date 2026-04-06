@@ -1201,7 +1201,7 @@
 			to_chat(H, span_warning("I can't use this... The god's refuse, I must seek aid from someone else..."))
 	else if(do_after(H, 5 SECONDS, TRUE, src)) //Fluff interaction for RP purposes and a tiny mood boost as an alternative to praying and spamming admin chats. Works anywhere.
 		if(H.has_flaw(/datum/charflaw/addiction/godfearing))
-			H.sate_addiction() //For the especially devout...
+			H.sate_addiction(/datum/charflaw/addiction/godfearing) //For the especially devout... // OV Edit: Makes this prayer method ACTUALLY satisfy the vice
 		H.visible_message(span_notice("[H] sends a silent prayer."), span_green("May the Ten forever grace us with their benevolent gaze..."))
 		H.add_stress(/datum/stressevent/psyprayer)
 

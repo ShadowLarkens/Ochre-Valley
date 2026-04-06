@@ -21,6 +21,7 @@
 	var/started_at = 0
 	var/new_ruler_title = "Grand Duke"
 	var/new_ruler_title_f = "Grand Duchess"
+	var/new_ruler_title_n = "Grand Monarch" //OV Add: Gender Neutral Revamp
 	var/new_realm_type = "Grand Duchy"
 	var/new_realm_type_short = "Duchy"
 	var/mob/living/carbon/human/contester
@@ -188,6 +189,7 @@
 	if(lord_job)
 		lord_job.display_title = new_ruler_title
 		lord_job.f_title = new_ruler_title_f
+		lord_job.n_title = new_ruler_title_n //OV Add: Gender Neutral Revamp
 		lord_job.total_positions = -1000 // Lock out the slot so no new one spawns
 
 	SSticker.realm_type = new_realm_type

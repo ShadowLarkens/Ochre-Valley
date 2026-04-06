@@ -70,6 +70,9 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fittedclothing)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/takeapprentice)
 		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.") //There is a better way to do this, do I care for it - of course not.
+
+		///CC EDIT START
+		/*
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/naledisash)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/halfrobe)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/monkrobe)
@@ -98,3 +101,5 @@
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leatherunique/gladsandals)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/monkrobes)//Generic
 //All in all if you add mercenary / unique stuff to sewing make the tailor start with it.
+		*/
+		///CC Edit End

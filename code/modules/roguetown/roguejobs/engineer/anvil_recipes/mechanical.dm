@@ -289,12 +289,14 @@
 	created_item = /obj/item/powderflask
 	craftdiff = 3
 
+/* OV Edit - Removes this confusing recipe.
 /datum/anvil_recipe/engineering/bulletpouch
 	name = "Bullet Pouch (+1 Cured Leather)"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/natural/hide/cured) //Bag of bullets
 	created_item = /obj/item/quiver/bulletpouch
 	craftdiff = 0
+*/
 
 /datum/anvil_recipe/engineering/leadbullets
 	name = "Firearm Bullets (x10)"

@@ -9,7 +9,7 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 	amount_per_transfer_from_this = 10
 	amount_per_gulp = 5
 	possible_transfer_amounts = list(10)
-	volume = 50
+	volume = 60
 	fill_icon_thresholds = list(0, 25, 50, 75, 100)
 	dropshrink = 0.8
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH

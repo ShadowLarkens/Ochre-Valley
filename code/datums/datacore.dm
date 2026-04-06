@@ -289,15 +289,17 @@ GLOBAL_LIST_EMPTY(fake_ckeys)
 		var/id = num2hex(record_id_num++,6)
 		if(!C)
 			C = H.client
-		var/image = get_id_photo(H, C, show_directions)
-		var/datum/picture/pf = new
-		var/datum/picture/ps = new
-		pf.picture_name = "[H]"
-		ps.picture_name = "[H]"
-		pf.picture_desc = ""
-		ps.picture_desc = ""
-		pf.picture_image = icon(image, dir = SOUTH)
-		ps.picture_image = icon(image, dir = WEST)
+		var/image = get_id_photo(H, C)
+		// OV Edit Start: Remove picture datums
+		// var/datum/picture/pf = new
+		// var/datum/picture/ps = new
+		// pf.picture_name = "[H]"
+		// ps.picture_name = "[H]"
+		// pf.picture_desc = ""
+		// ps.picture_desc = ""
+		// pf.picture_image = icon(image, dir = SOUTH)
+		// ps.picture_image = icon(image, dir = WEST)
+		// OV Edit End
 
 		//These records should ~really~ be merged or something
 		//General Record
@@ -370,10 +372,5 @@ GLOBAL_LIST_EMPTY(fake_ckeys)
 	return
 
 /datum/datacore/proc/get_id_photo(mob/living/carbon/human/H, client/C, show_directions = list(SOUTH))
-	var/datum/job/J = SSjob.GetJob(H.mind.assigned_role)
-	var/datum/preferences/P
-	if(!C)
-		C = H.client
-	if(C)
-		P = C.prefs
-	return get_flat_human_icon(null, J, P, DUMMY_HUMAN_SLOT_MANIFEST, show_directions)
+	//CC Edit, unfucks an another get_flat_human_icon by changing it to get_flat_icon for human
+	return H.get_flat_icon()
