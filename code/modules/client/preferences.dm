@@ -3541,9 +3541,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		if(!new_body_size)
 			new_body_size = 1
 	switch(new_body_size)
-		if(0 to 0.45)
+		if(0 to 0.5)
 			sizecat = new /datum/sizecat/micro
-		if(0.45 to 0.85)
+		if(0.5 to 0.85)
 			sizecat = new /datum/sizecat/small
 		if(0.85 to 1.15)
 			sizecat = new /datum/sizecat/none
@@ -3552,4 +3552,4 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		if(1.5 to INFINITY)
 			sizecat = new /datum/sizecat/macro
 //	message_admins("ensure_sizecat run for [sizecat.name] at [new_body_size]")
-//OV edit end
+//OV edit end //OV Edit Adjusted 4.7.26 to match resize_vr values
