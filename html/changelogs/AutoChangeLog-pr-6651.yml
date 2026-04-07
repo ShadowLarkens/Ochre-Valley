@@ -1,9 +1,0 @@
-author: "Quinalion"
-delete-after: True
-changes:
-  - rscadd: "Added a light elven barbute for Black Oaken Mercenaries & Pariah"
-  - rscadd: "Black Oaken Ranger now has a unique recurve bow reskin."
-  - rscadd: "Black Oaken Pariah and Guardian now receive apprentice knives."
-  - balance: "Treated fur robes are subtype of heavy leather coat."
-  - balance: "Black Oaken armor is now restricted to elves."
-  - qol: "Updated Black Oaken armor descriptions."
