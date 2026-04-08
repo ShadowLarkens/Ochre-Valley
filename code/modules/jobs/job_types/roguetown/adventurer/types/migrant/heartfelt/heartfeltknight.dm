@@ -4,7 +4,7 @@
 	tutorial = "You are a Knight of Heartfelt, part of a brotherhood in service to your Lord. \
 	Now, alone and committed to safeguarding the court, you ride to the Peaks, resolved to ensure their safe arrival."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_NO_CONSTRUCT
+	allowed_races = RACES_SHUNNED_UP
 	total_positions = 1
 	spawn_positions = 1
 	job_traits = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_HEARTFELT)
@@ -31,6 +31,8 @@
 	var/honorary = "Ser"
 	if(H.titles_pref == TITLES_F)
 		honorary = "Dame"
+	if(H.titles_pref == TITLES_N) //OV Add: Gender Neutral Revamp
+		honorary = "Knight" //OV Add: Gender Neutral Revamp
 	// check if they already have it to avoid stacking titles
 	if(findtextEx(H.real_name, "[honorary] ") == 0)
 		H.real_name = "[honorary] [prev_real_name]"
@@ -47,7 +49,7 @@
 	tutorial = "You are a Knight of Heartfelt, once part of a brotherhood in service to your Lord. \
 	Now, alone and committed to safeguarding what remains of your court, you ride to the Peaks, resolved to ensure their safe arrival."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_NO_CONSTRUCT
+	allowed_races = RACES_SHUNNED_UP
 	outfit = /datum/outfit/job/heartfelt/knight
 	maximum_possible_slots = 1
 	pickprob = 100

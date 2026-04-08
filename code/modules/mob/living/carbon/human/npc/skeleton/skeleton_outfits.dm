@@ -1,22 +1,27 @@
 // Ultra easy tier skeleton with no armor and just a single weapon.
 /mob/living/carbon/human/species/skeleton/npc/supereasy
+	threat_point = THREAT_LOW
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/supereasy
 
 // Easy tier skeleton, with only incomplete chainmail and kilt
 // Ambushes people in "safe" route. A replacement for old skeletons that were effectively naked.
 /mob/living/carbon/human/species/skeleton/npc/easy
+	threat_point = THREAT_MODERATE
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/easy
 
 // Also an "easy" tier skeleton, pirate themed, with a free hand to grab you
 /mob/living/carbon/human/species/skeleton/npc/pirate
+	threat_point = THREAT_MODERATE
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/pirate
 
 // Medium tier skeleton, 3 skills.
 /mob/living/carbon/human/species/skeleton/npc/medium
+	threat_point = THREAT_LOW
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/medium
 
 // High tier skeleton, 4 skills. Heavy Armor.
 /mob/living/carbon/human/species/skeleton/npc/hard
+	threat_point = THREAT_TOUGH
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
 
 // For Duke Manor & Zizo Manor - Ground based spread, so no pirate in pool!
@@ -146,7 +151,7 @@
 	if(prob(50))
 		r_hand = /obj/item/rogueweapon/huntingknife/idagger/adagger
 	else
-		r_hand = /obj/item/rogueweapon/knuckles/aknuckles
+		gloves = /obj/item/clothing/gloves/roguetown/knuckles/decrepit
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
@@ -323,11 +328,12 @@
 //CC edit
 /datum/outfit/job/roguetown/skeleton/npc/mad_duke/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.STASTR = 12 // stabs quick, stabs strong.
-	H.STACON = 12
-	H.STAWIL = 12
-	H.STASPD = 12
-	H.STAINT = 1
+	H.STASTR = 14 // stabs quick, stabs strong.
+	H.STAPER = 16
+	H.STACON = 16
+	H.STAWIL = 20
+	H.STASPD = 14
+	H.STAINT = 8
 	name = "The Mad Duke"
 	id = /obj/item/clothing/ring/ruby
 	mask = /obj/item/clothing/mask/rogue/facemask/goldmask
@@ -343,14 +349,14 @@
 	cloak = /obj/item/clothing/cloak/lordcloak
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
 	gloves = /obj/item/clothing/gloves/roguetown/plate/paalloy
-	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/polearms, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/maces, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/axes, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 5, TRUE)
 //CC edit end

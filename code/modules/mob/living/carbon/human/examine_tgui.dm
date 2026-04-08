@@ -42,6 +42,7 @@
 	var/ooc_notes_nsfw
 	var/headshot = ""
 	var/list/img_gallery = list()
+	var/list/nsfw_img_gallery = list()
 	var/char_name
 	var/song_url
 	var/has_song = FALSE
@@ -76,6 +77,7 @@
 		"flavor_text_nsfw" = flavor_text_nsfw,
 		"ooc_notes_nsfw" = ooc_notes_nsfw,
 		"img_gallery" = img_gallery,
+		"nsfw_img_gallery" = nsfw_img_gallery,
 		"has_song" = has_song,
 		"is_vet" = is_vet,
 		// "is_naked" = is_naked, // Caustic Edit: Removes naked requirement to view NSFW flavortext
@@ -98,6 +100,7 @@
 	var/ooc_notes_nsfw
 	var/headshot = ""
 	var/list/img_gallery = list()
+	var/list/nsfw_img_gallery = list()
 	var/char_name
 	var/song_url
 	var/has_song = FALSE
@@ -128,6 +131,8 @@
 			else
 				headshot = holder.headshot_link
 			img_gallery = holder.img_gallery
+			// if(is_naked) //OV Edit - Commented out
+			nsfw_img_gallery = holder.nsfw_img_gallery
 		if(!headshot)
 			headshot = "headshot_red.png"
 
@@ -145,6 +150,8 @@
 		else
 			headshot = pref.headshot_link
 		img_gallery = pref.img_gallery
+		// if(is_naked) //OV edit - commented out
+		nsfw_img_gallery = pref.nsfw_img_gallery
 		char_name = pref.real_name
 		song_url = pref.ooc_extra
 		is_vet = viewing.check_agevet()
@@ -153,6 +160,18 @@
 
 	if(song_url)
 		has_song = TRUE
+
+	// Examine theme override — use the viewed character's preference
+	var/char_examine_theme
+	if(ishuman(holder))
+		char_examine_theme = holder.examine_theme
+	else if(pref)
+		char_examine_theme = pref.examine_theme
+	// Validate — reject meme themes and unknown keys, fall back to default
+	if(char_examine_theme)
+		var/list/valid_themes = get_tgui_themes()
+		if(!(char_examine_theme in valid_themes) || char_examine_theme == "trey_liam")
+			char_examine_theme = "azure_default"
 
 	var/list/data = list(
 		// Identity
@@ -166,9 +185,11 @@
 		"flavor_text_nsfw" = flavor_text_nsfw,
 		"ooc_notes_nsfw" = ooc_notes_nsfw,
 		"img_gallery" = img_gallery,
+		"nsfw_img_gallery" = nsfw_img_gallery,
 		"has_song" = has_song,
 		"is_vet" = is_vet,
 		// "is_naked" = is_naked, // Caustic Edit: Removes naked requirement to view NSFW flavortext
+		"examine_theme" = char_examine_theme,
 	)
 	return data
 

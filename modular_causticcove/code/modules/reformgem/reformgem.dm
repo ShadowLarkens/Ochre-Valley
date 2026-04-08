@@ -43,8 +43,8 @@
 	name = "gem of reformation"
 	result = /obj/item/reformation_gem
 	reqs = list(
-		/obj/item/roguegem = 1,
-		/datum/reagent/medicine/healthpot = 15,
+		/obj/item/natural/rock = 1,
+		/datum/reagent/medicine/healthpot = 5,
 		)
 	craftdiff = 2
 	subtype_reqs = TRUE

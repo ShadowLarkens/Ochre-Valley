@@ -36,6 +36,22 @@
 	var/area/A = get_area(src)
 	dna?.species?.stop_wagging_tail(src)
 
+	//OV edit
+	if(isooze(src))
+		var/obj/shapeshift_holder/ooze_death/H = locate() in src
+		if(!H)
+			var/shapeshift_type = /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/suffering
+			var/mob/living/shape = new shapeshift_type(src.loc)
+			shape.color = "#[dna.features["mcolor"]]"
+
+			H = new(shape,src)
+			shape.name = "[shape]"
+
+			shape.mind.RemoveSpell(/obj/effect/proc_holder/spell/targeted/shapeshift/ooze)
+
+			return
+	//OV edit end
+
 	if(client)
 		SSdroning.kill_droning(client)
 		SSdroning.kill_loop(client)
@@ -78,6 +94,7 @@
 		if(ishumannorthern(src))
 			record_round_statistic(STATS_HUMEN_DEATHS)
 		if(mind)
+			cmode = FALSE
 			if(mind.assigned_role in GLOB.church_positions)
 				record_round_statistic(STATS_CLERGY_DEATHS)
 			if(mind.has_antag_datum(/datum/antagonist/vampire))

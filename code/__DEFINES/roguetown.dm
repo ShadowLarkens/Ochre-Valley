@@ -27,6 +27,8 @@
 #define COVERAGE_ALL_BUT_HANDFEET	( CHEST | GROIN | VITALS | LEGS | ARMS)
 #define COVERAGE_ALL_BUT_ARMFEET	( CHEST | GROIN | VITALS | LEGS )
 #define COVERAGE_FULL				( CHEST | GROIN | VITALS | LEGS | ARMS | HANDS | FEET)
+#define COVERAGE_NEARLY_FULL		( HEAD | CHEST | GROIN | VITALS | LEGS | ARMS | HANDS | FEET)
+#define COVERAGE_FULL_BODY_ACTUAL	( HEAD | HAIR | EARS | EYES | NOSE | MOUTH | NECK | CHEST | GROIN | VITALS | LEGS | ARMS | HANDS | FEET)
 
 #define COVERAGE_PANTS			( GROIN | LEGS )
 #define COVERAGE_ALL_BUT_HANDFEET_LEG		( LEGS | FEET )
@@ -62,6 +64,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/kobold,\
 	/datum/species/goblinp,\
 	/datum/species/dullahan,\
+	/datum/species/ooze,\
   /datum/species/dwarf/gnome\
 )
 
@@ -78,6 +81,18 @@ Balloon Alert / Floating Text defines
 	/datum/species/dracon,\
 	/datum/species/dwarf/gnome\
 
+#define RACES_RESPECTED_NO_AASIMAR \
+	/datum/species/human/northern,\
+	/datum/species/elf/wood,\
+	/datum/species/elf/sun,\
+	/datum/species/human/halfelf,\
+	/datum/species/dwarf/mountain,\
+	/datum/species/lupian,\
+	/datum/species/vulpkanin,\
+	/datum/species/moth,\
+	/datum/species/dracon,\
+	/datum/species/dwarf/gnome\
+
 #define RACES_TOLERATED \
 	/datum/species/elf/dark,\
 	/datum/species/tieberian,\
@@ -88,6 +103,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/demihuman,\
 	/datum/species/harpy,\
 	/datum/species/halforc,\
+	/datum/species/ooze,\
 
 #define RACES_SHUNNED \
 	/datum/species/anthromorphsmall,\
@@ -103,9 +119,11 @@ Balloon Alert / Floating Text defines
 
 #define RACES_ALL_KINDS list(RACES_DESPISED, RACES_SHUNNED, RACES_TOLERATED, RACES_RESPECTED, RACES_CONSTRUCT)	//Truely no restrictions
 
-#define ACCEPTED_RACES list(RACES_SHUNNED, RACES_TOLERATED, RACES_RESPECTED, RACES_CONSTRUCT, RACES_DESPISED)	// CC Edit
+#define ACCEPTED_RACES list(RACES_SHUNNED, RACES_TOLERATED, RACES_RESPECTED, RACES_CONSTRUCT)	//Allows all races except dullahan
 
-#define RACES_NO_CONSTRUCT list(RACES_SHUNNED, RACES_TOLERATED, RACES_RESPECTED, RACES_DESPISED) // CC Edit
+#define RACES_NO_CONSTRUCT list(RACES_SHUNNED, RACES_TOLERATED, RACES_RESPECTED, RACES_DESPISED) //now actually just no construct, includes dullahan
+
+#define RACES_SHUNNED_UP_NO_AASIMAR list(RACES_SHUNNED, RACES_TOLERATED, RACES_RESPECTED_NO_AASIMAR)
 
 #define RACES_SHUNNED_UP list(RACES_SHUNNED, RACES_TOLERATED, RACES_RESPECTED, RACES_DESPISED) // CC Edit
 
@@ -132,6 +150,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/demihuman,\
 	/datum/species/kobold,\
 	/datum/species/goblinp,\
+	/datum/species/ooze,\
 )
 
 #define CLOTHED_RACES_TYPES list(\
@@ -161,7 +180,8 @@ Balloon Alert / Floating Text defines
 	/datum/species/goblinp,\
 	/datum/species/construct/metal,\
 	/datum/species/dullahan,\
-	/datum/species/dwarf/gnome\
+	/datum/species/dwarf/gnome,\
+	/datum/species/ooze\
 )
 // Non-dwarf non-kobold non-goblin mostly
 #define NON_DWARVEN_RACE_TYPES list(\
@@ -186,6 +206,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/harpy,\
 	/datum/species/construct/metal,\
 	/datum/species/dullahan,\
+	/datum/species/ooze,\
 )
 // Non-elf non-dwarf non-kobold non-goblin mostly
 #define HUMANLIKE_RACE_TYPES list(\
@@ -204,6 +225,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/harpy,\
 	/datum/species/construct/metal,\
 	/datum/species/dullahan,\
+	/datum/species/ooze,\
 )
 #define ALL_CLERIC_PATRONS list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/dendor, /datum/patron/divine/necra, /datum/patron/divine/pestra, /datum/patron/divine/ravox, /datum/patron/divine/malum, /datum/patron/divine/eora, /datum/patron/divine/undivided) // Currently unused.
 
@@ -222,6 +244,8 @@ Balloon Alert / Floating Text defines
 #define ALL_PATRONS  list(/datum/patron/divine/undivided, /datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/dendor, /datum/patron/divine/abyssor, /datum/patron/divine/ravox, /datum/patron/divine/necra, /datum/patron/divine/xylix, /datum/patron/divine/pestra, /datum/patron/divine/malum, /datum/patron/divine/eora, /datum/patron/old_god, /datum/patron/inhumen/zizo, /datum/patron/inhumen/graggar, /datum/patron/inhumen/matthios, /datum/patron/inhumen/baotha)
 
 #define ALL_SLAYER_PATRONS list(/datum/patron/divine/malum, /datum/patron/divine/ravox)
+
+#define ALL_KAZENGUN_PATRONS list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/abyssor, /datum/patron/divine/dendor, /datum/patron/divine/necra, /datum/patron/divine/pestra, /datum/patron/divine/ravox, /datum/patron/divine/malum, /datum/patron/divine/eora, /datum/patron/divine/xylix, /datum/patron/old_god, /datum/patron/inhumen/matthios, /datum/patron/inhumen/baotha) //the twelve + saidon
 
 #define PLATEHIT "plate"
 #define CHAINHIT "chain"
@@ -308,6 +332,7 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_LICKER_WRETCH  "CAT_LICKER_WRETCH" // Licker wretch. Nuff said.
 #define CTAG_GNOLL			"CAT_GNOLL"			// Wretch-esque gnolls, graggar's chosen.
 #define CTAG_GNOLL_IMPURE	"CAT_GNOLL_IMPURE"	// Reward for beating enough gnolls.
+#define CTAG_HAG			"CAT_HAG"
 
 #define CTAG_WARDEN			"CAT_WARDEN"		// Warden class - Handles warden class selector.
 #define CTAG_WATCH			"CAT_WATCH"			// Watch class - Handles Town Watch class selector
@@ -380,36 +405,7 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define ARMOR_CLASS_MEDIUM 2
 #define ARMOR_CLASS_HEAVY 3
 
-//CC BEGIN
 
-/*
-	Defines the ratios for armors when calculating layered integrity damage. Higher values means a stronger ratio.
-
-	Ratios work by combining the values of both items and spreading damage across evenly. 
-	If you have an armor with an AC of "none", it will only convert a small portion of the total depending on the other item's weight.
-	
-	Ex:
-	(individual_armor / total_ratio)
-	AC_NONE+AC_MEDIUM = 80 total_ratio
-	20/80 = 25%
-	60/80 = 75%
-
-	The Medium Armor takes 75% damage, where the NONE takes only 25% of integrity damage. 
-	If you have 2 ratio's of the same amount, 50/50. 
-	Lets look at Heavy and Light. 
-
-	40+80 = 120
-	40/120 = 33%
-	80/120 = 66% -> Your Heavy Armor takes 66% of the damage, and 33% transfers under to your underarmor.
-*/
-#define AC_NONE_RATIO 20
-#define AC_LIGHT_RATIO 40
-#define AC_MEDIUM_RATIO 60
-#define AC_HEAVY_RATIO 80
-
-#define ARMOR_SHIELD TRUE //Used for armor types that are not meant to last permanently and act as an overshield across the entire body, I.E. Fateweaver/Dragonhide.
-
-//CC END
 
 /*
 	Defines for class select categories
@@ -425,6 +421,10 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CLASS_CAT_WARRIOR "Warrior"
 #define CLASS_CAT_TRADER "Trader"
 #define CLASS_CAT_NOMAD "Nomad"
+
+//Wretch categories
+#define CLASS_CAT_ACCURSED "Accursed"
+#define CLASS_CAT_BATTLEMAGE "Battlemage"
 
 //Mercenary categories
 #define CLASS_CAT_ETRUSCA "Etrusca"
