@@ -1,4 +1,4 @@
-/obj/effect/proc_holder/spell/invoked/conjure_tool
+/* /obj/effect/proc_holder/spell/invoked/conjure_tool  //OV Edit AP Merge 4.2.26 - COMMENTED OUT PENDING REWORK
 	var/list/bad_tool_options = list(
 		"Axe" = /obj/item/rogueweapon/stoneaxe,
 		"Hammer" = /obj/item/rogueweapon/hammer/stone,
@@ -59,4 +59,4 @@
 		conjured_tool.visible_message(span_warning("[conjured_tool]'s borders begin to shimmer and fade, before it vanishes entirely!"))
 		qdel(conjured_tool)
 		conjured_tool = null
-	return ..()
+	return ..() */

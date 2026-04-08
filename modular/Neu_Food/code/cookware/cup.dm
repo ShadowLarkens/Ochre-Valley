@@ -11,7 +11,7 @@
 	dropshrink = 0.8
 	w_class = WEIGHT_CLASS_NORMAL
 	experimental_inhand = TRUE
-	volume = 25
+	volume = 30
 	obj_flags = CAN_BE_HIT
 	sellprice = 5
 	drinksounds = list('sound/items/drink_cup (1).ogg','sound/items/drink_cup (2).ogg','sound/items/drink_cup (3).ogg','sound/items/drink_cup (4).ogg','sound/items/drink_cup (5).ogg')
@@ -22,7 +22,7 @@
 	force = 5
 	throwforce = 10
 
-/obj/item/reagent_containers/glass/cup/examine()
+/obj/item/reagent_containers/glass/cup/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Left-click an appropriate source of liquids while the 'FILL' intent is selected to fill the cup.")
 	. += span_info("Some containers have to be manually poured into the cup, instead. This can be done by left-clicking the cup while the container's 'FEED' intent is selected.")
@@ -143,8 +143,8 @@
 
 
 /obj/item/reagent_containers/glass/cup/wooden
-	name = "wooden cup"
-	desc = "This cup whispers tales of drunken battles and feasts."
+	name = "wooden mug"
+	desc = "This mug whispers tales of drunken battles and feasts."
 	resistance_flags = FLAMMABLE
 	icon_state = "wooden"
 	drop_sound = 'sound/foley/dropsound/wooden_drop.ogg'
@@ -215,6 +215,17 @@
 	icon_state = "scup"
 	sellprice = 20
 	is_silver = FALSE //Ditto.
+	volume = 15
+	force = 5
+	throwforce = 10
+
+/obj/item/reagent_containers/glass/cup/silver/pewtersmall //as above but smaller
+	name = "pewter cup"
+	desc = "A pewter cup, cheaper than silver, but with a similar shine!"
+	icon_state = "scup"
+	sellprice = 20
+	is_silver = FALSE //Ditto.
+	volume = 15
 	force = 5
 	throwforce = 10
 
@@ -231,6 +242,7 @@
 	desc = "Adorned with gemstones, this cup radiates opulence and grandeur."
 	icon_state = "gcup"
 	sellprice = 40
+	volume = 15
 	force = 5
 	throwforce = 10
 
@@ -256,6 +268,7 @@
 	dropshrink = 0.7
 	icon_state = "cup"
 	sellprice = 10
+	volume = 15
 	force = 5
 	throwforce = 10
 
@@ -280,6 +293,7 @@
 	desc = "A fancy tea cup made out of ceramic. Used to serve tea."
 	icon_state = "cup_fancy"
 	sellprice = 12
+	volume = 15
 	force = 5
 	throwforce = 10
 
@@ -289,6 +303,7 @@
 	dropshrink = 1
 	icon_state = "agoblet"
 	sellprice = 0
+	volume = 15
 	force = 7
 	throwforce = 12
 

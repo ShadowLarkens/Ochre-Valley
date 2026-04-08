@@ -282,7 +282,8 @@
 	for(var/obj/item/I in held_items)
 		I.forceMove(src.loc)
 		held_items -= I
-	budget2change(budget)
+	var/turf/T = get_turf(src)
+	budget2change(budget, custom_turf = T)
 	set_light(0)
 	update_icon()
 	icon_state = "streetvendor0"
@@ -451,7 +452,7 @@
 		var/obj/P = new X(src)
 		held_items[P] = list()
 		held_items[P]["NAME"] = P.name
-		held_items[P]["PRICE"] = 15
+		held_items[P]["PRICE"] = 5
 	update_icon()
 	
 /obj/structure/roguemachine/vendor/church_bedroomset_one //contains the keys to the church bedrooms, better visually than having them on a table

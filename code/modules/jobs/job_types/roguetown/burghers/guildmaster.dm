@@ -9,7 +9,7 @@
 	spawn_positions = 1
 	min_pq = 0
 
-	allowed_races = ACCEPTED_RACES
+	allowed_races = RACES_ALL_KINDS //OV Edit - Lets anyone be a Guildmaster
 
 	tutorial = "You are the leader of the Azure Peak Guild of Crafts. You represents the interests of all of the craftsmen underneath you - including the Tailor\
 	the Blacksmiths, the Artificers and the Architects. Other townspeople may look to you for guidance, but they are not under your control. You are an experienced smith and artificer, and can do their work easily. Protect the craftsmen's interests."
@@ -23,7 +23,7 @@
 	round_contrib_points = 3
 	cmode_music = 'sound/music/cmode/towner/combat_retired.ogg'
 
-	job_traits = list(TRAIT_TRAINED_SMITH, TRAIT_SEEPRICES, TRAIT_SMITHING_EXPERT, TRAIT_SEWING_EXPERT, TRAIT_HOMESTEAD_EXPERT, TRAIT_ARCYNE_T2) //CC edit: upped arcyne to t2
+	job_traits = list(TRAIT_TRAINED_SMITH, TRAIT_SEEPRICES, TRAIT_SMITHING_EXPERT, TRAIT_SEWING_EXPERT, TRAIT_HOMESTEAD_EXPERT) //CC edit: upped arcyne to t2 //OV Edit AP Merge 4.2.26 - Removed Arcyne pending rework
 	// Guildmaster get way less gate due to their role
 
 	advclass_cat_rolls = list(CTAG_GUILDSMASTER = 2)
@@ -102,10 +102,10 @@
 		neck = /obj/item/storage/belt/rogue/pouch/coins/rich //cc edit start
 		beltl = /obj/item/storage/magebag/starter //cc edit end
 		beltr = /obj/item/storage/keyring/guildmaster
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+		/* H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation) //OV Edit AP Merge 4.2.26 - Commented out pending rework
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/conjure_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/conjure_armor)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/conjure_armor) */
 		ADD_TRAIT(H, TRAIT_MASTER_CARPENTER, TRAIT_GENERIC)		
 		ADD_TRAIT(H, TRAIT_MASTER_MASON, TRAIT_GENERIC)	
 		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Savings.")

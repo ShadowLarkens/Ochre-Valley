@@ -5,8 +5,7 @@
 	icon_state = null
 	body_parts_covered = FULL_BODY
 	body_parts_inherent = FULL_BODY
-	armor = ARMOR_NATURAL
-	prevent_crits = list(BCLASS_CUT, BCLASS_CHOP, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)
+	armor = ARMOR_LEATHER
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE
@@ -21,7 +20,7 @@
 /obj/item/clothing/suit/roguetown/armor/skin_armor/natural_armor/dense
 	name = "dense natural armor"
 	max_integrity = 400 // The classes that get this also have crit resistance and decent con as is. Might still need to lower this if they can infinitely tank anyways.
-	armor = ARMOR_NATURAL_DENSE
+	armor = ARMOR_PLATE
 	blocksound = CHAINHIT //gonna see if this sound helps differentiate it from the light nat armor
 	regen_cap = 100
 	regen_delay = 60 SECONDS
