@@ -26,7 +26,7 @@
 	is_subrace = TRUE
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,MUTCOLORS)
 	default_features = MANDATORY_FEATURE_LIST
-	inherent_traits = list(TRAIT_EASYDECAPITATION, TRAIT_NOHUNGER, TRAIT_NOBREATH, TRAIT_ZOMBIE_IMMUNE) //Given the deathless traits inherently as part of their nature as pseudo-undead.
+	inherent_traits = list(TRAIT_EASYDECAPITATION, TRAIT_NOHUNGER, TRAIT_NOBREATH, TRAIT_DEATHLESS, TRAIT_ZOMBIE_IMMUNE) //Given the deathless traits inherently as part of their nature as pseudo-undead.
 	use_skintones = TRUE
 	disliked_food = NONE
 	liked_food = NONE
@@ -175,6 +175,8 @@
 	languages = list(
 		/datum/language/common,
 	)
+	
+	restricted_virtues = list(/datum/virtue/utility/hollow)
 	///Caustic edit
 	allowed_taur_types = list(
 		/obj/item/bodypart/taur/lamia,
@@ -201,10 +203,10 @@
 		/obj/item/bodypart/taur/altnagatailmaw,
 		/obj/item/bodypart/taur/fatnaga,
 		/obj/item/bodypart/taur/bunny,
+		/obj/item/bodypart/taur/biglegs,
+		/obj/item/bodypart/taur/biglegsstanced,
 	)
 	///Caustic edit end
-
-	restricted_virtues = list(/datum/virtue/utility/deathless)
 
 	stress_examine = TRUE
 	stress_desc = span_red("Accursed. I should keep my distance...")

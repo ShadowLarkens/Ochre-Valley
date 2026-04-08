@@ -219,8 +219,7 @@
 			l_hand = /obj/item/rogueweapon/huntingknife/idagger
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/hobgoblin
 		if(8) //This Hoblin throws a MEAN punch... Tanky variant. Always spawn with plate. No helm as per usual with these specific niches.
-			r_hand = /obj/item/rogueweapon/knuckles/bronzeknuckles
-			l_hand = /obj/item/rogueweapon/knuckles/bronzeknuckles
+			gloves = /obj/item/clothing/gloves/roguetown/knuckles/bronze
 			armor =	/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/hobgoblin
 		if(9) //Spear and Shield Hoblin. Has distance to stab, and a shield to defend. Threatening, spawns in full leathers.
 			r_hand = /obj/item/rogueweapon/spear

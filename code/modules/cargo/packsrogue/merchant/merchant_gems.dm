@@ -35,7 +35,7 @@
 	contains = list(/obj/item/roguegem/ruby)
 
 /datum/supply_pack/rogue/gems/diamond
-	name = "Diamond"
+	name = "Dorpel"
 	cost = 190
 	contains = list(/obj/item/roguegem/diamond)
 
@@ -47,7 +47,7 @@
 ///CC Edit
 /datum/supply_pack/rogue/gems/reform
 	name = "Gem of Reformation"
-	cost = 70
+	cost = 5 //OV Edit - Pricejak
 	contains = list(/obj/item/reformation_gem)
 
 ///CC Edit End

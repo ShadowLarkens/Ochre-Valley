@@ -15,11 +15,11 @@
 	. = ..()
 	M.adjust_skillrank(/datum/skill/misc/music, -1, TRUE)
 
-/datum/action/item_action/organ_action/use/harpy_sing
+/* /datum/action/item_action/organ_action/use/harpy_sing //OV Edit - commented out pending rework
 	name = "Harpy's song"
 	desc = "Project your voice through song."
-	icon_icon = 'icons/obj/surgery.dmi'
-	button_icon_state = "harpysong"
+	icon = 'icons/mob/actions/bardsongs.dmi'
+	icon_state = "melody_t1_base" */
 
 /datum/action/item_action/organ_action/use/harpy_sing/Trigger()
 	if(do_after(owner, 2 SECONDS, owner))

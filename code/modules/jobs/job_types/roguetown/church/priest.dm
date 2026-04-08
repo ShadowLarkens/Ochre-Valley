@@ -18,7 +18,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	spawn_positions = 1
 	selection_color = JCOLOR_CHURCH
 	f_title = "Bishop"
-	allowed_races = RACES_NO_CONSTRUCT		//Too recent arrivals to ascend to priesthood.
+	allowed_races = RACES_SHUNNED_UP		//Too recent arrivals to ascend to priesthood.
 	allowed_patrons = ALL_DIVINE_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
 	tutorial = "The Divine is all that matters in a world of the immoral. The Weeping God abandoned us, and in his stead the TEN rule over us mortals--and you will preach their wisdom to any who still heed their will. The faithless are growing in number. It is up to you to shepherd them toward a Gods-fearing future; for you are a Bishop of the Holy See."
@@ -35,7 +35,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 	//No nobility for you, being a member of the clergy means you gave UP your nobility. It says this in many of the church tutorial texts.
 	virtue_restrictions = list(/datum/virtue/utility/noble)
-	job_traits = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_MEDICINE_EXPERT, TRAIT_CLERGY)
+	job_traits = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_MEDICINE_EXPERT, TRAIT_CLERGY, TRAIT_MARRIAGE_CAPABLE)
 	advclass_cat_rolls = list(CTAG_BISHOP = 2)
 	job_subclasses = list(
 		/datum/advclass/bishop
@@ -99,7 +99,8 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		/obj/item/ritechalk = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/holysee = 1,	//Unique knife from the Holy See
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/clothing/neck/roguetown/psicross/undivided = 1
+		/obj/item/clothing/neck/roguetown/psicross/undivided = 1,
+		/obj/item/mini_flagpole/church,
 	)
 	H.AddComponent(/datum/component/wise_tree_alert)
 	if(H.age == AGE_OLD)
@@ -122,7 +123,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 			neck = /obj/item/clothing/neck/roguetown/psicross/undivided
 			wrists = /obj/item/clothing/wrists/roguetown/wrappings
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
-			armor = /obj/item/clothing/suit/roguetown/shirt/robe/white
+			armor = /obj/item/clothing/suit/roguetown/shirt/robe/undivided
 			cloak = /obj/item/clothing/cloak/undivided
 			r_hand = /obj/item/clothing/suit/roguetown/shirt/robe/priest
 		if(/datum/patron/divine/astrata)
@@ -191,12 +192,12 @@ GLOBAL_LIST_EMPTY(heretical_players)
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
 			r_hand = /obj/item/clothing/suit/roguetown/shirt/robe/priest
 		if(/datum/patron/divine/ravox)
-			l_hand = /obj/item/clothing/head/roguetown/roguehood
+			l_hand = /obj/item/clothing/head/roguetown/roguehood/ravox
 			neck = /obj/item/clothing/neck/roguetown/psicross/ravox
 			cloak = /obj/item/clothing/cloak/undivided
 			wrists = /obj/item/clothing/wrists/roguetown/wrappings
 			shoes = /obj/item/clothing/shoes/roguetown/boots
-			armor = /obj/item/clothing/suit/roguetown/shirt/robe/white
+			armor = /obj/item/clothing/suit/roguetown/shirt/robe/ravox
 			r_hand = /obj/item/clothing/suit/roguetown/shirt/robe/priest
 		if(/datum/patron/divine/xylix)
 			l_hand = /obj/item/clothing/head/roguetown/roguehood
@@ -207,7 +208,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 			neck = /obj/item/clothing/neck/roguetown/luckcharm // For good luck, as Xylix would intend
 			H.cmode_music = 'sound/music/combat_jester.ogg'
 			var/datum/inspiration/I = new /datum/inspiration(H)
-			I.grant_inspiration(H, bard_tier = BARD_T2)
+			I.grant_inspiration(H, bard_tier = BARD_T1)
 			r_hand = /obj/item/clothing/suit/roguetown/shirt/robe/priest
 		else
 			l_hand = /obj/item/clothing/head/roguetown/roguehood/astrata
@@ -257,10 +258,10 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 		H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
 	if(H.patron?.type == /datum/patron/divine/noc)
-		H.adjust_skillrank(/datum/skill/magic/arcane, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)
 		if(H.mind)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-		ADD_TRAIT(H, TRAIT_ARCYNE_T1, TRAIT_GENERIC)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/touch/prestidigitation)
+		ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/abyssor)
 		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
 		H.grant_language(/datum/language/abyssal)

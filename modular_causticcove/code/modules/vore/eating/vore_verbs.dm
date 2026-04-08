@@ -49,7 +49,7 @@
 
 	return ..(target)
 
-/mob/living/proc/shred_limb()
+/mob/living/verb/shred_limb()
 	set name = "Damage/Remove Prey's Organ"
 	set desc = "Severely damages prey's organ. If the limb is already severely damaged, it will be torn off."
 	set category = "Abilities.Vore"
@@ -130,3 +130,35 @@
 	set desc = "Severely damages prey's organ. If the limb is already severely damaged, it will be torn off."
 	set category = "Abilities.Vore"
 	shred_limb()
+
+/mob/verb/toggle_vore_health_bars()
+	set name = "Toggle Auto Healthbars"
+	set category = "Vore"
+
+	if(client?.prefs)
+		client.prefs.vore_health_bars = !client.prefs.vore_health_bars
+		to_chat(src, span_notice("Digestion Healthbars [client.prefs.vore_health_bars ? "will" : "will not"] automatically print to chat."))
+
+/mob/verb/toggle_digest_noises()
+	set name = "Toggle Digest Noises"
+	set category = "Vore"
+
+	if(client?.prefs)
+		client.prefs.digestion_noises = !client.prefs.digestion_noises
+		to_chat(src, span_notice("You [client.prefs.digestion_noises ? "will" : "will not"] hear digestion noises."))
+
+/mob/verb/toggle_eating_noises()
+	set name = "Toggle Eating Noises"
+	set category = "Vore"
+
+	if(client?.prefs)
+		client.prefs.eating_noises = !client.prefs.eating_noises
+		to_chat(src, span_notice("You [client.prefs.eating_noises ? "will" : "will not"] hear eating noises."))
+
+/mob/verb/toggle_belch_noises()
+	set name = "Toggle Belch Noises"
+	set category = "Vore"
+
+	if(client?.prefs)
+		client.prefs.belch_noises = !client.prefs.belch_noises
+		to_chat(src, span_notice("You [client.prefs.belch_noises ? "will" : "will not"] hear burps and belches."))
