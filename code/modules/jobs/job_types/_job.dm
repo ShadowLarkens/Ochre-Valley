@@ -5,6 +5,8 @@
 	var/display_title
 	// Display only title for feminine character
 	var/f_title
+	// Display only title for androgynous character //OV Add: Gender Neutral Revamp
+	var/n_title //OV Add: Gender Neutral Revamp
 
 	//Job access. The use of minimal_access or access is determined by a config setting: config.jobs_have_minimal_access
 	var/list/minimal_access = list()		//Useful for servers which prefer to only have access given to the places a job absolutely needs (Larger server population)
@@ -181,6 +183,8 @@
 	var/used_name = display_title || title
 	if((titles == TITLES_F) && f_title)
 		used_name = f_title
+	if((titles == TITLES_N) && n_title) //OV Add: Gender Neutral Revamp
+		used_name = n_title //OV Add: Gender Neutral Revamp
 	return used_name
 
 /client/proc/job_greet(var/datum/job/greeting_job)
@@ -256,6 +260,8 @@
 		var/used_title = display_title || title
 		if((H.titles_pref == TITLES_F) && f_title)
 			used_title = f_title
+		if((H.titles_pref == TITLES_N) && n_title) //OV Add: Gender Neutral Revamp
+			used_title = n_title //OV Add: Gender Neutral Revamp
 		scom_announce("[H.real_name] the [used_title] arrives to Azure Peak.")
 
 	if(give_bank_account)
@@ -288,35 +294,33 @@
 
 	log_admin("[H.key]/([H.real_name]) has joined as [H.mind.assigned_role].")
 
+/// Called when a player permanently leaves the round (via returntolobby). Handles slot reopening and respawn delays.
+/datum/job/proc/on_round_removal(mob/M)
+	if(job_reopens_slots_on_death)
+		current_positions = max(0, current_positions - 1)
+	if(same_job_respawn_delay && M.ckey)
+		GLOB.job_respawn_delays[M.ckey] = world.time + same_job_respawn_delay
+
 /client/verb/set_mugshot()
 	set category = "OOC"
 	set name = "Set Credits Mugshot"
 	set hidden = FALSE
 	if(mob && ishuman(mob) && mob.mind)
 		var/mob/living/carbon/human/H = mob
-		if(!H.mind.mugshot_set)
-			to_chat(src, "Updating mugshot...")
-			H.mind.mugshot_set = TRUE
-			H.add_credit(TRUE)
-			to_chat(src, "Mugshot updated.")
-		else
-			to_chat(src, "Mugshots are resource intensive. You are limited to one per character.")
+		//CC Edit: Mugshots are optimized now, take them to your heart's
+		to_chat(src, "Updating mugshot...")
+		H.add_credit(TRUE)
+		to_chat(src, "Mugshot updated.")
 
 /mob/living/carbon/human/proc/add_credit(generate_for_adv_class = FALSE) //Evil code to get the proper image for adv classes after they spawn in.
+//CC Edit: unfucks this entire proc as well by moving from get_flat_human_icon to get_flat_icon for human
 	if(!mind || !client)
 		return
 	var/thename = "[real_name]"
-	var/datum/job/J = SSjob.GetJob(mind.assigned_role)
+	//var/datum/job/J = SSjob.GetJob(mind.assigned_role)
 	var/used_title = get_role_title()
-
 	GLOB.credits_icons[thename] = list()
-	var/client/C = client
-	var/datum/preferences/P = C.prefs
-	var/icon/I
-	if(generate_for_adv_class)
-		I = get_flat_human_icon(null, J, P, DUMMY_HUMAN_SLOT_MANIFEST, list(SOUTH), human_gear_override = src)
-	else if (P)
-		I = get_flat_human_icon(null, J, P, DUMMY_HUMAN_SLOT_MANIFEST, list(SOUTH))
+	var/icon/I = get_flat_icon(list(SOUTH))
 	if(I)
 		var/icon/female_s = icon("icon"='icons/mob/clothing/under/masking_helpers.dmi', "icon_state"="credits")
 		I.Blend(female_s, ICON_MULTIPLY)
@@ -324,6 +328,7 @@
 		GLOB.credits_icons[thename]["title"] = used_title
 		GLOB.credits_icons[thename]["icon"] = I
 		GLOB.credits_icons[thename]["vc"] = voice_color
+//CC Edit end
 
 /datum/job/proc/announce(mob/living/carbon/human/H)
 
@@ -484,8 +489,8 @@
 
 	if(length(statcl))
 		for(var/stat in statcl)
-			if(statcl[stat] < H.get_stat(stat))
-				H.change_stat(stat, (statcl[stat] - H.get_stat(stat)))
+			if(statcl[stat] < H.get_true_stat(stat))
+				H.change_stat(stat, (statcl[stat] - H.get_true_stat(stat)))
 				to_chat(H, "Your [stat] was reduced to \Roman[statcl[stat]] due to class limits.")
 
 // LETHALSTONE EDIT: Helper functions for pronoun-based clothing selection
@@ -537,13 +542,30 @@
 					for(var/stat in adv_ref.adv_stat_ceiling)
 						dat += "["[capitalize(stat)]: <b>\Roman[adv_ref.adv_stat_ceiling[stat]]</b>"] | "
 					dat += "<i><br>Regardless of your statpacks or race choice, you will not be able to exceed these stats on spawn.</i></font>"
-				if(LAZYLEN(adv_ref.subclass_spell_point_pools))
-					dat += "<font color = '#a3a7e0'><b>Spell Pools:</b><br>"
-					for(var/pool_name in adv_ref.subclass_spell_point_pools)
-						dat += "[capitalize(pool_name)]: <b>[adv_ref.subclass_spell_point_pools[pool_name]]</b> points<br>"
+				if(LAZYLEN(adv_ref.subclass_mage_aspects))
+					var/list/aspect_cfg = adv_ref.subclass_mage_aspects
+					dat += "<font color = '#a3a7e0'><b>Mage Aspects:</b><br>"
+					if(aspect_cfg["mastery"])
+						dat += "Mastery: <b>Unlocked</b><br>"
+					if(aspect_cfg["major"] > 0)
+						dat += "Major Aspects: <b>[aspect_cfg["major"]]</b><br>"
+					if(aspect_cfg["minor"] > 0)
+						dat += "Minor Aspects: <b>[aspect_cfg["minor"]]</b><br>"
+					if(aspect_cfg["utilities"] > 0)
+						dat += "Utility Slots: <b>[aspect_cfg["utilities"]]</b><br>"
+					if(LAZYLEN(aspect_cfg["locked_aspects"]))
+						dat += "Innate: "
+						var/list/locked = aspect_cfg["locked_aspects"]
+						for(var/aspect_path in locked)
+							var/datum/magic_aspect/A = aspect_path
+							dat += "<b>[initial(A.name)]</b> "
+						dat += "<br>"
+					if(islist(aspect_cfg["variants"]))
+						var/list/overrides = aspect_cfg["variants"]
+						for(var/aspect_path in overrides)
+							var/datum/magic_aspect/A = aspect_path
+							dat += "Tradition: <b>[capitalize(overrides[aspect_path])] [initial(A.name)]</b><br>"
 					dat += "</font>"
-				else if(adv_ref.subclass_spellpoints > 0)
-					dat += "<font color = '#a3a7e0'>Starting Spellpoints: <b>[adv_ref.subclass_spellpoints]</b></font>"
 				if(length(adv_ref.subclass_languages))
 					dat += "<details><summary><i>Known Languages</i></summary>"
 					for(var/i in 1 to length(adv_ref.subclass_languages))
@@ -662,6 +684,48 @@
 		popup.open(FALSE)
 		if(winexists(usr, "subclassslots"))
 			winset(usr, "subclassslots", "focus=true")
+	if(href_list["jobadvincomp"])
+		if(!usr)
+			return
+		if(!isdead(usr))
+			return
+		var/mob/dead/D = usr
+		var/client/player = D.client
+		var/list/dat = list()
+		for(var/adv in job_subclasses)
+			var/advdat = ""
+			var/datum/advclass/subclasspath = adv
+			var/datum/advclass/subclass = SSrole_class_handler.get_advclass_by_name(initial(subclasspath.name))
+			var/found_issue = FALSE
+			if(length(subclass.virtue_limits))
+				for(var/virtuetype in subclass.virtue_limits)
+					if(istype(player.prefs.virtue, virtuetype))
+						advdat += "[player.prefs.virtue.name]<br>"
+						found_issue = TRUE
+					if(istype(player.prefs.virtuetwo, virtuetype))
+						advdat += "[player.prefs.virtuetwo.name]<br>"
+						found_issue = TRUE
+					//OV Add - Extra Virtue
+					if(istype(player.prefs.extravirtue, virtuetype))
+						advdat += "[player.prefs.extravirtue.name]<br>"
+						found_issue = TRUE
+					//OV Add Start - Extra Virtue
+
+			if(length(subclass.vice_limits))
+				for(var/vicetype in subclass.vice_limits)
+					for(var/vice in player.prefs.charflaws)
+						var/datum/charflaw/cf = vice
+						if(istype(vice, vicetype))
+							advdat += "[cf.name]<br>"
+							found_issue = TRUE
+			if(found_issue)
+				dat += "<font color = '#e4e1e1'><b>[subclass::name]</b></font><br>"
+				dat += advdat
+		var/datum/browser/popup = new(usr, "subclassslots", "<div style='text-align: center'>Subclass Incompatibilities</div>", nwidth = 200, nheight = 300)
+		popup.set_content(dat.Join())
+		popup.open(FALSE)
+		if(winexists(usr, "subclassslots"))
+			winset(usr, "subclassslots", "focus=true")
 	. = ..()
 
 /datum/job/proc/has_limited_subclasses()
@@ -672,3 +736,24 @@
 		if(initial(subclass.maximum_possible_slots) != -1)
 			return TRUE
 	return FALSE
+
+/datum/job/proc/prefs_subclass_compatibility(client/player)
+	if(!player)
+		return FALSE
+	if(!player.prefs)
+		return FALSE
+	if(!length(job_subclasses))
+		return FALSE
+	for(var/adv in job_subclasses)
+		var/datum/advclass/subclasspath = adv
+		var/datum/advclass/subclass = SSrole_class_handler.get_advclass_by_name(initial(subclasspath.name))
+		if(length(subclass.virtue_limits))
+			for(var/virtuetype in subclass.virtue_limits)
+				if(istype(player.prefs.virtue, virtuetype) || istype(player.prefs.virtuetwo, virtuetype) || istype(player.prefs.extravirtue, virtuetype)) //OV Edit - Extra Virtue
+					return TRUE
+
+		if(length(subclass.vice_limits))
+			for(var/vicetype in subclass.vice_limits)
+				for(var/vice in player.prefs.charflaws)
+					if(istype(vice, vicetype))
+						return TRUE

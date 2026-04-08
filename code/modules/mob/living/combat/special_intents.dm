@@ -359,10 +359,8 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	if(ishuman(target))
 		var/mob/living/carbon/human/HT = target
 		var/obj/item/bodypart/affecting = HT.get_bodypart(zone)
-		var/armor_block = HT.run_armor_check(zone, d_type, 0, damage = dam, used_weapon = W, armor_penetration = (no_pen ? -999 : 0))
-		if(no_pen && armor_block)
-			armor_block = 999
-		if(full_pen && armor_block)
+		var/armor_block = HT.run_armor_check(zone, d_type, 0, damage = dam, used_weapon = W, armor_penetration = (no_pen ? PEN_NONE : 0))
+		if(full_pen)
 			armor_block = 0		//You block NOTHING, sir!
 		if(HT.apply_damage(dam, W.damtype, affecting, armor_block))
 			affecting.bodypart_attacked_by(bclass, dam, howner, armor = armor_block, crit_message = TRUE, weapon = W)
@@ -569,6 +567,7 @@ SPECIALS START HERE
 			//We offbalance them OR knock them down if they're already offbalanced
 			if(L.IsOffBalanced())
 				L.Knockdown(KD_dur)
+				L.drop_all_held_items()
 			else
 				L.OffBalance(Offb_dur)
 			apply_generic_weapon_damage(L, dam, "blunt", BODY_ZONE_CHEST, bclass = BCLASS_BLUNT, no_pen = TRUE)
@@ -633,11 +632,13 @@ SPECIALS START HERE
 			victim.Immobilize(newimmob)
 			victim.apply_status_effect(/datum/status_effect/debuff/exposed, newexposed)
 			victim.Knockdown(knockdown)
+			victim.drop_all_held_items()
 		if(5 to 9)
 			victim.Slowdown(newslow)
 			victim.Immobilize(newimmob)
 			victim.apply_status_effect(/datum/status_effect/debuff/exposed, newexposed)
 			victim.Knockdown(knockdown)
+			victim.drop_all_held_items()
 			victim.OffBalance(newoffb)
 			victim.Stun(5 SECONDS)
 	if(victim_count < 3)
@@ -1142,11 +1143,15 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	howner.OffBalance(self_immob_dur)
 	howner.Immobilize(self_immob_dur)
 	dam = initial(dam)
+	//OV Add start
+	prev_pixel_z = howner.pixel_z
+	prev_transform = howner.transform
+	//OV Add end
 	playsound(howner, 'sound/combat/ground_smash_start.ogg', 100, TRUE)
 	if(HAS_TRAIT(howner, TRAIT_BIGGUY))
 		return // windup
 	else
-		animate(howner, pixel_z = pixel_z - 4, time = 3)
+		animate(howner, pixel_z = howner.pixel_z - 4, time = 3) //OV edit
 	
 
 /datum/special_intent/upper_cut/apply_hit(turf/T)

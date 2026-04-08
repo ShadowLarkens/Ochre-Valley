@@ -26,8 +26,8 @@
 			pulledby.stop_pulling()
 		var/obj/belly/B = where
 		msg += "They were in [key_name(B.owner)]'s [B]. "
-	else if(istype(where,/obj/item/micro))	//For micros
-		var/obj/item/micro/mh = where
+	else if(istype(where,/obj/item/holder/micro))	//For micros
+		var/obj/item/holder/micro/mh = where
 		mh.dump_mob()
 	else	//For everything else
 		msg += "They were in [where]. "

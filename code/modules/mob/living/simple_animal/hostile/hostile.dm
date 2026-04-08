@@ -17,7 +17,7 @@
 	var/projectiletype	//set ONLY it and NULLIFY casingtype var, if we have ONLY projectile
 	var/projectilesound
 	var/casingtype		//set ONLY it and NULLIFY projectiletype, if we have projectile IN CASING
-	var/move_to_delay = 3 //delay for the automated movement.
+	move_to_delay = 3 //delay for the automated movement.
 	var/list/friends = list()
 	var/list/emote_taunt = list()
 	var/taunt_chance = 0
@@ -425,10 +425,12 @@
 
 /mob/living/simple_animal/hostile/proc/Aggro()
 	vision_range = aggro_vision_range
-	if(target && emote_taunt.len && prob(taunt_chance))
-		emote("me", 1, "[pick(emote_taunt)] at [target].")
-		taunt_chance = max(taunt_chance-7,2)
-	emote("aggro")
+	if(world.time >= (mob_timers["npc_chatter"] + 15 SECONDS))
+		if(target && emote_taunt.len && prob(taunt_chance))
+			emote("me", 1, "[pick(emote_taunt)] at [target].")
+			taunt_chance = max(taunt_chance-7,2)
+		emote("aggro")
+		mob_timers["npc_chatter"] = world.time
 
 
 /mob/living/simple_animal/hostile/proc/LoseAggro()

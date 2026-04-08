@@ -1,4 +1,4 @@
-/datum/advclass/mage/spellthief
+/* /datum/advclass/mage/spellthief //OC Edit - Commented Out Pending Rework
 	name = "Spellthief"
 	tutorial = "You are a rogue, either by choice or hardship. Your study of the arcyne knowledge, stolen or not, now aids in your roguish endeavors."
 	outfit = /datum/outfit/job/roguetown/adventurer/spellthief
@@ -57,4 +57,4 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/invisibility)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/lesserknock)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fetch)
-	H.grant_language(/datum/language/thievescant)
+	H.grant_language(/datum/language/thievescant) */

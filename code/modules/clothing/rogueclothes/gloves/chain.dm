@@ -13,8 +13,8 @@
 	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/steel
-	unarmed_bonus = 1.15
-	sellprice = 15 
+	unarmed_bonus = 2
+	sellprice = 15 //CC edit
 
 /obj/item/clothing/gloves/roguetown/chain/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
@@ -30,8 +30,7 @@
 	material_category = ARMOR_MAT_CHAINMAIL
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
-	prevent_crits = PREVENT_CRITS_NONE
-	sellprice = 10 //Ew... AAslag...
+	sellprice = 10 //Ew... AAslag... //CC edit
 
 /obj/item/clothing/gloves/roguetown/chain/paalloy
 	name = "ancient chain gauntlets"

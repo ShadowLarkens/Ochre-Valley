@@ -1,5 +1,5 @@
 //OV FILE
-
+/*
 /datum/preferences
 	var/show_in_directory = FALSE
 	var/directory_tag = "Unset"
@@ -9,3 +9,4 @@
 	var/directory_pvp = "No PvP"
 	var/directory_ad
 
+*/

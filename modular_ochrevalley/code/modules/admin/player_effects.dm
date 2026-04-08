@@ -710,14 +710,14 @@
 				return
 			Tar.admin_buff(user, "general")
 		
-		if("give_spell")
+		/* if("give_spell")
 			var/mob/living/carbon/human/Tar = target
 			if(!istype(Tar))
 				return
 			var/obj/effect/proc_holder/spell/new_spell = tgui_input_list(user, "Which spell do you want to give?", "Spells", GLOB.learnable_spells)
 			if(!new_spell)
 				return
-			Tar.AddSpell(new_spell)
+			Tar.AddSpell(new_spell) */
 		
 		if("remove_spell")
 			var/mob/living/carbon/human/Tar = target

@@ -27,6 +27,8 @@
 						/obj/item/natural/hide = 4, /obj/item/natural/bundle/bone/full = 2)
 	head_butcher = /obj/item/natural/head/minotaur
 	faction = list("caves")
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "wildlife"
 
 	health = MINOTAUR_HEALTH
 	maxHealth = MINOTAUR_HEALTH
@@ -168,7 +170,7 @@
 	blade_class = BCLASS_CUT
 	hitsound = "smallslash"
 	chargetime = 0
-	penfactor = 5
+	penfactor = PEN_NONE
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE
@@ -183,7 +185,7 @@
 	blade_class = BCLASS_CUT
 	hitsound = "genchop"
 	chargetime = 10
-	penfactor = 10
+	penfactor = PEN_NONE
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE

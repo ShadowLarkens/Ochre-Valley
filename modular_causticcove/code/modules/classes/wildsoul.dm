@@ -31,12 +31,12 @@
 	advclass_cat_rolls = list(CTAG_WILDSOUL = 20)//I don't understand how this works and it scares me
 	display_order = JDO_WILDSOUL 
 	cmode_music = 'modular_causticcove/sound/music/combat_wildsoul.ogg'
-	virtue_restrictions = list(/datum/virtue/utility/noble, /datum/virtue/utility/deathless, /datum/virtue/utility/resident, /datum/virtue/items/rich) // Wildman McCryptidson shouldnt be anything that contradicts such. Also no deathless, cause natural armor on direbear.
+	virtue_restrictions = list(/datum/virtue/utility/noble, /datum/virtue/utility/hollow, /datum/virtue/utility/notable) // Wildman McCryptidson shouldnt be anything that contradicts such. Also no deathless, cause natural armor on direbear.
 	job_subclasses = list(
 		/datum/advclass/wildsoul/direbear,
 		/datum/advclass/wildsoul/mantid,
 		/datum/advclass/wildsoul/lampternfly,
-		/datum/advclass/wildsoul/zad
+		/datum/advclass/wildsoul/zad,
 	)
 
 /datum/advclass/wildsoul/direbear
@@ -77,10 +77,23 @@
 	head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 	shoes = /obj/item/clothing/shoes/roguetown/boots/furlinedanklets
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	beltl = /obj/item/rogueweapon/huntingknife/stoneknife
 	H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/skin_armor/natural_armor/dense(H)
 	give_feral_eyes(H)
+
+	var/techniques = list("Dropkick - Pushback + Extra Damage", "Chokeslam - Stamina Damage", "Stunner - Dazed Debuff", "Headbutt - Vulnerable Debuff") // cool wrestling moves
+	var/technique_choice = input(H,"Choose your TECHNIQUE.", "TOSS THEM.") as anything in techniques
+	switch(technique_choice)
+		if("Dropkick - Pushback + Extra Damage")
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dropkick)
+		if("Chokeslam - Stamina Damage")
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/chokeslam)
+		if("Stunner - Dazed Debuff")
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/stunner)
+		if("Headbutt - Vulnerable Debuff")
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/headbutt)
 
 /datum/advclass/wildsoul/mantid
 	name = "Soul of the Mantid"
@@ -129,10 +142,10 @@
 	H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/skin_armor/natural_armor(H)
 	give_feral_eyes(H)
 
-/datum/advclass/wildsoul/lampternfly
+/datum/advclass/wildsoul/lampternfly //OV Edit AP Merge 4.5.26 - RE-ENABLED 
 	name = "Soul of the Lampternfly"
 	tutorial = "Some things in this world have a magical spark to them; you're one of them. Having an immensely potent arcyne nature, even without training, you're capable of commanding many magycks; but be careful, for an opposing hunter's command of a bow can prove just as deadly."
-	traits_applied = list(TRAIT_ARCYNE_T3, TRAIT_MAGEARMOR, TRAIT_WOODWALKER, TRAIT_ALCHEMY_EXPERT)
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_WOODWALKER, TRAIT_ALCHEMY_EXPERT)
 	category_tags = list(CTAG_WILDSOUL)
 	subclass_stats = list(
 		STATKEY_STR = -1, // 9 stats weighted, with a focus on their intelligence and awareness
@@ -141,7 +154,8 @@
 		STATKEY_SPD = 2,
 		STATKEY_LCK = 1
 	)
-	subclass_spellpoints = 12 // With their default spells, they have a total of 16 spell points before other sources.
+	age_mod = /datum/class_age_mod/adv_mage
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 4, "ward" = TRUE) //OV Edit - GO MY BALANCE JAK
 	subclass_skills = list( //still can't read lol
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
@@ -173,14 +187,11 @@
 	head = /obj/item/clothing/head/roguetown/roguehood
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	pants = /obj/item/clothing/under/roguetown/loincloth/brown
-	H.put_in_hands(new /obj/item/clothing/neck/roguetown/collar/leather/nomagic(H), TRUE) //either for "they tried and failed to capture me" roleplay or for people who REALLY want a challenge
 	give_feral_eyes(H)
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/nondetection) // Makes sense for them to have the tools to be hidden.
+		H.mind.AddSpell(new /datum/action/cooldown/spell/nondetection) // Makes sense for them to have the tools to be hidden.
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/blindness)
-	if(H.age == AGE_OLD)
-		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_EXPERT, TRUE)
-		H.mind?.adjust_spellpoints(6)
+		r_hand = /obj/item/clothing/neck/roguetown/collar/leather/nomagic //either for "they tried and failed to capture me" roleplay or for people who REALLY want a challenge
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 
 /datum/advclass/wildsoul/zad

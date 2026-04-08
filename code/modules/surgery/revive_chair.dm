@@ -265,6 +265,13 @@
 		if(C != user)
 			occupant = C
 			break
+	
+	//OV edit
+	for(var/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/suffering/slime in get_turf(src))
+		if(slime != user)
+			occupant = slime
+			break
+	//OV edit end
 
 	if(!occupant)
 		to_chat(H, span_warning("The chair needs an occupant to perform reanimation!"))
@@ -281,6 +288,16 @@
 	// Tell the user WE HAVE FLIPPED THE SWITCH.
 	H.visible_message(span_warning("[user] PULLS THE FULMEN-LEVER! Wait for it...!"), span_warning("You pull the FULMEN-LEVER! Wait for it...!"))
 	// We actually want to call it BEFORE the check because otherwise you still wont know if you actually pulled it 1/2 the time.
+
+	//OV edit
+	if(istype(occupant, /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/suffering))
+		playsound(src, 'sound/magic/lightning.ogg', 100, TRUE)
+		do_sparks(8, TRUE, occupant)
+		occupant.visible_message(span_danger("Bolts of electricity course through [occupant]!"))
+		occupant.revive()
+		current_brew -= brew_required
+		charge = 0
+	//OV edit end
 
 	// Check if occupant is valid
 	if(!occupant.check_revive(user))

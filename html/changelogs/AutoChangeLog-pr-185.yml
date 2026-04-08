@@ -1,0 +1,4 @@
+author: "ShadowLarkens"
+delete-after: True
+changes:
+  - balance: "Message cost reduced from 2 to 1"

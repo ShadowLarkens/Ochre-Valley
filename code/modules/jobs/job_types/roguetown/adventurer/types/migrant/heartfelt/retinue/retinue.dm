@@ -2,7 +2,7 @@
 /datum/job/roguetown/heartfelt/retinue
 	title = "Heartfelt Retinue"
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = ACCEPTED_RACES
+	allowed_races = RACES_ALL_KINDS //OV Edit
 	job_traits = list(TRAIT_HEARTFELT)
 
 	job_subclasses = list(

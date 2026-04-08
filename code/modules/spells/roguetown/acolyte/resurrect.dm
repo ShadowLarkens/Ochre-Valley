@@ -77,6 +77,11 @@
 			to_chat(user, span_warning("I need a holy [initial(temp_structure.name)] near [target]."))
 			revert_cast()
 			return FALSE
+		//OV edit
+		if(istype(target, /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/suffering))
+			target.revive()
+			return TRUE
+		//OV edit
 		if(!target.check_revive(user))
 			revert_cast()
 			return FALSE
@@ -87,10 +92,11 @@
 			)
 			target.gib()
 			return TRUE
+		to_chat(user, span_notice("You feel the energies of life flow through you, and into [target.name]... All that's left is hope for the best...")) //CC Edit: Feedback
 		if(alert(target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
 			target.visible_message(span_notice("Nothing happens. They are not being let go."))
 			return FALSE
-		target.adjustOxyLoss(-target.getOxyLoss()) //Ye Olde CPR
+		target.setOxyLoss(0, TRUE, TRUE) //Ye Olde CPR
 		if(!target.revive(full_heal = FALSE))
 			to_chat(user, span_warning("Nothing happens."))
 			revert_cast()
@@ -172,11 +178,10 @@
 	the blessing on yourself to check what's needed. </br>The resurrected target will not be brought back, alone; a fierce dreamfriend will be tethered to their spirit, \
 	stalking and sapping their strength. Slaying this dreamfiend will fully restore their strength. </br>Unlike a regular Healing miracle, this can affect - and resurrect - devout Psydonians as well."
 	sound = 'sound/magic/whale.ogg'
-	//A medley of common ocean fish, totalling 10
+	//A medley of common ocean fish, totalling 6
 	required_items = list(
-		/obj/item/reagent_containers/food/snacks/fish/sole = 3,
-		/obj/item/reagent_containers/food/snacks/fish/cod = 3,
-		/obj/item/reagent_containers/food/snacks/fish/bass = 2,
+		/obj/item/reagent_containers/food/snacks/fish/sole = 2,
+		/obj/item/reagent_containers/food/snacks/fish/cod = 2,
 		/obj/item/reagent_containers/food/snacks/fish/plaice = 1,
 		/obj/item/reagent_containers/food/snacks/fish/lobster = 1,
 	)
@@ -600,7 +605,9 @@
 		/obj/item/paper = 15
 	)
 	debuff_type = /datum/status_effect/debuff/noc_revival
-	overlay_state = "noc_revive"
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_state = "revive"
 	sound = 'sound/magic/owlhoot.ogg'
 
 /obj/effect/proc_holder/spell/invoked/resurrect/undivided
@@ -614,3 +621,6 @@
 	)
 	debuff_type = /datum/status_effect/debuff/revived
 	sound = 'sound/magic/revive.ogg'
+	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_state = "revive"

@@ -33,6 +33,10 @@
 		rmb_stam_penalty = 1.5	//Uses a modifer instead of a flat addition, less than weapons no matter what rn. 50% extra stam cost basically.
 	if(isliving(A))
 		var/mob/living/L = A
+		//Caustic Edit - Add Scooping of Micros
+		if(used_intent.type == INTENT_HELP && !cmode && !L.cmode && L.attempt_to_scoop(src) && !on_fire)
+			return
+		//Caustic Edit End
 		if(!used_intent.noaa)
 			playsound(get_turf(src), pick(GLOB.unarmed_swingmiss), 100, FALSE)
 //			src.emote("attackgrunt")
@@ -58,7 +62,7 @@
 
 		if(L.checkmiss(src))
 			return
-		if(!L.checkdefense(used_intent, src))
+		if(HAS_TRAIT(src, TRAIT_EMPOWERED_UNARMED) || !L.checkdefense(used_intent, src))
 			L.attack_hand(src, params)
 		return
 	else
@@ -315,9 +319,10 @@
 		if(ishuman(ML))
 			var/mob/living/carbon/human/H = ML
 			affecting = H.get_bodypart(ran_zone(dam_zone))
-		var/armor = ML.run_armor_check(affecting, "stab")
+		var/bite_damage = rand(1,3)
+		var/armor = ML.run_armor_check(affecting, "stab", armor_penetration = PEN_NONE, damage = bite_damage)
 		if(prob(75))
-			ML.apply_damage(rand(1,3), BRUTE, affecting, armor)
+			ML.apply_damage(bite_damage, BRUTE, affecting, armor)
 			ML.visible_message(span_danger("[name] bites [ML]!"), \
 							span_danger("[name] bites you!"), span_hear("I hear a chomp!"), COMBAT_MESSAGE_RANGE, name)
 			to_chat(name, span_danger("I bite [ML]!"))
