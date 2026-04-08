@@ -544,7 +544,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WYRD_LABOURER = span_info("Strange power causes my swings to cut through trees and rocks with ease."),
 	TRAIT_CURSE_SCAR = span_info("That foul wench cursed me! I'll have my revenge... Those strange fog wards in the bog, what if?..."),
 	TRAIT_FEYTOUCHED = span_info("I've been influenced or created by fey, after offering lux to a heartroot, I can use it to travel."),
-	TRAIT_ROOT_WALKER = span_info("After offering lux, I can now travel along heartroot trees.")
+	TRAIT_ROOT_WALKER = span_info("After offering lux, I can now travel along heartroot trees."),
 	//Ochre Add Start
 	TRAIT_LYFE_DRINK = span_bloody("I hunger for fresh lyfe's blood."),
 	//Ochre Add End
