@@ -21,7 +21,7 @@
 				/mob/living/carbon/human/species/goblin/npc/ambush = 30,
 				/mob/living/carbon/human/species/human/northern/militia/deserter = 20,
 				/mob/living/carbon/human/species/human/northern/highwayman/ambush = 10,
-				new /datum/ambush_config/hobgoblin_woods = 20, //CC Edit
+				new /datum/ambush_config/hobgoblin_woods = 20, //CC Add
 				)
 	first_time_text = "THE AZURE GROVE"
 	converted_type = /area/rogue/indoors/shelter/woods
@@ -48,9 +48,9 @@
 		/mob/living/carbon/human/species/skeleton/npc/easy = 20,
 		/mob/living/carbon/human/species/goblin/npc/ambush = 30,
 		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 30,
-		new /datum/ambush_config/hobgoblin_woods = 20,
-		new /datum/ambush_config/hobgoblin_woods/medium = 15,
-		new /datum/ambush_config/hobgoblin_woods/hard = 10,
+		new /datum/ambush_config/hobgoblin_woods = 20, //CC Add
+		new /datum/ambush_config/hobgoblin_woods/medium = 15, //CC Add
+		new /datum/ambush_config/hobgoblin_woods/hard = 10, //CC Add
 		)
 	threat_region = THREAT_REGION_AZURE_GROVE
 
@@ -65,9 +65,9 @@
 			/mob/living/carbon/human/species/goblin/npc/ambush = 20,
 			/mob/living/carbon/human/species/goblin/npc/sea = 10,
 			/mob/living/carbon/human/species/human/northern/highwayman/ambush = 30,
-			new /datum/ambush_config/hobgoblin_woods = 25, //CC Edit
-			new /datum/ambush_config/hobgoblin_woods/medium = 20, //CC Edit
-			new /datum/ambush_config/hobgoblin_woods/hard = 15, //CC Edit
+			new /datum/ambush_config/hobgoblin_woods = 25, //CC Add
+			new /datum/ambush_config/hobgoblin_woods/medium = 20, //CC Add
+			new /datum/ambush_config/hobgoblin_woods/hard = 15, //CC Add
 			)
 	threat_region = THREAT_REGION_AZURE_GROVE
 
@@ -82,9 +82,9 @@
 		/mob/living/carbon/human/species/goblin/npc/ambush = 20,
 		/mob/living/carbon/human/species/goblin/npc/sea = 10,
 		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 30,
-		new /datum/ambush_config/hobgoblin_woods = 25, //CC Edit
-		new /datum/ambush_config/hobgoblin_woods/medium = 20, //CC Edit
-		new /datum/ambush_config/hobgoblin_woods/hard = 10, //CC Edit
+		new /datum/ambush_config/hobgoblin_woods = 25, //CC Add
+		new /datum/ambush_config/hobgoblin_woods/medium = 20, //CC Add
+		new /datum/ambush_config/hobgoblin_woods/hard = 10, //CC Add
 		)
 
 /area/rogue/outdoors/woods/south
@@ -97,8 +97,8 @@
 		/mob/living/carbon/human/species/skeleton/npc/hard = 10,
 		/mob/living/carbon/human/species/goblin/npc/ambush = 30,
 		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 20,
-		new /datum/ambush_config/hobgoblin_woods = 15, //CC Edit
-		new /datum/ambush_config/hobgoblin_woods/medium = 10, //CC Edit
+		new /datum/ambush_config/hobgoblin_woods = 15, //CC Add
+		new /datum/ambush_config/hobgoblin_woods/medium = 10, //CC Add
 		)
 
 /area/rogue/outdoors/woods/southwest
@@ -111,9 +111,9 @@
 		/mob/living/carbon/human/species/skeleton/npc/hard = 10,
 		/mob/living/carbon/human/species/goblin/npc/ambush = 30,
 		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 20,
-		new /datum/ambush_config/hobgoblin_woods = 15, //CC Edit
-		new /datum/ambush_config/hobgoblin_woods/medium = 10, //CC Edit
-		new /datum/ambush_config/hobgoblin_woods/hard = 5, //CC Edit
+		new /datum/ambush_config/hobgoblin_woods = 15, //CC Add
+		new /datum/ambush_config/hobgoblin_woods/medium = 10, //CC Add
+		new /datum/ambush_config/hobgoblin_woods/hard = 5, //CC Add
 		)
 
 /area/rogue/outdoors/woods/northwest
@@ -126,9 +126,9 @@
 		/mob/living/carbon/human/species/skeleton/npc/hard = 10,
 		/mob/living/carbon/human/species/goblin/npc/ambush = 30,
 		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 20,
-		new /datum/ambush_config/hobgoblin_woods = 20, //CC Edit
-		new /datum/ambush_config/hobgoblin_woods/medium = 15, //CC Edit
-		new /datum/ambush_config/hobgoblin_woods/hard = 5, //CC Edit
+		new /datum/ambush_config/hobgoblin_woods = 20, //CC Add
+		new /datum/ambush_config/hobgoblin_woods/medium = 15, //CC Add
+		new /datum/ambush_config/hobgoblin_woods/hard = 5, //CC Add
 		)
 
 /area/rogue/outdoors/woods/vampire_lair
