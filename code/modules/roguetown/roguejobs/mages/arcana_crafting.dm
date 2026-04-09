@@ -39,7 +39,7 @@
 				/obj/item/magic/melded/t1 = 1)
 
 //OV edit
-/datum/crafting_recipe/roguetown/arcana/sendingstone
+/datum/crafting_recipe/roguetown/arcana/portalstone
 	name = "portal stone"
 	result = /obj/item/portal_clothes
 	reqs = list(/obj/item/natural/stone = 1,
