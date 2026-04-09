@@ -74,7 +74,7 @@
 	recipient.change_stat(STATKEY_WIL, -2)//OV Edit: Make the will drop of being small more palatable
 	recipient.change_stat(STATKEY_CON, -5)
 	recipient.change_stat(STATKEY_SPD, 5) // Multiplicative slowdown should cover the move speed while still letting micros dodge. Even at their fastest (which they should be with this modifier) they'll move as fast as a speed 0 character.
-	recipient.add_movespeed_modifier(MOVESPEED_ID_MACROMICRO, update=TRUE, priority=100, multiplicative_slowdown=1.5, movetypes=GROUND) // Base slowdown is increased to the equivalent of having -5 speed. With the +5 speed added, it lowers it by .5 for a base total of 1
+	recipient.add_movespeed_modifier(MOVESPEED_ID_MACROMICRO, update=TRUE, priority=100, multiplicative_slowdown=1.2, movetypes=GROUND) //OV Edit: Some movespeed, as a treat. - Base slowdown is increased to the equivalent of having -5 speed. With the +5 speed added, it lowers it by .5 for a base total of 1
 	
 	passtable_on(recipient, MAGIC_TRAIT)
 	recipient.pass_flags |= PASSMOB
