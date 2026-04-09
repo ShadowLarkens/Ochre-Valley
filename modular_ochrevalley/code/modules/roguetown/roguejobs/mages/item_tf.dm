@@ -8,6 +8,7 @@
 	scribe_damage = 10
 	can_be_scribed = TRUE
 	rituals = list(/datum/runeritual/item_tf::name = /datum/runeritual/item_tf)
+	require_mage_user = FALSE
 
 /obj/effect/decal/cleanable/roguerune/arcyne/item_tf/get_mechanics_examine(mob/user)
 	. = ..()

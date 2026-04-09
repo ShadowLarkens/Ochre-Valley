@@ -85,9 +85,8 @@
 		//Allow those turned into items to become the recycled item
 		//OV edit
 		if(mob_possession)
-			var/mob/dead/observer/G = mob_possession.ghostize(0)
-			if(G)
-				G.vore_death = TRUE
+			B.digestion_death(mob_possession)
+			mob_possession = null
 		//OV edit end
 		/*var/recycled = B?.recycle(src)
 		if(!recycled) //Caustic - Recycle-based Vore Code Item Handling here
