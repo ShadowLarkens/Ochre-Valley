@@ -20,7 +20,7 @@
 		/datum/rmb_intent/riposte,\
 		/datum/rmb_intent/weak
 	)
-	var/is_silent = TRUE /// Determines whether or not we will scream our funny lines at people.
+	is_silent = TRUE /// Determines whether or not we will scream our funny lines at people.
 	var/custom_speech = TRUE // New one specifically for doppelgangers
 	npc_max_jump_stamina = 0
 	var/cloned_target = FALSE // Check whether to clone someone or not

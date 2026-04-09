@@ -41,10 +41,13 @@
 	new_feature.hair_dye_color = feature.hair_dye_color
 	bodypart_features += new_feature
 	if(owner)
+		owner.update_body()
+		/*
 		if(ishuman(owner))
 			var/mob/living/carbon/human/H = owner
 			H.icon_render_key = null
 		owner.queue_icon_update(PENDING_UPDATE_BODY)
+		*/
 	return TRUE
 //OV edit end
 
