@@ -10,7 +10,7 @@
 	throwforce = 0
 	force = 0
 	actions_types = list(/datum/action/item_action/command)
-	w_class = WEIGHT_CLASS_SMALL
+	w_class = WEIGHT_CLASS_TINY
 
 	var/active = FALSE					//Is it set up?
 	var/mob/living/owner				//Reference to the owner
@@ -598,7 +598,7 @@
 	name = "capture crystal"
 	result = /obj/item/capture_crystal/basic
 	reqs = list(/obj/item/ingot/iron = 1,
-				/obj/item/roguegem/violet = 1,
+				/obj/item/roguegem/amethyst = 1,
 				/obj/item/magic/melded/t1 = 1)
 	craftdiff = 2
 
@@ -606,7 +606,7 @@
 	name = "capture crystal (great)"
 	result = /obj/item/capture_crystal/great
 	reqs = list(/obj/item/ingot/iron = 1,
-				/obj/item/roguegem/ruby = 1,
+				/obj/item/roguegem/yellow = 1,
 				/obj/item/magic/melded/t2 = 1)
 	craftdiff = 3
 
@@ -614,6 +614,6 @@
 	name = "capture crystal (ultra)"
 	result = /obj/item/capture_crystal/ultra
 	reqs = list(/obj/item/ingot/iron = 1,
-				/obj/item/roguegem/diamond = 1,
+				/obj/item/roguegem/green = 1,
 				/obj/item/magic/melded/t3 = 1)
 	craftdiff = 4

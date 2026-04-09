@@ -826,7 +826,7 @@
 
 	//if(I.) //Caustic - Potential Whitelist can go here.
 
-	if(!(I.grid_height <= world.icon_size || I.grid_height <= world.icon_size))
+	if(!(I.grid_height <= world.icon_size || I.grid_width <= world.icon_size)) //OV EDIT
 		to_chat(src,span_warning("You can't eat such a large thing !"))//yet <-- YET???
 		return
 
