@@ -87,6 +87,7 @@
 		return FALSE
 	if(!move_after(user, sheathe_time, target = user))
 		return FALSE
+	I.clear_grip_state()
 
 	A.forceMove(src)
 	sheathed = A
@@ -167,10 +168,7 @@
 		else
 			I.icon_state = "[initial(I.icon_state)]"
 
-		if(user)
-			user.update_inv_hands()
-			user.update_inv_belt()
-			user.update_inv_back()
+		I.update_slot_icon()
 
 	I.getonmobprop(tag)
 
@@ -181,7 +179,7 @@
 	if(sheathed)
 		return FALSE
 
-	if(istype(A, /obj/item/rogueweapon) || istype(A, /obj/item/gun/ballistic/arquebus)) //CC edit
+	if(istype(A, /obj/item/rogueweapon)) // OV Edit - Removed CC work-around.
 		if(A.w_class >= WEIGHT_CLASS_BULKY)
 			return TRUE
 
@@ -232,12 +230,6 @@
 
 /datum/component/holster/handstaff/puke_sword(mob/living/user)
 	. = ..()
-	if(.)
-		var/obj/item/rogueweapon/RW = parent
-		RW.cast_time_reduction = null
 
 /datum/component/holster/handstaff/eat_sword(mob/living/user, obj/A)
 	. = ..()
-	if(.)
-		var/obj/item/rogueweapon/RW = parent
-		RW.cast_time_reduction = RUBY_CAST_TIME_REDUCTION

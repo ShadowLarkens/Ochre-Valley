@@ -9,7 +9,7 @@
 	display_order = 6
 	min_pq = null //0
 	selection_color = JCOLOR_BURGHER
-	allowed_races = ACCEPTED_RACES
+	allowed_races = RACES_ALL_KINDS //OV Edit
 	display_order = JDO_TAILOR
 	job_traits = list(TRAIT_SEWING_EXPERT)
 	outfit = /datum/outfit/job/roguetown/tailor
@@ -60,7 +60,10 @@
 		/obj/item/storage/keyring/tailor,
 		/obj/item/dye_brush,
 		/obj/item/recipe_book/sewing,
-		/obj/item/recipe_book/leatherworking
+		/obj/item/recipe_book/leatherworking,
+		/obj/item/mini_flagpole/tailor,
+		/obj/item/rogueweapon/hammer/wood,
+		/obj/item/storage/belt/rogue/pouch/tailorscrap,
 		)
 	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress

@@ -1,4 +1,4 @@
-/obj/effect/proc_holder/spell/invoked/conjure_weapon/cast(list/targets, mob/living/user = usr)
+/* /obj/effect/proc_holder/spell/invoked/conjure_weapon/cast(list/targets, mob/living/user = usr) //OV Edit AP Merge 4.2.26 - Commented Out Pending Rework
 	// Ochre Valley - Modified to add 'UNCONJURE.'
 	var/list/choices = list()
 	if(conjured_weapon)
@@ -32,4 +32,4 @@
 	if(conjured_weapon)
 		conjured_weapon.visible_message(span_warning("[conjured_weapon]'s borders begin to shimmer and fade, before it vanishes entirely!"))
 		qdel(conjured_weapon)
-	return ..()
+	return ..() */

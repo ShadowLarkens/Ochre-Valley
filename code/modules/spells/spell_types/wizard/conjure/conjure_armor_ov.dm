@@ -1,4 +1,4 @@
-/obj/effect/proc_holder/spell/self/conjure_armor/cast(list/targets, mob/living/user = usr)
+/* /obj/effect/proc_holder/spell/self/conjure_armor/cast(list/targets, mob/living/user = usr) //OV Edit AP Merge 4.2.26 - Commented Out Pending Rework
 	var/mob/living/carbon/human/H = user
 	var/targetac = H.highest_ac_worn()
 	if(targetac > 1)
@@ -39,4 +39,4 @@
 	if(conjured_armor)
 		conjured_armor.visible_message(span_warning("[conjured_armor]'s borders begin to shimmer and fade, before it vanishes entirely!"))
 		qdel(conjured_armor)
-	return ..()
+	return ..() */

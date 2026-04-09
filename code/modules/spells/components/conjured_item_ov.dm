@@ -5,7 +5,7 @@ by Arcyne user after a duration
 	the owner object is removed to not leave random forever conjured items.
 */
 
-/datum/component/conjured_item
+/* /datum/component/conjured_item //OV Edit AP Merge 4.2.26 - Commented Out Pending Rework
 	var/mob/living/owner
 
 /datum/component/conjured_item/Initialize(outline_color_override, mob/living/owner_mob)
@@ -30,4 +30,4 @@ by Arcyne user after a duration
 
 /datum/component/conjured_item/proc/on_parent_deleting(datum/source)
 	if(owner)
-		UnregisterSignal(owner, COMSIG_PARENT_QDELETING)
+		UnregisterSignal(owner, COMSIG_PARENT_QDELETING) */

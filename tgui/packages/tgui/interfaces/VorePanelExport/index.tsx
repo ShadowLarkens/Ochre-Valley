@@ -5,7 +5,7 @@ import { downloadPrefs } from './VorePanelExportDownload';
 
 export const VorePanelExport = () => {
   return (
-    <Window width={790} height={560} theme="abstract">
+    <Window width={790} height={560}>
       <Window.Content>
         <VorePanelExportContent />
       </Window.Content>

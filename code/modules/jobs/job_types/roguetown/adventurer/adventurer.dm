@@ -56,7 +56,8 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 		/datum/advclass/mage,
 		/datum/advclass/mage/spellsinger,
 		/datum/advclass/mage/spellblade,
-		/datum/advclass/mage/prereworkspellblade, // OV Add
+		/datum/advclass/mage/spellfist,
+		// /datum/advclass/mage/prereworkspellblade, // OV Add //OV Edit Ap merge 4.2.26 - Commented out pending rework
 		/datum/advclass/ranger,
 		/datum/advclass/ranger/wayfarer,
 		/datum/advclass/ranger/bombadier,
@@ -70,12 +71,13 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 		/datum/advclass/foreigner/refugee,
 		/datum/advclass/foreigner/slaver,
 		///Caustic edit
-		/datum/advclass/mage/spellthief,
+		// /datum/advclass/mage/spellthief, //OV Edit AP Merge 4.2.26 - Commented out Pending Rework
 		/datum/advclass/rogue/buccaneer,
 		///Caustic edit end
 		/datum/advclass/foreigner/shepherd,
 		/datum/advclass/foreigner/fencerguy,
-		/datum/advclass/foreigner/bronzeclad
+		/datum/advclass/foreigner/bronzeclad,
+		/datum/advclass/foreigner/lesserblackoak
 	)
 
 /mob/living/carbon/human/proc/adv_hugboxing_start()

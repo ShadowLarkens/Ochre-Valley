@@ -1,4 +1,4 @@
-/datum/advclass/mage/prereworkspellblade
+/* /datum/advclass/mage/prereworkspellblade //OV Edit AP Merge 4.2.26 - Commented Out Pending Rework
 	name = "Spellblade"
 	tutorial = "You are skilled in both the arcyne and the art of the blade. However, you are a master of neither, and any armor heavier than light hampers your ability to cast."
 	outfit = /datum/outfit/job/roguetown/adventurer/prereworkspellblade
@@ -63,4 +63,4 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/basiceast
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
-			H.cmode_music = 'sound/music/combat_heretic.ogg'
+			H.cmode_music = 'sound/music/combat_heretic.ogg' */
