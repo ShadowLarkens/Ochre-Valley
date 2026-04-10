@@ -60,6 +60,8 @@
 			continue
 		if(istype(our_target, /mob/living/carbon/human/species/human/northern/doppelganger)) //Don't copy other doppelgangers
 			continue
+		if(!our_target.client)
+			continue
 		if(full_clone(our_target, TRUE, TRUE))
 			cloned_target = TRUE
 			for(var/obj/item/equipped_item in get_equipped_items() + held_items)
@@ -558,11 +560,13 @@
 	mob_types = list(
 		/mob/living/carbon/human/species/human/northern/doppelganger/ambush = 1
 	)
+	threat_point = THREAT_HIGH
 
 /datum/ambush_config/doppelgangers
 	mob_types = list(
 		/mob/living/carbon/human/species/human/northern/doppelganger/ambush = 2
 	)
+	threat_point = 2* THREAT_HIGH
 
 //DOPPEL HEART!
 
