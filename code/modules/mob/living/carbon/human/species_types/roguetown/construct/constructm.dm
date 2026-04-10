@@ -177,7 +177,7 @@
 		//Caustic edit end
 	)
 
-	restricted_virtues = list(/datum/virtue/utility/noble, /datum/virtue/utility/hollow)
+	restricted_virtues = list(/datum/virtue/utility/hollow) //OV Edit - removed nobility restriction
 
 /datum/species/construct/metal/check_roundstart_eligible()
 	return TRUE
