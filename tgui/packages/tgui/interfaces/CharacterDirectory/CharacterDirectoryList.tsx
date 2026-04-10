@@ -9,11 +9,10 @@ import type { mobEntry } from './types';
 
 export const CharacterDirectoryList = (props: {
   directory: mobEntry[];
-  onOverlay: React.Dispatch<React.SetStateAction<mobEntry | null>>;
 }) => {
   const { act } = useBackend();
 
-  const { onOverlay, directory } = props;
+  const { directory } = props;
 
   const [sortId, setSortId] = useState<string>('name');
   const [sortOrder, setSortOrder] = useState<boolean>(true);
@@ -144,7 +143,7 @@ export const CharacterDirectoryList = (props: {
               </Table.Cell>
               <Table.Cell verticalAlign="middle" collapsing textAlign="right">
                 <Button
-                  onClick={() => onOverlay(character)}
+                  onClick={() => act('openExamine', { ckey: character.ckey })}
                   color="transparent"
                   textColor="black"
                   icon="sticky-note"

@@ -160,6 +160,7 @@ GLOBAL_LIST_EMPTY(chardirectory_photos)
 			continue
 
 		directory_mobs.Add(list(list(
+			"ckey" = C.ckey,
 			"name" = name,
 			"species" = species,
 			"ooc_notes_favs" = ooc_notes_favs,
@@ -201,8 +202,34 @@ GLOBAL_LIST_EMPTY(chardirectory_photos)
 		*/
 		update_ui_static_data(ui.user, ui)
 		return TRUE
+	else if(action == "openExamine")
+		return open_character_examine(ui.user, params["ckey"])
 	else
 		return check_for_mind_or_prefs(ui.user, action, params["overwrite_prefs"])
+
+/datum/character_directory/proc/open_character_examine(mob/user, target_ckey)
+	if(!user || !target_ckey)
+		return FALSE
+
+	var/client/target_client = GLOB.directory[target_ckey]
+	if(!target_client)
+		to_chat(user, span_warning("That character is no longer available. Try refreshing the directory."))
+		return FALSE
+
+	var/datum/examine_panel/character_examine_panel
+	if(ishuman(target_client.mob))
+		character_examine_panel = new(target_client.mob)
+		character_examine_panel.holder = target_client.mob
+	else if(target_client.prefs)
+		character_examine_panel = new
+		character_examine_panel.pref = target_client.prefs
+	else
+		to_chat(user, span_warning("That character does not currently have profile data available."))
+		return FALSE
+
+	character_examine_panel.viewing = user
+	character_examine_panel.ui_interact(user)
+	return TRUE
 
 /datum/character_directory/proc/check_for_mind_or_prefs(mob/user, action, overwrite_prefs)
 	if (!user.client)
