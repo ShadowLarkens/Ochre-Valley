@@ -2916,8 +2916,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						directory_pvp = new_choice
 				if("directory_ad")
 					var/new_dir_ad = tgui_input_text(user, "Input an ad for your style of ERP to show in the character directory:", "Directory Ad", directory_ad, multiline = TRUE,  encode = FALSE, bigmodal = TRUE)
-					if(new_dir_ad)
-						directory_ad = new_dir_ad
+					if(!isnull(new_dir_ad))
+						set_character_ad_value(ishuman(user) ? user : null, src, user?.mind, new_dir_ad)
 				
 				//OV edit end
 

@@ -1,5 +1,5 @@
 // OV FILE
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useBackend } from 'tgui/backend';
 import { Window } from 'tgui/layouts';
 import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
@@ -22,6 +22,11 @@ export const CharacterDirectory = (props) => {
   } = data;
 
   const [overwritePrefs, setOverwritePrefs] = useState<boolean>(false);
+  const [directoryAd, setDirectoryAd] = useState<string | null>(null);
+  const [directoryAdName, setDirectoryAdName] = useState<string>('');
+  const directoryAdHTML = useMemo(() => ({
+    __html: directoryAd || '',
+  }), [directoryAd]);
 
   return (
     <Window width={816} height={722}>
@@ -35,7 +40,7 @@ export const CharacterDirectory = (props) => {
           <ViewCharacter overlay={overlay} onOverlay={setOverlay} />
         )) || (
         */}
-        <>
+        <Box position="relative">
           <Section
             title="Settings and Preferences"
             buttons={
@@ -132,8 +137,68 @@ export const CharacterDirectory = (props) => {
               </LabeledList.Item>
             </LabeledList>
           </Section>
-          <CharacterDirectoryList directory={directory} />
-        </>
+          <CharacterDirectoryList
+            directory={directory}
+            onOpenAd={(name, ad) => {
+              setDirectoryAdName(name);
+              setDirectoryAd(ad);
+            }}
+          />
+          {!!directoryAd?.trim() && (
+            <Box
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: 'rgba(0, 0, 0, 0.78)',
+                zIndex: 3,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '1.5rem',
+              }}
+            >
+              <Section
+                title={`${directoryAdName} Advertisement`}
+                fill
+                scrollable
+                style={{
+                  width: '70%',
+                  height: '65%',
+                }}
+                buttons={
+                  <Button
+                    icon="times"
+                    color="red"
+                    onClick={() => {
+                      setDirectoryAd(null);
+                      setDirectoryAdName('');
+                    }}
+                  >
+                    Close
+                  </Button>
+                }
+              >
+                <Box
+                  backgroundColor="black"
+                  p={2}
+                  style={{
+                    border: '1px solid rgba(138, 92, 92, 0.85)',
+                    borderRadius: '0.2rem',
+                    minHeight: '100%',
+                  }}
+                >
+                  <Box
+                    preserveWhitespace
+                    dangerouslySetInnerHTML={directoryAdHTML}
+                  />
+                </Box>
+              </Section>
+            </Box>
+          )}
+        </Box>
         {/*
         )}
         */}

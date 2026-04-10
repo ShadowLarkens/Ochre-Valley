@@ -5,6 +5,37 @@ GLOBAL_LIST_INIT(char_directory_sexualitytags, list("Straight", "Bisexual", "Pan
 GLOBAL_LIST_INIT(char_directory_gendertags, list("Male", "Female", "Feminine", "Masculine", "Nonbinary", "Trans Man", "Trans Woman", "Other", "Flexible", "Ungendered", "Unset"))
 GLOBAL_LIST_INIT(char_directory_pvp, list("No PvP", "Ask First", "Open to PvP"))
 
+/proc/get_character_ad_value(mob/living/carbon/human/character, datum/preferences/prefs, datum/mind/mind)
+	var/current_ad = prefs?.directory_ad
+	if(isnull(current_ad))
+		current_ad = mind?.directory_ad
+	if(isnull(current_ad))
+		current_ad = character?.client?.prefs?.directory_ad
+	if(isnull(current_ad))
+		current_ad = character?.mind?.directory_ad
+	return current_ad
+
+/proc/set_character_ad_value(mob/living/carbon/human/character, datum/preferences/prefs, datum/mind/mind, new_value, notify_roleplay_viewers = FALSE)
+	if(prefs)
+		prefs.directory_ad = new_value
+	if(mind)
+		mind.directory_ad = new_value
+
+	if(character)
+		if(new_value)
+			var/formatted_ad = parsemarkdown_basic(html_encode(new_value), hyperlink = TRUE)
+			LAZYSET(GLOB.roleplay_ads, character.mobid, "<b>[html_encode(character.real_name)]</b> - [formatted_ad]<BR>")
+
+			if(notify_roleplay_viewers)
+				for(var/client/advertisee in (GLOB.clients - character.client))
+					if(!(advertisee.prefs.toggles & ROLEPLAY_ADS))
+						continue
+					to_chat(advertisee, span_info("[character.real_name] has set a roleplay ad."))
+		else
+			LAZYREMOVE(GLOB.roleplay_ads, character.mobid)
+
+	refresh_character_ad_examine_panels(character, prefs || character?.client?.prefs, mind || character?.mind)
+
 /client/verb/show_character_directory()
 	set name = "Character Directory"
 	set category = "OOC"
@@ -100,14 +131,14 @@ GLOBAL_LIST_EMPTY(chardirectory_photos)
 		if (C.mob?.mind) //could use ternary for all three but this is more efficient
 			tag = C.mob.mind.directory_tag || "Unset"
 			erptag = C.mob.mind.directory_erptag || "Unset"
-			character_ad = C.mob.mind.directory_ad
+			character_ad = get_character_ad_value(C.mob, C.prefs, C.mob.mind)
 			gendertag = C.mob.mind.directory_gendertag || "Unset"
 			sexualitytag = C.mob.mind.directory_sexualitytag || "Unset"
 			pvp = C.mob.mind.directory_pvp || "No PvP"
 		else
 			tag = C.prefs.directory_tag || "Unset"
 			erptag = C.prefs.directory_erptag || "Unset"
-			character_ad = C.prefs.directory_ad
+			character_ad = get_character_ad_value(null, C.prefs, null)
 			gendertag = C.prefs.directory_gendertag || "Unset"
 			sexualitytag = C.prefs.directory_sexualitytag || "Unset"
 			pvp = C.prefs.directory_pvp || "No PvP"
@@ -158,6 +189,8 @@ GLOBAL_LIST_EMPTY(chardirectory_photos)
 		// But if we can't find the name, they must be using a non-compatible mob type currently.
 		if(!name)
 			continue
+		if(character_ad)
+			character_ad = parsemarkdown_basic(html_encode(character_ad), hyperlink = TRUE)
 
 		directory_mobs.Add(list(list(
 			"ckey" = C.ckey,
@@ -203,11 +236,11 @@ GLOBAL_LIST_EMPTY(chardirectory_photos)
 		update_ui_static_data(ui.user, ui)
 		return TRUE
 	else if(action == "openExamine")
-		return open_character_examine(ui.user, params["ckey"])
+		return open_character_examine(ui.user, params["ckey"], params["open_ad"])
 	else
 		return check_for_mind_or_prefs(ui.user, action, params["overwrite_prefs"])
 
-/datum/character_directory/proc/open_character_examine(mob/user, target_ckey)
+/datum/character_directory/proc/open_character_examine(mob/user, target_ckey, open_ad = FALSE)
 	if(!user || !target_ckey)
 		return FALSE
 
@@ -227,6 +260,7 @@ GLOBAL_LIST_EMPTY(chardirectory_photos)
 		to_chat(user, span_warning("That character does not currently have profile data available."))
 		return FALSE
 
+	character_examine_panel.open_character_ad_on_open = !!open_ad
 	character_examine_panel.viewing = user
 	character_examine_panel.ui_interact(user)
 	return TRUE
@@ -265,7 +299,7 @@ GLOBAL_LIST_EMPTY(chardirectory_photos)
 			to_chat(user, span_notice("You are now [!visible ? "shown" : "not shown"] in the directory."))
 			return set_for_mind_or_prefs(user, action, !visible, can_set_prefs, can_set_mind)
 		if ("editAd")
-			var/current_ad = (can_set_mind ? user.mind.directory_ad : null) || (can_set_prefs ? user.client.prefs.directory_ad : null)
+			var/current_ad = get_character_ad_value(user, can_set_prefs ? user.client.prefs : null, can_set_mind ? user.mind : null)
 			var/new_ad = tgui_input_text(user, "Change your character ad", "Character Ad", current_ad, MAX_MESSAGE_LEN, TRUE, prevent_enter = TRUE)
 			if(isnull(new_ad))
 				return
@@ -307,10 +341,7 @@ GLOBAL_LIST_EMPTY(chardirectory_photos)
 				user.mind.show_in_directory = new_value
 			return TRUE
 		if ("editAd")
-			if (can_set_prefs)
-				user.client.prefs.directory_ad = new_value
-			if (can_set_mind)
-				user.mind.directory_ad = new_value
+			set_character_ad_value(user, can_set_prefs ? user.client.prefs : null, can_set_mind ? user.mind : null, new_value)
 			return TRUE
 		if ("setGenderTag")
 			if (can_set_prefs)
