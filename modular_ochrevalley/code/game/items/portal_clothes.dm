@@ -31,7 +31,7 @@
 
 /obj/item/portal_clothes/Destroy()
 	if(paired_with)
-		paired_with.Destroy()
+		QDEL_NULL(paired_with)
 	. = ..()
 
 /obj/item/portal_clothes/pre_attack(atom/A, mob/living/user, params)
