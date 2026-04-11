@@ -3453,6 +3453,7 @@
 #include "modular_ochrevalley\code\datums\loadout\loadout_miscellaneous.dm"
 #include "modular_ochrevalley\code\modules\roguetown\roguejobs\mages\item_tf.dm"
 #include "modular_ochrevalley\code\datums\loadout\loadout_hats.dm"
+#include "modular_ochrevalley\code\game\items\portal_clothes.dm"
 #include "modular_ochrevalley\code\modules\admin\player_effects.dm"
 #include "modular_ochrevalley\code\datums\loadout\mind_ov.dm"
 #include "modular_ochrevalley\code\modules\client\client_ov.dm"
