@@ -29,12 +29,6 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	var/forced_preset = "" // If set, force a specific preset instead of randomizing.
 	var/obj/item/outfit_weapon
 
-	// CC Edit Start
-	//We are the biggest and baddest for boss fights... We're smart, and well trained.
-	smart_combatant = TRUE
-	special_attacker = TRUE
-	// CC Edit End
-
 /mob/living/carbon/human/species/human/northern/deranged_knight/retaliate(mob/living/L)
 	var/newtarg = target
 	.=..()

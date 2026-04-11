@@ -10,8 +10,6 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	flee_in_pain = TRUE
 	d_intent = INTENT_PARRY
 	possible_rmb_intents = list()
-	//We're slightly smarter bandits than the peasant militia. 
-	smart_combatant = TRUE //CC edit
 
 
 /mob/living/carbon/human/species/human/northern/highwayman/ambush

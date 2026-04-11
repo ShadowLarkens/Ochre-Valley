@@ -9,10 +9,6 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 	dodgetime = 30
 	flee_in_pain = TRUE
 	possible_rmb_intents = list()
-	//CC Add
-	//Trained, but like Drow, only utilize special attacks. They're VIKING! POWER IS THEIR STRONGSUIT!
-	special_attacker = TRUE
-	//CC Add End
 
 /mob/living/carbon/human/species/human/northern/searaider/ambush
 	threat_point = THREAT_MODERATE

@@ -25,7 +25,6 @@
 	mode = NPC_AI_IDLE
 	wander = FALSE
 	cmode_music = FALSE
-	special_attacker = TRUE
 
 /mob/living/carbon/human/species/orc/npc/Initialize()
 	. = ..()
