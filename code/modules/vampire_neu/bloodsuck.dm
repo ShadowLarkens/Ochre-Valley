@@ -64,8 +64,8 @@
 				gained_food = gained_food * CLIENT_VITAE_MULTIPLIER
 			adjust_nutrition(gained_food)
 			adjust_hydration(gained_food)
-			//OV Add End: Hemovore Nutrient and Hydration procs, piggybacking off Vamp Multipliers
-			return
+		return
+		//OV Add End: Hemovore Nutrient and Hydration procs, piggybacking off Vamp Multipliers
 
 	if(victim.mind?.has_antag_datum(/datum/antagonist/werewolf) || (victim.stat != DEAD && victim.mind?.has_antag_datum(/datum/antagonist/zombie)))
 		to_chat(src, span_danger("I'm going to puke..."))

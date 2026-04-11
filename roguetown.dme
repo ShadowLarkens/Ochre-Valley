@@ -220,10 +220,6 @@
 #include "modular_causticcove\code\__DEFINES\vore_prefs.dm"
 //Caustic Modular Defines End
 
-//Ochre Modular Defines
-#include "modular_ochrevalley\code\_DEFINES\traits.dm"
-//Ochre Modular Defines End
-
 #include "code\__HELPERS\_auxtools_api.dm"
 #include "code\__HELPERS\_lists.dm"
 #include "code\__HELPERS\_logging_ov.dm"

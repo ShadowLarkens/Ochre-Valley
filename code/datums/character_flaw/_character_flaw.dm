@@ -42,9 +42,9 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	/datum/charflaw/combat_adverse::name=/datum/charflaw/combat_adverse,
 	//Caustic edit end
 
-	//Ochre Add Start
+	//OV Add Start
 	/datum/charflaw/hemovore::name=/datum/charflaw/hemovore,
-	//Ochre Add End
+	//OV Add End
 	))
 
 GLOBAL_LIST_INIT(averse_factions, list(
