@@ -702,7 +702,7 @@
 			visible_message(span_warning("[src] dry heaves!"), \
 							span_danger("I try to throw up, but there's nothing in your stomach!"))
 		if(stun)
-			Immobilize(200)
+			Immobilize(59) //OV Edit: Bring this in line with normal stun from vomitting.
 		return 1
 	..()
 
