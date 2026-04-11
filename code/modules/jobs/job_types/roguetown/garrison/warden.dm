@@ -27,7 +27,7 @@
 	cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg'
 	job_traits = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_WOODSMAN, TRAIT_SURVIVAL_EXPERT)
 	job_subclasses = list(/datum/advclass/warden/warden,
-		//OV Add Start
+		//OV Add Start - Allows for Legacy Warden
 		/datum/advclass/warden/ranger,
 		/datum/advclass/warden/forester,
 		/datum/advclass/warden/wildsoul,
@@ -38,14 +38,14 @@
 	neck = /obj/item/clothing/neck/roguetown/coif/padded
 	cloak = /obj/item/clothing/cloak/wardencloak
 	backr = /obj/item/storage/backpack/rogue/satchel
-	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden
+	//backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden //OV Edit
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/warden
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/jackchain
-	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
+	//gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather //OV Edit
 	belt = /obj/item/storage/belt/rogue/leather
-	beltr = /obj/item/quiver/arrows
+	//beltr = /obj/item/quiver/arrows //OV Edit
 	beltl = /obj/item/rogueweapon/stoneaxe/woodcut/wardenpick
-	pants = /obj/item/clothing/under/roguetown/trou/leather
+	//pants = /obj/item/clothing/under/roguetown/trou/leather //OV Edit
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
 	id = /obj/item/scomstone/bad/garrison
@@ -90,6 +90,12 @@
 
 /datum/outfit/job/roguetown/warden/warden/pre_equip(mob/living/carbon/human/H)
 	..()
+	//OV Add Start - Allows for Legacy Warden
+	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden
+	pants = /obj/item/clothing/under/roguetown/trou/leather
+	beltr = /obj/item/quiver/arrows
+	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
+	//OV Add End
 	r_hand = /obj/item/rogueweapon/huntingknife/idagger/warden_machete
 	backpack_contents = list(
 		/obj/item/storage/keyring/warden = 1,

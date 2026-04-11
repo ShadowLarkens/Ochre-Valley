@@ -1,6 +1,3 @@
-/datum/outfit/job/roguetown/warden
-	job_bitflag = BITFLAG_GARRISON
-
 /datum/advclass/warden/ranger
 	name = "Ranger"
 	tutorial = "You are a ranger, a hunter who volunteered to become a part of the wardens. You have experience using bows and daggers."
@@ -36,21 +33,22 @@
 
 /datum/outfit/job/roguetown/warden/ranger/pre_equip(mob/living/carbon/human/H)
 	..()
-	neck = /obj/item/clothing/neck/roguetown/coif
+	//neck = /obj/item/clothing/neck/roguetown/coif
+	//cloak = /obj/item/clothing/cloak/wardencloak
+	//backr = /obj/item/storage/backpack/rogue/satchel
+	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden
+	//armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/warden
+	//wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
+	//belt = /obj/item/storage/belt/rogue/leather
+	beltr = /obj/item/quiver/arrows
+	//beltl = /obj/item/rogueweapon/huntingknife/idagger/warden_machete
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden
-	beltr = /obj/item/quiver/arrows
-	beltl = /obj/item/rogueweapon/huntingknife/idagger/warden_machete
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/warden
-	cloak = /obj/item/clothing/cloak/wardencloak
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
-	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
-	belt = /obj/item/storage/belt/rogue/leather
-	backr = /obj/item/storage/backpack/rogue/satchel
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	id = /obj/item/scomstone/bad/garrison
+	//shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	//saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
+	//id = /obj/item/scomstone/bad/garrison
+	r_hand = /obj/item/rogueweapon/huntingknife/idagger/warden_machete
 	backpack_contents = list(
 		/obj/item/storage/keyring/warden = 1,
 		/obj/item/flashlight/flare/torch/lantern = 1,
@@ -123,22 +121,23 @@
 
 /datum/outfit/job/roguetown/warden/forester/pre_equip(mob/living/carbon/human/H)
 	..()
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
+	//neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
+	//cloak = /obj/item/clothing/cloak/wardencloak
+	//backr = /obj/item/storage/backpack/rogue/satchel
+	backl = /obj/item/rogueweapon/scabbard/gwstrap
+	//armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/warden
+	//wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
+	//belt = /obj/item/storage/belt/rogue/leather
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
-	backl = /obj/item/rogueweapon/scabbard/gwstrap
-	beltr = /obj/item/rogueweapon/stoneaxe/woodcut/wardenpick
-	beltl = /obj/item/rogueweapon/huntingknife
+	//beltl = /obj/item/rogueweapon/stoneaxe/woodcut/wardenpick
+	beltr = /obj/item/rogueweapon/huntingknife
 	r_hand = /obj/item/rogueweapon/spear
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/warden
-	cloak = /obj/item/clothing/cloak/wardencloak
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
-	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
-	belt = /obj/item/storage/belt/rogue/leather
-	backr = /obj/item/storage/backpack/rogue/satchel
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	id = /obj/item/scomstone/bad/garrison
+	l_hand = /obj/item/rogueweapon/huntingknife/idagger/warden_machete
+	//shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	//saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
+	//id = /obj/item/scomstone/bad/garrison
 	backpack_contents = list(
 		/obj/item/storage/keyring/warden = 1,
 		/obj/item/flashlight/flare/torch/lantern = 1,

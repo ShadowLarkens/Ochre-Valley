@@ -34,11 +34,18 @@
 	..()
 	H.adjust_blindness(-3)
 	shoes = /obj/item/clothing/shoes/roguetown/boots/furlinedanklets
-	beltl = /obj/item/rogueweapon/huntingknife/stoneknife
+	beltr = /obj/item/rogueweapon/huntingknife/stoneknife //OV Edit - Warden Sync
 	H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/skin_armor/natural_armor/dense(H)
 	gloves = /obj/item/clothing/gloves/roguetown/knuckles //OV Edit added steel knuckles
-	beltr = /obj/item/signal_horn
-	neck = /obj/item/storage/keyring/warden
+	//OV Add Start
+	backpack_contents = list(
+		/obj/item/storage/keyring/warden = 1,
+		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
+		/obj/item/signal_horn = 1
+		)
+	//OV Add End
 	give_feral_eyes(H)
 	if(H.mind)
 		var/helmets = list(
