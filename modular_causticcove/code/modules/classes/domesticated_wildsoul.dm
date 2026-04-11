@@ -13,7 +13,7 @@
 	)
 	subclass_skills = list(
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_MASTER, // Keeping master since theyre now a professional grabber
+		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT, // Keeping master since theyre now a professional grabber //OV Edit - Brought in line with Wrestle Changes IM SO SORRY
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/swimming = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
