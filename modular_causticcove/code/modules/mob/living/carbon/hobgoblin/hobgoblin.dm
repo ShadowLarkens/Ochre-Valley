@@ -156,8 +156,8 @@
 
 	H.STASTR = 9 
 	H.STAINT = 5 //Somewhat smart buggers!
-	H.STACON = 8
-	H.STAWIL = 8
+	H.STACON = 10
+	H.STAWIL = 10
 	H.STASPD = 8 //But a little slow, considering that they're more tanky than bitey...
 
 
