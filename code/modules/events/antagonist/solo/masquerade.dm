@@ -18,6 +18,8 @@
 	base_antags = 2
 	maximum_antags = 4
 
+	max_occurrences = 0 //OV Edit: Disabled. Was not listed
+
 	earliest_start = 0 SECONDS
 
 	typepath = /datum/round_event/antagonist/solo/masquerade
