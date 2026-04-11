@@ -74,6 +74,15 @@
 		for(var/mob/living/M in range(user, targetrange))
 			if(M != user)
 				mobsadjacent += M
+		//OV Edit: Let held micros be targetable
+		for(var/thing in user.contents)
+			if(!istype(thing,/obj/item/holder/micro))
+				continue
+			var/obj/item/holder/micro/M = thing
+			if(M.held_mob == src)
+				continue
+			mobsadjacent |= M.held_mob
+		//OV Edit End
 		if(mobsadjacent.len)
 			chosenmob = input("[key] who?") in mobsadjacent
 		if(chosenmob)
@@ -203,20 +212,23 @@
 				modifier = "old"
 			if((!ignore_silent && (H.silent)) || (!ignore_silent && !is_emote_muffled(H)) || (!ignore_silent && HAS_TRAIT(H, TRAIT_MUTE)) ||  (!ignore_silent && HAS_TRAIT(H, TRAIT_BAGGED)))
 				modifier = "silenced"
-			if(user.gender == FEMALE && H.dna.species.soundpack_f)
-				possible_sounds = H.dna.species.soundpack_f.get_sound(key,modifier)
-			else if(H.dna.species.soundpack_m)
-				possible_sounds = H.dna.species.soundpack_m.get_sound(key,modifier)
-			 // LETHALSTONE ADDITION BEGIN: use preference-set voice types where possible
-			if(H.voice_type)
-				switch (H.voice_type)
-					if (VOICE_TYPE_MASC)
-						possible_sounds = H.dna.species.soundpack_m.get_sound(key, modifier)
-					else
-						if (H.dna.species.soundpack_f)
-							possible_sounds = H.dna.species.soundpack_f.get_sound(key, modifier)
-						else
+			//CC Edit - Burp Sound Exception
+			if(key != "burp" || H.client.prefs.belch_noises)
+				if(user.gender == FEMALE && H.dna.species.soundpack_f)
+					possible_sounds = H.dna.species.soundpack_f.get_sound(key,modifier)
+				else if(H.dna.species.soundpack_m)
+					possible_sounds = H.dna.species.soundpack_m.get_sound(key,modifier)
+				 // LETHALSTONE ADDITION BEGIN: use preference-set voice types where possible
+				if(H.voice_type)
+					switch (H.voice_type)
+						if (VOICE_TYPE_MASC)
 							possible_sounds = H.dna.species.soundpack_m.get_sound(key, modifier)
+						else
+							if (H.dna.species.soundpack_f)
+								possible_sounds = H.dna.species.soundpack_f.get_sound(key, modifier)
+							else
+								possible_sounds = H.dna.species.soundpack_m.get_sound(key, modifier)
+			//CC Edit End
 			// LETHALSTONE ADDITION END
 			if(possible_sounds)
 				if(islist(possible_sounds))
@@ -232,7 +244,8 @@
 				H.last_sound = used_sound
 				return used_sound
 		else
-			return user.get_sound(key)
+			if(key != "burp" || user.client.prefs.belch_noises) //CC Edit - Belch Noises
+				return user.get_sound(key)
 
 /mob/living/proc/get_sound(input)
 	return

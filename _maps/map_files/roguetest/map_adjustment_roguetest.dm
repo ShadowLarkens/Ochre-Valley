@@ -9,10 +9,10 @@
 	realm_name = "Roguetest"
 	slot_adjust = list(
 		/datum/job/roguetown/villager = 42,
-		/datum/job/roguetown/adventurer = 69
+		/datum/job/roguetown/adventurer = 69,
 	)
 	title_adjust = list(
-		/datum/job/roguetown/lord = list(display_title = "Lord Castellan", f_title = "Lady Castellan")
+		/datum/job/roguetown/lord = list(display_title = "Lord Castellan", f_title = "Lady Castellan", n_title = "Monarch Castellan") //OV Edit: Gender Neutral Revamp
 	)
 	tutorial_adjust = list(
 		/datum/job/roguetown/lord = "The Gronnmen are coming."

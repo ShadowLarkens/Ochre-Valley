@@ -316,9 +316,9 @@
 	var/mov_name = A.name
 	for(var/i in contents)
 		var/atom/thing = i
-		if(isliving(thing) && isliving(A) && A != thing)
+		/*if(isliving(thing) && isliving(A) && A != thing) //Caustic Edit - Attempting to do Spontaneous Vore the Chompers way
 			var/mob/living/livingA = A
-			livingA.spontaneous_vore_attackby(thing, livingA)
+			livingA.spontaneous_vore_attackby(thing, livingA)*/
 		flags |= thing.intercept_zImpact(A, levels)
 		if(flags & FALL_STOP_INTERCEPTING)
 			break
@@ -642,7 +642,8 @@
 	if(!forced)
 		return
 	playsound(src, "bodyfall", 100, TRUE)
-	faller.drop_all_held_items()
+	if(!faller.mind)
+		faller.drop_all_held_items()
 
 /turf/proc/photograph(limit=20)
 	var/image/I = new()

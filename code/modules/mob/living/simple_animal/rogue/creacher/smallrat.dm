@@ -20,6 +20,6 @@
 	faction = list("hostile")
 	attack_sound = 'sound/blank.ogg'
 	pass_flags = PASSTABLE | PASSGRILLE | PASSMOB
-	mob_size = MOB_SIZE_TINY
+	mob_size = MOB_TINY
 
 	var/stepped_sound = 'sound/blank.ogg'

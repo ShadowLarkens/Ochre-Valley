@@ -42,8 +42,7 @@
 	material_category = ARMOR_MAT_CHAINMAIL
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
-	prevent_crits = PREVENT_CRITS_NONE
-	sellprice = 10 //Ew. AAslag...
+	sellprice = 10 //Ew. AAslag... //CC Edit
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/paalloy
 	name = "ancient haubergeon"
@@ -99,8 +98,7 @@
 	material_category = ARMOR_MAT_CHAINMAIL
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
-	prevent_crits = PREVENT_CRITS_NONE
-	sellprice = 15 //Still ew. AAslag.
+	sellprice = 15 //Still ew. AAslag. //CC Edit
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
 	name = "ancient hauberk"
@@ -118,7 +116,7 @@
 	allowed_race = CLOTHED_RACES_TYPES
 	body_parts_covered = CHEST|GROIN
 	armor_class = ARMOR_CLASS_LIGHT //placed in the medium category to keep it with its parent obj
-	sellprice = 18 //Uhhh? Yeah go for it?...
+	sellprice = 18 //Uhhh? Yeah go for it?... //CC Edit
 
 //HEAVY ARMOR//
 
@@ -157,7 +155,7 @@
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate
 	slot_flags = ITEM_SLOT_ARMOR
 	armor_class = ARMOR_CLASS_HEAVY
-	armor = ARMOR_CUIRASS
+	armor = ARMOR_PLATE
 	name = "psydonic hauberk"
 	desc = "A beautiful steel cuirass, decorated with blessed silver fluting and worn atop thick chainmaille. While it falters against arrows and bolts, these interlinked layers are superb at warding off the blows of inhumen claws and axes. </br>‎  </br>'..the knowledge of evil, and the burden of carrying Psydonia's hope upon thine shoulders..'"
 	icon_state = "ornatehauberk"

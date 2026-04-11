@@ -16,14 +16,18 @@
 
 	var/atom/where = loc
 	var/msg = "has OOC escaped. "
+	if(istype(where, /obj/item/capture_crystal))
+		var/obj/item/capture_crystal/old_crystal = where
+		old_crystal.Destroy()
+		old_crystal.visible_message(span_warning("The crystal shatters!"))
 	forceMove(get_turf(src))
 	if(isbelly(where))	//For vore
 		if(pulledby)
 			pulledby.stop_pulling()
 		var/obj/belly/B = where
 		msg += "They were in [key_name(B.owner)]'s [B]. "
-	else if(istype(where,/obj/item/micro))	//For micros
-		var/obj/item/micro/mh = where
+	else if(istype(where,/obj/item/holder/micro))	//For micros
+		var/obj/item/holder/micro/mh = where
 		mh.dump_mob()
 	else	//For everything else
 		msg += "They were in [where]. "

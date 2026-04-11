@@ -14,6 +14,10 @@
 	GLOB.mob_living_list += src
 	init_faith()
 
+	//Caustic Edit - Add Spontaneous Vore element
+	AddElement(/datum/element/spontaneous_vore)
+	//Caustic Edit End
+
 /mob/living/Destroy()
 	surgeries = null
 	if(LAZYLEN(status_effects))
@@ -263,10 +267,18 @@
 	///Caustic edit
 	if(ishuman(M) && ishuman(src))
 		var/mob/living/carbon/human/srchuman = src
-		if(srchuman.handle_micro_bump_helping(M))
-			forceMove(M.loc)
-			now_pushing = FALSE
-			return TRUE
+		var/mob/living/target = M
+		if(!cmode && !target.cmode)
+			if(((istype(a_intent, INTENT_HELP) || get_active_held_item() || src.restrained()) && (istype(target.a_intent, INTENT_HELP) || target.get_active_held_item() || target.restrained())) && !target.IsImmobilized() && srchuman.handle_micro_bump_helping(target))
+				forceMove(target.loc)
+				now_pushing = FALSE
+				return TRUE
+			
+			if(!(istype(target.a_intent, INTENT_HELP) || target.get_active_held_item() || target.restrained()))
+				if(step_mechanics_pref && target.step_mechanics_pref)
+					if(handle_micro_bump_other(target)) return
+				else
+					if(handle_micro_bump_other(target,1)) return
 	///Caustic edit end
 	//okay, so we didn't switch. but should we push?
 	//not if he's not CANPUSH of course
@@ -310,7 +322,7 @@
 		return TRUE
 	if(moving_diagonally)// no pushing during diagonal moves.
 		return TRUE
-	if(!client && (mob_size < MOB_SIZE_SMALL))
+	if(!client && (mob_size < MOB_SMALL))
 		return
 	now_pushing = TRUE
 	var/t = get_dir(src, AM)
@@ -513,6 +525,8 @@
 			var/signal_result = SEND_SIGNAL(target, COMSIG_LIVING_GRAB_SELF_ATTEMPT, target, used_limb)
 			if(signal_result & COMPONENT_CANCEL_GRAB_ATTACK)
 				return FALSE
+			if(C.mind && C != src)
+				changeNext_move(CLICK_CD_WRESTLING)
 		else
 			var/obj/item/grabbing/O = new()
 			O.name = "[target.name]"
@@ -671,6 +685,13 @@
 				var/obj/item/grabbing/I = get_inactive_held_item()
 				if(I.grabbed == pulling)
 					dropItemToGround(I, silent = FALSE)
+	else if(forced)
+		if(istype(get_active_held_item(), /obj/item/grabbing))
+			var/obj/item/grabbing/I = get_active_held_item()
+			dropItemToGround(I, silent = FALSE)
+		if(istype(get_inactive_held_item(), /obj/item/grabbing))
+			var/obj/item/grabbing/I = get_inactive_held_item()
+			dropItemToGround(I, silent = FALSE)
 	reset_offsets("pulledby")
 	reset_pull_offsets(src)
 	. = ..()
@@ -922,7 +943,10 @@
 			if(admin_revive)
 				mind.remove_antag_datum(/datum/antagonist/zombie)
 			for(var/obj/effect/proc_holder/spell/spell as anything in mind.spell_list)
-				spell.updateButtonIcon()
+				spell.action?.build_all_button_icons()
+			// Reapply arcyne momentum if this mind had it before death
+			if(mind.has_arcyne_momentum && !has_status_effect(/datum/status_effect/buff/arcyne_momentum))
+				apply_status_effect(/datum/status_effect/buff/arcyne_momentum)
 		qdel(GetComponent(/datum/component/rot))
 
 /mob/living/proc/remove_CC(should_update_mobility = TRUE)
@@ -1108,7 +1132,7 @@
 						TH.transfer_mob_blood_dna(src)
 
 /mob/living/carbon/human/makeTrail(turf/T)
-	if((NOBLOOD in dna.species.species_traits) || !bleed_rate || bleedsuppress)
+	if((NOBLOOD in dna.species.species_traits) || (INVISBLOOD in dna.species.species_traits) || !bleed_rate || bleedsuppress) //OV EDIT
 		return
 	..()
 
@@ -1132,6 +1156,13 @@
 
 	if(atkswinging)
 		stop_attack(FALSE)
+
+	// Deselect any active spell on resist
+	if(ranged_ability)
+		ranged_ability.deactivate(src)
+	var/datum/action/cooldown/active_cooldown = click_intercept
+	if(istype(active_cooldown))
+		active_cooldown.unset_click_ability(src, refund_cooldown = TRUE)
 
 	SEND_SIGNAL(src, COMSIG_LIVING_RESIST, src)
 	//resisting grabs (as if it helps anyone...)
@@ -1166,6 +1197,11 @@
 			if(riding_datum)
 				for(var/mob/M in buckled_mobs)
 					riding_datum.force_dismount(M)
+	//Caustic Edit - Allow absorbed resistance
+	else if(absorbed && isbelly(loc))
+		var/obj/belly/B = loc
+		B.relay_absorbed_resist(src)
+	//Caustic Edit End
 
 /mob/living/proc/submit(instant = FALSE)
 	set name = "Yield"
@@ -1176,7 +1212,6 @@
 	if(!instant)
 		if(alert(src, "Do you yield?", "SURRENDER", "Yes", "No") == "No")
 			return
-	log_combat(src, null, "surrendered")
 	surrendering = 1
 	record_round_statistic(STATS_YIELDS)
 	toggle_cmode()
@@ -1185,12 +1220,16 @@
 	vis_contents += flaggy
 	Stun(300)
 	Knockdown(300)
+	drop_all_held_items()
 	apply_status_effect(/datum/status_effect/debuff/breedable)
 	apply_status_effect(/datum/status_effect/debuff/submissive)
 	src.visible_message(span_notice("[src] yields!"))
 	playsound(src, 'sound/misc/surrender.ogg', 100, FALSE, -1, ignore_walls=TRUE)
 	update_vision_cone()
 	addtimer(CALLBACK(src, PROC_REF(end_submit)), 600)
+	log_combat(src, src, "surrendered", null, )
+	log_admin("([key_name(src)]) surrendered at [AREACOORD(src)].")
+	SSblackbox.record_feedback("tally", "submit", 1, "surrenders")
 
 /mob/living/proc/end_submit()
 	surrendering = 0
@@ -2153,7 +2192,7 @@
 	return
 
 /mob/living/look_up()
-	if(client.perspective != MOB_PERSPECTIVE) //We are already looking up.
+	if(client.perspective != MOB_PERSPECTIVE) 
 		stop_looking()
 		return
 	if(client.pixel_x || client.pixel_y)
@@ -2161,31 +2200,40 @@
 		return
 	if(!can_look_up())
 		return
-	changeNext_move(CLICK_CD_MELEE)
-	if(m_intent != MOVE_INTENT_SNEAK)
-		visible_message(span_info("[src] looks up."))
-	var/turf/ceiling = get_step_multiz(src, UP)
+
 	var/turf/T = get_turf(src)
-	if(!ceiling) //We are at the highest z-level.
+	var/turf/ceiling = get_step_multiz(src, UP)
+	var/water_view = istype(T, /turf/open/water) && istype(ceiling, /turf/open/water)
+
+	changeNext_move(CLICK_CD_MELEE)
+
+	if(m_intent != MOVE_INTENT_SNEAK)
+		if(water_view)
+			visible_message(span_info("[src] peers into the thickness of the water above [src.p_their()] head."))
+		else
+			visible_message(span_info("[src] looks up."))
+
+	if(!ceiling)
 		if(T.can_see_sky())
 			switch(GLOB.forecast)
 				if("prerain")
-					to_chat(src, span_warning("Dark clouds gather..."))
+					to_chat(src, span_warning("Dark clouds are gathering..."))
 					return
 				if("rain")
-					to_chat(src, span_warning("A wet wind blows."))
+					to_chat(src, span_warning("A damp wind is blowing."))
 					return
 				if("rainbow")
-					to_chat(src, span_notice("A beautiful rainbow!"))
+					to_chat(src, span_notice("Beautiful rainbow!"))
 					return
 				if("fog")
-					to_chat(src, span_warning("I can't see anything, the fog has set in."))
+					to_chat(src, span_warning("Nothing can be seen, a thick fog has set in."))
 					return
-			to_chat(src, span_warning("There is nothing special to say about this weather."))
+			to_chat(src, span_warning("There is nothing unusual about this weather.."))
 			do_time_change()
 		return
-	else if(!istransparentturf(ceiling)) //There is no turf we can look through above us
-		to_chat(src, span_warning("A ceiling above my head."))
+		
+	else if(!istransparentturf(ceiling) && !water_view) 
+		to_chat(src, span_warning("There is a ceiling above my head."))
 		return
 
 	if(T.can_see_sky())
@@ -2199,6 +2247,7 @@
 
 	if(!do_after(src, ttime, target = src))
 		return
+		
 	reset_perspective(ceiling)
 	update_cone_show()
 //	RegisterSignal(src, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(stop_looking)) //We stop looking up if we move.
@@ -2351,10 +2400,36 @@
 	offered_item_ref = WEAKREF(offered_item)
 
 	var/stealthy = (m_intent == MOVE_INTENT_SNEAK)
+	var/obj/item/reagent_containers/glass/offered_glass_other = null
+	var/obj/item/clothing/ring/band/offered_band_other = null
+	var/mob/living/carbon/human/self = src
+	var/mob/living/carbon/human/other = offered_to
+	if(istype(offered_item, /obj/item/reagent_containers/glass) && offered_item?.reagents?.maximum_volume > 0) // we have a drink in our hand
+		offered_glass_other = offered_to.offered_item_ref?.resolve()
+	if(istype(offered_item, /obj/item/clothing/ring/band)) // love wins
+		offered_band_other = offered_to.offered_item_ref?.resolve()
 
 	if(stealthy)
 		to_chat(src, span_notice("I secretly offer [offered_item] to [offered_to]."))
-		to_chat(offered_to, span_notice("[src] secretly offers [offered_item] to me..."))
+		to_chat(offered_to, span_notice("[offered_to] secretly offers [offered_item] to me..."))
+	else if(!isnull(offered_glass_other) && istype(offered_glass_other) && offered_glass_other?.reagents?.maximum_volume > 0) // Credit to tmyqlfpir; allows for the clinking of everything up to blacksteel tankards.
+		playsound(src,offered_glass_other.reagents.maximum_volume > 50 ? 'sound/misc/clink_drink_big.ogg' : 'sound/misc/clink_drink.ogg', 100, TRUE) //Adds a new sound if the clinked container is above 50 drams in size.
+		addtimer(CALLBACK(src, PROC_REF(stop_offering_item)), 0.6 SECONDS)
+		addtimer(CALLBACK(offered_to, PROC_REF(stop_offering_item)), 0.6 SECONDS)
+		visible_message(
+			span_notice("[src] clinks [offered_item] with [offered_to]!"), \
+			span_notice("I clink [offered_item] with [offered_to]!"), \
+			vision_distance = COMBAT_MESSAGE_RANGE, \
+			ignored_mobs = list(offered_to)
+		)
+		to_chat(offered_to, span_notice("[src] clinks [offered_item] with me!"))
+	else if(!isnull(offered_band_other) && istype(offered_band_other) && ishuman(src) && ishuman(offered_to) && !self.marriedto && !other.marriedto)
+		addtimer(CALLBACK(src, PROC_REF(stop_offering_item)), 0.6 SECONDS)
+		addtimer(CALLBACK(offered_to, PROC_REF(stop_offering_item)), 0.6 SECONDS)
+		self.marriedto = other.real_name
+		other.marriedto = self.real_name
+		to_chat(self, span_notice("[other] is my beloved spouse! Time passes, but our love endures."))
+		to_chat(other, span_notice("[self] is my beloved spouse! Time passes, but our love endures."))
 	else
 		visible_message(
 			span_notice("[src] offers [offered_item] to [offered_to] with an outstretched hand."), \

@@ -10,7 +10,7 @@
 	shared_occurence_type = SHARED_HIGH_THREAT
 
 	weight = 0 // CC edit: Disabled. Was 4
-	max_occurrences = 1
+	max_occurrences = 0 //OV Edit: Disabled. Was 1
 
 	denominator = 80
 
@@ -23,6 +23,11 @@
 	antag_datum = /datum/antagonist/vampire
 
 	restricted_roles = DEFAULT_ANTAG_BLACKLISTED_ROLES
+
+/datum/round_event_control/antagonist/solo/vampires/preRunEvent()
+	if(is_storyteller_villain_blocked())
+		return EVENT_CANT_RUN
+	return ..()
 
 /datum/round_event/antagonist/solo/vampire
 	var/leader = FALSE

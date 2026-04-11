@@ -53,6 +53,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 	QDEL_LIST(possible_offhand_intents)
 	QDEL_NULL(mmb_intent)
 	QDEL_NULL(rmb_intent)
+	QDEL_NULL(unarmed_special)
 	for(var/datum/action/A in actions)
 		A.Remove(src)
 	actions = null
@@ -1081,7 +1082,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/proc/get_mob_buckling_height(mob/seat)
 	if(isliving(seat))
 		var/mob/living/L = seat
-		if(L.mob_size <= MOB_SIZE_SMALL) //being on top of a small mob doesn't put you very high.
+		if(L.mob_size <= MOB_SMALL) //being on top of a small mob doesn't put you very high.
 			return 0
 	return 9
 
@@ -1438,10 +1439,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/proc/become_uncliented()
 	if(!canon_client)
 		return
-
-	if(canon_client?.movingmob)
-		LAZYREMOVE(canon_client.movingmob.client_mobs_in_contents, src)
-		canon_client.movingmob = null
 
 	clear_important_client_contents()
 	canon_client = null

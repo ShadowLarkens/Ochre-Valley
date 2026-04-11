@@ -16,11 +16,16 @@
 	earliest_start = 0 SECONDS
 
 	weight = 0		//Disabled cus vampires too strong. CC edit: You didn1t disable it but now it is. Was 1
-	max_occurrences = 1
+	max_occurrences = 0 //OV Edit: Disabled. Was 1
 
 	typepath = /datum/round_event/antagonist/solo/vampires_and_werewolves
 
 	restricted_roles = DEFAULT_ANTAG_BLACKLISTED_ROLES
+
+/datum/round_event_control/antagonist/solo/vampires_and_werewolves/preRunEvent()
+	if(is_storyteller_villain_blocked())
+		return EVENT_CANT_RUN
+	return ..()
 
 /datum/round_event/antagonist/solo/vampires_and_werewolves
 	var/leader = FALSE

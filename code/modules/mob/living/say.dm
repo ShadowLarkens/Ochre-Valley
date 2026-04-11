@@ -81,7 +81,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 	return new_msg
 
-/mob/living/say(message, bubble_type,list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null, message_mode = null)
+/mob/living/say(message, bubble_type,list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null, message_mode = null, npc_speech = FALSE)
 	var/static/list/crit_allowed_modes = list(MODE_WHISPER = TRUE, MODE_CHANGELING = TRUE, MODE_ALIEN = TRUE)
 	var/static/list/unconscious_allowed_modes = list(MODE_CHANGELING = TRUE, MODE_ALIEN = TRUE)
 	var/talk_key = get_key(message)
@@ -197,7 +197,8 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	if((InCritical() && !fullcrit) || message_mode == MODE_WHISPER)
 		message_range = 1
 		message_mode = MODE_WHISPER
-		src.log_talk(message, LOG_WHISPER)
+		var/whisper_log_type = npc_speech ? LOG_NPC_SAY : LOG_WHISPER
+		src.log_talk(message, whisper_log_type)
 		if(fullcrit)
 			var/health_diff = round(-HEALTH_THRESHOLD_DEAD + health)
 			// If we cut our message short, abruptly end it with a-..
@@ -208,7 +209,8 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			message_mode = MODE_WHISPER_CRIT
 			succumbed = TRUE
 	else
-		src.log_talk(message, LOG_SAY, forced_by=forced)
+		var/log_type = npc_speech ? LOG_NPC_SAY : LOG_SAY
+		src.log_talk(message, log_type, forced_by=forced)
 
 	if(client)
 		last_words = message
@@ -486,7 +488,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		if(!hearall)
 			if((!Zs_too && !isobserver(AM)) || message_mode == MODE_WHISPER)
 				//OV edit
-				if(!istype(loc, /obj/belly) && !istype(loc, /obj/item/micro) && !istype(AM.loc, /obj/belly) && !istype(AM.loc, /obj/item/micro)) //can't use isbelly because its defined badly here
+				if(!istype(loc, /obj/belly) && !istype(loc, /obj/item/holder/micro) && !istype(AM.loc, /obj/belly) && !istype(AM.loc, /obj/item/holder/micro)) //can't use isbelly because its defined badly here
 					if(AM.z != src.z)
 						continue
 				//OV edit end

@@ -184,28 +184,24 @@ export class Changelog extends Component {
 
     const header = (
       <Section>
-        <h1>Azure Peak</h1>
-        <p>
-          <b>Thanks to: </b>
-          TGStation, Baystation 12, /vg/station, NTstation, CDK Station devs,
-          FacepunchStation, GoonStation devs, the original Space Station 13
-          developers, Zydras for the title image and the countless others who
-          have contributed to the game, issue tracker or wiki over the years.
+        <h1 style={{ color: 'red' }}><b>Welcome To Ochre Valley!!!!</b></h1>
+        <p style={{ color: 'red' }}>
+          This is a server is 18+ and made by people who are into vore, for people who are into vore. If you do not know what that is, or it bothers you, this is not the server for you. Harassment or kinkshaming in any regard will not be tolerated, review our rules before playing, and approach the game with a casual attitude; many are here to have fun and ERP. PvP is entirely OPT-IN.
         </p>
         <p>
-          {'Current organization members can be found '}
-          <a href="https://github.com/orgs/Azure-Peak/people">here</a>
+          {'Our GitHub can be found '}
+          <a href="https://github.com/Ochre-Valley/Ochre-Valley">here</a>
           {', recent GitHub contributors can be found '}
-          <a href="https://github.com/Azure-Peak/Azure-Peak/pulse">
+          <a href="https://github.com/Ochre-Valley/Ochre-Valley/pulse">
             here
           </a>
           .
         </p>
         <p>
-          {'You can also join our discord '}
-          <a href="https://discord.gg/NCFXUAgCPT">here</a>.
+          {'Check for any new announcements on the discord '}
+          <a href="https://discord.com/channels/1473048818802229523/1473049362719440896">here</a>.
         </p>
-        {dateDropdown}
+        {/* {dateDropdown} */}
       </Section>
     );
 
@@ -353,12 +349,12 @@ export class Changelog extends Component {
         ));
 
     return (
-      <Window title="Changelog" width={675} height={650}>
+      <Window title="Welcome!" width={675} height={350}>
         <Window.Content scrollable>
           {header}
-          {changes}
-          {typeof data === 'string' && <p>{data}</p>}
-          {footer}
+          {/* {changes} */}
+          {/* {typeof data === 'string' && <p>{data}</p>} */}
+          {/* {footer} */}
         </Window.Content>
       </Window>
     );

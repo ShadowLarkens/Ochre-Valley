@@ -21,6 +21,7 @@
 	var/started_at = 0
 	var/new_ruler_title = "Grand Duke"
 	var/new_ruler_title_f = "Grand Duchess"
+	var/new_ruler_title_n = "Grand Monarch" //OV Add: Gender Neutral Revamp
 	var/new_realm_type = "Grand Duchy"
 	var/new_realm_type_short = "Duchy"
 	var/mob/living/carbon/human/contester
@@ -174,10 +175,21 @@
 /datum/usurpation_rite/proc/transfer_power()
 	var/old_rulertype = SSticker.rulertype || "Duke"
 
+	// Spells that belong to the Grand Duke role — strip from old holders, grant to new one
+	var/static/list/lord_spells = list(
+		/obj/effect/proc_holder/spell/self/grant_title,
+		/obj/effect/proc_holder/spell/self/grant_nobility,
+		/obj/effect/proc_holder/spell/self/convertrole/servant,
+		/obj/effect/proc_holder/spell/self/convertrole/guard,
+		/obj/effect/proc_holder/spell/self/convertrole/bog,
+	)
+
 	var/emeritus_title = "[old_rulertype] Emeritus"
 	for(var/mob/living/carbon/human/HL in GLOB.human_list)
 		if(HL.mind?.assigned_role == "Grand Duke")
 			HL.mind.assigned_role = "Towner"
+			for(var/spell_type in lord_spells)
+				HL.mind.RemoveSpell(spell_type)
 		if(HL.job == "Grand Duke")
 			HL.job = "Towner"
 			HL.advjob = emeritus_title
@@ -188,6 +200,7 @@
 	if(lord_job)
 		lord_job.display_title = new_ruler_title
 		lord_job.f_title = new_ruler_title_f
+		lord_job.n_title = new_ruler_title_n //OV Add: Gender Neutral Revamp
 		lord_job.total_positions = -1000 // Lock out the slot so no new one spawns
 
 	SSticker.realm_type = new_realm_type
@@ -195,6 +208,9 @@
 
 	invoker.mind.assigned_role = "Grand Duke"
 	invoker.job = "Grand Duke"
+	// Grant the Grand Duke's governance spells to the new ruler
+	for(var/spell_type in lord_spells)
+		invoker.mind.AddSpell(new spell_type)
 	SSticker.set_ruler_mob(invoker)
 	SSticker.regentmob = null
 	SSticker.usurpation_day = GLOB.dayspassed

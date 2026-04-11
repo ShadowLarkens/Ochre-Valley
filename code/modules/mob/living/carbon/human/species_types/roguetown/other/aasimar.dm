@@ -20,7 +20,7 @@
 
 	max_age = "???"
 
-	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY)
+	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,MUTCOLORS) //OV Edit: Color Expansion on request
 	inherent_traits = list(TRAIT_NOMOBSWAP)
 	default_features = MANDATORY_FEATURE_LIST
 	use_skintones = TRUE
@@ -67,6 +67,9 @@
 		/datum/customizer/organ/belly/human,
 		/datum/customizer/organ/butt/human,
 		//Caustic edit end
+		// OV Edit start
+		/datum/customizer/organ/tail/demihuman,
+		// OV Edit End
 		)
 	body_marking_sets = list(
 		/datum/body_marking_set/none,

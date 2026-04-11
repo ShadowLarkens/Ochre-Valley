@@ -31,6 +31,7 @@
 	var/ai_currently_active = FALSE
 	var/attack_speed = 0
 
+	var/is_silent = FALSE
 	/// (BOOL) If TRUE, the mob will taunt players in certain situations. Psychological warfare!
 	var/rude = FALSE
 	/// (BOOL) If TRUE, the mob will attempt to climb trees to chase players. Evil!
@@ -56,16 +57,13 @@
 	///our current cell grid
 	var/datum/cell_tracker/our_cells
 
+	//CC ADD
 	//If we utilize special attacks or not; All is handled within do_best_melee_attack() chain.
 	var/special_attacker = FALSE
 
 	//If we utilize our intents further outside of strong intent.
 	var/smart_combatant = FALSE
-
-/mob/living/carbon/human/Initialize()
-	. = ..()
-	our_cells = new(interesting_dist, interesting_dist, 1)
-	set_new_cells()
+	//CC ADD END
 
 /mob/living/carbon/human/Destroy()
 	our_cells = null
@@ -136,7 +134,7 @@
 		ignore_grab ||= TRUE
 	if(on_fire || buckled || restrained(ignore_grab = ignore_grab))
 		return TRUE
-	if(istype(loc,/obj/item/micro))
+	if(istype(loc,/obj/item/holder))
 		return TRUE
 	return FALSE
 
@@ -893,6 +891,7 @@
 			if(!OffWeapon) // wield it!
 				Weapon.attack_self(src)
 
+		//CC ADD AAAAAAAAAAA
 		//Lets spice things up.
 		var/did_we_change_intent = FALSE
 		if(istype(Weapon, /obj/item/rogueweapon))
@@ -929,6 +928,7 @@
 							swap_rmb_intent(/datum/rmb_intent/aimed)
 							try_special_attack(target)
 							return TRUE
+							//CC ADD END AAAAAAAAAAAA
 
 		if(!did_we_change_intent) //Always default regardless.
 			rog_intent_change(1)
@@ -1022,6 +1022,20 @@
 	. = ..()
 	if((W.force) && (!target) && (W.damtype != STAMINA) )
 		retaliate(user)
+
+/mob/living/carbon/human/proc/npc_combat_dialogue(list/saylines, list/emotes, prob_chance = 50, cooldown = 15 SECONDS, say_chance = 50)
+	if(is_silent)
+		return FALSE
+	if(!prob(prob_chance))
+		return FALSE
+	if(world.time < (mob_timers["npc_chatter"] + cooldown))
+		return FALSE
+	mob_timers["npc_chatter"] = world.time
+	if(emotes?.len && !prob(say_chance))
+		emote(pick(emotes))
+	else if(saylines?.len)
+		say(pick(saylines), npc_speech = TRUE)
+	return TRUE
 
 /mob/living/carbon/human/proc/npc_taunt_target()
 	var/list/possible_taunts = list("laugh" = null)

@@ -1149,6 +1149,16 @@
 	var/divine = TRUE
 	obj_flags = UNIQUE_RENAME | CAN_BE_HIT
 
+/obj/structure/fluff/psycross/get_mechanics_examine(mob/user)
+	. = ..()
+	var/mob/living/living_user = user
+	if(user.mind.assigned_role == "Bishop")
+		. += span_info("As the Bishop, you can marry two people by having them both bite an apple, then offering it to the cross.")
+		. += span_info("The second person to bite the apple will take the last name of whoever bit it first.")
+	else if(istype(living_user) && HAS_TRAIT(living_user, TRAIT_MARRIAGE_CAPABLE) && (living_user.patron.type == /datum/patron/divine/eora))
+		. += span_info("As an Eoran, you can marry two people by having them both bite an apple, then offering it to the cross.")
+		. += span_info("The second person to bite the apple will take the last name of whoever bit it first.")
+
 /obj/structure/fluff/psycross/Initialize()
 	. = ..()
 	become_hearing_sensitive()
@@ -1201,7 +1211,7 @@
 			to_chat(H, span_warning("I can't use this... The god's refuse, I must seek aid from someone else..."))
 	else if(do_after(H, 5 SECONDS, TRUE, src)) //Fluff interaction for RP purposes and a tiny mood boost as an alternative to praying and spamming admin chats. Works anywhere.
 		if(H.has_flaw(/datum/charflaw/addiction/godfearing))
-			H.sate_addiction() //For the especially devout...
+			H.sate_addiction(/datum/charflaw/addiction/godfearing) //For the especially devout... // OV Edit: Makes this prayer method ACTUALLY satisfy the vice
 		H.visible_message(span_notice("[H] sends a silent prayer."), span_green("May the Ten forever grace us with their benevolent gaze..."))
 		H.add_stress(/datum/stressevent/psyprayer)
 
@@ -1271,16 +1281,68 @@
 	icon_state = "invertedcross"
 	divine = FALSE
 
+/obj/structure/fluff/psycross/zizocross/stone
+	name = "stone inverted cross"
+	desc = "An unholy symbol, the knowledge that something so sturdy was able to be put up in reverence of the dark star, completely unattended... is a difficult anchovy to swallow for many."
+	icon_state = "cross_zizo"
+	divine = FALSE
+	max_integrity = 200
+
+/obj/structure/fluff/psycross/zizocross/golden
+	name = "golden inverted cross"
+	desc = "An unholy symbol meticilously plated with leaf gold. It stands in defiance to order. The dead will rise."
+	icon_state = "cross_zizo_u"
+	divine = FALSE
+	max_integrity = 350
+
+/obj/structure/fluff/psycross/graggar
+	name = "vicious cross"
+	desc = "An unholy symbol wrought from stone. It promises glory to the conqueror and chains to the conquered."
+	icon_state = "cross_graggar"
+	divine = FALSE
+	max_integrity = 200
+
+/obj/structure/fluff/psycross/graggar/decorated
+	name = "revered vicious cross"
+	desc = "An unholy symbol wrought from stone. Meat impaled on spikes and flesh dangling like ribbons off hooks, an offering, proof of conquest, but does he listen?"
+	icon_state = "cross_graggar_u"
+	divine = FALSE
+	max_integrity = 350
+
+/obj/structure/fluff/psycross/matthios
+	name = "grinning cross"
+	desc = "An unholy stone cross bearing the likeness of drawn daggers and a grinning visage."
+	icon_state = "cross_matthios"
+	divine = FALSE
+	max_integrity = 200
+
+/obj/structure/fluff/psycross/matthios/decorated
+	name = "ornate cross"
+	desc = "Golden scales dangle from rags and balance the scales. A monument to wealth."
+	icon_state = "cross_matthios_u"
+	divine = FALSE
+	max_integrity = 350
+
+/obj/structure/fluff/psycross/baotha
+	name = "spider cross"
+	desc = "A gnarled stone cross from which carved spider legs unfurl. You feel like you're being beckoned faintly, like a whisper in your ear."
+	icon_state = "cross_baotha"
+	divine = FALSE
+	max_integrity = 200
+
+/obj/structure/fluff/psycross/baotha/decorated
+	name = "webbed spider cross"
+	desc = "The spider spreads its legs, the web unfurls. Just looking at it makes bad memories surface."
+	icon_state = "cross_baotha_u"
+	divine = FALSE
+	max_integrity = 350
+
 /obj/structure/fluff/psycross/attackby(obj/item/W, mob/user, params)
 	if(user.mind)
-		if(user.mind.assigned_role == "Bishop")
+		var/mob/living/living_user = user
+		// if there's no bishop inround, you can still get married... as long as there's an eoran. heretics can do it too!
+		if((user.mind.assigned_role == "Bishop") || (istype(living_user) && HAS_TRAIT(living_user, TRAIT_MARRIAGE_CAPABLE) && (living_user.patron.type == /datum/patron/divine/eora)))
 			if(istype(W, /obj/item/reagent_containers/food/snacks/grown/apple))
-				if(!istype(get_area(user), /area/rogue/indoors/town/church/chapel))
-					to_chat(user, span_warning("I need to do this in the chapel."))
-					return FALSE
-				///Caustic edit
-				var/name_placement = 1 //this is here as we want it to reset ONLY on a NEW marriage attempt, not mid marraige. Thank you breakpoints
-				///Caustic edit end
 				var/marriage
 				var/obj/item/reagent_containers/food/snacks/grown/apple/A = W
 				//The MARRIAGE TEST BEGINS
@@ -1303,33 +1365,22 @@
 							* second. This seems to be the best way
 							* to use the least amount of variables.
 							*/
-							for(var/X in A.bitten_names)
-								//I think that guy is dead.
-								if(C.stat == DEAD)
-									continue
-								//That person is not a player or afk.
-								if(!C.client)
-									continue
-								//Gotta get a divorce first
-								if(C.marriedto)
-									continue
-								if(C.real_name == X)
-									//I know this is very sloppy but its alot less code.
-									switch(name_placement)
-										if(1)
-											if(thegroom)
-												continue
-											thegroom = C
-										if(2)
-											if(thebride)
-												continue
-											thebride = C
-
-									name_placement++
-
+							//I think that guy is dead.
+							if(C.stat == DEAD)
+								continue
+							//That person is not a player or afk.
+							if(!C.client)
+								continue
+							//Gotta get a divorce first
+							if(C.marriedto)
+								continue
+							if(C.real_name == A.bitten_names[1])
+								thegroom = C
+							if(C.real_name == A.bitten_names[2])
+								thebride = C
 						//WE FOUND THEM LETS GET THIS SHOW ON THE ROAD!
 						if(!thegroom || !thebride)
-
+							to_chat(user, span_warn("nonexistent"))
 							return
 						//Alright now for the boring surname formatting.
 						var/surname2use

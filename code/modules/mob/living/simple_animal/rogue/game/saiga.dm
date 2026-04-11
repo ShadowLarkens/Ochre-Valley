@@ -87,7 +87,7 @@
 					)
 	health = 20
 	pass_flags = PASSTABLE | PASSMOB
-	mob_size = MOB_SIZE_SMALL
+	mob_size = MOB_SMALL
 	maxHealth = 20
 	melee_damage_lower = 1
 	melee_damage_upper = 6
@@ -149,7 +149,7 @@
 	health = 20
 	maxHealth = 20
 	pass_flags = PASSTABLE | PASSMOB
-	mob_size = MOB_SIZE_SMALL
+	mob_size = MOB_SMALL
 	milkies = FALSE
 	melee_damage_lower = 1
 	melee_damage_upper = 6
@@ -181,21 +181,13 @@
 	cut_overlays()
 	..()
 	if(stat != DEAD)
-		if(ssaddle)
-			var/mutable_appearance/saddlet = mutable_appearance(icon, gender == FEMALE ? "saddle-f-above" : "saddle-above", 4.3)
-			saddlet.appearance_flags = RESET_ALPHA|RESET_COLOR
-			add_overlay(saddlet)
-			saddlet = mutable_appearance(icon, gender == FEMALE ? "saddle-f" : "saddle")
-			saddlet.appearance_flags = RESET_ALPHA|RESET_COLOR
-			add_overlay(saddlet)
-		if(has_buckled_mobs())
-			var/mutable_appearance/mounted = mutable_appearance(icon, gender == FEMALE ? "saiga_mounted" : "buck_mounted", 4.3)
-			add_overlay(mounted)
+		add_saddleicon(gender == FEMALE ? "saddle-f-above" : "saddle-above", gender == FEMALE ? "saddle-f" : "saddle")
+		add_ridericon(gender == FEMALE ? "saiga_mounted" : "buck_mounted")
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tamed()
 	..()
 	deaggroprob = 30
-	setup_mount_riding()
+	setup_mount()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/death()
 	unbuckle_all_mobs()
@@ -283,7 +275,7 @@
 	health = 20
 	maxHealth = 20
 	pass_flags = PASSTABLE | PASSMOB
-	mob_size = MOB_SIZE_SMALL
+	mob_size = MOB_SMALL
 	milkies = FALSE
 	melee_damage_lower = 1
 	melee_damage_upper = 6

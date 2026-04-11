@@ -28,6 +28,8 @@
 									/obj/item/natural/bone = 4)
 	head_butcher = /obj/item/natural/head/direbear
 	faction = list("bears")		//This mf will kill undead - swapped to its own faction, doesn't trigger ambushes
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "wildlife"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	melee_damage_lower = 50		// Ey, bo-bo!
 	melee_damage_upper = 60		// We're gonna take his pick-in-ick basket!
@@ -63,6 +65,8 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/direbear
+
+	capture_difficulty = 2 //OV ADD
 
 /mob/living/simple_animal/hostile/retaliate/rogue/direbear/get_sound(input)
 	switch(input)
