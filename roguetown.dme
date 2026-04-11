@@ -3426,6 +3426,7 @@
 #include "modular_ochrevalley\code\modules\jobs\job_types\roguetown\adventurer\types\combat\spellblade_pre_rework.dm"
 #include "modular_ochrevalley\code\modules\mob\mob_helpers.dm"
 #include "modular_ochrevalley\code\modules\mob\dead\new_player\sprite_accessory\antennas.dm"
+#include "modular_ochrevalley\code\modules\mob\dead\new_player\sprite_accessory\ears.dm"
 #include "modular_ochrevalley\code\modules\reagents\stew_recipes.dm"
 #include "modular_ochrevalley\code\modules\reagents\teabuffs.dm"
 #include "modular_ochrevalley\code\modules\mob\dead\new_player\sprite_accessory\wings.dm"
