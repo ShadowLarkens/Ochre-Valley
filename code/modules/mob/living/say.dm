@@ -155,6 +155,14 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	else if(stat == UNCONSCIOUS && !forced)
 		if(!(unconscious_allowed_modes[message_mode]))
 			return
+	
+	//OV edit
+	if(isitem(loc))
+		var/obj/item/the_item = loc
+		if(the_item.mob_possession == src)
+			the_item.say(message, message_mode = message_mode)
+			return
+	//OV edit end
 
 	// language comma detection.
 	var/datum/language/message_language = get_message_language(message)
