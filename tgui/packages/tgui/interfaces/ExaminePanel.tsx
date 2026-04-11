@@ -1,5 +1,7 @@
+// OV changes
 import { useEffect, useMemo, useState } from 'react';
 import { Box, Button, Section, Stack } from 'tgui-core/components';
+// OV changes
 
 import { useBackend } from '../backend';
 import { PageButton } from '../components/PageButton';
@@ -14,6 +16,7 @@ enum Page {
 
 export const ExaminePanel = (props) => {
   const { act, data } = useBackend<ExaminePanelData>();
+  // OV changes
   const { is_vet, character_name, is_playing, has_song, img_gallery, nsfw_img_gallery, examine_theme, character_ad, start_with_character_ad } = data;
   const [currentPage, setCurrentPage] = useState(Page.FlavorText);
   const [showCharacterAd, setShowCharacterAd] = useState(false);
@@ -34,6 +37,7 @@ export const ExaminePanel = (props) => {
       setShowCharacterAd(true);
     }
   }, [start_with_character_ad, hasCharacterAd]);
+  // OV changes
 
   let pageContents;
 
@@ -58,6 +62,7 @@ export const ExaminePanel = (props) => {
           onClick={() => act('vet_chat')}
         />
       )}
+      {/* // OV changes */}
       <Button
       icon="scroll"
       tooltip={hasCharacterAd ? "View character advertisement" : "No character advertisement set"}
@@ -70,6 +75,7 @@ export const ExaminePanel = (props) => {
         backgroundColor: 'rgba(87, 45, 22, 0.85)',
       } : undefined}
       />
+      {/* // OV changes */}
       <Button
       color="green"
       icon="music"
@@ -81,6 +87,7 @@ export const ExaminePanel = (props) => {
       />
       </>}>
       <Window.Content>
+        {/* // OV changes */}
         <Box position="relative" height="100%">
           <Stack vertical fill>
             {hasAnyGalleryImages && (
@@ -148,6 +155,7 @@ export const ExaminePanel = (props) => {
             </Box>
           )}
         </Box>
+        {/* // OV changes */}
       </Window.Content>
     </Window>
   );

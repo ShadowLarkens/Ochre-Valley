@@ -1,11 +1,15 @@
 // OV FILE
+// OV changes
 import { useMemo, useState } from 'react';
+// OV changes
 import { useBackend } from 'tgui/backend';
 import { Window } from 'tgui/layouts';
 import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
 
 import { CharacterDirectoryList } from './CharacterDirectoryList';
+// OV changes
 import type { Data } from './types';
+// OV changes
 
 export const CharacterDirectory = (props) => {
   const { act, data } = useBackend<Data>();
@@ -22,15 +26,18 @@ export const CharacterDirectory = (props) => {
   } = data;
 
   const [overwritePrefs, setOverwritePrefs] = useState<boolean>(false);
+  // OV changes
   const [directoryAd, setDirectoryAd] = useState<string | null>(null);
   const [directoryAdName, setDirectoryAdName] = useState<string>('');
   const directoryAdHTML = useMemo(() => ({
     __html: directoryAd || '',
   }), [directoryAd]);
+  // OV changes
 
   return (
     <Window width={816} height={722}>
       <Window.Content scrollable>
+        {/* // OV changes */}
         {/*
           Old/redundant in-directory description overlay retained for reference.
           We now open the shared Examine Panel instead so directory views match
@@ -202,6 +209,7 @@ export const CharacterDirectory = (props) => {
         {/*
         )}
         */}
+        {/* // OV changes */}
       </Window.Content>
     </Window>
   );

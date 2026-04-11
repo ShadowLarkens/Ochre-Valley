@@ -9,15 +9,21 @@ import type { mobEntry } from './types';
 
 export const CharacterDirectoryList = (props: {
   directory: mobEntry[];
+  // OV changes
   onOpenAd: (name: string, ad: string) => void;
+  // OV changes
 }) => {
   const { act } = useBackend();
 
+  // OV changes
   const { directory, onOpenAd } = props;
+  // OV changes
 
   const [sortId, setSortId] = useState<string>('name');
   const [sortOrder, setSortOrder] = useState<boolean>(true);
+  // OV changes
   const [hoveredAction, setHoveredAction] = useState<string | null>(null);
+  // OV changes
 
   return (
     <Section
@@ -30,9 +36,11 @@ export const CharacterDirectoryList = (props: {
     >
       <Table>
         <Table.Row bold>
+          {/* // OV changes */}
           <Table.Cell collapsing textAlign="center">
             Photo
           </Table.Cell>
+          {/* // OV changes */}
           <SortButton
             ourId="name"
             sortId={sortId}
@@ -96,18 +104,21 @@ export const CharacterDirectoryList = (props: {
           >
             PvP Opt-In
           </SortButton>
+          {/* // OV changes */}
           <Table.Cell collapsing textAlign="center">
             Ad
           </Table.Cell>
           <Table.Cell collapsing textAlign="center">
             View
           </Table.Cell>
+          {/* // OV changes */}
         </Table.Row>
         {directory
           .sort((a, b) => {
             const i = sortOrder ? 1 : -1;
             return a[sortId].localeCompare(b[sortId]) * i;
           })
+          /* // OV changes */
           .map((character, i) => {
             const hasCharacterAd = !!character.character_ad?.trim();
             const adActionId = `${character.ckey}-ad`;
@@ -198,7 +209,8 @@ export const CharacterDirectoryList = (props: {
                 </Table.Cell>
               </Table.Row>
             );
-          })}
+          })
+          /* // OV changes */}
       </Table>
     </Section>
   );

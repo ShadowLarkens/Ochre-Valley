@@ -228,6 +228,7 @@ Hotkey-Mode: (hotkey-mode must be on)
 		if(!ishuman(mob))
 			return
 		var/mob/living/carbon/human/C = mob
+		// OV changes
 		var/current_ad = get_character_ad_value(C, C.client?.prefs, C.mind)
 		if(current_ad)
 			to_chat(C, span_info(current_ad))
@@ -235,11 +236,14 @@ Hotkey-Mode: (hotkey-mode must be on)
 		if(isnull(msg))
 			return
 		set_character_ad_value(C, C.client?.prefs, C.mind, msg, TRUE)
+		// OV changes
 		if(msg)
 			to_chat(C, span_info("Roleplay ad set."))
 			log_game("[C] has set their Roleplay Ad to '[msg]'.")
+		// OV changes
 		else
 			to_chat(C, span_info("Roleplay ad removed."))
+		// OV changes
 
 /client/verb/changefps()
 	set category = "Options"
