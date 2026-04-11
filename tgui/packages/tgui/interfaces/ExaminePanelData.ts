@@ -4,9 +4,6 @@ export type ExaminePanelData = {
   headshot: string;
   obscured: boolean;
   // Descriptions
-  // OV changes
-  character_ad: string;
-  // OV changes
   flavor_text: string;
   ooc_notes: string;
   // Descriptions, but requiring manual input to see
@@ -15,11 +12,12 @@ export type ExaminePanelData = {
   img_gallery: string[];
   nsfw_img_gallery: string[];
   is_playing: boolean;
-  // OV changes
-  start_with_character_ad: boolean;
-  // OV changes
   has_song: boolean;
   is_vet: boolean;
   // is_naked: boolean; // Caustic Edit: Removes naked requirement to view NSFW flavortext
   examine_theme: string | null;
+  // OV Edit Start
+  character_ad: string;
+  start_with_character_ad: boolean;
+  // OV Edit End
 };

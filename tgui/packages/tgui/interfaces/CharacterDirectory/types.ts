@@ -13,9 +13,7 @@ export type Data = {
 };
 
 export type mobEntry = {
-  // OV changes
   ckey: string;
-  // OV changes
   name: string;
   species: string;
   ooc_notes_favs: string;

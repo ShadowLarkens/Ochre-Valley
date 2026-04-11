@@ -5,7 +5,6 @@ GLOBAL_LIST_INIT(char_directory_sexualitytags, list("Straight", "Bisexual", "Pan
 GLOBAL_LIST_INIT(char_directory_gendertags, list("Male", "Female", "Feminine", "Masculine", "Nonbinary", "Trans Man", "Trans Woman", "Other", "Flexible", "Ungendered", "Unset"))
 GLOBAL_LIST_INIT(char_directory_pvp, list("No PvP", "Ask First", "Open to PvP"))
 
-// OV changes
 /proc/get_character_ad_value(mob/living/carbon/human/character, datum/preferences/prefs, datum/mind/mind)
 	var/current_ad = prefs?.directory_ad
 	if(isnull(current_ad))
@@ -36,7 +35,6 @@ GLOBAL_LIST_INIT(char_directory_pvp, list("No PvP", "Ask First", "Open to PvP"))
 			LAZYREMOVE(GLOB.roleplay_ads, character.mobid)
 
 	refresh_character_ad_examine_panels(character, prefs || character?.client?.prefs, mind || character?.mind)
-// OV changes
 
 /client/verb/show_character_directory()
 	set name = "Character Directory"
@@ -133,18 +131,14 @@ GLOBAL_LIST_EMPTY(chardirectory_photos)
 		if (C.mob?.mind) //could use ternary for all three but this is more efficient
 			tag = C.mob.mind.directory_tag || "Unset"
 			erptag = C.mob.mind.directory_erptag || "Unset"
-			// OV changes
 			character_ad = get_character_ad_value(C.mob, C.prefs, C.mob.mind)
-			// OV changes
 			gendertag = C.mob.mind.directory_gendertag || "Unset"
 			sexualitytag = C.mob.mind.directory_sexualitytag || "Unset"
 			pvp = C.mob.mind.directory_pvp || "No PvP"
 		else
 			tag = C.prefs.directory_tag || "Unset"
 			erptag = C.prefs.directory_erptag || "Unset"
-			// OV changes
 			character_ad = get_character_ad_value(null, C.prefs, null)
-			// OV changes
 			gendertag = C.prefs.directory_gendertag || "Unset"
 			sexualitytag = C.prefs.directory_sexualitytag || "Unset"
 			pvp = C.prefs.directory_pvp || "No PvP"
@@ -195,15 +189,11 @@ GLOBAL_LIST_EMPTY(chardirectory_photos)
 		// But if we can't find the name, they must be using a non-compatible mob type currently.
 		if(!name)
 			continue
-		// OV changes
 		if(character_ad)
 			character_ad = parsemarkdown_basic(html_encode(character_ad), hyperlink = TRUE)
-		// OV changes
 
 		directory_mobs.Add(list(list(
-			// OV changes
 			"ckey" = C.ckey,
-			// OV changes
 			"name" = name,
 			"species" = species,
 			"ooc_notes_favs" = ooc_notes_favs,
@@ -245,14 +235,11 @@ GLOBAL_LIST_EMPTY(chardirectory_photos)
 		*/
 		update_ui_static_data(ui.user, ui)
 		return TRUE
-	// OV changes
 	else if(action == "openExamine")
 		return open_character_examine(ui.user, params["ckey"], params["open_ad"])
-	// OV changes
 	else
 		return check_for_mind_or_prefs(ui.user, action, params["overwrite_prefs"])
 
-// OV changes
 /datum/character_directory/proc/open_character_examine(mob/user, target_ckey, open_ad = FALSE)
 	if(!user || !target_ckey)
 		return FALSE
@@ -277,7 +264,6 @@ GLOBAL_LIST_EMPTY(chardirectory_photos)
 	character_examine_panel.viewing = user
 	character_examine_panel.ui_interact(user)
 	return TRUE
-// OV changes
 
 /datum/character_directory/proc/check_for_mind_or_prefs(mob/user, action, overwrite_prefs)
 	if (!user.client)
@@ -313,9 +299,7 @@ GLOBAL_LIST_EMPTY(chardirectory_photos)
 			to_chat(user, span_notice("You are now [!visible ? "shown" : "not shown"] in the directory."))
 			return set_for_mind_or_prefs(user, action, !visible, can_set_prefs, can_set_mind)
 		if ("editAd")
-			// OV changes
 			var/current_ad = get_character_ad_value(user, can_set_prefs ? user.client.prefs : null, can_set_mind ? user.mind : null)
-			// OV changes
 			var/new_ad = tgui_input_text(user, "Change your character ad", "Character Ad", current_ad, MAX_MESSAGE_LEN, TRUE, prevent_enter = TRUE)
 			if(isnull(new_ad))
 				return
@@ -357,9 +341,7 @@ GLOBAL_LIST_EMPTY(chardirectory_photos)
 				user.mind.show_in_directory = new_value
 			return TRUE
 		if ("editAd")
-			// OV changes
 			set_character_ad_value(user, can_set_prefs ? user.client.prefs : null, can_set_mind ? user.mind : null, new_value)
-			// OV changes
 			return TRUE
 		if ("setGenderTag")
 			if (can_set_prefs)

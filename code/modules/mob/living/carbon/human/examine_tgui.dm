@@ -7,9 +7,9 @@
 	var/datum/preferences/pref = null
 
 	var/is_playing = FALSE
-	// OV changes
+	// OV Edit Start
 	var/open_character_ad_on_open = FALSE
-	// OV changes
+	// OV Edit End
 
 	var/mob/viewing
 
@@ -37,7 +37,7 @@
 		ui = new(user, src, "ExaminePanel")
 		ui.open()
 
-// OV changes
+// OV Edit Start
 /datum/examine_panel/proc/get_character_ad()
 	if(ishuman(holder))
 		var/raw_character_ad = holder.client?.prefs?.directory_ad
@@ -67,7 +67,7 @@
 
 		if(panel_matches_character)
 			ui.send_update()
-// OV changes
+// OV Edit End
 
 /datum/examine_panel/familiar/ui_static_data(mob/user) //altered and condensed version used for familiars. sorry
 
@@ -122,11 +122,11 @@
 
 /datum/examine_panel/familiar/ui_data(mob/user)
 	var/list/data = list( 
-		// OV changes
+		// OV Edit Start
 		"character_ad" = "",
 		"is_playing" = is_playing,
 		"start_with_character_ad" = FALSE,
-		// OV changes
+		// OV Edit End
 	)
 	return data
 
@@ -234,11 +234,11 @@
 
 /datum/examine_panel/ui_data(mob/user)
 	var/list/data = list(
-		// OV changes
+		// OV Edit Start
 		"character_ad" = get_character_ad(),
 		"is_playing" = is_playing,
 		"start_with_character_ad" = open_character_ad_on_open,
-		// OV changes
+		// OV Edit End
 	)
 	return data
 
