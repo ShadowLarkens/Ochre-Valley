@@ -27,6 +27,10 @@ export const CharacterDirectory = (props) => {
   const directoryAdHTML = useMemo(() => ({
     __html: directoryAd || '',
   }), [directoryAd]);
+  const closeDirectoryAd = () => {
+    setDirectoryAd(null);
+    setDirectoryAdName('');
+  };
 
   return (
     <Window width={816} height={722}>
@@ -40,7 +44,7 @@ export const CharacterDirectory = (props) => {
           <ViewCharacter overlay={overlay} onOverlay={setOverlay} />
         )) || (
         */}
-        <Box position="relative">
+        <Box>
           <Section
             title="Settings and Preferences"
             buttons={
@@ -144,65 +148,63 @@ export const CharacterDirectory = (props) => {
               setDirectoryAd(ad);
             }}
           />
-          {!!directoryAd?.trim() && (
-            <Box
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: 'rgba(0, 0, 0, 0.78)',
-                zIndex: 3,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '1.5rem',
-              }}
-            >
-              <Section
-                title={`${directoryAdName} Advertisement`}
-                fill
-                scrollable
-                style={{
-                  width: '70%',
-                  height: '65%',
-                }}
-                buttons={
-                  <Button
-                    icon="times"
-                    color="red"
-                    onClick={() => {
-                      setDirectoryAd(null);
-                      setDirectoryAdName('');
-                    }}
-                  >
-                    Close
-                  </Button>
-                }
-              >
-                <Box
-                  backgroundColor="black"
-                  p={2}
-                  style={{
-                    border: '1px solid rgba(138, 92, 92, 0.85)',
-                    borderRadius: '0.2rem',
-                    minHeight: '100%',
-                  }}
-                >
-                  <Box
-                    preserveWhitespace
-                    dangerouslySetInnerHTML={directoryAdHTML}
-                  />
-                </Box>
-              </Section>
-            </Box>
-          )}
         </Box>
         {/*
         )}
         */}
       </Window.Content>
+      {!!directoryAd?.trim() && (
+        <Box
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.78)',
+            zIndex: 3,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '1.5rem',
+          }}
+        >
+          <Section
+            title={`${directoryAdName} Advertisement`}
+            scrollable
+            style={{
+              width: '70%',
+              height: '65%',
+              maxWidth: '48rem',
+              maxHeight: '36rem',
+            }}
+            buttons={
+              <Button
+                icon="times"
+                color="red"
+                onClick={closeDirectoryAd}
+              >
+                Close
+              </Button>
+            }
+          >
+            <Box
+              backgroundColor="black"
+              p={2}
+              style={{
+                border: '1px solid rgba(138, 92, 92, 0.85)',
+                borderRadius: '0.2rem',
+                minHeight: '100%',
+              }}
+            >
+              <Box
+                preserveWhitespace
+                dangerouslySetInnerHTML={directoryAdHTML}
+              />
+            </Box>
+          </Section>
+        </Box>
+      )}
     </Window>
   );
 };
