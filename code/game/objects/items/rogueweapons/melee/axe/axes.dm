@@ -560,8 +560,7 @@
 	max_blade_int = 350
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
-	sellprice = 125 //OH MY GOD ITS SILVER!?
-	minstr_req = TRUE
+		sellprice = 125 //OH MY GOD ITS SILVER!? //CC Edit
 
 /obj/item/rogueweapon/greataxe/silver/ComponentInitialize()
 	AddComponent(\
@@ -588,8 +587,7 @@
 	max_blade_int = 350
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
-	sellprice = 200
-	minstr_req = TRUE
+		sellprice = 200 //CC Edit
 
 /obj/item/rogueweapon/greataxe/psy/ComponentInitialize()
 	AddComponent(\
@@ -625,7 +623,6 @@
 	max_blade_int = 175
 	sellprice = 125
 	minstr = 13
-	minstr_req = TRUE
 
 /obj/item/rogueweapon/greataxe/steel/doublehead/graggar
 	name = "vicious greataxe"
@@ -633,7 +630,6 @@
 	power, it is only your hands that can determine whether it will defy fate.. ..or fufill it."
 	icon_state = "graggargaxe"
 	minstr = 12
-	minstr_req = FALSE //Retains same performance as before, as a precaution.
 	force = 20
 	force_wielded = 40
 	max_blade_int = 250
@@ -657,6 +653,7 @@
 	minstr = 14 //Double-headed greataxe with extra durability. Rare dungeon loot in minotaur dungeons; no longer drops from every single minotaur.
 	sellprice = 200 //Treasure reward and- Holy shit. that's a lot of STR requirement.
 	wbalance = WBALANCE_HEAVY
+	minstr_req = TRUE
 
 /obj/item/rogueweapon/stoneaxe/woodcut/troll
 	name = "crude heavy axe"
