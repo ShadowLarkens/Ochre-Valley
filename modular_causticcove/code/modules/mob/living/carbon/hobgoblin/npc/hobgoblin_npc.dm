@@ -3,4 +3,5 @@
 	dodgetime = 20 //Bigger, Better, dodges every 2 seconds
 
 /mob/living/carbon/human/species/hobgoblin/npc/ambush
+	threat_point = THREAT_MODERATE
 	ambush_faction = "goblins"
