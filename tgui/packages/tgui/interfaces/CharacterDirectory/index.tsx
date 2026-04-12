@@ -7,6 +7,9 @@ import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
 import { CharacterDirectoryList } from './CharacterDirectoryList';
 import type { Data } from './types';
 
+const CHARACTER_DIRECTORY_WINDOW_WIDTH = Math.round(816 * 1.15);
+const CHARACTER_DIRECTORY_WINDOW_HEIGHT = Math.round(722 * 1.15);
+
 export const CharacterDirectory = (props) => {
   const { act, data } = useBackend<Data>();
 
@@ -33,7 +36,10 @@ export const CharacterDirectory = (props) => {
   };
 
   return (
-    <Window width={816} height={722}>
+    <Window
+      width={CHARACTER_DIRECTORY_WINDOW_WIDTH}
+      height={CHARACTER_DIRECTORY_WINDOW_HEIGHT}
+    >
       <Window.Content scrollable>
         {/*
           Old/redundant in-directory description overlay retained for reference.
@@ -171,6 +177,8 @@ export const CharacterDirectory = (props) => {
         >
           <Section
             title={`${directoryAdName} Advertisement`}
+            fill
+            fitted
             scrollable
             style={{
               width: '70%',
@@ -195,6 +203,7 @@ export const CharacterDirectory = (props) => {
                 border: '1px solid rgba(138, 92, 92, 0.85)',
                 borderRadius: '0.2rem',
                 minHeight: '100%',
+                overflowWrap: 'break-word',
               }}
             >
               <Box

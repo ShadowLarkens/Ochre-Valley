@@ -136,10 +136,13 @@ export const ExaminePanel = (props) => {
               <Section
                 title="Character Advertisement"
                 fill
+                fitted
                 scrollable
                 style={{
                   width: '70%',
                   height: '65%',
+                  maxWidth: '48rem',
+                  maxHeight: '36rem',
                 }}
                 buttons={
                   <Button icon="times" color="red" onClick={() => setShowCharacterAd(false)}>
@@ -148,6 +151,14 @@ export const ExaminePanel = (props) => {
                 }
               >
                 <Box
+                  backgroundColor="black"
+                  p={2}
+                  style={{
+                    border: '1px solid rgba(138, 92, 92, 0.85)',
+                    borderRadius: '0.2rem',
+                    minHeight: '100%',
+                    overflowWrap: 'break-word',
+                  }}
                   preserveWhitespace
                   dangerouslySetInnerHTML={characterAdHTML}
                 />
