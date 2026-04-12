@@ -560,7 +560,7 @@
 	max_blade_int = 350
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
-		sellprice = 125 //OH MY GOD ITS SILVER!? //CC Edit
+	sellprice = 125 //OH MY GOD ITS SILVER!? //CC Edit
 
 /obj/item/rogueweapon/greataxe/silver/ComponentInitialize()
 	AddComponent(\
@@ -587,7 +587,7 @@
 	max_blade_int = 350
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
-		sellprice = 200 //CC Edit
+	sellprice = 200 //CC Edit
 
 /obj/item/rogueweapon/greataxe/psy/ComponentInitialize()
 	AddComponent(\
