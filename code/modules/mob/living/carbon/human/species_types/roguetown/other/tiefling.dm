@@ -90,6 +90,9 @@
 		/datum/customizer/organ/belly/human,
 		/datum/customizer/organ/butt/human,
 		//Caustic edit end
+		// OV Edit start
+		/datum/customizer/organ/wings/anthro,
+		// OV Edit End
 		)
 	body_marking_sets = list(
 		/datum/body_marking_set/none,
@@ -102,9 +105,22 @@
 	body_markings = list(
 		/datum/body_marking/flushed_cheeks,
 		/datum/body_marking/eyeliner,
+		/datum/body_marking/plain,
+		/datum/body_marking/belly,
+		/datum/body_marking/bellyslim,
+		/datum/body_marking/butt,
+		/datum/body_marking/sock,
+		/datum/body_marking/socklonger,
+		/datum/body_marking/tips,
+		/datum/body_marking/backspots,
+		/datum/body_marking/front,
 		/datum/body_marking/tonage,
+		/datum/body_marking/nose,
+		/datum/body_marking/harlequin,
+		/datum/body_marking/harlequinreversed,
 		/datum/body_marking/bangs,
 		/datum/body_marking/bun,
+		/datum/body_marking/gradient,
 	)
 	languages = list(
 		/datum/language/common,

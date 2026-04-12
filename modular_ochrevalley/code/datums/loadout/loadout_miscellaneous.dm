@@ -1,6 +1,6 @@
 // loadout
 /obj/item/clothing/suit/roguetown/armor/leather/jacket/artijacket/loadout
-    armor = ARMOR_LOADOUT_CLOTHING
+    armor = ARMOR_CLOTHING
 
 //Item
 /datum/loadout_item/artijacket

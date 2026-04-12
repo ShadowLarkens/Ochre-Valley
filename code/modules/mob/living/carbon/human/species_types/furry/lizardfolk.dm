@@ -4,8 +4,8 @@
 /datum/species/lizardfolk
 	name = "Zardman"
 	id = "lizardfolk"
-	origin_default = /datum/virtue/origin/etrusca
-	origin = "Etrusca"
+	origin_default = /datum/virtue/origin/lirvas
+	origin = "Lirvas"
 	base_name = "Zard"
 	desc = "<b>Zardman</b><br>\
 	Zardmen are semi-aquatic reptilian humanoids. \
@@ -25,6 +25,8 @@
 		/obj/item/bodypart/taur/altnaga,
 		/obj/item/bodypart/taur/altnagatailmaw,
 		/obj/item/bodypart/taur/fatnaga,
+		/obj/item/bodypart/taur/biglegs,
+		/obj/item/bodypart/taur/biglegsstanced,
 	)
 	///Caustic edit end
 	possible_ages = ALL_AGES_LIST

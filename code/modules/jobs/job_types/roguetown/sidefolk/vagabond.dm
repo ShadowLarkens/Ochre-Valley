@@ -7,7 +7,7 @@
 	spawn_positions = 12
 
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
-	allowed_races = ACCEPTED_RACES
+	allowed_races = RACES_ALL_KINDS //OV Edit
 
 	outfit = null
 	outfit_female = null

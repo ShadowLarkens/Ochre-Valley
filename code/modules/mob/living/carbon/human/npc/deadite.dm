@@ -9,6 +9,7 @@
 	ambushable = FALSE
 	wander = TRUE
 	infected = TRUE
+	capture_difficulty = 100 //OV ADD
 
 /mob/living/carbon/human/species/npc/deadite/Initialize()
 	. = ..()
@@ -162,6 +163,8 @@
 		return
 	if(mind.has_antag_datum(/datum/antagonist/gnoll))
 		return
+	if(mind.has_antag_datum(/datum/antagonist/hag))
+		return
 	if(mind.has_antag_datum(/datum/antagonist/skeleton))
 		return
 	if(HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE))
@@ -204,5 +207,6 @@
 	to_chat(src, span_danger("It hurts... Is this really the end for me?"))
 	emote("scream") // heres your warning to others bro
 	Knockdown(1)
+	drop_all_held_items()
 	zombie_antag.wake_zombie(TRUE)
 	return TRUE

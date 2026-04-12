@@ -5,7 +5,7 @@
 	icon_state = "briefs"
 	w_class = WEIGHT_CLASS_TINY
 	resistance_flags = FLAMMABLE
-	obj_flags = CAN_BE_HIT
+	obj_flags = CAN_BE_HIT | UNIQUE_RENAME
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	blade_dulling = DULLING_CUT
 	max_integrity = 200
@@ -39,6 +39,7 @@
 				forceMove(H)
 				H.underwear = src
 				undies_feature.accessory_colors = color
+				SEND_SIGNAL(src, COMSIG_ITEM_UNDERWEAR_EQUIPPED, H) // OV Add
 
 /obj/item/undies/Destroy()
 	undies_feature = null

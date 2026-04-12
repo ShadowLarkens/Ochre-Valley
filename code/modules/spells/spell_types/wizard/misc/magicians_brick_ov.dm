@@ -1,4 +1,4 @@
-/obj/effect/proc_holder/spell/self/magicians_brick/cast(list/targets, mob/living/user = usr)
+/* /obj/effect/proc_holder/spell/self/magicians_brick/cast(list/targets, mob/living/user = usr) //OV Edit AP Merge 4.2.26 - Commented Out Pending Rework
 	if(conjured_brick)
 		conjured_brick.visible_message(span_warning("[conjured_brick] shimmers and fades away."))
 		qdel(conjured_brick)
@@ -19,4 +19,4 @@
 	if(conjured_brick)
 		conjured_brick.visible_message(span_warning("[conjured_brick]'s borders begin to shimmer and fade, before it vanishes entirely!"))
 		qdel(conjured_brick)
-	return ..()
+	return ..() */

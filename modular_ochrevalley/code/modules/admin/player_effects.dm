@@ -199,7 +199,40 @@
 				return
 			target.overlay_fullscreen("scrolls", /atom/movable/screen/fullscreen/scrolls, 1)
 			addtimer(CALLBACK(target, TYPE_PROC_REF(/mob, clear_fullscreen), "scrolls"), 20 SECONDS)
-				
+		
+		if("item_tf")
+			var/mob/living/M = target
+
+			if(!istype(M))
+				return
+
+			if(!M.ckey)
+				return
+			
+			var/target_path = input(ui.user, "Enter typepath:", "Typepath", "/obj/structure/closet")
+			var/objholder = text2path(target_path)
+			if(!ispath(objholder))
+				objholder = pick_closest_path(target_path)
+				if(!objholder)
+					alert("No path was selected")
+					return
+				else if(!ispath(objholder, /obj/item))
+					objholder = null
+					alert("That path is not allowed.")
+					return
+
+			var/obj/item/spawning = objholder
+
+			to_chat(ui.user,span_warning("spawning is: [spawning]"))
+
+			if(!ispath(spawning, /obj/item/))
+				to_chat(ui.user,span_warning("Can only spawn items."))
+				return
+
+			var/obj/item/spawned_obj = new spawning(M.loc)
+
+			spawned_obj.mob_possession = M
+			M.forceMove(spawned_obj)
 
 
 		/*
@@ -449,27 +482,7 @@
 
 			M.tf_into(new_mob)
 
-		if("item_tf")
-			var/mob/living/M = target
-
-			if(!istype(M))
-				return
-
-			if(!M.ckey)
-				return
-
-			var/obj/item/spawning = ui.user.client.get_path_from_partial_text()
-
-			to_chat(ui.user,span_warning("spawning is: [spawning]"))
-
-			if(!ispath(spawning, /obj/item/))
-				to_chat(ui.user,span_warning("Can only spawn items."))
-				return
-
-			var/obj/item/spawned_obj = new spawning(M.loc)
-			var/obj/item/original_name = spawned_obj.name
-
-			M.tf_into(spawned_obj, TRUE, original_name)
+		
 
 		if("elder_smite")
 			if(!target.ckey)
@@ -710,14 +723,14 @@
 				return
 			Tar.admin_buff(user, "general")
 		
-		if("give_spell")
+		/* if("give_spell")
 			var/mob/living/carbon/human/Tar = target
 			if(!istype(Tar))
 				return
 			var/obj/effect/proc_holder/spell/new_spell = tgui_input_list(user, "Which spell do you want to give?", "Spells", GLOB.learnable_spells)
 			if(!new_spell)
 				return
-			Tar.AddSpell(new_spell)
+			Tar.AddSpell(new_spell) */
 		
 		if("remove_spell")
 			var/mob/living/carbon/human/Tar = target

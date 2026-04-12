@@ -44,6 +44,7 @@
 					chest.remove_bodypart_feature(underwear.undies_feature)
 					underwear.forceMove(get_turf(src))
 					src.put_in_hands(underwear)
+					SEND_SIGNAL(underwear, COMSIG_ITEM_UNDERWEAR_REMOVE, src) //OV ADD
 					underwear = null
 		if((user.zone_selected == BODY_ZONE_L_LEG) || (user.zone_selected == BODY_ZONE_R_LEG))
 			if(get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
@@ -55,6 +56,7 @@
 					chest.remove_bodypart_feature(legwear_socks.legwears_feature)
 					legwear_socks.forceMove(get_turf(src))
 					src.put_in_hands(legwear_socks)
+					SEND_SIGNAL(legwear_socks, COMSIG_ITEM_UNDERWEAR_REMOVE, src) //OV ADD
 					legwear_socks = null
 		if(user.zone_selected == BODY_ZONE_CHEST)
 			if(!piercings_item)
@@ -67,18 +69,17 @@
 				chest.remove_bodypart_feature(piercings_item.piercings_feature)
 				piercings_item.forceMove(get_turf(src))
 				src.put_in_hands(piercings_item)
+				SEND_SIGNAL(piercings_item, COMSIG_ITEM_UNDERWEAR_REMOVE, src) //OV ADD
 				piercings_item = null
 				regenerate_icons()
 #endif
 
 /mob/living/carbon/human/Initialize()
 	verbs += /mob/living/proc/lay_down
-
-	icon_state = ""		//Remove the inherent human icon that is visible on the map editor. We're rendering ourselves limb by limb, having it still be there results in a bug where the basic human icon appears below as south in all directions and generally looks nasty.
+	icon_state = "" //Remove the inherent human icon that is visible on the map editor. We're rendering ourselves limb by limb, having it still be there results in a bug where the basic human icon appears below as south in all directions and generally looks nasty.
 
 	//initialize limbs first
 	create_bodyparts()
-
 	setup_human_dna()
 
 	if(dna.species)
@@ -90,10 +91,21 @@
 
 	. = ..()
 
+	AddComponent(/datum/component/arousal)
+
+
 	RegisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT, PROC_REF(clean_blood))
 	AddComponent(/datum/component/personal_crafting)
 	AddComponent(/datum/component/footstep, footstep_type, 1, 2)
 	GLOB.human_list += src
+	unarmed_special = new /datum/special_intent/upper_cut()
+
+	max_breath = 10
+	breath_remaining = 10
+	addtimer(CALLBACK(src, PROC_REF(update_breath_hud)), 1)
+
+	our_cells = new(interesting_dist, interesting_dist, 1)
+	set_new_cells()
 
 /mob/living/carbon/human/ZImpactDamage(turf/T, levels)
 	var/obj/item/bodypart/affecting
@@ -656,9 +668,6 @@
 				else if(energy > 0)
 					hud_used.energy.icon_state = "energy5"
 
-		if(hud_used.zone_select)
-			hud_used.zone_select.update_icon()
-
 /mob/living/carbon/human/fully_heal(admin_revive = FALSE, break_restraints = FALSE)
 	dna?.species.spec_fully_heal(src)
 	if(admin_revive)
@@ -667,7 +676,9 @@
 	spill_embedded_objects()
 	set_heartattack(FALSE)
 	drunkenness = 0
-	return ..()
+	. = ..()
+	if(hud_used?.zone_select)
+		hud_used.zone_select.rebuild_limbs()
 
 /mob/living/carbon/human/check_weakness(obj/item/weapon, mob/living/attacker)
 	. = ..()
@@ -691,7 +702,7 @@
 			visible_message(span_warning("[src] dry heaves!"), \
 							span_danger("I try to throw up, but there's nothing in your stomach!"))
 		if(stun)
-			Immobilize(200)
+			Immobilize(59) //OV Edit: Bring this in line with normal stun from vomitting.
 		return 1
 	..()
 
@@ -711,8 +722,8 @@
 		if(!client || !client.prefs)
 			return
 		if(alert(usr,"This will irreversibly purge an INDIVIDUAL PORTION of this slot. Is this what you want?","DON'T FATFINGER THIS","PURGE","Nevermind") == "PURGE")
-			if(alert(usr,"The next prompt will not have a Nevermind option. Are you sure you want this?","ITS NOT REVERSIBLE","Yes","Nevermind") == "Yes")
-				var/choice = alert(usr,"What would you like to purge?","ITS TOO LATE NOW","Flavor","Notes","Extra")
+			if(alert(usr,"The next prompt will not have a Nevermind option. Are you sure you want this?","IT'S NOT REVERSIBLE","Yes","Nevermind") == "Yes")
+				var/choice = alert(usr,"What would you like to purge?","IT'S TOO LATE NOW","Flavor","Notes","Extra")
 				if(choice)
 					switch(choice)
 						if("Flavor")
@@ -731,7 +742,9 @@
 							client.prefs?.song_title = null
 							client.prefs?.ooc_extra = null
 							img_gallery = list()
+							nsfw_img_gallery = list()
 							client.prefs?.img_gallery = list()
+							client.prefs?.nsfw_img_gallery = list()
 						else
 							return
 					client.prefs?.save_preferences()
@@ -752,6 +765,7 @@
 				song_artist = null
 				song_title = null
 				img_gallery = list()
+				nsfw_img_gallery = list()
 				if(client)
 					client.prefs?.flavortext = null
 					client.prefs?.nsfwflavortext = null
@@ -761,6 +775,7 @@
 					client.prefs?.song_artist = null
 					client.prefs?.song_title = null
 					client.prefs?.img_gallery = list()
+					client.prefs?.nsfw_img_gallery = list()
 					client.prefs?.save_preferences()
 					client.prefs?.save_character()
 					to_chat(usr, span_warn("Slot purged successfully."))
