@@ -4,5 +4,6 @@
 /datum/sprite_accessory/tail/large_tails/ochre/chonksqrl
 	icon_state = "chonksqrl"
 	name = "Squirrel (Big)"
-	color_keys = 2
-	color_key_names = list("Ears","Inner")
+	color_keys = 3
+	color_key_names = list("Tail","Stripe","Underside")
+	relevant_layers = list(BODY_FRONT_LAYER)
