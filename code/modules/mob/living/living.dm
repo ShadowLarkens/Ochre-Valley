@@ -2225,7 +2225,7 @@
 		if(water_view)
 			visible_message(span_info("[src] peers into the thickness of the water above [src.p_their()] head."))
 		else
-			to_chat(src, span_info("[src] peers into the thickness of the water above his head."))
+			to_chat(src, span_info("[src] peers into the thickness of the water above [src.p_their()] head.")) //OV Edit - changed his to pronoun define
 	else
 		if(m_intent != MOVE_INTENT_SNEAK)
 			visible_message(span_info("[src] looks up."))
