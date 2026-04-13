@@ -140,6 +140,9 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		say_dead(original_message)
 		return
 	//OV edit - Check subtles for muffling BEFORE emotes
+	if(check_portal_clothing(original_message, forced))
+		return
+
 	if(check_subtler(original_message, forced) || !can_speak_basic(original_message, ignore_spam, forced))
 		return
 
