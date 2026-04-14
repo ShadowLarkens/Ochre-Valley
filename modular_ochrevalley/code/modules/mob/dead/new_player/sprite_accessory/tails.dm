@@ -6,4 +6,3 @@
 	name = "Squirrel (Big)"
 	color_keys = 3
 	color_key_names = list("Tail","Stripe","Underside")
-	relevant_layers = list(BODY_FRONT_LAYER)
