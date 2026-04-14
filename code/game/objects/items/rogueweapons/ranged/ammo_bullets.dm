@@ -319,7 +319,7 @@
 // GUNPOWDER AMMO
 /obj/projectile/bullet/reusable/bullet
 	name = "lead ball"
-	damage = 60 //OV Edit - Damage Tweaks
+	damage = 70 //OV Edit - Damage Tweaks 4.13.26
 	damage_type = BRUTE
 	icon_state = "musketball_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/bullet

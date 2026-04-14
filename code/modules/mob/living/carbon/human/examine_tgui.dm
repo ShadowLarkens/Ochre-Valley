@@ -115,6 +115,7 @@
 		"nsfw_img_gallery" = nsfw_img_gallery,
 		"has_song" = has_song,
 		"is_vet" = is_vet,
+		"is_donator" = is_donator(holder.ckey),
 		// "is_naked" = is_naked, // Caustic Edit: Removes naked requirement to view NSFW flavortext
 	)
 
@@ -227,6 +228,7 @@
 		"nsfw_img_gallery" = nsfw_img_gallery,
 		"has_song" = has_song,
 		"is_vet" = is_vet,
+		"is_donator" = is_donator(holder.ckey),
 		// "is_naked" = is_naked, // Caustic Edit: Removes naked requirement to view NSFW flavortext
 		"examine_theme" = char_examine_theme,
 	)
@@ -292,6 +294,9 @@
 			return TRUE
 		if("vet_chat")
 			to_chat(viewing, span_boldgreen("This player is age-verified!"))
+			return TRUE
+		if("donator_chat")
+			to_chat(viewing, span_boldgreen("This player is a donator!"))
 			return TRUE
 
 /datum/examine_panel/ui_close()
