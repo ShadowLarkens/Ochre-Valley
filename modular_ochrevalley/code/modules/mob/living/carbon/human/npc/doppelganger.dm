@@ -1,32 +1,14 @@
 /mob/living/carbon/human/species/human/northern/doppelganger
-	aggressive=1
-	rude = TRUE
-	mode = NPC_AI_IDLE
-	//Well trained soldiers.
-	smart_combatant = TRUE
-	special_attacker = TRUE
+	ai_controller = /datum/ai_controller/human_npc
 	faction = list("viking", "station")
 	ambushable = FALSE
 	cmode = 1
 	setparrytime = 30
-	flee_in_pain = TRUE
 	a_intent = INTENT_HELP
 	d_intent = INTENT_PARRY
 	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL)
-	possible_rmb_intents = list(
-		/datum/rmb_intent/feint,\
-		/datum/rmb_intent/aimed,\
-		/datum/rmb_intent/strong,\
-		/datum/rmb_intent/riposte,\
-		/datum/rmb_intent/weak
-	)
-	is_silent = TRUE /// Determines whether or not we will scream our funny lines at people.
 	var/custom_speech = TRUE // New one specifically for doppelgangers
-	npc_max_jump_stamina = 0
 	var/cloned_target = FALSE // Check whether to clone someone or not
-
-	smart_combatant = TRUE
-	special_attacker = TRUE
 
 	var/list/dying_voicelines = list(
 		"Augh, no...",
@@ -45,11 +27,15 @@
 		"???"
 	)
 
-
 /mob/living/carbon/human/species/human/northern/doppelganger/Life()
 	.=..()
 	if(!cloned_target)
 		handle_doppelganger()
+	if(prob(3)) // do not make this big or else they NEVER SHUT UP
+		if(prob(35))
+			emote("laugh")
+		else if(custom_speech)
+			say(doppel_voiceline(FALSE))
 
 /mob/living/carbon/human/species/human/northern/doppelganger/proc/handle_doppelganger()
 	if(cloned_target)
@@ -97,33 +83,17 @@
 		dust(FALSE, FALSE, TRUE)
 
 /mob/living/carbon/human/species/human/northern/doppelganger/ambush
-	aggressive=1
-	wander = TRUE
-
-/mob/living/carbon/human/species/human/northern/doppelganger/retaliate(mob/living/L)
-	var/newtarg = target
-	.=..()
-	if(target)
-		aggressive=1
-		wander = TRUE
-		if(!is_silent && target != newtarg)
-			say(pick(GLOB.highwayman_aggro))
-			pointed(target)
-
-/mob/living/carbon/human/species/human/northern/doppelganger/should_target(mob/living/L)
-	if(L.stat != CONSCIOUS)
-		return FALSE
-	. = ..()
+	threat_point = THREAT_HIGH
+	ambush_faction = "bandits"
 
 /mob/living/carbon/human/species/human/northern/doppelganger/Initialize()
 	. = ..()
 	set_species(/datum/species/human/northern)
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
-	is_silent = TRUE
-
 
 /mob/living/carbon/human/species/human/northern/doppelganger/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
 	job = "Garrison Deserter"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
@@ -137,32 +107,6 @@
 	update_hair()
 	update_body()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
-	head.sellprice = 50 // Big sellprice for these guys since they're deserters
-
-/mob/living/carbon/human/species/human/northern/doppelganger/npc_idle()
-	if(m_intent == MOVE_INTENT_SNEAK)
-		return
-	if(world.time < next_idle)
-		return
-	next_idle = world.time + rand(30, 70)
-	if((mobility_flags & MOBILITY_MOVE) && isturf(loc) && wander)
-		if(prob(20))
-			var/turf/T = get_step(loc,pick(GLOB.cardinals))
-			if(!istype(T, /turf/open/transparent/openspace))
-				Move(T)
-		else
-			face_atom(get_step(src,pick(GLOB.cardinals)))
-	if(!wander && prob(10))
-		face_atom(get_step(src,pick(GLOB.cardinals)))
-
-/mob/living/carbon/human/species/human/northern/doppelganger/handle_combat()
-	if(mode == NPC_AI_HUNT)
-		if(prob(3)) // do not make this big or else they NEVER SHUT UP
-			if(prob(35))
-				emote("laugh")
-			else if(custom_speech)
-				say(doppel_voiceline(FALSE))
-	. = ..()
 
 /mob/living/carbon/human/species/human/northern/doppelganger/proc/doppel_voiceline(var/dying)
 	var/mob/living/carbon/human/selected_audience
@@ -227,9 +171,8 @@
 		combat_voicelines += "I'm the real [real_name]!"
 		combat_voicelines += "It's me, [real_name]!"
 		combat_voicelines += "[selected_audience.real_name]..."
-		if(target)
-			combat_voicelines += "[selected_audience.nickname], get [target]!"
-			combat_voicelines += "[target] is a fake!"
+		combat_voicelines += "[selected_audience.nickname], get the fake [real_name]!"
+		combat_voicelines += "[real_name] is a fake!"
 	
 	if(patron)
 		switch(patron.name)
@@ -294,6 +237,7 @@
 	pronouns = our_target.pronouns
 	mob_descriptors = our_target.mob_descriptors.Copy()
 	voice_type = our_target.voice_type
+	d_intent = our_target.d_intent
 	
 
 	//head
