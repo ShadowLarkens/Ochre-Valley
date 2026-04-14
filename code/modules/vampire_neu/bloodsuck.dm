@@ -62,6 +62,8 @@
 			var/gained_food = 100
 			if(victim.mind)
 				gained_food = gained_food * CLIENT_VITAE_MULTIPLIER
+				victim.blood_volume = max(victim.blood_volume - 45, 0)
+				src.apply_status_effect(/datum/status_effect/buff/mealbuff)
 			adjust_nutrition(gained_food)
 			adjust_hydration(gained_food)
 		return
