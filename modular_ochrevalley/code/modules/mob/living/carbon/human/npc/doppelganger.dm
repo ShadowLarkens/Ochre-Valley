@@ -106,7 +106,6 @@
 		organ_eyes.eye_color = pick("27becc", "35cc27", "000000")
 	update_hair()
 	update_body()
-	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
 
 /mob/living/carbon/human/species/human/northern/doppelganger/proc/doppel_voiceline(var/dying)
 	var/mob/living/carbon/human/selected_audience
