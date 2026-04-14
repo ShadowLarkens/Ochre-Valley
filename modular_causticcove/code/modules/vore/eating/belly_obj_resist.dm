@@ -15,6 +15,19 @@
 	*/
 	//OV edit end
 
+	//OV edit
+	message_admins("Entered resist")
+	if(mode_flags & DM_FLAG_LEWD_STRUGGLES)
+		message_admins("Lewd flag found")
+		var/datum/component/arousal/CAR = owner.GetComponent(/datum/component/arousal)
+		if(CAR)
+			message_admins("Found arousal")
+			CAR.adjust_arousal(src, 20)
+			message_admins("Added 20 arousal")
+		else
+			message_admins("Could not find arousal")
+	//OV edit end
+
 	if(displayed_message_flags & MS_FLAG_STRUGGLE_OUTSIDE)
 		resist_struggle_outside(living_prey)
 
