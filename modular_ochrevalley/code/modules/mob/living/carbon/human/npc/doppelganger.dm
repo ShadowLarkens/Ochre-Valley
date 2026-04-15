@@ -8,7 +8,7 @@
 	d_intent = INTENT_PARRY
 	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL)
 	var/custom_speech = TRUE // New one specifically for doppelgangers
-	var/cloned_target = FALSE // Check whether to clone someone or not
+	var/cloned_target = FALSE // Check whether to clone someone or not.
 
 	var/list/dying_voicelines = list(
 		"Augh, no...",
