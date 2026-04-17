@@ -1231,7 +1231,7 @@
 	inhand_y_dimension = 64
 	dropshrink = 0.75
 	max_blade_int = 230
-	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/thrust/rapier/lunge, /datum/intent/sword/cut/rapier)
+	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/cut/rapier, /datum/intent/sword/thrust/rapier/lunge)
 	gripped_intents = null
 	special = /datum/special_intent/piercing_lunge
 	parrysound = list(
@@ -1345,6 +1345,7 @@
 	candodge = FALSE
 
 	swingdelay = 0.8 SECONDS
+	clickcd = 1.5 SECONDS
 
 /obj/item/rogueweapon/sword/rapier/dec
 	name = "decorated rapier"
