@@ -19,7 +19,7 @@
 	selection_color = JCOLOR_BURGHER
 	display_order = JDO_GUILDSMAN
 	give_bank_account = TRUE
-	min_pq = null //0
+	min_pq = 0
 	max_pq = null
 	round_contrib_points = 3
 	advjob_examine = TRUE // So that everyone know which subjob they have picked
@@ -115,7 +115,7 @@
 		STATKEY_WIL = 2,
 		STATKEY_STR = 1,
 		STATKEY_CON = 1,
-		STATKEY_PER = 2
+		STATKEY_PER = 1
 	)
 	subclass_skills = list(
 		/datum/skill/combat/axes = SKILL_LEVEL_APPRENTICE,
@@ -151,8 +151,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/artificer
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	belt = /obj/item/storage/belt/rogue/leather
-	beltr = /obj/item/storage/magebag/starter //cc edit start
-	neck = /obj/item/storage/belt/rogue/pouch/coins/mid //cc edit end
+	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
 	beltl = /obj/item/roguekey/crafterguild
 	backl = /obj/item/storage/backpack/rogue/backpack
 	backpack_contents = list(
