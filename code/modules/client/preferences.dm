@@ -3228,10 +3228,15 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 			else if(firstspace == name_length)
 				real_name += "[pick(GLOB.last_names)]"
 
+	// OV Edit Start: No more randomizing player character names!!
+	character.real_name = real_name
+	/*
 	if(real_name in GLOB.chosen_names)
 		character.real_name = pref_species.random_name(gender)
 	else
 		character.real_name = real_name
+	*/
+	// OV Edit End
 	character.name = character.real_name
 
 	character.domhand = domhand
