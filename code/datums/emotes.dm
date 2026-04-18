@@ -244,6 +244,10 @@
 				H.last_sound = used_sound
 				return used_sound
 		else
+			// familiars get to do emotes with their weird planar being anatomy, so that they can caw and such
+			if(istype(user, /mob/living/simple_animal/pet/familiar))
+				var/datum/voicepack/pack2use = (user.gender==MALE)? /datum/voicepack/male : /datum/voicepack/female
+				return pack2use.get_sound(key)
 			if(key != "burp" || user.client.prefs.belch_noises) //CC Edit - Belch Noises
 				return user.get_sound(key)
 

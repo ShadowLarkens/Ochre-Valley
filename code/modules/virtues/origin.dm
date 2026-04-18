@@ -196,6 +196,7 @@
 				/datum/species/dwarf/mountain,
 				/datum/species/dwarf/gnome,
 				/datum/species/goblinp,
+				/datum/species/moth,			//They are from the Underdark. source: moth.dm
 				/datum/species/dullahan, // OV ADD
 				/datum/species/anthromorphsmall
 )
