@@ -33,7 +33,7 @@
 
 	speak_chance = 1
 	turns_per_move = 5
-	mob_size = MOB_SIZE_SMALL
+	mob_size = MOB_SMALL //OV Edit - Changed from MOB_SIZE_SMALL per VorePanel Defines
 	density = FALSE
 	see_in_dark = FAMILIAR_SEE_IN_DARK
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
