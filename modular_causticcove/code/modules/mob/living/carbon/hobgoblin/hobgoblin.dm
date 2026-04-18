@@ -144,6 +144,7 @@
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
+	AddComponent(/datum/component/npc_death_line, GLOB.npc_death_lines_goblin, 25)
 	if(hobgob_outfit)
 		var/datum/outfit/O = new hobgob_outfit
 		if(O)
