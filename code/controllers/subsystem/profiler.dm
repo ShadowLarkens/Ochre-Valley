@@ -67,3 +67,11 @@ SUBSYSTEM_DEF(profiler)
 	WRITE_FILE(prof_file, current_profile_data)
 	WRITE_FILE(sendmaps_file, current_sendmaps_data)
 	write_cost = MC_AVERAGE(write_cost, TICK_DELTA_TO_MS(TICK_USAGE_REAL - timer))
+
+	// Window mode: clear and restart profiling so the NEXT dump only contains activity since this one.
+	// Default off so a single whole-round file still shows cumulative totals.
+	if(CONFIG_GET(flag/profile_clear_on_dump))
+		world.Profile(PROFILE_CLEAR)
+		world.Profile(PROFILE_CLEAR, type = "sendmaps")
+		world.Profile(PROFILE_START)
+		world.Profile(PROFILE_START, type = "sendmaps")

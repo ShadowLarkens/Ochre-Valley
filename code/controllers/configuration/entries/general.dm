@@ -523,3 +523,12 @@
 /datum/config_entry/number/drift_profile_delay
 	default = 15 SECONDS
 
+/datum/config_entry/number/sustained_td_threshold
+	default = 3
+
+/datum/config_entry/number/sustained_td_duration
+	default = 10 SECONDS
+
+/datum/config_entry/number/sustained_td_delay
+	default = 120 SECONDS
+

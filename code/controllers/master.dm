@@ -41,6 +41,8 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	/// The last decisecond we force dumped profiling information
 	/// Used to avoid spamming profile reads since they can be expensive (string memes)
 	var/last_profiled = 0
+	/// REALTIMEOFDAY when tickdrift first crossed the sustained threshold, 0 if currently below
+	var/td_elevated_since = 0
 
 	var/make_runtime = 0
 
@@ -325,8 +327,18 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 		var/starting_tick_usage = TICK_USAGE
 
 		if(newdrift - olddrift >= CONFIG_GET(number/drift_dump_threshold))
-			AttemptProfileDump(CONFIG_GET(number/drift_profile_delay))
+			AttemptProfileDump(CONFIG_GET(number/drift_profile_delay), "stall: drift grew [round(newdrift - olddrift,0.1)] ticks in one MC iteration")
 		olddrift = newdrift
+
+		// Sustained elevated tickdrift (TD spike): catches the "20-40% TD for N seconds" case
+		if(tickdrift > CONFIG_GET(number/sustained_td_threshold))
+			if(!td_elevated_since)
+				td_elevated_since = REALTIMEOFDAY
+			else if(REALTIMEOFDAY - td_elevated_since >= CONFIG_GET(number/sustained_td_duration))
+				AttemptProfileDump(CONFIG_GET(number/sustained_td_delay), "sustained TD: avg drift [round(tickdrift,0.1)] ticks for [round((REALTIMEOFDAY - td_elevated_since) * 0.1,1)]s")
+				td_elevated_since = 0
+		else
+			td_elevated_since = 0
 
 		if (processing <= 0)
 			current_ticklimit = TICK_LIMIT_RUNNING
@@ -650,9 +662,9 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 
 /// Attempts to dump our current profile info into a file, triggered if the MC thinks shit is going down
 /// Accepts a delay in deciseconds of how long ago our last dump can be, this saves causing performance problems ourselves
-/datum/controller/master/proc/AttemptProfileDump(delay)
+/datum/controller/master/proc/AttemptProfileDump(delay, reason = "unspecified")
 	if(REALTIMEOFDAY - last_profiled <= delay)
 		return FALSE
 	last_profiled = REALTIMEOFDAY
-	log_world("MC: Emergency profile dump (avg drift [round(tickdrift,0.1)] ticks) at world.time [world.time]")
+	log_world("MC: Emergency profile dump ([reason]) at world.time [world.time]")
 	SSprofiler.DumpFile(allow_yield = FALSE)
