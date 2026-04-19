@@ -25,7 +25,7 @@
 	round_contrib_points = 2
 
 	cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg'
-	job_traits = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_WOODSMAN, TRAIT_SURVIVAL_EXPERT)
+	job_traits = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_WOODSMAN, TRAIT_SURVIVAL_EXPERT, TRAIT_EXPERT_HUNTER)
 	job_subclasses = list(/datum/advclass/warden/warden,
 		//OV Add Start - Allows for Legacy Warden
 		/datum/advclass/warden/ranger,
@@ -86,6 +86,7 @@
 		/datum/skill/labor/lumberjacking = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/warden/warden/pre_equip(mob/living/carbon/human/H)
