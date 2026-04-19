@@ -279,6 +279,10 @@
 #define TRAIT_FERAL "Feral Natured" //likes being in the woods, hates being in the city
 //Caustice edit end
 
+//OV File Start
+#define TRAIT_LYFE_DRINK "Hemovore"
+//OV File End
+
 // Economic Roles Traits
 // Most of these should NOT be given to any true combat roles (I.E. anything with Dexpert or Miracle / Good Magic) with very few exceptions
 // Pilgrims and non-combat roles can have these as a treat
@@ -554,6 +558,9 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_FEYTOUCHED = span_info("I've been influenced or created by fey, after offering lux to a heartroot, I can use it to travel."),
 	TRAIT_ROOT_WALKER = span_info("After offering lux, I can now travel along heartroot trees."),
 	TRAIT_WHITE_STAG = span_info("The power of the white stag lives on inside of me!"),
+	//OV Add Start
+	TRAIT_LYFE_DRINK = span_bloody("I hunger for fresh lyfe's blood."),
+	//OV Add End
 ))
 
 // trait accessor defines
