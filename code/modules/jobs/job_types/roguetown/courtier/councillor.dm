@@ -29,7 +29,8 @@
 		/datum/advclass/councillor/herald,
 		/datum/advclass/councillor/huntmaster,
 		/datum/advclass/councillor/cofferer,
-		/datum/advclass/councillor/castellan
+		/datum/advclass/councillor/castellan,
+		/datum/advclass/councillor/advisor, //OV Add - Legacy Class
 	)
 
 /datum/advclass/councillor/herald
