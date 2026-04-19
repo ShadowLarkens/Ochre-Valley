@@ -521,10 +521,11 @@ ROUNDS_UNTIL_HARD_RESTART 0
 ## Enable automatic profiling - Byond 513.1506 and newer only.
 AUTO_PROFILE
 
-## Uncomment to clear the profile buffer after each dump. Each file then contains only the activity
+## Clear the profile buffer after each dump. Each file then contains only the activity
 ## since the previous dump (window mode), at the cost of not having a single cumulative round file.
-## Default off: each dump is cumulative-round-to-date, TG-style.
-#PROFILE_CLEAR_ON_DUMP
+## TEMPORARY: currently on while we evaluate whether windowed dumps are more useful for live triage.
+## Comment out to revert to TG-style cumulative-round dumps.
+PROFILE_CLEAR_ON_DUMP
 
 ## Determines the interval between each saved profiler snapshot (in deciseconds).
 #PROFILER_INTERVAL 3000
@@ -535,12 +536,13 @@ DRIFT_DUMP_THRESHOLD 40
 ## How long to wait (in deciseconds) after a profile dump before logging another tickdrift sourced one
 DRIFT_PROFILE_DELAY 150
 
-## Smoothed tickdrift (in ticks) above which we consider the server to be under sustained TD.
-## At world.tick_lag=1, this is roughly equivalent to 1 tick behind real time per second.
-SUSTAINED_TD_THRESHOLD 3
+## Tick-dilation percentage over the last 1s above which we start the sustained-TD timer.
+## Measured as (drift growth per real second) × world.tick_lag × 100.
+## 15 means "game advancing <=85% as fast as wall-clock" — egregious by our standards.
+SUSTAINED_TD_THRESHOLD_PCT 15
 
-## How long (in deciseconds) tickdrift must stay above SUSTAINED_TD_THRESHOLD before we dump a profile.
-SUSTAINED_TD_DURATION 100
+## How long (in deciseconds) TD% must stay above SUSTAINED_TD_THRESHOLD_PCT before we dump a profile.
+SUSTAINED_TD_DURATION 150
 
 ## Minimum gap (in deciseconds) between sustained-TD profile dumps. Set long to avoid the dump itself worsening the stall.
 SUSTAINED_TD_DELAY 1200

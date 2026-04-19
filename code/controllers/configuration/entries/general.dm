@@ -517,20 +517,21 @@
 /datum/config_entry/flag/profile_clear_on_dump
 
 /datum/config_entry/number/profiler_interval
-	default = 300 SECONDS
+	config_entry_value = 300 SECONDS
 
 /datum/config_entry/number/drift_dump_threshold
-	default = 4 SECONDS
+	config_entry_value = 4 SECONDS
 
 /datum/config_entry/number/drift_profile_delay
-	default = 15 SECONDS
+	config_entry_value = 15 SECONDS
 
-/datum/config_entry/number/sustained_td_threshold
-	default = 3
+/datum/config_entry/number/sustained_td_threshold_pct
+	config_entry_value = 15
+	integer = FALSE
 
 /datum/config_entry/number/sustained_td_duration
-	default = 10 SECONDS
+	config_entry_value = 15 SECONDS
 
 /datum/config_entry/number/sustained_td_delay
-	default = 120 SECONDS
+	config_entry_value = 120 SECONDS
 

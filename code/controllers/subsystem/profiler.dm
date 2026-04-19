@@ -28,11 +28,11 @@ SUBSYSTEM_DEF(profiler)
 		can_fire = FALSE
 
 /datum/controller/subsystem/profiler/fire()
-	DumpFile()
+	DumpFile(reason = "scheduled")
 
 /datum/controller/subsystem/profiler/Shutdown()
 	if(CONFIG_GET(flag/auto_profile))
-		DumpFile(allow_yield = FALSE)
+		DumpFile(allow_yield = FALSE, reason = "shutdown")
 		world.Profile(PROFILE_CLEAR, type = "sendmaps")
 	return ..()
 
@@ -44,7 +44,7 @@ SUBSYSTEM_DEF(profiler)
 	world.Profile(PROFILE_STOP)
 	world.Profile(PROFILE_STOP, type = "sendmaps")
 
-/datum/controller/subsystem/profiler/proc/DumpFile(allow_yield = TRUE)
+/datum/controller/subsystem/profiler/proc/DumpFile(allow_yield = TRUE, reason = "unknown")
 	var/timer = TICK_USAGE_REAL
 	var/current_profile_data = world.Profile(PROFILE_REFRESH, format = "json")
 	var/current_sendmaps_data = world.Profile(PROFILE_REFRESH, type = "sendmaps", format="json")
@@ -52,14 +52,17 @@ SUBSYSTEM_DEF(profiler)
 	if(allow_yield)
 		CHECK_TICK
 
+	// Filename: profiler-<HH.MM.SS>-<reason>-<iteration>.json  — chronologically sortable, self-describing, collision-free.
+	var/stamp = "[time2text(world.realtime, "hh.mm.ss")]-[reason]-[Master.iteration]"
+
 	if(!length(current_profile_data)) //Would be nice to have explicit proc to check this
 		stack_trace("Warning, profiling stopped manually before dump.")
-	var/prof_file = file("[GLOB.log_directory]/profiler/profiler-[round(world.time * 0.1, 10)].json")
+	var/prof_file = file("[GLOB.log_directory]/profiler/profiler-[stamp].json")
 	if(fexists(prof_file))
 		fdel(prof_file)
 	if(!length(current_sendmaps_data)) //Would be nice to have explicit proc to check this
 		stack_trace("Warning, sendmaps profiling stopped manually before dump.")
-	var/sendmaps_file = file("[GLOB.log_directory]/profiler/sendmaps-[round(world.time * 0.1, 10)].json")
+	var/sendmaps_file = file("[GLOB.log_directory]/profiler/sendmaps-[stamp].json")
 	if(fexists(sendmaps_file))
 		fdel(sendmaps_file)
 
