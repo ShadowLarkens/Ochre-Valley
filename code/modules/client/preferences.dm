@@ -142,6 +142,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/lobbymusicvol = 50
 	var/ambiencevol = 50
 	var/mastervol = 50
+	var/stopdroning = FALSE
 
 	var/anonymize = TRUE
 	var/masked_examine = TRUE //OV Edit: Because being able to see preferences is soorta important
@@ -413,7 +414,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<td style='width:33%;text-align:left'>"
 			dat += "</td>"
 			dat += "<td style='width:33%;text-align:center'>"
-			dat += "<a href='?_src_=prefs;preference=lore_primer'>* Lore Primer *</a>"
+			dat += "<a href='?_src_=prefs;preference=lore_primer'>Lore Primer</a>"
 			dat += "</td>"
 			dat += "<td style='width:33%;text-align:right'>"
 			///Caustic edit
