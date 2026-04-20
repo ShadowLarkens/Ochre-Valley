@@ -730,12 +730,6 @@
 	smelt_bar_num = 1
 	sellprice = 33
 
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/elven
-	name = "elven cuirass"
-	desc = "A cuirass made of steel with a thin decorative gold plating. Lightweight and durable."
-	color = COLOR_ASSEMBLY_GOLD
-	sellprice = 88 //Golden.. Shiny...
-
 /obj/item/clothing/suit/roguetown/armor/plate/silver
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "templar's half-plate"
