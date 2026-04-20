@@ -19,18 +19,22 @@
 
 	click_to_activate = FALSE
 
-	primary_resource_type = SPELL_COST_STAMINA
-	primary_resource_cost = SPELLCOST_CONJURE
+	// 70 stamina (green bar) drained up-front at charge start — see on_start_charge().
+	// 130-ish energy (blue bar) drained over the charge via charge_drain (5/tick * 5Hz * 6s = 150).
+	// Total resource drain is heavy to prevent in-combat re-cast abuse.
+	primary_resource_type = SPELL_COST_ENERGY
+	primary_resource_cost = 130
+	/// Flat stamina hit taken the instant channeling begins, even if the cast is interrupted.
+	var/upfront_stamina_cost = 70
 
 	invocations = list("Aegis Congrego!")
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
-	charge_time = 8 SECONDS
-	charge_drain = 1
+	charge_time = 6 SECONDS
 	charge_slowdown = 3
 	charge_sound = 'sound/magic/charging.ogg'
-	cooldown_time = 1 MINUTES
+	cooldown_time = 2 MINUTES
 
 	associated_skill = /datum/skill/magic/arcane
 	point_cost = 2
@@ -44,18 +48,30 @@
 
 /datum/action/cooldown/spell/conjure_arcyne_ward/before_cast(atom/cast_on)
 	var/dismissing = conjured_ward && !QDELETED(conjured_ward)
-	// Dismiss is instant - temporarily zero charge time
+	// Dismiss is instant - temporarily zero charge time, and skip the up-front stamina hit
 	var/saved_charge_time
+	var/saved_upfront
 	if(dismissing)
 		saved_charge_time = charge_time
 		charge_time = 0
+		saved_upfront = upfront_stamina_cost
+		upfront_stamina_cost = 0
 	. = ..()
 	if(dismissing)
 		charge_time = saved_charge_time
+		upfront_stamina_cost = saved_upfront
 	. |= SPELL_NO_IMMEDIATE_COOLDOWN
 	if(dismissing)
 		// Dismiss doesn't cost stamina, and we handle invocation manually in cast()
 		. |= SPELL_NO_IMMEDIATE_COST | SPELL_NO_FEEDBACK
+
+/datum/action/cooldown/spell/conjure_arcyne_ward/on_start_charge()
+	. = ..()
+	if(upfront_stamina_cost > 0 && isliving(owner))
+		var/mob/living/L = owner
+		var/adjusted = get_adjusted_cost(upfront_stamina_cost)
+		if(adjusted > 0)
+			L.stamina_add(adjusted)
 
 /datum/action/cooldown/spell/conjure_arcyne_ward/cast(atom/cast_on)
 	. = ..()

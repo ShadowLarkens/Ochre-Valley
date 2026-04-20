@@ -1264,6 +1264,10 @@
 	. = FALSE
 	if(channeling_spell)
 		channeling_spell.cancel_casting()
+		// before_cast drives non-click charge spells through do_after; cancel_casting alone
+		// sets currently_charging=FALSE but the do_after loop only breaks on user.doing=FALSE
+		// or movement, so we need to explicitly break it.
+		stop_all_doing()
 		. = TRUE
 	if(client?.charging && used_intent?.tranged && !used_intent.tshield)
 		stop_attack()
