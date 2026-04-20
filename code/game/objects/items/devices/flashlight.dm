@@ -290,7 +290,7 @@
 	var/mob/living/doctor = user
 	var/mob/living/patient = target
 	if(!on)
-		to_chat(user, span_warning("[src] needs to lit!"))
+		to_chat(user, span_warning("[src] needs to be lit!"))
 		return
 	var/list/sewable
 	var/obj/item/bodypart/affecting
