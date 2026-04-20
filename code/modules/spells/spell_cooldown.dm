@@ -479,6 +479,8 @@
 // Where the cast chain starts
 /datum/action/cooldown/spell/PreActivate(atom/target)
 	charged = FALSE
+	if(owner?.channeling_spell == src)
+		owner.channeling_spell = null
 	if(!is_valid_target(target))
 		if(charge_required && click_to_activate)
 			to_chat(owner, span_warning("I can't cast [src] on [target]!"))
@@ -941,6 +943,8 @@
 /// When we start charging the spell called from set_click_ability or start_casting
 /datum/action/cooldown/spell/proc/on_start_charge()
 	currently_charging = TRUE
+	if(owner)
+		owner.channeling_spell = src
 	START_PROCESSING(SSfastprocess, src)
 	build_all_button_icons(UPDATE_BUTTON_STATUS|UPDATE_BUTTON_BACKGROUND)
 
@@ -993,6 +997,10 @@
 	currently_charging = FALSE
 	charge_started_at = null
 	charge_target_time = null
+	// Only drop the cache if we're not about to enter the "charged, waiting to fire" phase
+	// (charge-then-click spells). Caller sets charged=TRUE after this returns on success.
+	if(owner?.channeling_spell == src && !charged)
+		owner.channeling_spell = null
 	STOP_PROCESSING(SSfastprocess, src)
 	build_all_button_icons(UPDATE_BUTTON_STATUS|UPDATE_BUTTON_BACKGROUND)
 
