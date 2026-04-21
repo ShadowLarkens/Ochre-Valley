@@ -70,8 +70,9 @@
 	force = 15
 	throwforce = 20
 	throw_speed = 4
-	wdefense = 0
-	wbalance = WBALANCE_NORMAL
+	wdefense = 3
+	wlength = WLENGTH_SHORT
+	wbalance = WBALANCE_SWIFT
 	max_integrity = 50
 	slot_flags = ITEM_SLOT_MOUTH
 	obj_flags = null
