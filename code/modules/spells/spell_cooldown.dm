@@ -177,10 +177,6 @@
 	/// If TRUE, spell charges on button press, then waits for a separate middle-click to cast.
 	/// If FALSE (default), spell uses hold-and-release: hold middle-click to charge, release to cast.
 	var/charge_then_click = FALSE
-	/// If TRUE, the caster cannot parry or dodge while this spell is charging, and feint/bait will
-	/// interrupt the channel. Reserved for long-channel spells (ward, aegis, regen) where the mage
-	/// is deliberately committing to a cast and should be vulnerable. Quick charges (fireball) should
-	/// leave this FALSE so a ~half-second cast doesn't disable defense.
 	var/blocks_defense_while_channeling = FALSE
 
 	/// Lore/flavor text. Shown on hover in spell lists, always shown in detailed examine.

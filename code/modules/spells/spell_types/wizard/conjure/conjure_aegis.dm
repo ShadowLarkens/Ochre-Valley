@@ -7,7 +7,8 @@
 	name = "Conjure Aegis"
 	desc = "Conjure an Arcyne Aegis - a projected shield of arcyne energy designed to counter projectiles.\n\
 	Less effective against deliberate melee strikes, but excellent against ranged attacks.\n\
-	The shield vanishes when broken or when a new one is conjured."
+	The shield vanishes when broken or when a new one is conjured.\n\
+	While channeling this spell, I cannot parry or dodge - my focus is entirely on the conjuration."
 	button_icon_state = "conjure_aegis"
 	sound = 'sound/magic/whiteflame.ogg'
 	spell_color = GLOW_COLOR_ARCANE
@@ -28,6 +29,7 @@
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 90 SECONDS
+	blocks_defense_while_channeling = TRUE
 
 	associated_skill = /datum/skill/combat/shields
 	spell_tier = 2
