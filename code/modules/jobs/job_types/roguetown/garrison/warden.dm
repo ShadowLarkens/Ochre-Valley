@@ -7,7 +7,7 @@
 	spawn_positions = 4
 
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = ACCEPTED_RACES
+	allowed_races = RACES_ALL_KINDS //OV Edit
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
 	tutorial = "You are a volunteer with the Wardens; a fraternity of rangers who keep a vigil over Azuria's untamed wilderness. \
 				While you may not be a professional soldier, you nevertheless serve the Duchy as the first line of defense against outside threats. \
@@ -26,18 +26,22 @@
 
 	cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg'
 	job_traits = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_WOODSMAN, TRAIT_SURVIVAL_EXPERT, TRAIT_EXPERT_HUNTER)
-	job_subclasses = list(/datum/advclass/warden/warden)
+	job_subclasses = list(/datum/advclass/warden/warden,
+					//OV Add Start
+					/datum/advclass/warden/wildsoul,
+					//OV Add End
+					)
 
 /datum/outfit/job/roguetown/warden
 	neck = /obj/item/clothing/neck/roguetown/coif/padded
 	cloak = /obj/item/clothing/cloak/wardencloak
 	backr = /obj/item/storage/backpack/rogue/satchel
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/warden
-	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
+	//gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather //OV Edit
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/rogueweapon/stoneaxe/woodcut/wardenpick
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	//shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
 	id = /obj/item/scomstone/bad/garrison
 	job_bitflag = BITFLAG_GARRISON //Counts towards overall combat roles
@@ -83,6 +87,8 @@
 
 /datum/outfit/job/roguetown/warden/warden/pre_equip(mob/living/carbon/human/H)
 	..()
+	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather //OV Add
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced //OV Add
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/warden_machete = 1,
 		/obj/item/storage/keyring/warden = 1,
