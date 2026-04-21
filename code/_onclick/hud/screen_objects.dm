@@ -315,9 +315,6 @@
 	active_vis.layer = layer + 0.01
 	vis_contents += active_vis
 
-/atom/movable/screen/inventory/hand/update_overlays()
-	. = ..()
-
 /atom/movable/screen/inventory/hand/proc/update_hand_vis()
 	if(!hud?.mymob)
 		return
@@ -1071,11 +1068,9 @@
 	name = "damage zone"
 	icon_state = "m-zone_sel"
 	screen_loc = rogueui_targetdoll
-	var/overlay_icon = 'icons/mob/roguehud64.dmi'
 	var/static/list/hover_overlays_cache = list()
 	var/hovering
 	var/obj/effect/overlay/flash_layer
-	var/arrowheight = 0
 	var/list/limb_vis = list()
 	var/list/wound_vis = list()
 	var/list/bleed_vis = list()
@@ -1162,7 +1157,6 @@
 	var/obj/effect/overlay/zone_sel/overlay_object = hover_overlays_cache[choice]
 	if(!overlay_object)
 		overlay_object = new
-//		overlay_object.icon_state = "[basedholder]-[choice]"
 		overlay_object.icon_state = "[choice]"
 		hover_overlays_cache[choice] = overlay_object
 	vis_contents += overlay_object
@@ -1558,7 +1552,8 @@
 
 /// Applies visual state to a zone with cache check — skips no-op updates
 /atom/movable/screen/zone_sel/proc/_apply_limb_state(zone, limb_color, wound_alpha, has_bleed)
-	var/cache_key = "[limb_color]|[wound_alpha]|[has_bleed]"
+	var/gender_prefix = hud.mymob.gender == "male" ? "m" : "f"
+	var/cache_key = "[gender_prefix]|[limb_color]|[wound_alpha]|[has_bleed]"
 	if(limb_cache[zone] == cache_key)
 		return
 	limb_cache[zone] = cache_key
@@ -1571,10 +1566,8 @@
 
 	var/obj/effect/overlay/vis/bld = bleed_vis[zone]
 	if(has_bleed)
-		if(!bld.icon)
-			var/gender_prefix = hud.mymob.gender == "male" ? "m" : "f"
-			bld.icon = 'icons/mob/roguehud64.dmi'
-			bld.icon_state = "[gender_prefix]-[zone]-bleed"
+		bld.icon = 'icons/mob/roguehud64.dmi'
+		bld.icon_state = "[gender_prefix]-[zone]-bleed"
 	else
 		if(bld.icon)
 			bld.icon = null
@@ -1586,10 +1579,9 @@
 
 	// Hot path: bodypart exists and vis objects exist — skip expensive checks
 	var/obj/item/bodypart/BP = H.get_bodypart(zone)
+	var/gender_prefix = H.gender == "male" ? "m" : "f"
 	if(BP)
-		if(!limb_vis[zone])
-			// Cold path: first time seeing this zone
-			_ensure_limb_vis(zone, H.gender == "male" ? "m" : "f")
+		_ensure_limb_vis(zone, gender_prefix)
 		var/has_bleed = _has_visible_bleed(BP)
 		if(HAS_TRAIT(H, TRAIT_NOPAIN))
 			_apply_limb_state(zone, "#78a8ba", 0, FALSE)
@@ -1601,8 +1593,7 @@
 
 	// Cold path: no bodypart — missing limb or cleanup
 	if(zone in H.get_missing_limbs())
-		if(!limb_vis[zone])
-			_ensure_limb_vis(zone, H.gender == "male" ? "m" : "f")
+		_ensure_limb_vis(zone, gender_prefix)
 		_apply_limb_state(zone, "#2f002f", 0, FALSE)
 		return
 
@@ -2015,8 +2006,12 @@
 			desc = L.rmb_intent.desc
 		else
 			intent_icon_vis.icon = null
+			name = initial(name)
+			desc = initial(desc)
 	else
 		intent_icon_vis.icon = null
+		name = initial(name)
+		desc = initial(desc)
 
 /atom/movable/screen/rmbintent/Click(location,control,params)
 	var/list/modifiers = params2list(params)
