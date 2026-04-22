@@ -277,7 +277,8 @@
 	. = ..()
 	spark_act()
 
-//OV edit
+//OV edit 
+
 /obj/item/flashlight/flare/torch/attack(mob/living/M, mob/user)
 	if(isooze(M) && can_fix_ooze)
 		singe(M, user)
