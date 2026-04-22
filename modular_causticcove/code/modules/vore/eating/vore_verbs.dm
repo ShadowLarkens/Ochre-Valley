@@ -50,7 +50,7 @@
 	return ..(target)
 
 /mob/living/verb/shred_limb()
-	set name = "Damage Prey's Organ"
+	set name = "Damage Prey's Organ" //OV EDIT
 	set desc = "Severely damages prey's organ. If the limb is already severely damaged, it will be torn off."
 	set category = "Vore" //OV EDIT
 
@@ -126,7 +126,7 @@
 		log_combat(src,T,"Shredded (hardvore)")
 
 /mob/living/proc/shred_limb_temp()
-	set name = "Damage Prey's Organ (beartrap)"
+	set name = "Damage Prey's Organ (beartrap)" //OV EDIT
 	set desc = "Severely damages prey's organ. If the limb is already severely damaged, it will be torn off."
 	set category = "Vore" //OV EDIT
 	shred_limb()
