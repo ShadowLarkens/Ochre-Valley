@@ -154,6 +154,7 @@
 		/datum/mob_descriptor/stature/wretch,
 		/datum/mob_descriptor/stature/dullard,
 		/datum/mob_descriptor/stature/basterd,
+		// OV Edits Start
 		/datum/mob_descriptor/stature/harlot,
 		/datum/mob_descriptor/stature/strumpet,
 		/datum/mob_descriptor/stature/hussy,
@@ -177,7 +178,6 @@
 		/datum/mob_descriptor/stature/cutpurse,
 		/datum/mob_descriptor/stature/anarchist,
 		/datum/mob_descriptor/stature/warlord,
-		// OV Edits Start
 		/datum/mob_descriptor/stature/drunkard,
 		/datum/mob_descriptor/stature/moron,
 		/datum/mob_descriptor/stature/simpleton,
