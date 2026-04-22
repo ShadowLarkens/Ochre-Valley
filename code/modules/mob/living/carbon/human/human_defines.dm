@@ -214,6 +214,9 @@
 
 	fovangle = FOV_DEFAULT
 
+	/// Guarded Virtue (TRAIT_DECEIVING_MEEKNESS) exclusive variable for filtering out our descriptors from examine.
+	var/show_descriptors = TRUE
+
 	//Caustic Edit
 	var/time_of_last_move = 0
 	//Caustic Edit End

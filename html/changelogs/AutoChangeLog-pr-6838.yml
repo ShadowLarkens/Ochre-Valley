@@ -1,4 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - bugfix: "bear and troll meat now use the correct bitesize"
