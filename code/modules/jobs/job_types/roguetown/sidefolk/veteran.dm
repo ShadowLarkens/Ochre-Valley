@@ -18,10 +18,6 @@
 	max_pq = null
 	round_contrib_points = 2
 
-	//Caustic Edit
-	job_traits = list(TRAIT_GOODTRAINER)
-	//Caustic Edit end
-
 	cmode_music = 'sound/music/combat_veteran.ogg'
 	job_subclasses = list(
 		/datum/advclass/veteran/battlemaster,
