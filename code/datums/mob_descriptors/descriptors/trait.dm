@@ -171,6 +171,7 @@
 	name = "Rotten"
 	prefix = "%ARE% very"
 
+// OV Edits Start
 /datum/mob_descriptor/trait/viscous
 	name = "Viscous"
 	prefix = "%ARE% very"
@@ -258,3 +259,4 @@
 /datum/mob_descriptor/trait/fecund
 	name = "Fecund"
 	prefix = "%ARE%"
+// OV Edits End

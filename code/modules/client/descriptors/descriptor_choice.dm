@@ -177,6 +177,7 @@
 		/datum/mob_descriptor/stature/cutpurse,
 		/datum/mob_descriptor/stature/anarchist,
 		/datum/mob_descriptor/stature/warlord,
+		// OV Edits Start
 		/datum/mob_descriptor/stature/drunkard,
 		/datum/mob_descriptor/stature/moron,
 		/datum/mob_descriptor/stature/simpleton,
@@ -190,6 +191,7 @@
 		/datum/mob_descriptor/stature/spendthrift,
 		/datum/mob_descriptor/stature/gutter_rat,
 		/datum/mob_descriptor/stature/liability,
+		// OV Edits End
 	)
 
 /datum/descriptor_choice/voice
@@ -350,6 +352,7 @@
 		/datum/mob_descriptor/trait/foreign,
 		/datum/mob_descriptor/trait/rotten,
 		/datum/mob_descriptor/trait/soggy,
+		// OV Edits Start
 		/datum/mob_descriptor/trait/viscous,
 		/datum/mob_descriptor/trait/oozing,
 		/datum/mob_descriptor/trait/slimy,
@@ -372,6 +375,7 @@
 		/datum/mob_descriptor/trait/dashing,
 		/datum/mob_descriptor/trait/gravid,
 		/datum/mob_descriptor/trait/fecund,
+		// OV Edits End
 
 	)
 

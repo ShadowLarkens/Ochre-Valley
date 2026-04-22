@@ -189,6 +189,7 @@
 /datum/mob_descriptor/stature/basterd
 	name = "Basterd"
 
+// OV Edits Start
 /datum/mob_descriptor/stature/harlot
 	name = "Harlot"
 
@@ -296,3 +297,4 @@
 
 /datum/mob_descriptor/stature/liability
 	name = "Liability"
+// OV Edits End
