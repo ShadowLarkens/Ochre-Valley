@@ -51,6 +51,8 @@
 				recipient.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
 			if(NOTABLE_RESIDENCY)
 				ADD_TRAIT(recipient, TRAIT_RESIDENT, TRAIT_VIRTUE)
+				//OV Edit Start: The return statement was breaking things, and removing the rest pending a smarter implementation, since we weren't using it to begin with.
+				/*
 				var/mapswitch = 0
 				if(SSmapping.config.map_name == "Dun World")
 					mapswitch = 1
@@ -91,7 +93,8 @@
 								var/turf/spawn_loc = pick(possible_spawns)
 								recipient.forceMove(spawn_loc)
 								to_chat(recipient, span_notice("As a resident of Azure Peak, you find yourself in the local tavern."))
-
+				*/
+				//OV Edit End
 #undef NOTABLE_BEAUTY
 #undef NOTABLE_STASH
 #undef NOTABLE_RESIDENCY
