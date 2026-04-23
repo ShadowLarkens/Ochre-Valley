@@ -222,7 +222,7 @@
 				beltr = /obj/item/rogueweapon/stoneaxe/woodcut
 			if("Sword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN, TRUE)
-				beltr = /obj/item/rogueweapon/sword/short/messer/alt // Should be the hunting sword? Thought it was fitting.
+				beltr = /obj/item/rogueweapon/sword/short/messer/iron
 		var/weapons = list("Recurve Bow","Billhook","Sling","Crossbow")
 		var/weapon_choice = input(H, "Choose your secondary weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
