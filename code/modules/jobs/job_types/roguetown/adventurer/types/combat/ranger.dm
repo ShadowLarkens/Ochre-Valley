@@ -215,16 +215,16 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
 	if(H.mind)
-		var/weapons = list("Axe,Sword")
-		var/weapon_choice = input(H, "Choose your first weapon.", "TAKE UP ARMS")
+		var/weapons = list("Axe","Sword")
+		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS")
 			if("Axe")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltr = /obj/item/rogueweapon/stoneaxe/woodcut
 			if("Sword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltr = /obj/item/rogueweapon/sword/short/messer/iron
-		var/weapons = list("Recurve Bow","Billhook","Sling","Crossbow")
-		var/weapon_choice = input(H, "Choose your secondary weapon.", "TAKE UP ARMS") as anything in weapons
+		var/altweapons = list("Recurve Bow","Billhook","Sling","Crossbow")
+		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
 			if("Recurve Bow")
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
