@@ -23,12 +23,12 @@
 	charge_required = FALSE
 	cooldown_time = 10 SECONDS
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-	var/devotion_cost = 20
 	var/list/options = list(
 		//a simple 'blinds u for 1 sec' throwable
 		"Pocket Sand" = list(
 			path = /obj/item/impact_grenade/pocketsand,
 			m_cooldown = 60 SECONDS,
+			m_devotion = 10,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Rogue Arts",
 			lines = list("Dust to blind thee!", "A handful of freedom!", "A gift for thee!", "Mind yer eyes!", "This always works like a miracle!")
@@ -37,6 +37,7 @@
 		"Gilded Lockpick" = list(
 			path = /obj/item/melee/touch_attack/lesserknock/matthios,
 			m_cooldown = 5 SECONDS,
+			m_devotion = 10,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Gilded Tools",
 			lines = list("#By thine hands...", "#No locks shall bar the free!", "#Thine tool shall bring liberation!", "#Matthios, shatter my locks!")
@@ -45,6 +46,7 @@
 		"Pouch of Smuggling" = list(
 			path = /obj/item/storage/belt/rogue/pouch/matthios,
 			m_cooldown = 10 MINUTES,
+			m_devotion = 100,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Rogue Arts",
 			lines = list("#Let me begin your work!", "#Matthios, protect my well-deserved goods!", "#Grant me protection against those tyrant knaves!", "#Matthios, ordain me your blessed storage!")
@@ -53,6 +55,7 @@
 		"Bag of Smuggling" = list(
 			path = /obj/item/storage/backpack/rogue/backpack/matthios,
 			m_cooldown = -1,
+			m_devotion = 100,
 			m_rank = SKILL_LEVEL_APPRENTICE,
 			category = "Rogue Arts",
 			lines = list("#Let me begin your work!", "#Matthios, protect my well-deserved goods!", "#Grant me protection against those tyrant knaves!", "#Matthios, ordain me your blessed storage!")
@@ -61,6 +64,7 @@
 		"Gilded Dexterous Gloves" = list(
 			path = /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios,
 			m_cooldown = 5 MINUTES,
+			m_devotion = 200,
 			m_rank = SKILL_LEVEL_JOURNEYMAN,
 			category = "Gilded Tools",
 			lines = list("#Hands of trade, be silent.", "#Let fingers dance for thy amusement.", "#Dexterity bought in faith.")
@@ -69,6 +73,7 @@
 		"Gilded Muffled Boots" = list(
 			path = /obj/item/clothing/shoes/roguetown/boots/muffle_matthios,
 			m_cooldown = 5 MINUTES,
+			m_devotion = 100,
 			m_rank = SKILL_LEVEL_APPRENTICE,
 			category = "Gilded Tools",
 			lines = list("#Steps unheard, as I walk in thy shadow.", "#Silent as coin slipping, for thy hoard.", "#No sound, no chain, no better wisdom, O' Lord.")
@@ -77,6 +82,7 @@
 		"Gilded Lockpicking Specs" = list(
 			path = /obj/item/clothing/mask/rogue/spectacles/matthios,
 			m_cooldown = -1, // this is too stronk, so only 1 allowed
+			m_devotion = 200,
 			m_rank = SKILL_LEVEL_EXPERT,
 			category = "Gilded Tools",
 			lines = list("#Guide my sight, O' Matthios.","#Through pins and wards, thy Free eyes see.","#No door shall be between me and truth.")
@@ -85,6 +91,7 @@
 		"Gilded Chains" = list(
 			path = /obj/item/rope/chain/matthios,
 			m_cooldown = 10 MINUTES,
+			m_devotion = 200,
 			m_rank = SKILL_LEVEL_JOURNEYMAN,
 			category = "Gilded Tools",
 			lines = list("Matthios! Chains for the tyrants!", "Matthios! Transact me thy chains!", "Lord of Freedom, chains for the unworthy!")
@@ -93,6 +100,7 @@
 		"Gilded Amulet of Matthios" = list(
 			path = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded,
 			m_cooldown = 30 MINUTES,
+			m_devotion = 100,
 			m_rank = SKILL_LEVEL_NONE,
 			category = "Gilded Tools",
 			lines = list("#Matthios, let thine will be done.", "#Lord of Exchange, my soul is yours.", "#God of the Stolen Fyre, thou will be done.")
@@ -101,6 +109,7 @@
 		"Vial of Firstlaw" = list(
 			path = /obj/item/matthios_canister/firstlaw,
 			m_cooldown = 1 MINUTES,
+			m_devotion = 100,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Malchem Vials",
 			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
@@ -109,6 +118,7 @@
 		"Vial of Kingsfeast Base" = list(
 			path = /obj/item/matthios_canister/kingsfeast,
 			m_cooldown = 2 MINUTES,
+			m_devotion = 50,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Malchem Vials",
 			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
@@ -117,6 +127,7 @@
 		"Vial of Kingswine Base" = list(
 			path = /obj/item/matthios_canister/kingswine,
 			m_cooldown = 2 MINUTES,
+			m_devotion = 50,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Malchem Vials",
 			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
@@ -125,6 +136,7 @@
 		"Vial of Goodnite Base" = list(
 			path = /obj/item/matthios_canister/goodnite,
 			m_cooldown = 2 MINUTES,
+			m_devotion = 50,
 			m_rank = SKILL_LEVEL_APPRENTICE,
 			category = "Malchem Vials",
 			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
@@ -133,6 +145,7 @@
 		"Vial of Warsmith Base" = list(
 			path = /obj/item/matthios_canister/warsmith,
 			m_cooldown = 2 MINUTES,
+			m_devotion = 50,
 			m_rank = SKILL_LEVEL_JOURNEYMAN,
 			category = "Malchem Vials",
 			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
@@ -174,6 +187,7 @@
 		"Vial of Lyfestruth Base" = list(
 			path = /obj/item/matthios_canister/lyfestruth,
 			m_cooldown = 30 MINUTES,
+			m_devotion = 100,
 			m_rank = SKILL_LEVEL_EXPERT,
 			category = "Malchem Vials",
 			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
@@ -236,11 +250,16 @@
 		var/cd = item_cooldowns[name]
 		var/display_name
 
+		var/devotion_cost = entry["devotion"] || 0
+
 		if(cd == -1)
 			display_name = "[name] (UNAVAILABLE)"
 		else
 			var/time_left = cd ? max(0, cd - world.time) : 0
-			display_name = time_left > 0 ? "[name] ([round(time_left/10, 1)]s)" : name
+			if(time_left > 0)
+				display_name = "[name] ([round(time_left/10, 1)]s | [devotion_cost] Devotion)"
+			else
+				display_name = "[name] ([devotion_cost] Devotion)"
 
 		display[display_name] = name
 
@@ -261,6 +280,7 @@
 	var/item_path = entry["path"]
 	var/m_cd = entry["m_cooldown"]
 	var/list/lines = entry["lines"]
+	var/devotion_cost = entry["devotion"] || 0
 
 	if(!item_path)
 		return FALSE
@@ -274,6 +294,12 @@
 		to_chat(H, span_warning("[choice] is on cooldown for [round((item_cooldowns[choice] - world.time)/10, 1)] seconds."))
 		return FALSE
 
+	// DEVOTION CHECK
+	if(devotion_cost > 0)
+		if(!H.devotion?.check_devotion(devotion_cost))
+			to_chat(H, span_warning("Your connection to the Free God is faint. Don't ask favors you cannot pay for."))
+			return FALSE
+
 	// SPAWN ITEM
 	var/obj/item/I = new item_path(H.drop_location())
 	if(!I)
@@ -283,6 +309,10 @@
 
 	if(lines && lines.len)
 		H.say(pick(lines), language = /datum/language/common)
+
+	// APPLY DEVOTION COST
+	if(devotion_cost > 0)
+		H.devotion.update_devotion(-devotion_cost)
 
 	// APPLY COOLDOWN
 	if(m_cd == -1)

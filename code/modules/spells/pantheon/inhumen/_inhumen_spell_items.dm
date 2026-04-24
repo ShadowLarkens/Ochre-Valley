@@ -585,12 +585,12 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	var/level = user.get_skill_level(/datum/skill/magic/holy)
 	var/check = 60 - (level * 10)
 
-	var/efficiency = max(100, (40 + (level * 20)))
+	var/efficiency = min(100, (40 + (level * 20)))
 
 	var/base_mammon = round(stored_value * (efficiency / 100))
 	var/mammon = base_mammon
 
-	if(level <= SKILL_LEVEL_JOURNEYMAN && level > 0)
+	if(level <= SKILL_LEVEL_JOURNEYMAN)
 		if(prob(check))
 			var/matthiostax = rand(2,10)
 			to_chat(user, span_warning("You sense Matthios claiming a little extra of His due in this deal... (1/[matthiostax] of the value was claimed.)"))
@@ -599,7 +599,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	if(mammon > 0)
 		budget2change(mammon, user, putinhands = FALSE, custom_turf = T)
 
-	to_chat(user, span_notice("The First Law concludes. [stored_value] dust is resolved at [efficiency]% efficiency into [mammon] value worthy of His smile."))
+	to_chat(user, span_notice("The First Law concludes. [stored_value] entropic dust is resolved at [efficiency]% efficiency into [mammon] value in coin."))
 
 	funny_smoke(src)
 	qdel(src)
