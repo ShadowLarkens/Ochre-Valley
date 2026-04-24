@@ -886,7 +886,7 @@
 	cooldown_time = 45 SECONDS
 	associated_skill = /datum/skill/magic/holy
 	spell_tier = 0
-	var/min_mammon = 50
+	var/min_mammon = 25
 	var/max_mammon = 100
 
 /datum/action/cooldown/spell/mammonite/can_cast_spell(feedback = TRUE)
@@ -967,7 +967,7 @@
 
 	var/datum/status_effect/buff/mammonite/E = H.apply_status_effect(/datum/status_effect/buff/mammonite)
 	if(E)
-		E.bonus_damage = round(mammon_used * 1.5) // jakk here
+		E.bonus_damage = round(mammon_used * 3) // jakk here
 
 	var/source_text = ""
 
