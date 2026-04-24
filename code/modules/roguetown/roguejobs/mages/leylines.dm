@@ -47,8 +47,8 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 /obj/structure/leyline
 	name = "inactive leyline"
 	desc = "You shouldn't see the base level leyline."
-	icon = 'icons/effects/32x64.dmi'
-	icon_state = "leylineunstable"
+	icon = 'icons/effects/effects.dmi' //OV EDIT
+	icon_state = "inactiveleyline" //OV EDIT
 	anchored = TRUE
 	resistance_flags = INDESTRUCTIBLE
 	max_integrity = -1
@@ -142,8 +142,8 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 
 /obj/structure/leyline/tamed
 	name = "tamed leyline"
-	desc = "A carefully warded and stabilized leyline crystal. Its energy is weak, but reliable."
-	icon_state = "leylinestable"
+	desc = "A carefully warded and stabilized leyline. Its energy is weak, but reliable." //OV EDIT
+	icon_state = "inactiveleyline" //OV EDIT
 	leyline_type = "tamed"
 	alignment = "neutral"
 	max_uses_per_day = 4
@@ -156,28 +156,28 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 
 /obj/structure/leyline/normal/coast
 	name = "earthen leyline"
-	desc = "An earthly crystal standing guard upon the coast. Energy seems to be sucked into the ground."
+	desc = "Stones arranged in a geometric pattern. Energy seems to be sucked into the ground." //OV EDIT
 	alignment = "elemental"
 	mega_region = "coast"
 	color = "#D4A04A" // amber/earth — elemental
 
 /obj/structure/leyline/normal/grove
 	name = "sylvan leyline"
-	desc = "A moss-covered crystal, humming with energy and lyfe. Flowers bloom around it."
+	desc = "Moss-covered stones, humming with energy and lyfe. Flowers bloom around them." //OV EDIT
 	alignment = "fae"
 	mega_region = "grove"
 	color = "#81C784" // green — fae
 
 /obj/structure/leyline/normal/decap
 	name = "scorched leyline"
-	desc = "A reddened crystal radiating unnatural heat. The ground around it is cracked and ashen."
+	desc = "Reddened stones radiating unnatural heat. The ground around them is cracked and ashen." //OV EDIT
 	alignment = "infernal"
 	mega_region = "decap"
 	color = "#EF5350" // red — infernal
 
 /obj/structure/leyline/powerful
 	name = "unstable leyline"
-	desc = "A violent convergence of leyline energy. The crystal trembles, and the very nature of space seems to distort around it."
+	desc = "A violent convergence of leyline energy. The stones tremble, and the very nature of space seems to distort around them." //OV EDIT
 	leyline_type = "powerful"
 	alignment = "void"
 	mega_region = "bog"
