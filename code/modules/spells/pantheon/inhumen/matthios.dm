@@ -250,7 +250,7 @@
 		var/cd = item_cooldowns[name]
 		var/display_name
 
-		var/devotion_cost = entry["devotion"] || 0
+		var/devotion_cost = entry["m_devotion"] || 0
 
 		if(cd == -1)
 			display_name = "[name] (UNAVAILABLE)"
@@ -280,7 +280,7 @@
 	var/item_path = entry["path"]
 	var/m_cd = entry["m_cooldown"]
 	var/list/lines = entry["lines"]
-	var/devotion_cost = entry["devotion"] || 0
+	var/devotion_cost = entry["m_devotion"] || 0
 
 	if(!item_path)
 		return FALSE
