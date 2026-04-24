@@ -9,6 +9,9 @@ GLOBAL_LIST_INIT(preferred_ui_languages, build_preferred_ui_languages())
 	display_name = "English"
 	language_code = DEFAULT_PREFERRED_UI_LANGUAGE
 
+/datum/preferences
+	var/preferred_ui_language = DEFAULT_PREFERRED_UI_LANGUAGE
+
 /client
 	var/preferred_ui_language = DEFAULT_PREFERRED_UI_LANGUAGE
 
@@ -30,21 +33,37 @@ GLOBAL_LIST_INIT(preferred_ui_languages, build_preferred_ui_languages())
 /proc/is_preferred_ui_language_available(language_code)
 	return get_preferred_ui_language_display_name(language_code) ? TRUE : FALSE
 
+/proc/sanitize_preferred_ui_language(language_code)
+	return is_preferred_ui_language_available(language_code) ? language_code : DEFAULT_PREFERRED_UI_LANGUAGE
+
+/client/proc/get_preferred_ui_language()
+	if(prefs)
+		prefs.preferred_ui_language = sanitize_preferred_ui_language(prefs.preferred_ui_language)
+		preferred_ui_language = prefs.preferred_ui_language
+	else
+		preferred_ui_language = sanitize_preferred_ui_language(preferred_ui_language)
+	return preferred_ui_language
+
+/client/proc/set_preferred_ui_language(language_code)
+	language_code = sanitize_preferred_ui_language(language_code)
+	preferred_ui_language = language_code
+	if(prefs)
+		prefs.preferred_ui_language = language_code
+		prefs.save_preferences()
+	return language_code
+
 /client/verb/change_prefered_language()
 	set name = "Change Preferred TGUI Language"
 	set category = "OOC"
 	set desc = "Change your preferred TGUI language for multilingual interfaces."
 
 	var/list/language_choices = GLOB.preferred_ui_languages
-	var/current_language = preferred_ui_language
-	if(!is_preferred_ui_language_available(current_language))
-		current_language = DEFAULT_PREFERRED_UI_LANGUAGE
-		preferred_ui_language = current_language
+	var/current_language = get_preferred_ui_language()
 
 	var/current_language_display_name = get_preferred_ui_language_display_name(current_language) || "English"
 	var/selection = input(src, "Choose your preferred UI language.", "Preferred Language", current_language_display_name) as null|anything in language_choices
 	if(!selection)
 		return
 
-	preferred_ui_language = language_choices[selection]
+	set_preferred_ui_language(language_choices[selection])
 	to_chat(src, span_notice("Preferred UI language set to [selection]. Reopen interfaces to apply it."))
