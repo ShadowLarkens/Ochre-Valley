@@ -387,15 +387,15 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	if(istype(I, /obj/item/natural/dirtclod))		return 1
 	if(istype(I, /obj/item/natural/clay))			return 1
 	if(istype(I, /obj/item/natural/stone))			return 1
-	if(istype(I, /obj/item/rogueore/coal))			return 4
-	if(istype(I, /obj/item/rogueore/iron))			return 8
-	if(istype(I, /obj/item/rogueore/gold))			return 32
-	if(istype(I, /obj/item/roguegem/yellow))		return 65
-	if(istype(I, /obj/item/roguegem/green))			return 129
-	if(istype(I, /obj/item/roguegem/violet))		return 193
-	if(istype(I, /obj/item/roguegem/blue))			return 257
-	if(istype(I, /obj/item/roguegem/diamond))		return 578
-	if(istype(I, /obj/item/riddleofsteel))			return 1184
+	if(istype(I, /obj/item/rogueore/coal))			return 2
+	if(istype(I, /obj/item/rogueore/iron))			return 5
+	if(istype(I, /obj/item/rogueore/gold))			return 10
+	if(istype(I, /obj/item/roguegem/yellow))		return 56
+	if(istype(I, /obj/item/roguegem/green))			return 88
+	if(istype(I, /obj/item/roguegem/violet))		return 100
+	if(istype(I, /obj/item/roguegem/blue))			return 34
+	if(istype(I, /obj/item/roguegem/diamond))		return 121
+	if(istype(I, /obj/item/riddleofsteel))			return 400
 	return 0
 
 /obj/item/matthios_canister/firstlaw/proc/add_value(amount, mob/user)
