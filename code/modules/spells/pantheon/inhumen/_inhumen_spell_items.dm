@@ -585,7 +585,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	var/level = user.get_skill_level(/datum/skill/magic/holy)
 	var/check = 60 - (level * 10)
 
-	var/efficiency = min(100, (40 + (level * 20)))
+	var/efficiency = min(100, (20 + (level * 20)))
 
 	var/base_mammon = round(stored_value * (efficiency / 100))
 	var/mammon = base_mammon
