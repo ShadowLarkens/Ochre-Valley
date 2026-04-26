@@ -62,6 +62,7 @@
 	..()
 	head = /obj/item/clothing/head/roguetown/hatfur
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/blacksmith
+	id = /obj/item/scomstone/bad
 	if(prob(50))
 		head = /obj/item/clothing/head/roguetown/hatblu
 	if(should_wear_femme_clothes(H))
@@ -145,6 +146,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/jacket/artijacket
 	cloak = /obj/item/clothing/cloak/apron/waist/brown
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/blacksmith
+	id = /obj/item/scomstone/bad
 	pants = /obj/item/clothing/under/roguetown/trou/artipants
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/artificer
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
@@ -208,6 +210,7 @@
 	head = /obj/item/clothing/head/roguetown/hatblu
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
 	cloak = /obj/item/clothing/cloak/apron/waist/bar
+	id = /obj/item/scomstone/bad
 	pants = /obj/item/clothing/under/roguetown/trou
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
