@@ -51,8 +51,13 @@
 			var/turf/TU = get_turf(user)
 			var/list/conts = T.GetAllContents(needed_item)
 			if(TU)
-				conts += TU.GetAllContents(needed_item)
+				var/list/contsuser = TU.GetAllContents(needed_item)
+				if(length(contsuser))
+					conts += contsuser
 			if(length(conts))
+				for(var/atom/O in conts)
+					if(!isturf(O.loc))	// We don't want to use the ingot we are actively hammering, which would be in the Anvil's contents.
+						LAZYREMOVE(conts, O)
 				source.attackby(conts[1], user)	//We grab the first one we find.
 				auto_success = TRUE
 				user.visible_message(span_warning("[user] strikes the bar, expertly using a [needed_item_text] on the anvil!"))
