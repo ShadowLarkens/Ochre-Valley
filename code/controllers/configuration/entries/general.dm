@@ -526,11 +526,11 @@
 	config_entry_value = 15 SECONDS
 
 /datum/config_entry/number/sustained_td_threshold_pct
-	config_entry_value = 15
+	config_entry_value = 20
 	integer = FALSE
 
 /datum/config_entry/number/sustained_td_duration
-	config_entry_value = 15 SECONDS
+	config_entry_value = 20 SECONDS
 
 /datum/config_entry/number/sustained_td_delay
 	config_entry_value = 120 SECONDS
