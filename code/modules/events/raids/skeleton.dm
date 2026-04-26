@@ -2,7 +2,7 @@
 	name = "Skeleton Siege"
 	typepath = /datum/round_event/worldsiege
 	weight = 10
-	max_occurrences = 1
+	max_occurrences = 0 //OV Edit - Not Needed Currently
 	min_players = 4
 	earliest_start = 35 MINUTES
 	tags = list(TAG_HAUNTED, TAG_COMBAT, TAG_RAID)
