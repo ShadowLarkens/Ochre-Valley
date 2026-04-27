@@ -170,6 +170,7 @@
 		/datum/mob_descriptor/stature/nerdowell,
 		/datum/mob_descriptor/stature/peon,
 		/datum/mob_descriptor/stature/scion,
+		/datum/mob_descriptor/stature/swashbuckler,
 	)
 
 /datum/descriptor_choice/voice
@@ -351,7 +352,6 @@
 		/datum/mob_descriptor/trait/sullen,
 		/datum/mob_descriptor/trait/incessant,
 		/datum/mob_descriptor/trait/volfish,
-		/datum/mob_descriptor/trait/syphalitic,
 	)
 
 /datum/descriptor_choice/skin_all

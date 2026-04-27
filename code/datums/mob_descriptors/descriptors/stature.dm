@@ -236,3 +236,6 @@
 
 /datum/mob_descriptor/stature/scion
 	name = "Scion"
+
+/datum/mob_descriptor/stature/swashbuckler
+	name = "Swashbuckler"
