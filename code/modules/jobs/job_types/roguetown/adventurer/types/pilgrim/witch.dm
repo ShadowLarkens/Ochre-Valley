@@ -153,10 +153,10 @@
 	knockout_on_death = 10 SECONDS
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/witch/cast(list/targets, mob/user = usr)
-	user.visible_message(span_warning("[user] begins to twist and contort!"), span_notice("I begin to transform..."))
 	return ..()
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/witch/Shapeshift(mob/living/caster)
+	caster.visible_message(span_warning("[caster] begins to twist and contort!"), span_notice("I begin to transform..."))
 	// Do-after before transforming
 	if(!do_after(caster, 3 SECONDS, target = caster))
 		to_chat(caster, span_warning("Transformation interrupted!"))
