@@ -238,7 +238,3 @@
 /datum/mob_descriptor/trait/volfish
 	name = "Volfish"
 	prefix = "%ARE% very"
-
-/datum/mob_descriptor/trait/syphalitic
-	name = "Syphalitic"
-	prefix = "%ARE% very"
