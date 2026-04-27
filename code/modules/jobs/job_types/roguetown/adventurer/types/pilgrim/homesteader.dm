@@ -51,15 +51,15 @@
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/tanning = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/blacksmithing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/armorsmithing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/smelting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/blacksmithing = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/armorsmithing = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/smelting = SKILL_LEVEL_NOVICE,
 
 		/datum/skill/labor/lumberjacking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/fishing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/labor/mining = SKILL_LEVEL_APPRENTICE
+		/datum/skill/labor/mining = SKILL_LEVEL_NOVICE
 	)
 	maximum_possible_slots = 20 // Should not fill, just a hack to make it shows what types of towners are in round
 
