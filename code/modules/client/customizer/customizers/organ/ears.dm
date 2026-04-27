@@ -186,6 +186,8 @@
 		//OV Add Start
 		/datum/sprite_accessory/ears/big/ochre/bunny_tall,
 		/datum/sprite_accessory/ears/big/ochre/shadekin_round,
+		/datum/sprite_accessory/ears/big/ochre/feather_horns,
+		/datum/sprite_accessory/ears/big/ochre/party_plume,
 		//OV Add End
 		)
 
@@ -262,6 +264,8 @@
 		//OV Add Start
 		/datum/sprite_accessory/ears/big/ochre/bunny_tall,
 		/datum/sprite_accessory/ears/big/ochre/shadekin_round,
+		/datum/sprite_accessory/ears/big/ochre/feather_horns,
+		/datum/sprite_accessory/ears/big/ochre/party_plume,
 		//OV Add End
 	)
 
@@ -360,5 +364,7 @@
 		//OV Add Start
 		/datum/sprite_accessory/ears/big/ochre/bunny_tall,
 		/datum/sprite_accessory/ears/big/ochre/shadekin_round,
+		/datum/sprite_accessory/ears/big/ochre/feather_horns,
+		/datum/sprite_accessory/ears/big/ochre/party_plume,
 		//OV Add End
 		)
