@@ -1,4 +1,4 @@
-#define DBG(msg) if(usr) to_chat(usr, "[time2text(world.timeofday, "hh:mm:ss")] [msg]")
+//#define DBG(msg) if(usr) to_chat(usr, "[time2text(world.timeofday, "hh:mm:ss")] [msg]")
 
 /datum/soullink/shapeshift
 	var/obj/shapeshift_holder/source
