@@ -141,6 +141,9 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 		if(assigned_quest.quest_giver_name && assigned_quest.quest_giver_name == user.real_name)
 			to_chat(user, span_warning("You cannot take a contract you yourself issued."))
 			return
+		if(!SStreasury.has_account(user))
+			to_chat(user, span_warning("No account on record - register with a Meister before taking a contract, lest there be no purse to pay you."))
+			return
 		assigned_quest.quest_receiver_reference = WEAKREF(user)
 		assigned_quest.quest_receiver_name = user.real_name
 		to_chat(user, span_notice("You claim this contract for yourself!"))
