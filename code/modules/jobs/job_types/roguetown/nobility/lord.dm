@@ -164,6 +164,14 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
 
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
+	
+	subclass_stashed_items = list(
+		"Ducal Caparison (Saiga)" = /obj/item/caparison/azure,
+		"Fogbeast Caparison" = /obj/item/caparison/fogbeast)
+
 /datum/outfit/job/roguetown/lord/warrior/pre_equip(mob/living/carbon/human/H)
 	..()
 	l_hand = /obj/item/rogueweapon/lordscepter
@@ -204,6 +212,14 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 	)
+
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
+
+	subclass_stashed_items = list(
+		"Ducal Caparison (Saiga)" = /obj/item/caparison/azure,
+		"Fogbeast Caparison" = /obj/item/caparison/fogbeast)
 
 /datum/outfit/job/roguetown/lord/merchant/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -246,6 +262,14 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 	)
 
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
+
+	subclass_stashed_items = list(
+		"Ducal Caparison (Saiga)" = /obj/item/caparison/azure,
+		"Fogbeast Caparison" = /obj/item/caparison/fogbeast)
+
 /datum/outfit/job/roguetown/lord/mage/pre_equip(mob/living/carbon/human/H)
 	..()
 	backr = /obj/item/storage/backpack/rogue/satchel
@@ -280,6 +304,14 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
 	)
+
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
+
+	subclass_stashed_items = list(
+		"Ducal Caparison (Saiga)" = /obj/item/caparison/azure,
+		"Fogbeast Caparison" = /obj/item/caparison/fogbeast)
 
 /datum/outfit/job/roguetown/lord/inbred/pre_equip(mob/living/carbon/human/H)
 	..()
