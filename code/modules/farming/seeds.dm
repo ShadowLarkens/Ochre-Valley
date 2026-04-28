@@ -243,6 +243,7 @@
 	seed_identity = "pumpkin seeds"
 	plant_def_type = /datum/plant_def/pumpkin
 	cooked_type = /obj/item/reagent_containers/food/snacks/roastseeds/pumpkin
+	fried_type = /obj/item/reagent_containers/food/snacks/roastseeds/pumpkin
 
 /obj/item/seeds/carrot
 	seed_identity = "carrot seeds"
