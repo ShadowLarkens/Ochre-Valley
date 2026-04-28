@@ -26,8 +26,7 @@
 			play_reject_sound()
 			return
 
-	var/datum/job/mob_job = user.job ? SSjob.GetJob(user.job) : null
-	var/active_cap = mob_job?.max_active_quests || QUEST_MAX_ACTIVE_PER_PLAYER
+	var/active_cap = get_active_quest_cap(user)
 	if(count_user_active_contracts(user) >= active_cap)
 		say("You are already committed to [active_cap] contracts. Complete one before signing another.")
 		play_reject_sound()

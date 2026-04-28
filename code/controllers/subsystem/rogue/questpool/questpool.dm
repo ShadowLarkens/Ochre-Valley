@@ -479,13 +479,13 @@ SUBSYSTEM_DEF(questpool)
 	if(!user?.ckey)
 		return FALSE
 	var/list/takes = prune_recent_takes(user.ckey)
-	return takes && length(takes) >= QUEST_TAKE_COOLDOWN_SLOTS
+	return takes && length(takes) >= get_active_quest_cap(user)
 
 /datum/controller/subsystem/questpool/proc/take_cooldown_remaining(mob/user)
 	if(!user?.ckey)
 		return 0
 	var/list/takes = prune_recent_takes(user.ckey)
-	if(!takes || length(takes) < QUEST_TAKE_COOLDOWN_SLOTS)
+	if(!takes || length(takes) < get_active_quest_cap(user))
 		return 0
 	return max(0, takes[1] + QUEST_TAKE_COOLDOWN - world.time)
 

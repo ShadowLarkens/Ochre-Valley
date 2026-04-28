@@ -70,7 +70,11 @@
 	data["is_handler"] = !!mob_job?.is_quest_giver
 	data["balance"] = SStreasury.get_balance(user)
 	data["has_account"] = SStreasury.has_account(user)
-	data["active_max"] = mob_job?.max_active_quests || QUEST_MAX_ACTIVE_PER_PLAYER
+	var/active_base = mob_job?.max_active_quests || QUEST_MAX_ACTIVE_PER_PLAYER
+	var/active_bonus = get_active_quest_fellowship_bonus(user)
+	data["active_max"] = active_base + active_bonus
+	data["active_max_base"] = active_base
+	data["active_fellowship_bonus"] = active_bonus
 	data["active_count"] = count_user_active_contracts(user)
 	var/gate_remaining = 0
 	if(!is_townie_contract_gate_exempt(user))
@@ -214,6 +218,25 @@ GLOBAL_LIST_INIT(contract_ledger_commission_roles, list(
 			"complete" = Q.complete,
 		))
 	return listing
+
+/proc/get_active_quest_fellowship_bonus(mob/user)
+	var/mob/living/L = user
+	if(!istype(L))
+		return 0
+	var/datum/fellowship/F = L.current_fellowship
+	if(!F || !F.is_leader(L))
+		return 0
+	var/size = length(F.get_members())
+	if(size >= 3)
+		return QUEST_ACTIVE_FELLOWSHIP_BONUS_BAND
+	if(size >= 2)
+		return QUEST_ACTIVE_FELLOWSHIP_BONUS_PAIR
+	return 0
+
+/proc/get_active_quest_cap(mob/user)
+	var/datum/job/J = user?.job ? SSjob.GetJob(user.job) : null
+	var/base = J?.max_active_quests || QUEST_MAX_ACTIVE_PER_PLAYER
+	return base + get_active_quest_fellowship_bonus(user)
 
 /obj/structure/roguemachine/contractledger/proc/count_user_active_contracts(mob/user)
 	var/datum/weakref/user_ref = WEAKREF(user)

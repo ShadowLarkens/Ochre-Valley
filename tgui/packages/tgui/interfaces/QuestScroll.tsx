@@ -340,6 +340,20 @@ export const QuestScroll = () => {
               {!!data.levy_exempt && <SealBannerView seal={EXEMPT_SEAL} />}
             </div>
           )}
+
+          {!!data.target_region && (
+            <div
+              style={{
+                textAlign: 'center',
+                fontStyle: 'italic',
+                fontSize: '0.88em',
+                color: 'hsl(30, 35%, 40%)',
+                marginTop: '14px',
+              }}
+            >
+              The matter lies within {data.target_region}.
+            </div>
+          )}
         </div>
       </Window.Content>
     </Window>

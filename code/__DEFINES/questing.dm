@@ -67,8 +67,10 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 
 
 // Jobs may override via /datum/job.max_active_quests.
-// TEMP: bumped from 2 to 12 for writ-system testing - revert before merge.
-#define QUEST_MAX_ACTIVE_PER_PLAYER 12
+#define QUEST_MAX_ACTIVE_PER_PLAYER 2
+
+#define QUEST_ACTIVE_FELLOWSHIP_BONUS_PAIR 1
+#define QUEST_ACTIVE_FELLOWSHIP_BONUS_BAND 2
 
 // Townies (non-Adventurer/Mercenary) can't sign contracts for the first hour.
 // Protects the adventurer niche during the early round.
@@ -87,13 +89,9 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 // Unclaimed listings past this threshold are rerolled in place, bypassing the per-tick cap.
 #define QUEST_POOL_STALE_THRESHOLD (20 MINUTES)
 
-// After abandoning a contract, a ckey cannot abandon another for this long.
-// Per-ckey take cooldown. Once you've taken QUEST_TAKE_COOLDOWN_SLOTS contracts within
-// QUEST_TAKE_COOLDOWN, you must wait for the oldest take to expire before the next sign.
-// Abandoning does not reset this; the deposit forfeit is the abandon penalty.
-// TEMP: slots bumped from 2 to 100 for writ-system testing - revert before merge.
+// Per-ckey take cooldown window. Once you've signed your effective active cap within
+// this window, you must wait for the oldest take to expire before the next sign.
 #define QUEST_TAKE_COOLDOWN (10 MINUTES)
-#define QUEST_TAKE_COOLDOWN_SLOTS 100
 
 // Weights for picking which kill / bounty quest type to spawn. Difficulty no longer gates
 // generation — region selection and per-region allowed_quest_types handle that. Raid and
