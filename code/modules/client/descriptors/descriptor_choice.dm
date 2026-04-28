@@ -345,7 +345,7 @@
 		/datum/mob_descriptor/trait/somber,
 		/datum/mob_descriptor/trait/tarnished,
 		/datum/mob_descriptor/trait/unseemly,
-		/datum/mob_descriptor/trait/askance,
+		/datum/mob_descriptor/trait/sideways,
 		/datum/mob_descriptor/trait/depraved,
 		/datum/mob_descriptor/trait/jaundiced,
 		/datum/mob_descriptor/trait/rancorous,

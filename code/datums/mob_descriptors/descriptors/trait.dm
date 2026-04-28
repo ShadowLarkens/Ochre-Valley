@@ -211,8 +211,8 @@
 	name = "Unseemly"
 	prefix = "%ARE% very"
 
-/datum/mob_descriptor/trait/askance
-	name = "Askance"
+/datum/mob_descriptor/trait/sideways
+	name = "Sideways"
 	prefix = "%ARE% very"
 
 /datum/mob_descriptor/trait/depraved
