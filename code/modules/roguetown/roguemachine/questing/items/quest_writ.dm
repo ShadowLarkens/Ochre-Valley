@@ -195,6 +195,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	data["writ_type"] = Q.writ_type
 	data["circumstance"] = Q.circumstance_text
 	data["pickup_region"] = Q.target_spawn_area
+	data["target_region"] = Q.region
 	data["delivery_destination"] = Q.target_delivery_location ? initial(Q.target_delivery_location.name) : null
 	data["delivery_item"] = Q.target_delivery_item ? initial(Q.target_delivery_item.name) : null
 	data["fetch_item"] = Q.target_item_type ? initial(Q.target_item_type.name) : null
