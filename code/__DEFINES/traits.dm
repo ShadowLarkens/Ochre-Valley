@@ -281,7 +281,7 @@
 // Most crafting skills are now gated to Apprentice, unless there's a corresponding trait that unlocks them. These are gained for free by economic roles, and towner jobs
 // Carpentry and Masonry are niche skills used for building and repairing structures, therefore they're not gated.
 #define TRAIT_MEDICINE_EXPERT "Expert Physicker" // Medicine
-#define TRAIT_ALCHEMY_EXPERT "Expert Alchemist" // Alchemy. This is gated to Jman by default.
+#define TRAIT_ALCHEMY_EXPERT "Expert Alchemist" // Alchemy. This is completely gated by default.
 #define TRAIT_SMITHING_EXPERT "Expert Forgehand" // X-Smithing, Smelting, Engineering, Mining, Pottery.
 #define TRAIT_SEWING_EXPERT "Expert Clothier" // Sewing, Skincrafting, Leathercraft and Butchering.
 #define TRAIT_SURVIVAL_EXPERT "Expert Survivalist" // Butchering, Cooking, Fishing & Skincraft, Sewing = Jman.
