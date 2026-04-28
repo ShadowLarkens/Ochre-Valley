@@ -3510,10 +3510,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 /datum/preferences/proc/LorePopup(mob/user)
 	if(!user || !user.client)
 		return
-	var/list/dat = list()
 	var/datum/browser/noclose/popup  = new(user, "lore_primer", "<div align='center'>Lore Primer</div>", 650, 900)
-	dat += GLOB.roleplay_readme
-	popup.set_content(dat.Join())
+	popup.set_content(build_lore_primer_content())
 	popup.open(FALSE)
 
 //OV edit

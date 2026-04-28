@@ -7,6 +7,7 @@
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 	cmode_music = 'sound/music/cmode/towner/combat_towner2.ogg'
 	category_tags = list(CTAG_TOWNER)
+	townie_contract_gate_exempt = TRUE
 	//OV edit
 	maximum_possible_slots = 20 //The levies must flow
 	//OV edit end
@@ -76,4 +77,4 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/greataxe/militia
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_DESTITUTE, H)

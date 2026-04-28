@@ -41,7 +41,6 @@
 		STATKEY_CON = 2,
 		STATKEY_WIL = 2,
 		STATKEY_INT = 1,
-		STATKEY_PER = 2
 	)
 	age_mod = /datum/class_age_mod/guildmaster
 	subclass_skills = list(
@@ -55,7 +54,6 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/masonry = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE, //caustic edit
 		/datum/skill/craft/blacksmithing = SKILL_LEVEL_MASTER,
 		/datum/skill/craft/armorsmithing = SKILL_LEVEL_MASTER,
 		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_MASTER,
@@ -98,16 +96,12 @@
 			/obj/item/blueprint/mace_mushroom = 1
 			)
 		belt = /obj/item/storage/belt/rogue/leather
-		neck = /obj/item/storage/belt/rogue/pouch/coins/rich //cc edit start
-		beltl = /obj/item/storage/magebag/starter //cc edit end
+		beltl = /obj/item/storage/belt/rogue/pouch/coins/rich
 		beltr = /obj/item/storage/keyring/guildmaster
-		/* H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation) //OV Edit AP Merge 4.2.26 - Commented out pending rework
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/conjure_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/conjure_armor) */
-		ADD_TRAIT(H, TRAIT_MASTER_CARPENTER, TRAIT_GENERIC)		
-		ADD_TRAIT(H, TRAIT_MASTER_MASON, TRAIT_GENERIC)	
-		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Savings.")
+	ADD_TRAIT(H, TRAIT_MASTER_CARPENTER, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_MASTER_MASON, TRAIT_GENERIC)
+	if(H.mind)
+		SStreasury.grant_savings(ECONOMIC_UPPER_CLASS, H)
 
 /datum/outfit/job/roguetown/guildmaster/choose_loadout(mob/living/carbon/human/H)
 	. = ..()

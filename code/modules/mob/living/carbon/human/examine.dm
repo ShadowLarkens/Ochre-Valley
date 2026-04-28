@@ -184,6 +184,33 @@
 			else
 				. += span_notice("A noble!")
 
+		if(HAS_TRAIT(src, TRAIT_RESIDENT))
+			. += span_notice("A chartered resident of Azuria.")
+
+		if(HAS_TRAIT(src, TRAIT_DEBTOR))
+			// Defaulted-loan debtor: a serious civic brand. Authority roles see the full banner.
+			if(ishuman(user))
+				var/mob/living/carbon/human/viewer = user
+				if((viewer.job in GLOB.garrison_positions) || (viewer.job in GLOB.retinue_positions) || (viewer.job in GLOB.courtier_positions) || (viewer.job in GLOB.noble_positions))
+					. += span_userdanger("DEFAULT DEBTOR OF THE CROWN!")
+
+		if(HAS_TRAIT(src, TRAIT_ARREARS))
+			// Poll-tax arrears: a soft mark. Authority roles (garrison, retinue, courtier, noble)
+			// can read it off a subject, but only as a hint - the actual amount owed lives with
+			// the Steward, and enforcement is up to whoever spots it.
+			if(ishuman(user))
+				var/mob/living/carbon/human/viewer = user
+				if((viewer.job in GLOB.garrison_positions) || (viewer.job in GLOB.retinue_positions) || (viewer.job in GLOB.courtier_positions) || (viewer.job in GLOB.noble_positions))
+					. += span_smallred("Destitute..")
+
+		if(src.job in GLOB.church_positions)
+			. += span_notice("A member of the Church of Azuria.")
+		else if(HAS_TRAIT(src, TRAIT_DECLARED_BENEFACTOR))
+			. += span_notice("A benefactor of the Church of Azuria.")
+
+		if(src.job in GLOB.inquisition_positions)
+			. += span_notice("A member of the Holy Otavan Inquisition.")
+
 		if((HAS_TRAIT(user, TRAIT_BLACKOAK) && !(src.dna.species.name == "Elf" || src.dna.species.name == "Dark Elf" || src.dna.species.name == "Half-Elf")))
 			. += span_phobia("An invader...")
 
@@ -344,9 +371,7 @@
 		if(item)
 			. += span_notice("You get the feeling [src]'s most valuable possession is \a [item].")
 		var/mammonsonperson = get_mammons_in_atom(src)
-		var/mammonsinbank = SStreasury.bank_accounts[src]
-		if(isnull(mammonsinbank))
-			mammonsinbank = 0
+		var/mammonsinbank = SStreasury.get_balance(src)
 		var/totalvalue = mammonsonperson + mammonsinbank
 		if(totalvalue && HAS_TRAIT(user, TRAIT_GILDED_SIGHT))
 			. += span_notice("They carry [mammonsonperson] mammons, with [mammonsinbank] stored away, totaling [totalvalue].")

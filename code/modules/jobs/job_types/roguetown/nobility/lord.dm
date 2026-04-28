@@ -31,7 +31,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	min_pq = 20 //OV EDIT
 	max_pq = null
 	round_contrib_points = 4
-	give_bank_account = 1000
+	give_bank_account = 250
 	cmode_music = 'sound/music/combat_noble.ogg'
 
 	// Can't use the Throat when you can't talk properly or.. at all for that matter.
@@ -189,7 +189,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	But you have plenty of wealth, keen ears, and know a good deal from a bad one."
 	outfit = /datum/outfit/job/roguetown/lord/merchant
 	category_tags = list(CTAG_LORD)
-	noble_income = 400 // Let's go crazy. This is +400 per day for a total of 2400 per round at the end of a day. This is probably equal to doubling passive incomes of the keep.
+	noble_income = 275 // Decently high but shouldn't remove any need for economic management
 	traits_applied = list(TRAIT_NOBLE, TRAIT_SEEPRICES, TRAIT_CICERONE, TRAIT_KEENEARS, TRAIT_MEDIUMARMOR) //CC Edit: Removed dnr)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
@@ -241,7 +241,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	tutorial = "Despite spending your younger years focused on reading and the wonders of the arcyne, it came the time for you to take the throne. Now you rule not only by crown and steel, but by spell and wit, show those who doubted your time buried in books was well spent how wrong they were."
 	outfit = /datum/outfit/job/roguetown/lord/mage
 	category_tags = list(CTAG_LORD)
-	traits_applied = list(TRAIT_NOBLE, TRAIT_ARCYNE) //CC edit - Removed DNR
+	traits_applied = list(TRAIT_NOBLE, TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT) //CC Edit - Removed DNR
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_INT = 4,
