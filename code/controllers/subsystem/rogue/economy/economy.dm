@@ -405,20 +405,19 @@ SUBSYSTEM_DEF(economy)
 	return max(round(export_price), tg.low_price)
 
 /datum/controller/subsystem/economy/proc/compute_order_payout(datum/standing_order/order, datum/economic_region/region)
-	// Flat additive payout. Regular = base_price * 1.75; urgent = base_price * 2.5.
-	// Event price_mod does NOT stack here - urgent orders are ALREADY the shortage's premium
-	// payout; letting the shortage mod multiply again compounds into absurd numbers.
 	var/is_urgent = istype(order, /datum/standing_order/urgent)
-	var/bonus_mult = 1 + STANDING_ORDER_BASE_BONUS + (is_urgent ? URGENT_ORDER_EXTRA_BONUS : 0)
 	var/total = 0
 	for(var/good_id in order.required_items)
 		var/quantity = order.required_items[good_id]
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 		if(!tg)
 			continue
-		// CEILING: low-base goods (stone=1) must not collapse to parity with the raw qty count
-		// after BYOND's floor-round. Guarantees standing orders always beat stockpile sell-back.
-		var/unit = CEILING(tg.base_price * bonus_mult, 1)
+		var/unit_mult
+		if(is_urgent)
+			unit_mult = max(1.0, tg.global_price_mod)
+		else
+			unit_mult = 1 + STANDING_ORDER_BASE_BONUS
+		var/unit = CEILING(tg.base_price * unit_mult, 1)
 		total += unit * quantity
 	if(order.petitioned)
 		total = round(total * PETITION_TAX_MULT)

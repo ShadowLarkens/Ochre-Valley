@@ -284,7 +284,7 @@
 		<h3>Types</h3>
 		<ul>
 			<li><b>Regular</b> - rolled each dawn ([STANDING_ORDERS_BASE_PER_DAY] base, +1 per ~20 active players, capped at [STANDING_ORDERS_MAX_PER_DAY]/day). [STANDING_ORDER_DURATION]-day lifespan. Payout: base x[1 + STANDING_ORDER_BASE_BONUS] per unit.</li>
-			<li><b>Urgent</b> - spawned by shortage events, capped at [STANDING_ORDERS_MAX_URGENT] standing at a time. One-day lifespan. Payout: base x[1 + STANDING_ORDER_BASE_BONUS + URGENT_ORDER_EXTRA_BONUS] per unit.</li>
+			<li><b>Urgent</b> - spawned by shortage events, capped at [STANDING_ORDERS_MAX_URGENT] standing at a time. One-day lifespan. Payout: base x shortage price multiplier per unit (typically 3-4x).</li>
 			<li><b>Warehouse</b> - for finished goods (equipment, potions, trophy heads). Settled from the export warehouse (Behind the Stewardry), not the stockpile.</li>
 			<li><b>Petitioned</b> - spawned on demand by the Steward burning Burgher Pledge. See <b>Petitions</b> below.</li>
 		</ul>
