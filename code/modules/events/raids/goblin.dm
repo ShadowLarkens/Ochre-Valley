@@ -2,7 +2,7 @@
 	name = "Goblin Siege"
 	typepath = /datum/round_event/worldsiege/goblin
 	weight = 10
-	max_occurrences = 1
+	max_occurrences = 0 //OV Edit - Not Needed Currently
 	min_players = 4
 	todreq = null
 	earliest_start = 35 MINUTES
