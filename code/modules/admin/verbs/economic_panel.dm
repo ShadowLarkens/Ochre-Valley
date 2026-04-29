@@ -210,15 +210,21 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			return TRUE
 		if("advance_day")
 			GLOB.dayspassed++
-			// Run the full dawn cadence so testing matches in-game timing: poll tax, loans,
-			// pledge, estate incomes, then payroll (which itself triggers SSeconomy.daily_tick).
-			// Payroll runs last because it's the call that may transition the solvency state.
+			// Run the full dawn cadence so testing matches in-game timing: rural tax, poll tax,
+			// loans, pledge, estate incomes, then payroll (which itself triggers SSeconomy.daily_tick).
+			// Rural mints first so it's in the pool when payroll checks solvency. Payroll runs last
+			// because it's the call that may transition the solvency state.
+			SStreasury.tick_rural_tax()
 			SStreasury.tick_poll_tax()
 			SStreasury.tick_loans()
 			SStreasury.tick_burgher_pledge()
 			SStreasury.distribute_estate_incomes()
 			SStreasury.distribute_daily_payments()
 			admin_log_fiscal("advanced the day to [GLOB.dayspassed] (full daily tick)", "Advance Day")
+			return TRUE
+		if("fire_rural_tick")
+			SStreasury.tick_rural_tax()
+			admin_log_fiscal("fired tick_rural_tax", "Fire Rural Tick")
 			return TRUE
 		if("fire_poll_tick")
 			SStreasury.tick_poll_tax()
