@@ -1924,8 +1924,6 @@
 #include "code\modules\events\personal\pantheon\ravox\improve_combat_command.dm"
 #include "code\modules\events\personal\pantheon\xylix\king_mockery.dm"
 #include "code\modules\events\personal\pantheon\xylix\nobles_mockery.dm"
-#include "code\modules\events\raids\goblin.dm"
-#include "code\modules\events\raids\skeleton.dm"
 #include "code\modules\farming\big_liquid_containers.dm"
 #include "code\modules\farming\bin.dm"
 #include "code\modules\farming\bottle_kit.dm"

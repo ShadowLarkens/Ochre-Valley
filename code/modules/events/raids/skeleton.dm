@@ -1,3 +1,6 @@
+// OV Add Start: We've disabled this event.
+#error This file has been deliberately disabled by Ochre Valley and must remain unticked!
+// OV Add End
 /datum/round_event_control/worldsiege
 	name = "Skeleton Siege"
 	typepath = /datum/round_event/worldsiege
