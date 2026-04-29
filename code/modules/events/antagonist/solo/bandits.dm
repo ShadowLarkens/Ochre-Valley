@@ -17,7 +17,7 @@
 
 	earliest_start = 0 SECONDS
 
-	weight = 0 //OV Edit: Disabled, was 18 now is 0
+	weight = 0 //OV Edit: Disabled, was 18
 	max_occurrences = 0 //OV Edit: Disabled. Was 1.
 
 	typepath = /datum/round_event/antagonist/solo/bandits
