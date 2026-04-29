@@ -34,6 +34,8 @@ SUBSYSTEM_DEF(economy)
 		"blockades_cleared" = list(),
 		"orders_rolled" = 0,
 		"urgent_rolled" = 0,
+		"regular_orders_by_region" = list(),
+		"urgent_orders_today" = list(),
 	)
 	roundstart_events()
 	roundstart_blockades()
@@ -185,6 +187,8 @@ SUBSYSTEM_DEF(economy)
 			"blockades_cleared" = list(),
 			"orders_rolled" = 0,
 			"urgent_rolled" = 0,
+			"regular_orders_by_region" = list(),
+			"urgent_orders_today" = list(),
 		)
 	daily_report_diff["day"] = GLOB.dayspassed
 
@@ -244,6 +248,19 @@ SUBSYSTEM_DEF(economy)
 			var/datum/economic_region/region = GLOB.economic_regions[chosen_region_id]
 			var/template = pickweight(region.possible_standing_order_types)
 			instantiate_standing_order(template, region, order_size_mult)
+
+	var/list/by_region = daily_report_diff["regular_orders_by_region"]
+	if(length(by_region))
+		var/total_regular = 0
+		var/list/region_parts = list()
+		for(var/region_name in by_region)
+			var/count = by_region[region_name]
+			total_regular += count
+			region_parts += "[count] at [region_name]"
+		scom_announce("<font color='#7eb84a'>[total_regular] new standing order\s posted at the noticeboard this dawn: [jointext(region_parts, ", ")].</font>")
+	var/list/urgents_today = daily_report_diff["urgent_orders_today"]
+	for(var/list/U as anything in urgents_today)
+		scom_announce("<font color='#c44'>URGENT at [U["region"]]: [U["items"]]. 1d, [U["payout"]]m.</font>")
 
 	print_steward_report(daily_report_diff)
 	daily_report_diff = null
@@ -362,6 +379,17 @@ SUBSYSTEM_DEF(economy)
 	GLOB.standing_order_pool += O
 	E.urgent_order_ref = WEAKREF(O)
 	record_round_statistic(STATS_URGENT_ORDERS_SPAWNED, 1)
+	if(daily_report_diff)
+		var/list/items_text = list()
+		for(var/good_id in O.required_items)
+			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+			items_text += "[O.required_items[good_id]] [tg ? tg.name : good_id]"
+		var/list/urgents = daily_report_diff["urgent_orders_today"]
+		urgents += list(list(
+			"region" = region.name,
+			"items" = jointext(items_text, ", "),
+			"payout" = O.total_payout,
+		))
 
 /datum/controller/subsystem/economy/proc/expire_economic_events()
 	var/list/expired = list()
@@ -445,6 +473,9 @@ SUBSYSTEM_DEF(economy)
 	GLOB.standing_order_pool += O
 	if(daily_report_diff)
 		daily_report_diff["orders_rolled"] = (daily_report_diff["orders_rolled"] || 0) + 1
+		if(!petitioned)
+			var/list/by_region = daily_report_diff["regular_orders_by_region"]
+			by_region[region.name] = (by_region[region.name] || 0) + 1
 	return O
 
 /datum/controller/subsystem/economy/proc/fulfill_order(mob/user, datum/standing_order/order)
