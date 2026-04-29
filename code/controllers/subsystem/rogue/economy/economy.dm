@@ -360,15 +360,15 @@ SUBSYSTEM_DEF(economy)
 		var/base = tg ? tg.base_price : 5
 		var/qty_lo
 		var/qty_hi
-		if(base >= 30)
-			qty_lo = 2
-			qty_hi = 4
-		else if(base >= 15)
+		if(base >= 40)
 			qty_lo = 3
-			qty_hi = 6
-		else
+			qty_hi = 5
+		else if(base >= 15)
 			qty_lo = 6
-			qty_hi = 14
+			qty_hi = 12
+		else
+			qty_lo = 12
+			qty_hi = 25
 		mix[good] = max(1, round(rand(qty_lo, qty_hi) * order_size_mult))
 	O.required_items = mix
 	O.name = O.generate_name(region)
