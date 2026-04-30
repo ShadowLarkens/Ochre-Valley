@@ -22,7 +22,7 @@
 				)
 
 /datum/supply_pack/rogue/seeds/weed
-	name = "Pipeweed"
+	name = "Westleach"
 	cost = 3
 	contains = list(
 					/obj/item/seeds/pipeweed,

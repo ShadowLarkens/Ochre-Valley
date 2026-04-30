@@ -27,7 +27,7 @@
 
 
 /datum/supply_pack/rogue/food/raisinbreads
-	name = "Raisin Bread"
+	name = "Raisin Loaf"
 	cost = 30
 	contains = list(
 					/obj/item/reagent_containers/food/snacks/rogue/raisinbread,
@@ -92,7 +92,7 @@
 				)
 
 /datum/supply_pack/rogue/food/pepper
-	name = "Pepper"
+	name = "Pepper Mill"
 	cost = 30
 	contains = list(/obj/item/reagent_containers/peppermill)
 
