@@ -10,7 +10,7 @@
 /datum/virtue/utility/beauty
 	name = "Beauty (Beautiful Single-Pick)"
 	added_traits = list(TRAIT_BEAUTIFUL, TRAIT_GOODLOVER)
-	desc = "Just looking at me relieves some of the hardships of the world, and I'm quite good in bed."
+	desc = "(THIS IS A SINGLE PICK FOR CLASSES LOCKED OUT OF THE WELL-OFF VIRTUE) Just looking at me relieves some of the hardships of the world, and I'm quite good in bed."
 	added_stashed_items = list("Hand Mirror" = /obj/item/handmirror)
 
 
