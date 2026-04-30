@@ -192,6 +192,8 @@ export type AtcLoanState = {
 export type Data = StaticData & {
   treasury: number;
   day: number;
+  expected_rural_revenue: number;
+  expected_wage_outlay: number;
   blockaded_regions: string[];
   banditry_projection: BanditryProjection;
   active_events: EconomicEvent[];
