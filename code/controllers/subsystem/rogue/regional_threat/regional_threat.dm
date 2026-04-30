@@ -24,6 +24,7 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_SEA_GOBLIN = 40,
 			),
 			_tp_budget_multiplier = 0.75,
+			_delivery_reward_multiplier = 1.0,
 			_kill_target_floor = 3,
 			_evergreen_target = 2,
 			_allowed_quest_types = list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_COURIER, QUEST_RETRIEVAL, QUEST_RECOVERY),
@@ -44,6 +45,7 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_WILD_BEAST = 10,
 			),
 			_tp_budget_multiplier = 1.0,
+			_delivery_reward_multiplier = 1.5,
 			_kill_target_floor = 4,
 			_evergreen_target = 2
 			// allowed_quest_types: default (all)
@@ -64,6 +66,7 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_FOREST_GOBLIN = 5,
 			),
 			_tp_budget_multiplier = 1.5,
+			_delivery_reward_multiplier = 2.0,
 			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_COURIER, QUEST_RETRIEVAL, QUEST_RECOVERY),
 			_kill_target_floor = 3,
 			_evergreen_target = 2
@@ -85,6 +88,7 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_HIGHWAYMAN = 10,
 			),
 			_tp_budget_multiplier = 1.2,
+			_delivery_reward_multiplier = 1.8,
 			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY),
 			_kill_target_floor = 2
 		),
@@ -106,6 +110,7 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_MADMAN = 5,
 			),
 			_tp_budget_multiplier = 1.5,
+			_delivery_reward_multiplier = 2.0,
 			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY),
 			_kill_target_floor = 2
 		),
@@ -126,6 +131,7 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_MINOTAUR = 10,
 			),
 			_tp_budget_multiplier = 1.5,
+			_delivery_reward_multiplier = 2.0,
 			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY),
 			_kill_target_floor = 2
 		)
