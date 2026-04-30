@@ -60,6 +60,7 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 // via threat_point of slain mobs (for kill/bounty) or distance/items (for courier/retrieval).
 #define QUEST_REWARD_BASE_FLAT 10
 #define QUEST_REWARD_BASE_FETCH 15
+#define QUEST_REWARD_BASE_RECOVERY 25
 
 #define QUEST_DEPOSIT_EASY 5
 #define QUEST_DEPOSIT_MEDIUM 10
