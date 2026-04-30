@@ -102,7 +102,7 @@
 	desc = "A red mineral used to make quicksilver."
 	item_type = /obj/item/rogueore/cinnabar
 	trade_good_id = TRADE_GOOD_CINNABAR
-	stockpile_amount = 10
+	stockpile_amount = 20
 	stockpile_limit = 50
 	importexport_amt = 5
 

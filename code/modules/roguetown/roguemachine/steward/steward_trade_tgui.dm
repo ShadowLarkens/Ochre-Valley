@@ -94,6 +94,8 @@
 	var/list/data = list()
 	data["treasury"] = SStreasury?.discretionary_fund?.balance || 0
 	data["day"] = GLOB.dayspassed
+	data["expected_rural_revenue"] = SStreasury?.get_rural_tax_amount() || 0
+	data["expected_wage_outlay"] = SStreasury?.get_expected_wage_outlay() || 0
 
 	// Alderman-acting view: expose the warrant so the TGUI can render it prominently. Only
 	// populated when the viewer is the sitting Alderman - the Steward doesn't need a warrant

@@ -162,11 +162,37 @@ SUBSYSTEM_DEF(treasury)
 		for(var/obj/structure/roguemachine/vaultbank/VB in A)
 			if(istype(VB))
 				VB.update_icon()
-		mint(discretionary_fund, RURAL_TAX, "Rural Tax Collection")
-		record_round_statistic(STATS_RURAL_TAXES_COLLECTED, RURAL_TAX)
-		total_rural_tax += RURAL_TAX
-	
+
 		auto_export()
+
+/datum/controller/subsystem/treasury/proc/tick_rural_tax()
+	if(!discretionary_fund)
+		return
+	var/rural_tax_amount = get_rural_tax_amount()
+	mint(discretionary_fund, rural_tax_amount, "Rural Tax Collection")
+	record_round_statistic(STATS_RURAL_TAXES_COLLECTED, rural_tax_amount)
+	total_rural_tax += rural_tax_amount
+
+/datum/controller/subsystem/treasury/proc/get_rural_tax_amount()
+	var/effective_pop = (SSeconomy && SSeconomy.simulated_player_scalar > 0) ? SSeconomy.simulated_player_scalar : get_active_player_count()
+	if(effective_pop <= RURAL_TAX_POP_LOW)
+		return RURAL_TAX_LOWPOP
+	if(effective_pop >= RURAL_TAX_POP_HIGH)
+		return RURAL_TAX
+	var/range = RURAL_TAX_POP_HIGH - RURAL_TAX_POP_LOW
+	var/lerp = (effective_pop - RURAL_TAX_POP_LOW) / range
+	return round(RURAL_TAX_LOWPOP - lerp * (RURAL_TAX_LOWPOP - RURAL_TAX))
+
+/datum/controller/subsystem/treasury/proc/get_expected_wage_outlay()
+	if(!steward_machine || !steward_machine.daily_payments)
+		return 0
+	var/total = 0
+	for(var/job_name in steward_machine.daily_payments)
+		var/payment_amount = steward_machine.daily_payments[job_name]
+		for(var/mob/living/carbon/human/H in GLOB.human_list)
+			if(H.job == job_name && !HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
+				total += payment_amount
+	return total
 
 /datum/controller/subsystem/treasury/proc/get_account(target)
 	if(!target)
@@ -385,12 +411,7 @@ SUBSYSTEM_DEF(treasury)
 			SSeconomy.daily_tick()
 		return
 
-	var/projected_total = 0
-	for(var/job_name in steward_machine.daily_payments)
-		var/payment_amount = steward_machine.daily_payments[job_name]
-		for(var/mob/living/carbon/human/H in GLOB.human_list)
-			if(H.job == job_name && !HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
-				projected_total += payment_amount
+	var/projected_total = get_expected_wage_outlay()
 
 	// Solvency check: NORMAL -> IN_ARREARS (interest-free advance covers today's wages);
 	// IN_ARREARS -> BANKRUPTCY (sequestration, salaries suspended). If the Crown drew an

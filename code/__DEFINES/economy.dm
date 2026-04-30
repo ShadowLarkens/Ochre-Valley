@@ -51,11 +51,7 @@
 // pool slots for regular standing orders that drive towner/secondary-role play.
 #define STANDING_ORDERS_MAX_URGENT 2
 
-// Additive payout bonuses over base_price. Regular standing orders pay base * (1 + BASE_BONUS)
-// per unit; urgent orders pay base * (1 + BASE_BONUS + URGENT_EXTRA) per unit. No multiplier
-// stacking. Event price_mod applies on top as a separate multiplicand.
 #define STANDING_ORDER_BASE_BONUS 0.75
-#define URGENT_ORDER_EXTRA_BONUS 0.75
 
 // Standing order size scales with active player count so the Crown's throughput matches
 // the player economy. Size scales (not count) - a single Steward can only triage so many
