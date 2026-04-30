@@ -226,6 +226,10 @@
 		/datum/mob_descriptor/voice/snide,
 		/datum/mob_descriptor/voice/smoker,
 		/datum/mob_descriptor/voice/venomous,
+		/datum/mob_descriptor/voice/hoarse,
+		/datum/mob_descriptor/voice/acerbic,
+		/datum/mob_descriptor/voice/caustic,
+		/datum/mob_descriptor/voice/laconic,
 	)
 
 /datum/descriptor_choice/skin
