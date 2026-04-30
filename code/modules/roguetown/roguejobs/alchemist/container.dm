@@ -60,7 +60,7 @@
 /obj/item/reagent_containers/glass/bottle/alchemical/perpot
 	list_reagents = list(/datum/reagent/buff/perception = 30)
 
-/obj/item/reagent_containers/glass/bottle/alchemical/endpot
+/obj/item/reagent_containers/glass/bottle/alchemical/willpot
 	list_reagents = list(/datum/reagent/buff/endurance = 30)
 
 /obj/item/reagent_containers/glass/bottle/alchemical/conpot
