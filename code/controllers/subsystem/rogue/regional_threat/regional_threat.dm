@@ -22,6 +22,7 @@ SUBSYSTEM_DEF(regionthreat)
 			_faction_weights = list(
 				QUEST_FACTION_FOREST_GOBLIN = 60,
 				QUEST_FACTION_SEA_GOBLIN = 40,
+				QUEST_FACTION_HIGHWAYMAN = 5, // basically for blockade only
 			),
 			_tp_budget_multiplier = 0.75,
 			_delivery_reward_multiplier = 1.0,
