@@ -1040,6 +1040,57 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	return "A great tournament at [region.name] requires arms, armor, draughts, and feast-fare. The patrons pay accordingly."
 
 
+// ============================================================================
+// demand_arcane_commission - enchantment scrolls commissioned by NON-wizard regions.
+// Blackholt is the producer (the conclave) - the demand fires elsewhere, paying the
+// Crown to broker. Rolls one of three tiers, weighted toward routine basic-tier orders.
+// ============================================================================
+/datum/standing_order/demand_arcane_commission
+	roll_weight = 2
+	var/list/project_by_region = list(
+		TRADE_REGION_HEARTFELT = list("the chapel scriptorium", "the pilgrim hostel's almoner", "the count's household mage"),
+		TRADE_REGION_ROCKHILL = list("an orchard-lord's hunt-warden", "a viscount's library", "a country estate's curio cabinet"),
+		TRADE_REGION_KINGSFIELD = list("a market chartwright", "a guild scribe", "a knight-errant outfitting for the road"),
+		TRADE_REGION_NORTHFORT = list("the border surgeon", "the watchcommander's office", "a frontier scout-captain"),
+	)
+	/// Tier the order rolled. Set in generate_item_mix and read by name/description.
+	var/rolled_tier = "basic"
+
+/datum/standing_order/demand_arcane_commission/generate_item_mix()
+	var/list/mix = list()
+	var/roll = rand(1, 100)
+	if(roll <= 55)
+		rolled_tier = "basic"
+		mix[TRADE_GOOD_ENCHSCROLL_BASIC] = rand(3, 6)
+	else if(roll <= 85)
+		rolled_tier = "superior"
+		mix[TRADE_GOOD_ENCHSCROLL_SUPERIOR] = rand(2, 4)
+	else
+		rolled_tier = "greater"
+		mix[TRADE_GOOD_ENCHSCROLL_GREATER] = rand(1, 3)
+	return mix
+
+/datum/standing_order/demand_arcane_commission/generate_name(datum/economic_region/region)
+	switch(rolled_tier)
+		if("superior")
+			return "[uppertext(region.name)] - SUPERIOR ARCANA"
+		if("greater")
+			return "[uppertext(region.name)] - GREATER ARCANA"
+		else
+			return "[uppertext(region.name)] - ARCANE COMMISSION"
+
+/datum/standing_order/demand_arcane_commission/generate_description(datum/economic_region/region)
+	var/list/projects = project_by_region[region.region_id]
+	var/patron = length(projects) ? capitalize(pick(projects)) : "A patron"
+	switch(rolled_tier)
+		if("superior")
+			return "[patron] at [region.name] commissions superior enchantment scrolls - sealed at the warehouse, any school will serve."
+		if("greater")
+			return "[patron] at [region.name] commissions greater enchantment scrolls - leyline-tier work, sealed at the warehouse."
+		else
+			return "[patron] at [region.name] commissions basic enchantment scrolls - any school of magic, sealed at the warehouse."
+
+
 /datum/standing_order/demand_trophy_heads
 	roll_weight = 1
 	var/list/project_by_region = list(

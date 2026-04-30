@@ -2883,6 +2883,7 @@
 #include "code\modules\roguetown\roguestock\trade_goods\food_vegetable.dm"
 #include "code\modules\roguetown\roguestock\trade_goods\gems.dm"
 #include "code\modules\roguetown\roguestock\trade_goods\intermediaries.dm"
+#include "code\modules\roguetown\roguestock\trade_goods\magical.dm"
 #include "code\modules\roguetown\roguestock\trade_goods\minerals.dm"
 #include "code\modules\roguetown\roguestock\trade_goods\potions.dm"
 #include "code\modules\roguetown\roguestock\trade_goods\precious.dm"

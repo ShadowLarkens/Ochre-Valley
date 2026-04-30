@@ -65,6 +65,7 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_jewelry,
 			/datum/standing_order/demand_artificed_panoply,
 			/datum/standing_order/demand_tournament_supply,
+			/datum/standing_order/demand_arcane_commission,
 		),
 		TRADE_REGION_ROSAWOOD = list(
 			/datum/standing_order/demand_construction,
@@ -82,6 +83,7 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_jewelry,
 			/datum/standing_order/demand_tournament_supply,
 			/datum/standing_order/demand_trophy_heads,
+			/datum/standing_order/demand_arcane_commission,
 		),
 		TRADE_REGION_DAFTSMARCH = list(
 			/datum/standing_order/demand_construction,
@@ -134,6 +136,7 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_frontier_gear,
 			/datum/standing_order/demand_artificery,
 			/datum/standing_order/demand_prosthetic_run,
+			/datum/standing_order/demand_arcane_commission,
 		),
 		TRADE_REGION_HEARTFELT = list(
 			/datum/standing_order/demand_rations,
@@ -156,6 +159,7 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_artificed_panoply,
 			/datum/standing_order/demand_tournament_supply,
 			/datum/standing_order/demand_trophy_heads,
+			/datum/standing_order/demand_arcane_commission,
 		),
 	)
 	// possible_standing_order_types is an assoc list of template_path -> roll_weight,
@@ -563,9 +567,11 @@ SUBSYSTEM_DEF(economy)
 				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 				if(!tg || !tg.item_type || !istype(I, tg.item_type))
 					continue
-				// Exact-type match (not subtypes) to avoid counting donator/unique subtypes
-				// against Crown manifest orders.
-				if(I.type != tg.item_type)
+				// Exact-type match by default — avoids counting donator/unique subtypes
+				// against Crown manifest orders. Goods with accept_subtypes set opt out
+				// (e.g. enchantment scrolls — every spell is a distinct subtype, but the
+				// Crown treats each tier as one fungible commodity).
+				if(!tg.accept_subtypes && I.type != tg.item_type)
 					continue
 				if(found_by_good[good_id] >= order.required_items[good_id])
 					continue
