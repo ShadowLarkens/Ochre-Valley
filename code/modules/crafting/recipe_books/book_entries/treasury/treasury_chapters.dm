@@ -195,9 +195,9 @@
 		<p>On <b>Autoprice</b>, prices peg to the good's global pre-blockade reference (base × event multiplier), guaranteeing the Crown profits at least 1m per transaction:</p>
 		<ul>
 			<li><b>Sell</b> = the higher of <code>1.25 × import_ref</code> or <code>import_ref + 1m</code>.</li>
-			<li><b>Buy</b> = the higher of <code>0.75 × export_ref</code> or <code>export_ref - 1m</code>.</li>
+			<li><b>Buy</b> = the lower of <code>0.75 × export_ref</code> or <code>export_ref - 1m</code>.</li>
 		</ul>
-		<p>Where <code>import_ref = base × event_mod</code> and <code>export_ref = import_ref × [(1 - IMPORT_EXPORT_SPREAD) * 100]%</code>. At small base prices the +/-1m bound dominates; at larger prices the [IMPORT_EXPORT_SPREAD * 100]% bound dominates. No regional lookup - regional shortages, blockades, and route congestion only affect imports/exports, not stockpile prices. The Steward intervenes manually if the situation calls for it.</p>
+		<p>Where <code>import_ref = base × event_mod</code> and <code>export_ref = import_ref × [(1 - IMPORT_EXPORT_SPREAD) * 100]%</code>. At small base prices the +/-1m bound dominates; at larger prices the [IMPORT_EXPORT_SPREAD * 100]% bound takes over so the Crown's skim scales with the price. No regional lookup - regional shortages, blockades, and route congestion only affect imports/exports, not stockpile prices. The Steward intervenes manually if the situation calls for it.</p>
 		<ul>
 			<li>The Steward may set either price by hand, which switches the entry to <b>Manual</b>. Manual entries hold whatever the Steward set until they are restored to Auto. Restoring Auto snaps both prices to the current reference.</li>
 			<li>Manual-priced entries are skipped by the Crown's autoexport sweep.</li>
