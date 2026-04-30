@@ -20,9 +20,8 @@ SUBSYSTEM_DEF(regionthreat)
 			_lowpop_tick = 375 * THREAT_LOWPOP_TICK_RATE,
 			_highpop_tick = 375 * THREAT_HIGHPOP_TICK_RATE,
 			_faction_weights = list(
-				QUEST_FACTION_HIGHWAYMAN = 60,
-				QUEST_FACTION_FOREST_GOBLIN = 25,
-				QUEST_FACTION_WILD_BEAST = 15,
+				QUEST_FACTION_FOREST_GOBLIN = 60,
+				QUEST_FACTION_SEA_GOBLIN = 40,
 			),
 			_tp_budget_multiplier = 0.75,
 			_kill_target_floor = 3,
