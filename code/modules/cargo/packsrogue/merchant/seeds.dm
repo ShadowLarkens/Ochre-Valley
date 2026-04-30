@@ -37,8 +37,8 @@
 					/obj/item/seeds/swampweed,
 				)
 
-/datum/supply_pack/rogue/seeds/berry
-	name = "Berry"
+/datum/supply_pack/rogue/seeds/jacksberry
+	name = "Jacksberry"
 	cost = 3
 	contains = list(
 					/obj/item/seeds/berryrogue,
