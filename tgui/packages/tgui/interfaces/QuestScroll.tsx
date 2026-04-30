@@ -10,6 +10,7 @@ import {
   BlockadeTimer,
   Marginalia,
   ProgressLine,
+  RetrievalProgressLine,
   WhisperLine,
 } from './QuestScroll/Marginalia';
 import { RecoveryWrit } from './QuestScroll/RecoveryWrit';
@@ -259,13 +260,24 @@ export const QuestScroll = () => {
                   zHint={data.z_hint}
                 />
               )}
-              {showProgress && (
-                <ProgressLine
-                  done={data.progress_current ?? 0}
-                  total={data.progress_required ?? 1}
-                  noun={data.faction_progress_noun || 'foes'}
-                />
-              )}
+              {showProgress &&
+                (data.writ_type === WRIT_TYPE_RECOVERY ? (
+                  <RetrievalProgressLine
+                    done={data.progress_current ?? 0}
+                    total={data.progress_required ?? 1}
+                    noun={
+                      data.fetch_item
+                        ? `${data.fetch_item}s`
+                        : 'goods of the realm'
+                    }
+                  />
+                ) : (
+                  <ProgressLine
+                    done={data.progress_current ?? 0}
+                    total={data.progress_required ?? 1}
+                    noun={data.faction_progress_noun || 'foes'}
+                  />
+                ))}
               {hasBlockadeTimer && (
                 <BlockadeTimer
                   label={data.blockade_timer_label || ''}
