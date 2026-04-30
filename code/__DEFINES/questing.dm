@@ -60,6 +60,7 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 // via threat_point of slain mobs (for kill/bounty) or distance/items (for courier/retrieval).
 #define QUEST_REWARD_BASE_FLAT 10
 #define QUEST_REWARD_BASE_FETCH 15
+#define QUEST_REWARD_BASE_RECOVERY 25
 
 #define QUEST_DEPOSIT_EASY 5
 #define QUEST_DEPOSIT_MEDIUM 10
@@ -129,4 +130,8 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 #define QUEST_DELIVERY_DISTANCE_BONUS 1 // Adds a bonus for longer distances
 #define QUEST_COURIER_BONUS_FLAT 10 // Flat bonus for courier quests, since you gotta wait for a person to open a package
 #define QUEST_DELIVERY_PER_ITEM_BONUS 2 // Bonus per item delivered
+// Threat-scaled reward layered on top of distance / item bonuses for retrieval & courier quests.
+// Multiplied by (region's delivery_reward_multiplier - 1.0), so a 1.0× region adds nothing and a
+// 2.0× region (Terrorbog, Mt Decap, Underdark) adds the full amount.
+#define QUEST_DELIVERY_THREAT_BONUS 20
 

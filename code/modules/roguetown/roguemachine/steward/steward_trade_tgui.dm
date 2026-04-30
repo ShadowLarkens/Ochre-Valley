@@ -507,16 +507,22 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			SStgui.update_uis(src)
 			return TRUE
 		if("toggle_auto_import")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
 			var/good_id = params["good_id"]
 			if(good_id)
 				SStreasury.set_auto_import(good_id, !SStreasury.is_auto_import_active(good_id))
 			SStgui.update_uis(src)
 			return TRUE
 		if("kill_switch_auto_import")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
 			SStreasury.kill_switch_auto_import()
 			SStgui.update_uis(src)
 			return TRUE
 		if("set_auto_import_purse_floor")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
 			var/amount = text2num("[params["amount"]]")
 			if(!isnull(amount))
 				SStreasury.set_auto_import_purse_floor(amount)
