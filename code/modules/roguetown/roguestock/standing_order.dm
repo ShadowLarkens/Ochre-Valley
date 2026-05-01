@@ -216,10 +216,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 
 /datum/standing_order/demand_fishery/generate_item_mix()
 	var/list/mix = list()
-	mix[TRADE_GOOD_FISH_FILET] = rand(25, 40)
+	mix[TRADE_GOOD_FISH_FILET] = rand(15, 25)
 	mix[TRADE_GOOD_SALT] = rand(8, 15)
-	if(prob(50))
-		mix[TRADE_GOOD_SALMON] = rand(5, 10)
 	return mix
 
 /datum/standing_order/demand_fishery/generate_name(datum/economic_region/region)
@@ -319,7 +317,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 		mix[secondary_two] = rand(1, 2)
 	// Bows are cheap and plentiful — garrison archer lines want quivers of them.
 	if(prob(55))
-		mix[TRADE_GOOD_RECURVE_BOW] = rand(4, 8)
+		mix[TRADE_GOOD_RECURVE_BOW] = rand(3, 6)
 	return mix
 
 /datum/standing_order/demand_equipment_armaments/generate_name(datum/economic_region/region)
