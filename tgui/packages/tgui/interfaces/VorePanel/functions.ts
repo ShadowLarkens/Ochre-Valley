@@ -127,14 +127,24 @@ export function ourTypeToOptions(
     const interaction_options: ActionButtonData[] = [];
     if (type === 'Human') {
       interaction_options.push({
+        name: 'Process',
+        color: 'red',
+        needsConfirm: true,
+        tooltip: 'Process your current target instantly.',
+      });
+      interaction_options.push({
         name: 'Transform',
         color: 'purple',
         needsConfirm: true,
         tooltip: 'Transform your current target into something else.',
       });
       interaction_options.push({
+        name: 'Health Bar',
+        tooltip: 'Display the healthbar of the current target.',
+      });
+      interaction_options.push({
         name: 'Health Check',
-        tooltip: 'Check the health of your current target.',
+        tooltip: 'Check the status effects of your current target.',
       });
     }
     if (type === 'Observer') {
