@@ -452,16 +452,16 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	user.add_client_colour(/datum/client_colour/monochrome)
 
 /datum/charflaw/hunted
-	name = "Hunted (+2 TRI)"
+	name = "Hunted" //OV Edit - Triumph Gain removed, was "Hunted (+2 TRI)"
 	desc = "Something in my past has made me a target. I'm always looking over my shoulder.	\
 	\nTHIS IS A DIFFICULT FLAW, YOU WILL BE HUNTED BY ASSASSINS AND HAVE ASSASINATION ATTEMPTS MADE AGAINST YOU WITHOUT ANY ESCALATION. \
 	EXPECT A MORE DIFFICULT EXPERIENCE. PLAY AT YOUR OWN RISK. IT REQUIRES AN EXTRA VICE."
 	needs_extra_vice = TRUE
 	var/logged = FALSE
 
-/datum/charflaw/hunted/on_mob_creation(mob/user)
+/*/datum/charflaw/hunted/on_mob_creation(mob/user) //OV Edit - Commented out to remove triumph gain
 	. = ..()
-	user.adjust_triumphs(2)
+	user.adjust_triumphs(2)*/
 
 /datum/charflaw/hunted/flaw_on_life(mob/user)
 	if(!ishuman(user))
