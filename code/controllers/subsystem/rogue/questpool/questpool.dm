@@ -226,7 +226,7 @@ SUBSYSTEM_DEF(questpool)
 	if(!preferred_region)
 		preferred_region = SSregionthreat.pick_region_for_quest(type)
 	var/region_name = preferred_region?.region_name
-	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(type, region_name)
+	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(type, region_name, Q)
 	if(!landmark)
 		qdel(Q)
 		return null
@@ -281,7 +281,7 @@ SUBSYSTEM_DEF(questpool)
 	if(!preferred_region)
 		preferred_region = SSregionthreat.pick_region_for_quest(type)
 	var/region_name = preferred_region?.region_name
-	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(type, region_name)
+	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(type, region_name, Q)
 	if(!landmark)
 		qdel(Q)
 		return null
@@ -330,7 +330,7 @@ SUBSYSTEM_DEF(questpool)
 	Q.issued_day = GLOB.dayspassed
 	Q.quest_giver_name = steward.real_name
 	Q.deposit_amount = 0
-	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(QUEST_BLOCKADE_DEFENSE, TR.region_name)
+	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(QUEST_BLOCKADE_DEFENSE, TR.region_name, Q)
 	if(!landmark)
 		qdel(Q)
 		return null
@@ -368,7 +368,7 @@ SUBSYSTEM_DEF(questpool)
 	if(!preferred_region)
 		preferred_region = SSregionthreat.pick_region_for_quest(type)
 	var/region_name = preferred_region?.region_name
-	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(type, region_name)
+	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(type, region_name, Q)
 	if(!landmark)
 		qdel(Q)
 		return null
@@ -457,7 +457,7 @@ SUBSYSTEM_DEF(questpool)
 	var/obj/effect/landmark/quest_spawner/landmark = Q.pending_landmark_ref?.resolve()
 	if(landmark && !QDELETED(landmark))
 		return landmark
-	landmark = find_quest_landmark(Q.quest_type, Q.region)
+	landmark = find_quest_landmark(Q.quest_type, Q.region, Q)
 	if(landmark)
 		Q.pending_landmark_ref = WEAKREF(landmark)
 		Q.target_spawn_area = get_area_name(get_turf(landmark))
