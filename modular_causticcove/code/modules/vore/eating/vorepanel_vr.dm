@@ -1085,7 +1085,7 @@
 
 			if(ourtarget.digestable)
 				process_options += "Digest"
-				//process_options += "Break Bone"
+				process_options += "Break Bone"
 
 			if(ourtarget.absorbable)
 				process_options += "Absorb"
@@ -1111,8 +1111,8 @@
 			switch(ourchoice)
 				if("Digest")
 					return b.instant_digest(user, ourtarget)
-				/*if("Break Bone")
-					return b.instant_break_bone(user, ourtarget)*/
+				if("Break Bone")
+					return b.instant_break_bone(user, ourtarget)
 				if("Absorb")
 					return b.instant_absorb(user, ourtarget)
 				if("Knockout")
