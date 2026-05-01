@@ -44,11 +44,12 @@
 		to_chat(user, span_warning("\The [target] is no longer in \the [src]."))
 		return FALSE
 	var/mob/living/carbon/human/human_target = target
-	var/obj/item/bodypart/BP = pick(human_target.get_fracturable_organs())
-	if(!BP)
+	var/list/possible_targets = human_target.get_fracturable_organs()
+	if(!LAZYLEN(possible_targets)) // why does pick runtime on empty lists....
 		to_chat(user, span_warning("\The [target] has no breakable organs."))
 		return FALSE
 
+	var/obj/item/bodypart/BP = pick(possible_targets)
 	var/wound_path = /datum/wound/fracture
 	// Apply body-part-specific wound variants
 	if(BP.body_zone == BODY_ZONE_HEAD)
