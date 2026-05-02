@@ -16,6 +16,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	icon_state = "goblin"
 	race = /datum/species/goblin
 	gender = MALE
+	blood_toll_bucket = STATS_KILLED_GOBLINS
 	bodyparts = list(/obj/item/bodypart/chest/goblin, /obj/item/bodypart/head/goblin, /obj/item/bodypart/l_arm/goblin,
 					/obj/item/bodypart/r_arm/goblin, /obj/item/bodypart/r_leg/goblin, /obj/item/bodypart/l_leg/goblin)
 	rot_type = /datum/component/rot/corpse/goblin
