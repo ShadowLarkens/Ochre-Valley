@@ -149,12 +149,17 @@
 
 /// Materializes every live spawner belonging to this quest. Called when any one of them triggers.
 /datum/quest/proc/pop_all_spawners()
+	if(length(spawners))
+		on_first_pop()
 	for(var/datum/weakref/ref in spawners)
 		var/obj/effect/quest_spawn/spawner = ref.resolve()
 		if(QDELETED(spawner) || !spawner.contained_atom)
 			continue
 		spawner.reveal_contained()
 	spawners.Cut()
+
+/datum/quest/proc/on_first_pop()
+	return
 
 /// World-mutating generation: spawn mobs, items, parcels. Called by SSquestpool.claim when the
 /// contract is actually signed. Subtypes override to do their specific spawns.

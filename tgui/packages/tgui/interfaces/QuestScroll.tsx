@@ -219,8 +219,14 @@ export const QuestScroll = () => {
   const hasWhisper = !!data.compass_direction;
   const hasBlockadeTimer =
     !!data.blockade_timer_label && (data.blockade_timer_seconds ?? 0) > 0;
+  const hasHuntTimer =
+    !!data.hunt_timer_label && (data.hunt_timer_seconds ?? 0) > 0;
   const hasMarginalia =
-    hasWhisper || showProgress || hasBlockadeTimer || !!data.blockade_armed;
+    hasWhisper ||
+    showProgress ||
+    hasBlockadeTimer ||
+    hasHuntTimer ||
+    !!data.blockade_armed;
   const hasSealBanners = !!(data.is_defense || data.levy_exempt);
 
   const isOutlawry =
@@ -282,6 +288,12 @@ export const QuestScroll = () => {
                 <BlockadeTimer
                   label={data.blockade_timer_label || ''}
                   seconds={data.blockade_timer_seconds ?? 0}
+                />
+              )}
+              {hasHuntTimer && (
+                <BlockadeTimer
+                  label={data.hunt_timer_label || ''}
+                  seconds={data.hunt_timer_seconds ?? 0}
                 />
               )}
               {!!data.blockade_armed && !data.blockade_timer_label && (
