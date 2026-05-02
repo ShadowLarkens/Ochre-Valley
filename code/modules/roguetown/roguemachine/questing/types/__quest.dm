@@ -77,25 +77,23 @@
 			held_landmark.claimed_by = null
 		held_landmark.cooldown_until = world.time + QUEST_LANDMARK_COOLDOWN
 
-	for(var/mob/living/M in GLOB.mob_list)
-		var/datum/component/quest_object/Q = M.GetComponent(/datum/component/quest_object)
-		if(Q && Q.quest_ref?.resolve() == src)
-			M.remove_filter("quest_item_outline")
-			qdel(Q)
-
 	for(var/datum/weakref/tracked_weakref in tracked_atoms)
 		var/atom/target_atom = tracked_weakref.resolve()
-		if(QDELETED(target_atom))
-			continue
+		if(!QDELETED(target_atom))
+			if(ismob(target_atom))
+				var/mob/M = target_atom
+				var/datum/component/quest_object/Q = M.GetComponent(/datum/component/quest_object)
+				if(Q && Q.quest_ref?.resolve() == src)
+					M.remove_filter("quest_item_outline")
+					qdel(Q)
+			// Only delete the item if it's part of a fetch or courier quest.
+			else if(quest_type == QUEST_RETRIEVAL && istype(target_atom, target_item_type))
+				qdel(target_atom)
+			else if(quest_type == QUEST_COURIER && istype(target_atom, target_delivery_item))
+				qdel(target_atom)
 
-		// Only delete the item if it's part of a fetch or courier quest
-		if(quest_type == QUEST_RETRIEVAL && istype(target_atom, target_item_type))
-			qdel(target_atom)
-		else if(quest_type == QUEST_COURIER && istype(target_atom, target_delivery_item))
-			qdel(target_atom)
-
-		tracked_atoms -= tracked_weakref
 		qdel(tracked_weakref)
+	tracked_atoms.Cut()
 
 	// Clean up references
 	quest_scroll = null

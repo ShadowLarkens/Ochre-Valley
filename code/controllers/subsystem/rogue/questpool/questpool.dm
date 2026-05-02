@@ -41,9 +41,6 @@ SUBSYSTEM_DEF(questpool)
 	return closest
 
 /datum/controller/subsystem/questpool/fire(resumed)
-	// Reset region counts from the current pool state. reroll_stale / regen_kill_targets
-	// / regen_fetch_targets then maintain them incrementally through pool adds/removes.
-	rebuild_region_counts()
 	reroll_stale()
 	regen_kill_targets(QUEST_KILL_REGEN_PER_TICK)
 	regen_fetch_targets()
@@ -185,21 +182,27 @@ SUBSYSTEM_DEF(questpool)
 
 /datum/controller/subsystem/questpool/proc/reroll_stale()
 	var/cutoff = world.time - QUEST_POOL_STALE_THRESHOLD
+	var/list/stale = list()
+	var/kill_replacements_needed = 0
 	for(var/datum/quest/Q as anything in pool)
 		if(Q.created_at >= cutoff)
 			continue
-		var/was_kill = is_kill_type(Q.quest_type)
+		stale += Q
+		if(is_kill_type(Q.quest_type))
+			kill_replacements_needed++
+	if(!length(stale))
+		return
+	// Batch removal: one pool -= list shifts the array once instead of N times.
+	pool -= stale
+	for(var/datum/quest/Q as anything in stale)
 		adjust_region_count(Q, -1)
-		pool -= Q
 		log_event("reroll", "stale [Q.quest_difficulty] [Q.quest_type]")
 		qdel(Q)
 		record_round_statistic(STATS_CONTRACTS_REROLLED)
-		// Only kill quests reroll on the kill schedule. Evergreens get topped up by regen_fetch_targets.
-		if(!was_kill)
-			continue
+	for(var/i in 1 to kill_replacements_needed)
 		var/datum/threat_region/TR = pick_neediest_kill_region()
 		if(!TR)
-			continue
+			break
 		var/type = pick_kill_type_for(TR)
 		if(!type)
 			continue
