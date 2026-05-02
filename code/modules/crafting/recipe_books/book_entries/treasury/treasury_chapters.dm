@@ -293,7 +293,9 @@
 		<p>The Steward may burn Burgher Pledge to spawn a standing order on demand, picking a category and a non-blockaded target region. Petitioned orders are tagged in the UI and pay [round(PETITION_TAX_MULT * 100)]% of a normal roll's payout. Daily quota: [PETITIONS_PER_DAY] per round-day. Each category contains multiple order templates, so the Steward can direct demand but not fully dictate composition.</p>
 
 		<h3>Fulfillment</h3>
-		<p>Stockpile orders: deposit goods, confirm at the Nerve Master, payout minted to the Crown's Purse. Warehouse orders: settled automatically on sweep. <b>The bearer is not paid by the Crown</b> - the Steward holds the coin and decides how much to remit.</p>
+		<p>Stockpile orders: deposit goods, confirm at the Nerve Master, payout minted to the Crown's Purse. Warehouse orders: settled automatically on sweep. The Crown's purse is paid directly and it is up to the Steward to decides who and how much to remit from their profit.</p>
+
+		<p><b>Partial fulfillment:</b> if the on-hand goods cover at least [round(STANDING_ORDER_PARTIAL_THRESHOLD * 100)]% of an order's posted value, the Steward may settle it anyway. The buyer pays [round(STANDING_ORDER_PARTIAL_PAYOUT_MULT * 100)]% of the delivered share's value and the missing share is forfeit. Failed attempt locks fulfillment for [DisplayTimeText(STANDING_ORDER_FULFILL_RETRY_COOLDOWN)] to prevent spam and performance issue.</p>
 
 		<h3>Limits</h3>
 		<p>Max [STANDING_ORDERS_MAX_PER_REGION] orders per region. Max [STANDING_ORDERS_POOL_CAP] orders in the realm. Blockaded regions can hold orders but cannot be delivered to.</p>
