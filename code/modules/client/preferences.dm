@@ -63,6 +63,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/preferred_map = null
 	var/pda_style = MONO
 	var/pda_color = "#808000"
+	var/topjob = null
 
 	var/uses_glasses_colour = 0
 
@@ -142,6 +143,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/lobbymusicvol = 50
 	var/ambiencevol = 50
 	var/mastervol = 50
+	var/stopdroning = FALSE
 
 	var/anonymize = TRUE
 	var/masked_examine = TRUE //OV Edit: Because being able to see preferences is soorta important
@@ -254,6 +256,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	/// Per-character theme override for examine panel viewers
 	var/examine_theme
+
+	/// Whether we can see the feint HUD bar.
+	var/feint_hud = FALSE 
 
 /datum/preferences/New(client/C)
 	parent = C
@@ -413,7 +418,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<td style='width:33%;text-align:left'>"
 			dat += "</td>"
 			dat += "<td style='width:33%;text-align:center'>"
-			dat += "<a href='?_src_=prefs;preference=lore_primer'>* Lore Primer *</a>"
+			dat += "<a href='?_src_=prefs;preference=lore_primer'>Lore Primer</a>"
 			dat += "</td>"
 			dat += "<td style='width:33%;text-align:right'>"
 			///Caustic edit
@@ -637,6 +642,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			if(charflaws.len)
 				for(var/i = 1 to charflaws.len)
 					var/datum/charflaw/cf = charflaws[i]
+					if(!cf)
+						continue
 					var/warning = ""
 					if(cf.needs_extra_vice && charflaws.len < 2)
 						warning = "<font color = '#910505'>"
@@ -1166,6 +1173,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					var/mob/dead/new_player/P = user
 					if(istype(P))
 						P.topjob = job.title
+						topjob = job.title
 				if(JP_MEDIUM)
 					prefLevelLabel = "Medium"
 					prefLevelColor = "green"
@@ -1868,18 +1876,21 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				// LETHALSTONE EDIT: add statpack selection
 				if ("statpack")
 					var/list/statpacks_available = list()
+					var/list/statpack_descriptions = list()
 					for (var/path as anything in GLOB.statpacks)
 						var/datum/statpack/statpack = GLOB.statpacks[path]
 						if (!statpack.name)
 							continue
 						var/index = statpack.name
 						if(length(statpack.stat_array))
-							index += " \n[statpack.generate_modifier_string()]"
+							var/modifier_string = statpack.generate_modifier_string()
+							index += " [modifier_string]"
+							statpack_descriptions[index] = modifier_string
 						statpacks_available[index] = statpack
 
 					statpacks_available = sort_list(statpacks_available)
 
-					var/statpack_input = tgui_input_list(user, "How shall your strengths manifest?", "STATPACK", statpacks_available, statpack)
+					var/statpack_input = tgui_input_list(user, "How shall your strengths manifest?", "STATPACK", statpacks_available, statpack, descriptions = statpack_descriptions)
 					if (statpack_input)
 						var/datum/statpack/statpack_chosen = statpacks_available[statpack_input]
 						statpack = statpack_chosen
@@ -2611,7 +2622,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
 						virtue = new virtue_chosen.type
 						to_chat(user, process_virtue_text(virtue_chosen))
-						if(!istype(virtue, /datum/virtue/combat/rotcured) && !istype(virtuetwo, /datum/virtue/combat/rotcured))
+						if(!istype(virtue, /datum/virtue/combat/rotcured) && !istype(virtuetwo, /datum/virtue/combat/rotcured) && !istype(extravirtue, /datum/virtue/combat/rotcured)) //OV Edit - Rotcured Color Catch for Extra Virtue
 							if(skin_tone == SKIN_COLOR_ROT)
 								var/new_tone = random_skin_tone()
 								skin_tone = new_tone
@@ -2643,7 +2654,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
 						virtuetwo = new virtue_chosen.type
 						to_chat(user, process_virtue_text(virtue_chosen))
-						if(!istype(virtue, /datum/virtue/combat/rotcured) && !istype(virtuetwo, /datum/virtue/combat/rotcured))
+						if(!istype(virtue, /datum/virtue/combat/rotcured) && !istype(virtuetwo, /datum/virtue/combat/rotcured) && !istype(extravirtue, /datum/virtue/combat/rotcured)) //OV Edit - Rotcured Color Catch for Extra Virtue
 							if(skin_tone == SKIN_COLOR_ROT)
 								var/new_tone = random_skin_tone()
 								skin_tone = new_tone
@@ -3139,7 +3150,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if(S)
 							for(var/i=1, i<=max_save_slots, i++)
 								var/name
+								var/suffix
 								S.cd = "/character[i]"
+								S["topjob"] >> suffix
 								var/nickname = S["nickname"]
 								var/realname = S["real_name"]
 								if(!realname)
@@ -3148,6 +3161,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 									name = "[i] - [realname][nickname ? " ([nickname])" : ""]"
 								if(loaded_slot == i)
 									choices_default = name
+								if(suffix)
+									name += " — [suffix]"
 								choices[name] = i
 					var/choice = tgui_input_list(user, "CHOOSE A HERO","CAUSTIC COVE", choices, choices_default)
 					// Caustic Edit End
@@ -3228,10 +3243,15 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 			else if(firstspace == name_length)
 				real_name += "[pick(GLOB.last_names)]"
 
+	// OV Edit Start: No more randomizing player character names!!
+	character.real_name = real_name
+	/*
 	if(real_name in GLOB.chosen_names)
 		character.real_name = pref_species.random_name(gender)
 	else
 		character.real_name = real_name
+	*/
+	// OV Edit End
 	character.name = character.real_name
 
 	character.domhand = domhand
@@ -3490,10 +3510,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 /datum/preferences/proc/LorePopup(mob/user)
 	if(!user || !user.client)
 		return
-	var/list/dat = list()
 	var/datum/browser/noclose/popup  = new(user, "lore_primer", "<div align='center'>Lore Primer</div>", 650, 900)
-	dat += GLOB.roleplay_readme
-	popup.set_content(dat.Join())
+	popup.set_content(build_lore_primer_content())
 	popup.open(FALSE)
 
 //OV edit
