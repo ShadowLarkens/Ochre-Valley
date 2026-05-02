@@ -121,14 +121,14 @@ SUBSYSTEM_DEF(treasury)
 	record_round_statistic(STATS_RUMOR_POINTS_GENERATED, rumor_points)
 	init_decrees()
 
-	for(var/path in subtypesof(/datum/roguestock/bounty))
-		var/datum/D = new path
-		stockpile_datums += D
 	for(var/path in subtypesof(/datum/roguestock/stockpile))
 		var/datum/roguestock/D = new path
 		stockpile_datums += D
 		if(D.trade_good_id)
 			stockpile_by_trade_good[D.trade_good_id] = D
+	for(var/path in subtypesof(/datum/roguestock/bounty))
+		var/datum/D = new path
+		stockpile_datums += D
 	autoset_stockpile_limits()
 	return ..()
 
