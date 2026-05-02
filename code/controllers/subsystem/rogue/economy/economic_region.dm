@@ -141,6 +141,9 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		TRADE_GOOD_SILK = TG_DEMAND_SILK,
 		TRADE_GOOD_GRAIN = TG_DEMAND_LOCAL_GRAIN,
 		TRADE_GOOD_CLAY = TG_DEMAND_CHEAP_RAW_MAT,
+		TRADE_GOOD_SAFFIRA = 2,
+		TRADE_GOOD_BLORTZ = 2,
+		TRADE_GOOD_DORPEL = 1,
 	)
 
 /datum/economic_region/daftsmarch
