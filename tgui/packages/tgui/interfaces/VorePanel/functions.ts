@@ -163,12 +163,12 @@ export function ourTypeToOptions(
         tooltip: 'Process your current target instantly.',
       });
       interaction_options.push({
-        name: 'Health',
+        name: 'Health Bar',
         tooltip: 'Display the health of the current target.',
       });
     } else if (type === 'Living') {
       interaction_options.push({
-        name: 'Health',
+        name: 'Health Bar',
         tooltip: 'Display the health of the current target.',
       });
     }

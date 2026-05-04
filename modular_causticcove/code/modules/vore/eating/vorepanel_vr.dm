@@ -482,6 +482,12 @@
 				host.client.prefs_vr.absorbable = host.absorbable
 			unsaved_changes = TRUE
 			return TRUE
+		if("toggle_leaveremains")
+			host.digest_leave_remains = !host.digest_leave_remains
+			if(host.client.prefs_vr)
+				host.client.prefs_vr.digest_leave_remains = host.digest_leave_remains
+			unsaved_changes = TRUE
+			return TRUE
 		if("toggle_mobvore")
 			host.allowmobvore = !host.allowmobvore
 			if(host.client.prefs_vr)
@@ -895,7 +901,7 @@
 		var/mob/living/datarget = target
 		if(datarget.client)
 			available_options += "Process"
-		available_options += "Health"
+		available_options += "Health Bar"
 	if((params["option"] in available_options))
 		intent = params["option"]
 	else
@@ -1088,7 +1094,7 @@
 					T.update_icon()
 					//announce_ghost_joinleave(T.mind, 0, "They now occupy their body again.")
 			return TRUE
-		if("Health")
+		if("Health Bar")
 			var/mob/living/ourtarget = target
 			ourtarget.chat_healthbar(user) //OV EDIT
 			return TRUE
