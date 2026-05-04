@@ -217,6 +217,7 @@
 #include "code\__DEFINES\mobs\simplemob_attack_speed.dm"
 #include "code\__DEFINES\mobs\simplemob_health.dm"
 #include "code\__DEFINES\mobs\simplemob_movement_speed.dm"
+#include "code\datums\sexcon2\ov_sex_helpers.dm"
 
 //Caustic Modular Defines
 #include "modular_causticcove\code\__DEFINES\appearance_changer.dm"

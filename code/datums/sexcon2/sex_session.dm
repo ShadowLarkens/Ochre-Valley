@@ -171,8 +171,11 @@
 		return FALSE
 	if(user.stat != CONSCIOUS)
 		return FALSE
+	// OV Edit Start: Belly Sex
 	if(!user.Adjacent(target) && !action.ranged_action)
-		return FALSE
+		if(!isbelly(user.loc) || user.loc != target.loc)
+			return FALSE
+	// OV Edit End
 	if(action.check_incapacitated && user.incapacitated())
 		return FALSE
 	if(action.check_same_tile)

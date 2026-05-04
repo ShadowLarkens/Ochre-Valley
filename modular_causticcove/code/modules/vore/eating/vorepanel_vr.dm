@@ -754,10 +754,10 @@
 	// Only allow indirect belly viewers to examine
 	if(user in OB)
 		if(isliving(target))
-			if(params["option"] in list("Examine","Help Out","Devour"))
+			if(params["option"] in list("Examine","Help Out","Devour","ERP"))
 				intent = params["option"]
 			else
-				intent = tgui_alert(user, "What do you want to do to them?","Query",list("Examine","Help Out","Devour"))
+				intent = tgui_alert(user, "What do you want to do to them?","Query",list("Examine","Help Out","Devour","ERP"))
 
 		else if(isitem(target))
 			if(params["option"] in list("Examine","Use Hand"))
@@ -833,6 +833,19 @@
 					M.absorbed = FALSE
 					OB.handle_absorb_langs(M, OB.owner)
 				TB.nom_atom(M)
+
+		if("ERP") // let's fugg
+			if(host.stat || host.absorbed || M.absorbed)
+				to_chat(user, span_warning("You can't do that in your state!"))
+				return TRUE
+
+			if(!ishuman(host) || !ishuman(M))
+				to_chat(user, span_warning("Sex is not allowed for you or them."))
+				return FALSE
+
+			var/mob/living/carbon/human/human_host = host
+			human_host.try_initiate_sex(M)
+			return TRUE
 
 /datum/vore_look/proc/pick_from_outside(mob/user, params)
 	var/intent

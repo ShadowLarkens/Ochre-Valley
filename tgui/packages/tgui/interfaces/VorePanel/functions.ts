@@ -189,6 +189,12 @@ export function ourTypeToOptions(
         needsConfirm: true,
         tooltip: 'Devour your current target.',
       },
+      {
+        name: 'ERP',
+        color: 'pink',
+        needsConfirm: true,
+        tooltip: 'ERP with your current target.',
+      },
     ];
   }
   if (type === 'Item') {
