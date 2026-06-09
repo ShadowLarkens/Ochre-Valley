@@ -3864,6 +3864,8 @@
 #include "modular\piercing\supply.dm"
 #include "modular\ze_genesis_call\genesis_call.dm"
 
+#include "modular_aetheriteimperium\code\__DEFINES\ckey.dm"
+#include "modular_aetheriteimperium\code\modules\jobs\job_types\roguetown\nobility\lord.dm"
 
 #include "modular_causticcove\code\datums\loadout\loadout_accessories.dm"
 #include "modular_causticcove\code\datums\loadout\loadout_cloaks.dm"
