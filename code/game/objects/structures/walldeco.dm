@@ -572,7 +572,7 @@
 
 		if(user.job in GLOB.noble_positions) //Ducal Family
 			// AI Edit Start: use correct title
-			var/job/J = SSjob.GetJob(user.job)
+			var/datum/job/J = SSjob.GetJob(user.job)
 			say( "[J.get_used_title(user)] [user.real_name], vostre seigneurie, j'avions pour vous tout temps par tout temps")
 			// AI Edit End
 			playsound(loc, 'sound/misc/gold_menu.ogg', 100, TRUE, -1)
