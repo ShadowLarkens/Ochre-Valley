@@ -152,7 +152,7 @@
 	authorized_jobs = list("Steward", "Clerk")
 
 /obj/item/mini_flagpole/duke
-	name = "duke miniature flagpole"
+	name = "Supreme Empress miniature flagpole" // AI Edit: Duke -> Supreme Empress
 	controlled_role = "duke"
 	flag_color = "#007FFF" // Azure
 

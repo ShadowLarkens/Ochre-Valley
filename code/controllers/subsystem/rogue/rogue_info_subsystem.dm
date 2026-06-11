@@ -33,7 +33,7 @@ SUBSYSTEM_DEF(rogueinfo)
 			"note" = "No custom notes."
 		),
 		"duke" = list(
-			"desc" = "The duke of our glorious duchy is currently taking petitions.",
+			"desc" = "The Supreme Empress of our glorious duchy is currently taking petitions.", // AI Edit: Duke -> Supreme Empress
 			"note" = "No custom notes."
 		),
 		"apothecary" = list(
