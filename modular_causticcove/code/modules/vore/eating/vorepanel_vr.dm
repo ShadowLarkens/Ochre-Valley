@@ -668,7 +668,7 @@
 			var/belly_choice = params["attribute"]
 			if(!(belly_choice in host.vore_icon_bellies))
 				return FALSE
-			var/newcolor =  input(ui.user, "Choose a color.", host.vore_sprite_color[belly_choice]) as color|null 
+			var/newcolor =  input(ui.user, "Choose a color.", host.vore_sprite_color[belly_choice]) as color|null
 			if(!newcolor)
 				return FALSE
 			host.vore_sprite_color[belly_choice] = newcolor
@@ -988,23 +988,6 @@
 				to_chat(target,span_warning("You're squished from [host]'s [lowertext(host.vore_selected.name)] to their [lowertext(choice.name)]!"))
 				host.vore_selected.transfer_contents(target, choice)
 			return TRUE
-		
-		/*if("Transform")
-			if(host.stat)
-				to_chat(user,span_warning("You can't do that in your state!"))
-				return TRUE
-
-			var/mob/living/carbon/human/H = target
-			if(!istype(H))
-				return FALSE
-
-			if(!H.allow_spontaneous_tf)
-				to_chat(user,span_warning("Your target can't be transformed!"))
-				return FALSE
-
-			var/datum/tgui_module/appearance_changer/vore/V = new(host, H)
-			V.ui_interact(user)
-			return TRUE*/
 
 		if("Reform")
 			if(host.stat)
