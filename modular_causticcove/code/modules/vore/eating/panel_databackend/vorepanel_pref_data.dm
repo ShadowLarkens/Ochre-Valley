@@ -1,62 +1,43 @@
+// Vars that are passed through to the UI as-is with the same var and key names
+GLOBAL_LIST_INIT(vore_pref_data_var_passthrough, list(
+	"digestable", "digestable", "devourable", "resizable", "feeding", "absorbable",
+	"digest_leave_remains", "allowmobvore", "allowtemp", "permit_healbelly",
+	"show_vore_fx", "can_be_drop_prey", "can_be_drop_pred",
+	"can_be_afk_prey", "can_be_afk_pred", "latejoin_vore", "latejoin_prey",
+	"allow_spontaneous_tf", "noisy", "autotransferable", "noisy_full",
+	"allow_mind_transfer", "drop_vore", "slip_vore", "stumble_vore",
+	"throw_vore", "phase_vore", "food_vore",
+	"spont_belly_rear", "spont_belly_left", "spont_belly_front", "spont_belly_right",
+	"consume_liquid_belly", "digest_pain", "eating_privacy_global",
+	"vore_death_privacy", "allow_mimicry", "max_voreoverlay_alpha",
+))
+
 /datum/vore_look/proc/get_preference_data(mob/owner)
-	return list(
-		"digestable" = owner.digestable,
-		"devourable" = owner.devourable,
-		"resizable" = owner.resizable,
-		"feeding" = owner.feeding,
-		"absorbable" = owner.absorbable,
-		"digest_leave_remains" = owner.digest_leave_remains,
-		"allowmobvore" = owner.allowmobvore,
-		"allowtemp" = owner.allowtemp,
-		"permit_healbelly" = owner.permit_healbelly,
-		"show_vore_fx" = owner.show_vore_fx,
-		"can_be_drop_prey" = owner.can_be_drop_prey,
-		"can_be_drop_pred" = owner.can_be_drop_pred,
-		"can_be_afk_prey" = owner.can_be_afk_prey,
-		"can_be_afk_pred" = owner.can_be_afk_pred,
-		"latejoin_vore" = owner.latejoin_vore,
-		"latejoin_prey" = owner.latejoin_prey, //I don't think we have Latejoin Vore? but EH.
+	. = list(
 		"no_spawnpred_warning" = owner.no_latejoin_vore_warning,
 		"no_spawnprey_warning" = owner.no_latejoin_prey_warning,
 		"no_spawnpred_warning_time" = owner.no_latejoin_vore_warning_time,
 		"no_spawnprey_warning_time" = owner.no_latejoin_prey_warning_time,
 		"no_spawnpred_warning_save" = owner.no_latejoin_vore_warning_persists,
 		"no_spawnprey_warning_save" = owner.no_latejoin_prey_warning_persists,
-		"allow_spontaneous_tf" = owner.allow_spontaneous_tf,
 		"step_mechanics_active" = owner.step_mechanics_pref,
 		"pickup_mechanics_active" = owner.pickup_pref,
 		"strip_mechanics_active" = owner.strip_pref,
 		"contaminate_worn_items" = owner.contaminate_pref,
-		"noisy" = owner.noisy,
 		//liquid belly prefs
 		"liq_rec" = owner.receive_reagents,
 		"liq_giv" = owner.give_reagents,
 		"liq_apply" = owner.apply_reagents,
-		"autotransferable" = owner.autotransferable,
-		"noisy_full" = owner.noisy_full, //Belching while full
 
-		"allow_mind_transfer" = owner.allow_mind_transfer,
-		"drop_vore" = owner.drop_vore,
-		"slip_vore" = owner.slip_vore,
-		"stumble_vore" = owner.stumble_vore,
-		"throw_vore" = owner.throw_vore,
-		"phase_vore" = owner.phase_vore,
-		"food_vore" = owner.food_vore,
-		"spont_belly_rear" = owner.spont_belly_rear,
-		"spont_belly_left" = owner.spont_belly_left,
-		"spont_belly_front" = owner.spont_belly_front,
-		"spont_belly_right" = owner.spont_belly_right,
-		"consume_liquid_belly" = owner.consume_liquid_belly,
-		"digest_pain" = owner.digest_pain,
-		"eating_privacy_global" = owner.eating_privacy_global,
-		"vore_death_privacy" = owner.vore_death_privacy,
-		"allow_mimicry" = owner.allow_mimicry,
-		"max_voreoverlay_alpha" = owner.max_voreoverlay_alpha,
 		"dropdown_preferences" = list(
 			"strip_active" = owner.size_strip_preference,
 			"selective_active" = owner.selective_preference, //Reveal active selective mode in prefs
 		)
 	)
+
+	for(var/var_name in GLOB.vore_pref_data_var_passthrough)
+		.[var_name] = owner.vars[var_name]
+
 
 #define SET_TASTE "Set Taste"
 #define SET_SMELL "Set Smell"
