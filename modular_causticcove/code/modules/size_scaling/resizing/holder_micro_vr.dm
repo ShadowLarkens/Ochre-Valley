@@ -46,23 +46,3 @@
 		if(isanimal(L))
 			var/mob/living/simple_animal/S = L
 			user.visible_message(span_notice("[user] [S.response_help_continuous] \the [S]."))
-
-//Egg features.
-/obj/item/holder/attack_hand(mob/living/user as mob)
-	if(istype(src.loc, /obj/item/storage/vore_egg)) //Don't scoop up the egged mob
-		src.pickup(user)
-		user.dropItemToGround(src)
-		return
-	..()
-
-/obj/item/holder/container_resist(mob/living/held)
-	if(!istype(src.loc, /obj/item/storage/vore_egg))
-		..()
-	else
-		var/obj/item/storage/vore_egg/E = src.loc
-		if(isbelly(E.loc))
-			var/obj/belly/B = E.loc
-			B.relay_resist(held, E)
-			return
-		E.hatch(held)
-		return

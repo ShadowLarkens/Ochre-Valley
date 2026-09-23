@@ -137,6 +137,13 @@ export const VoreSelectedBellyControls = (props: {
           tooltip="The digest mode which will be applied for items."
         />
       </LabeledList.Item>
+      <LabeledList.Item label="Quick Actions">
+        <Button
+          onClick={() => act('set_attribute', { attribute: 'b_create_egg' })}
+        >
+          Create Egg
+        </Button>
+      </LabeledList.Item>
       {editMode && (
         <LabeledList.Item>
           <Button.Confirm

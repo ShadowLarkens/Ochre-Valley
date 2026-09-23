@@ -1,4 +1,10 @@
-GLOBAL_LIST_INIT(digest_modes, list())
+GLOBAL_LIST_INIT(digest_modes, init_digest_modes())
+
+/proc/init_digest_modes()
+	. = list()
+	for(var/T in typesof(/datum/digest_mode))
+		var/datum/digest_mode/DM = new T
+		.[DM.id] = DM
 
 /datum/digest_mode
 	var/id = DM_HOLD
@@ -89,7 +95,7 @@ GLOBAL_LIST_INIT(digest_modes, list())
 		damage_gain = damage_gain * 0.5
 	var/offset = (1 + ((L.weight - 137) / 137)) // 130 pounds = .95 140 pounds = 1.02
 	var/difference = B.owner.size_multiplier / L.size_multiplier
-	
+
 	if(B.health_impacts_size)
 		B.owner.handle_belly_update()
 
@@ -213,100 +219,83 @@ GLOBAL_LIST_INIT(digest_modes, list())
 // E G G
 /datum/digest_mode/egg
 	id = DM_EGG
-/*
-/datum/digest_mode/egg/process_mob(obj/belly/B, mob/living/carbon/human/H)
-	if(!istype(H) || H.stat == DEAD || H.absorbed)
-		return null
-	B.put_in_egg(H, 1)*/
 
 /datum/digest_mode/egg/handle_atoms(obj/belly/B, list/touchable_atoms)
 	if(B.egg_cycles < 10)
 		B.egg_cycles ++
 		return
+
+	// 10 cycles, egg time!
 	B.egg_cycles = 0
-	var/list/egg_contents = list()
+
+	// Build a list of things going in the egg
+	var/list/potential_egg_contents = list()
 	for(var/E in touchable_atoms)
-		if(istype(E, /mob/dead/observer))
+		// Don't egg other eggs.
+		if(istype(E, /obj/item/vore_egg))
 			continue
-		if(istype(E, /obj/item/storage/vore_egg)) // Don't egg other eggs.
-			var/obj/item/storage/vore_egg/EG = E
-			if(EG.egg_name != B.egg_name)
-				if(!B.egg_name)
-					EG.egg_name = null
-					EG.name = initial(EG.name)
-				else
-					EG.egg_name = B.egg_name
-					EG.name = B.egg_name
-			continue
+		// Egg all non-absorbed!
 		if(isliving(E))
 			var/mob/living/L = E
 			if(L.absorbed)
 				continue
-			egg_contents += L
+			potential_egg_contents += L
+		// Egg all items too
 		if(isitem(E))
-			egg_contents += E
-	if(egg_contents.len)
-		if(!B.ownegg)
-			if(B.egg_type in GLOB.tf_vore_egg_types)
-				B.egg_path = GLOB.tf_vore_egg_types[B.egg_type]
-			B.ownegg = new B.egg_path(B)
-			if(B.ownegg && B.egg_name)
-				B.ownegg.egg_name = B.egg_name
-				B.ownegg.name = B.egg_name
+			var/obj/item/I = E
+			// Reinforce grid size restriction
+			if(!(I.grid_height <= world.icon_size || I.grid_width <= world.icon_size))
+				continue
+			potential_egg_contents += E
+
+	// We found something to egg
+	if(LAZYLEN(potential_egg_contents))
+		var/obj/item/vore_egg/egg_in_progress = B.create_egg()
+
+		// Decide what we're going to egg, up to MAX_EGG_CONTENTS
+		var/list/final_egg_contents = list()
+		// mobs get priority
+		for(var/mob/M in potential_egg_contents)
+			if(LAZYLEN(final_egg_contents) >= MAX_EGG_CONTENTS)
+				break
+			final_egg_contents += M
+		// then objects
+		for(var/obj/item/I in potential_egg_contents)
+			if(LAZYLEN(final_egg_contents) >= MAX_EGG_CONTENTS)
+				break
+			final_egg_contents += I
+
+		// we have our list of things to egg, actually egg them
 		var/scale_clamp = 1
-		for(var/atom/movable/C in egg_contents)
-			if(isitem(C) && egg_contents.len == 1) //Only egging one item
-				var/obj/item/I = C
-				B.ownegg.w_class = I.w_class
-				//B.ownegg.max_storage_space = B.ownegg.w_class
-				I.forceMove(B.ownegg)
-				if(B.egg_size) //This was previous commented out? - Jon
-					B.ownegg.transform.Scale(B.egg_size, B.egg_size)
-					//B.ownegg.icon_scale_x = B.egg_size
-					//B.ownegg.icon_scale_y = B.egg_size
-				else
-					B.ownegg.transform.Scale(0.2 * B.ownegg.w_class, 0.2 * B.ownegg.w_class)
-					//B.ownegg.icon_scale_x = 0.2 * B.ownegg.w_class
-					//B.ownegg.icon_scale_y = 0.2 * B.ownegg.w_class //Comment Block ended here.
-				B.ownegg.update_transform()
-				egg_contents -= I
-				B.ownegg = null
-				return list("to_update" = TRUE)
+		for(var/atom/movable/C as anything in final_egg_contents)
+			// Stuff everything into egg
+			C.forceMove(egg_in_progress)
+
+			// and calculate size
 			if(isitem(C))
 				var/obj/item/I = C
-				B.ownegg.w_class += I.w_class //Let's assume a regular outfit can reach total w_class of 16.
-				I.forceMove(B.ownegg)
+				egg_in_progress.w_class += I.w_class //Let's assume a regular outfit can reach total w_class of 16.
+
 			if(isliving(C))
 				var/mob/living/M = C
-				//var/mob_holder_type = M.holder_type || /obj/item/holder
-				B.ownegg.w_class += M.size_multiplier * 4 //Egg size and weight scaled to match occupant.
+				egg_in_progress.w_class += M.size_multiplier * 4 //Egg size and weight scaled to match occupant.
 				if(M.size_multiplier > scale_clamp)
 					scale_clamp = M.size_multiplier
-				//var/obj/item/holder/H = new mob_holder_type(B.ownegg, M)
-				//B.ownegg.max_storage_space = H.w_class
-				//B.ownegg.icon_scale_x = 0.25 * B.ownegg.w_class
-				//B.ownegg.icon_scale_y = 0.25 * B.ownegg.w_class
-				//B.ownegg.update_transform()
-				egg_contents -= M
-				//if(B.ownegg.w_class > 4)
-				//	B.ownegg.slowdown = B.ownegg.w_class - 4
-				//B.ownegg = null
-				//return list("to_update" = TRUE)
-		//B.ownegg.calibrate_size() //This and the line below are originating from the storage type in base SS13
-		//B.ownegg.orient2hud()
-		B.ownegg.w_class = clamp(B.ownegg.w_class * 0.25, 1, 8) //A total w_class of 16 will result in a backpack sized egg.
-		if(B.egg_size)
-			B.ownegg.transform.Scale(B.egg_size, B.egg_size)
-			//B.ownegg.icon_scale_x = B.egg_size
-			//B.ownegg.icon_scale_y = B.egg_size
-		else
-			B.ownegg.transform.Scale(clamp(0.25 * B.ownegg.w_class, 0.25, scale_clamp), clamp(0.25 * B.ownegg.w_class, 0.25, scale_clamp))
-			//B.ownegg.icon_scale_x = clamp(0.25 * B.ownegg.w_class, 0.25, scale_clamp)
-			//B.ownegg.icon_scale_y = clamp(0.25 * B.ownegg.w_class, 0.25, scale_clamp)
-		B.ownegg.update_transform()
-		if(B.ownegg.w_class > 4)
-			B.ownegg.slowdown = 4
-		B.ownegg = null
+				// Notify em
+				to_chat(M, span_notice("You feel [egg_in_progress] form around you."))
+
+		// Set size
+		egg_in_progress.w_class = clamp(egg_in_progress.w_class * 0.25, 1, 8) //A total w_class of 16 will result in a backpack sized egg.
+		// other path is handled in create_egg
+		if(!B.egg_size)
+			egg_in_progress.transform = egg_in_progress.transform.Scale(
+				clamp(0.25 * egg_in_progress.w_class, 0.25, scale_clamp),
+				clamp(0.25 * egg_in_progress.w_class, 0.25, scale_clamp)
+			)
+
+		// Congrats, egging has been achieved
+		to_chat(B.owner, span_notice("You feel [egg_in_progress] form completely in [B]."))
+
 		return list("to_update" = TRUE)
 	return
 

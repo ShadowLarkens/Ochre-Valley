@@ -67,6 +67,7 @@ export type BellyData = {
 export type BellyModeData = {
   mode: string;
   item_mode: string;
+  egg_cycles: number;
   addons: CheckBoxEntry[];
   name_length: number;
   name_min: number;

@@ -54,9 +54,7 @@
 	var/fancy_vore = FALSE					// Using the new sounds?
 	var/is_wet = TRUE						// Is this belly's insides made of slimy parts?
 	var/wet_loop = TRUE						// Does the belly have a fleshy loop playing?
-	var/obj/item/storage/vore_egg/ownegg	// Is this belly creating an egg?
-	var/egg_type = "Egg"					// Default egg type and path.
-	var/egg_path = /obj/item/storage/vore_egg
+	var/egg_type = "Egg"					// Default egg type in GLOB.tf_vore_egg_types
 	var/egg_name = null						// Custom egg name
 	var/egg_size = 0						// Custom egg size
 	var/list/list/emote_lists = list()			// Idle emotes that happen on their own, depending on the bellymode. Contains lists of strings indexed by bellymode
@@ -236,7 +234,7 @@
 	var/list/fullness5_messages = list(
 		"%pred's %belly is completely filled to it's limit!"
 		)
-	
+
 	var/tmp/reagent_chosen = REAGENT_WATER				// variable for switch to figure out what to set variables when a certain reagent is selected
 	var/tmp/static/list/reagent_choices = list(		// List of reagents people can chose, maybe one day expand so it covers criterias like dogborgs who can make meds, booze, etc - Jack
 	REAGENT_WATER,
@@ -765,7 +763,7 @@
 /obj/belly/proc/release_specific_contents(atom/movable/M, silent = FALSE)
 	if (!(M in contents))
 		return 0 // They weren't in this belly anyway
-	
+
 	for(var/mob/living/L in M.contents)
 		L.muffled = FALSE
 		L.forced_psay = FALSE
@@ -802,7 +800,7 @@
 					if(P.absorbed)
 						absorbed_count++
 				Pred.reagents.trans_to(Prey, Pred.reagents.total_volume / absorbed_count)
-	
+
 	//Makes it so that if prey are heavily asleep, they will wake up shortly after release
 	if(isliving(M))
 		var/mob/living/ML = M
@@ -821,7 +819,7 @@
 		if("subtle")
 			privacy_range = 1
 			//privacy_volume = 25
-	
+
 	//Print notifications/sound if necessary
 	if(isobserver(M))
 		silent = TRUE
@@ -837,7 +835,7 @@
 			soundfile = GLOB.fancy_release_sounds[release_sound]
 		if(soundfile)
 			playsound(src, soundfile, vol = sound_volume, vary = 1, falloff = VORE_SOUND_FALLOFF, frequency = noise_freq, pref_toggle = "eating_noises")
-	
+
 	if(!owner.ckey && escape_stun)
 		owner.Stun(escape_stun)
 
@@ -986,7 +984,7 @@
 	M.x = 1
 	M.y = 1
 	M.z = 1
-	M.alpha = 0 
+	M.alpha = 0
 	owner.handle_belly_update()
 	playsound(src, sfx, vary = 1, vol = 75, falloff = VORE_SOUND_FALLOFF, frequency = noise_freq, pref_toggle = "digestion_noises")
 	SEND_SIGNAL(M, COMSIG_MOB_DIGESTION_DEATH, src, owner)
@@ -1264,7 +1262,7 @@
 		if(blacklist & autotransfer_flags_list_items["Trash"])
 			if(istype(prey, /obj/item/trash)) return FALSE
 		if(blacklist & autotransfer_flags_list_items["Eggs"])
-			if(istype(prey, /obj/item/storage/vore_egg)) return FALSE
+			if(istype(prey, /obj/item/vore_egg)) return FALSE
 		/*if(blacklist & autotransfer_flags_list_items["Remains"])
 			if(istype(prey, /obj/item/digestion_remains)) return FALSE*/
 		if(blacklist & autotransfer_flags_list_items["Indigestible Items"])
@@ -1285,7 +1283,7 @@
 		if(whitelist & autotransfer_flags_list_items["Trash"])
 			if(istype(prey, /obj/item/trash)) return TRUE
 		if(whitelist & autotransfer_flags_list_items["Eggs"])
-			if(istype(prey, /obj/item/storage/vore_egg)) return TRUE
+			if(istype(prey, /obj/item/vore_egg)) return TRUE
 		/*if(whitelist & autotransfer_flags_list_items["Remains"])
 			if(istype(prey, /obj/item/digestion_remains)) return TRUE*/
 		if(whitelist & autotransfer_flags_list_items["Indigestible Items"])

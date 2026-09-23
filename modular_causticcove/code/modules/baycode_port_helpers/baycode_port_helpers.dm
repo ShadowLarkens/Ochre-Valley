@@ -39,10 +39,6 @@
 	animate(src, transform=turn(matrix(), 8*shake_dir), pixel_x=init_px + 2*shake_dir, time=1)
 	animate(transform=null, pixel_x=init_px, time=6, easing=ELASTIC_EASING)
 
-
-/obj/item/storage/proc/drop_contents() // why is this a proc? literally just for RPEDs
-	emptyStorage()
-
 /proc/readd_quotes(var/t)
 	var/list/repl_chars = list("&#34;" = "\"","&#39;" = "'")
 	for(var/char in repl_chars)
@@ -185,7 +181,7 @@ GLOBAL_LIST_EMPTY(icon_state_lists)
 			for(var/obj/item/holder/H in L.contents)
 				if(istype(H.held_mob, /mob/living))
 					living += H.held_mob //CHOMPEdit End
-	
+
 	return living
 
 //Proc to check if a flag is active to use in universal math

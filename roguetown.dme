@@ -3931,7 +3931,6 @@
 #include "modular_causticcove\code\modules\vore\eating\bellymodes_vr.dm"
 #include "modular_causticcove\code\modules\vore\eating\contaminate_vr.dm"
 #include "modular_causticcove\code\modules\vore\eating\digest_act_vr.dm"
-#include "modular_causticcove\code\modules\vore\eating\dumbass_globals.dm"
 #include "modular_causticcove\code\modules\vore\eating\exportpanel_vr.dm"
 #include "modular_causticcove\code\modules\vore\eating\inbelly_spawn.dm"
 #include "modular_causticcove\code\modules\vore\eating\living_bellies.dm"
