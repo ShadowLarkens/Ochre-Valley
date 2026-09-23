@@ -224,6 +224,20 @@ GLOBAL_LIST_INIT(vore_attr_damage_types, list(
 				new_egg_size = CLAMP(new_egg_size, 25, 200)
 				host.vore_selected.egg_size = (new_egg_size/100)
 			. = TRUE
+		// TODO: separate out "actions" vs "setters"
+		if("b_create_egg")
+			if(!TIMER_COOLDOWN_FINISHED(src, "egg_cooldown"))
+				to_chat(user, span_danger("Please wait 5 seconds before creating more eggs."))
+				return
+			TIMER_COOLDOWN_START(src, "egg_cooldown", 5 SECONDS)
+
+			var/obj/item/vore_egg/egg_in_progress = host.vore_selected.create_egg()
+			to_chat(host, span_notice("You feel [egg_in_progress] form in [host.vore_selected]."))
+			if(host != user)
+				to_chat(user, span_notice("[egg_in_progress] created in [host.vore_selected]."))
+
+			// no unsaved changes
+			return TRUE
 		if(BELLY_DESCRIPTION_MESSAGE)
 			var/new_desc = html_encode(params["val"])
 

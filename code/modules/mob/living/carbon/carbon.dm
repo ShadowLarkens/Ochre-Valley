@@ -911,6 +911,11 @@
 	else
 		clear_fullscreen("CMODE")
 
+	// OV Add Start: Vore
+	if(!surrounding_belly() && !previewing_belly) //VOREStation Add - Belly fullscreens safety
+		clear_fullscreen("belly")
+	// OV Add End
+
 	if(health <= crit_threshold || ((blood_volume in -INFINITY to BLOOD_VOLUME_SURVIVE) && !HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE)))
 		var/severity = 0
 		switch(health)

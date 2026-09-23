@@ -1093,6 +1093,7 @@
 				process_options += "Absorb"
 
 			process_options += "Knockout" //Can't think of any mechanical prefs that would restrict this. Even if they are already asleep, you may want to make it permanent.
+			process_options += "Encase in Egg" // 🥚
 
 			if(process_options.len)
 				process_options += "Cancel"
@@ -1119,6 +1120,8 @@
 					return b.instant_absorb(user, ourtarget)
 				if("Knockout")
 					return b.instant_knockout(user, ourtarget)
+				if("Encase in Egg")
+					return b.instant_egg(user, ourtarget)
 				if("Cancel")
 					return FALSE
 		if("Health Check")

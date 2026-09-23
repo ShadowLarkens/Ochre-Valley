@@ -54,9 +54,7 @@
 	var/fancy_vore = FALSE					// Using the new sounds?
 	var/is_wet = TRUE						// Is this belly's insides made of slimy parts?
 	var/wet_loop = TRUE						// Does the belly have a fleshy loop playing?
-	var/obj/item/storage/vore_egg/ownegg	// Is this belly creating an egg?
-	var/egg_type = "Egg"					// Default egg type and path.
-	var/egg_path = /obj/item/storage/vore_egg
+	var/egg_type = "Egg"					// Default egg type in GLOB.tf_vore_egg_types
 	var/egg_name = null						// Custom egg name
 	var/egg_size = 0						// Custom egg size
 	var/list/list/emote_lists = list()			// Idle emotes that happen on their own, depending on the bellymode. Contains lists of strings indexed by bellymode
@@ -1264,7 +1262,7 @@
 		if(blacklist & autotransfer_flags_list_items["Trash"])
 			if(istype(prey, /obj/item/trash)) return FALSE
 		if(blacklist & autotransfer_flags_list_items["Eggs"])
-			if(istype(prey, /obj/item/storage/vore_egg)) return FALSE
+			if(istype(prey, /obj/item/vore_egg)) return FALSE
 		/*if(blacklist & autotransfer_flags_list_items["Remains"])
 			if(istype(prey, /obj/item/digestion_remains)) return FALSE*/
 		if(blacklist & autotransfer_flags_list_items["Indigestible Items"])
@@ -1285,7 +1283,7 @@
 		if(whitelist & autotransfer_flags_list_items["Trash"])
 			if(istype(prey, /obj/item/trash)) return TRUE
 		if(whitelist & autotransfer_flags_list_items["Eggs"])
-			if(istype(prey, /obj/item/storage/vore_egg)) return TRUE
+			if(istype(prey, /obj/item/vore_egg)) return TRUE
 		/*if(whitelist & autotransfer_flags_list_items["Remains"])
 			if(istype(prey, /obj/item/digestion_remains)) return TRUE*/
 		if(whitelist & autotransfer_flags_list_items["Indigestible Items"])

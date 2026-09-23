@@ -107,3 +107,19 @@
 	target.AdjustSleeping(500000)
 	to_chat(target, span_warning("\The [user] has put you to sleep, you will remain unconscious until ejected from the belly."))
 	return TRUE
+
+/obj/belly/proc/instant_egg(mob/user, mob/living/target)
+	if(tgui_alert(target, "\The [user] is attempting to instantly encase you in an egg. Is this something you are okay with happening to you?","Instant Egg", list("No", "Yes")) != "Yes")
+		to_chat(user, span_warning("\The [target] declined your egging attempt."))
+		to_chat(target, span_warning("You declined the egging attempt."))
+		return FALSE
+	if(target.loc != src)
+		to_chat(user, span_warning("\The [target] is no longer in \the [src]."))
+		return FALSE
+
+	var/obj/item/vore_egg/egg_in_progress = create_egg()
+	target.forceMove(egg_in_progress)
+	to_chat(user, span_notice("You feel [egg_in_progress] form in [src]."))
+	to_chat(target, span_notice("You feel [egg_in_progress] form around you."))
+
+	return TRUE

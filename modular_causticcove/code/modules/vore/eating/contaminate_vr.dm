@@ -52,7 +52,7 @@ GLOBAL_LIST_INIT(gurgled_overlays, list(
 /obj/item/reagent_containers/food/gurgle_contaminate(var/atom/movable/item_storage = null)
 	return FALSE
 
-/obj/item/storage/vore_egg/gurgle_contaminate(var/atom/movable/item_storage = null)
+/obj/item/vore_egg/gurgle_contaminate(var/atom/movable/item_storage = null)
 	return FALSE
 
 /obj/item/holder/gurgle_contaminate(var/atom/movable/item_storage = null)

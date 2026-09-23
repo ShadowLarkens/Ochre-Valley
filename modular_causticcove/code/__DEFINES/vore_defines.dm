@@ -129,39 +129,39 @@ GLOBAL_LIST_INIT(global_vore_egg_types, list(
 	))
 
 GLOBAL_LIST_INIT(tf_vore_egg_types, list(
-	"Unathi" 		= /obj/item/storage/vore_egg/unathi,
-	"Tajara" 		= /obj/item/storage/vore_egg/tajaran,
-	"Akula" 		= /obj/item/storage/vore_egg/shark,
-	"Skrell" 		= /obj/item/storage/vore_egg/skrell,
-	"Sergal"		= /obj/item/storage/vore_egg/sergal,
-	"Nevrean"		= /obj/item/storage/vore_egg/nevrean,
-	"Human"			= /obj/item/storage/vore_egg/human,
-	"Slime"			= /obj/item/storage/vore_egg/slime,
-	"Egg"			= /obj/item/storage/vore_egg,
-	"Xenochimera"	= /obj/item/storage/vore_egg/scree,
-	"Xenomorph"		= /obj/item/storage/vore_egg/xenomorph,
-	"Chocolate"		= /obj/item/storage/vore_egg/chocolate,
-	"Boney"			= /obj/item/storage/vore_egg/owlpellet,
-	"Slime Glob"	= /obj/item/storage/vore_egg/slimeglob,
-	"Chicken"		= /obj/item/storage/vore_egg/chicken,
-	"Synthetic"		= /obj/item/storage/vore_egg/synthetic,
-	"Bluespace Floppy"	= /obj/item/storage/vore_egg/floppy,
-	"Bluespace Compressed File"	= /obj/item/storage/vore_egg/file,
-	"Bluespace CD"	= /obj/item/storage/vore_egg/cd,
-	"Escape Pod"	= /obj/item/storage/vore_egg/escapepod,
-	"Cooking Error"	= /obj/item/storage/vore_egg/badrecipe,
-	"Web Cocoon"	= /obj/item/storage/vore_egg/cocoon,
-	"Honeycomb"	= /obj/item/storage/vore_egg/honeycomb,
-	"Bug Cocoon"	= /obj/item/storage/vore_egg/bugcocoon,
-	"Rock"			= /obj/item/storage/vore_egg/rock,
-	"Yellow"		= /obj/item/storage/vore_egg/yellow,
-	"Blue"			= /obj/item/storage/vore_egg/blue,
-	"Green"			= /obj/item/storage/vore_egg/green,
-	"Orange"		= /obj/item/storage/vore_egg/orange,
-	"Purple"		= /obj/item/storage/vore_egg/purple,
-	"Red"			= /obj/item/storage/vore_egg/red,
-	"Rainbow"		= /obj/item/storage/vore_egg/rainbow,
-	"Spotted Pink"	= /obj/item/storage/vore_egg/pinkspots))
+	"Unathi" 		= /obj/item/vore_egg/unathi,
+	"Tajara" 		= /obj/item/vore_egg/tajaran,
+	"Akula" 		= /obj/item/vore_egg/shark,
+	"Skrell" 		= /obj/item/vore_egg/skrell,
+	"Sergal"		= /obj/item/vore_egg/sergal,
+	"Nevrean"		= /obj/item/vore_egg/nevrean,
+	"Human"			= /obj/item/vore_egg/human,
+	"Slime"			= /obj/item/vore_egg/slime,
+	"Egg"			= /obj/item/vore_egg,
+	"Xenochimera"	= /obj/item/vore_egg/scree,
+	"Xenomorph"		= /obj/item/vore_egg/xenomorph,
+	"Chocolate"		= /obj/item/vore_egg/chocolate,
+	"Boney"			= /obj/item/vore_egg/owlpellet,
+	"Slime Glob"	= /obj/item/vore_egg/slimeglob,
+	"Chicken"		= /obj/item/vore_egg/chicken,
+	"Synthetic"		= /obj/item/vore_egg/synthetic,
+	"Bluespace Floppy"	= /obj/item/vore_egg/floppy,
+	"Bluespace Compressed File"	= /obj/item/vore_egg/file,
+	"Bluespace CD"	= /obj/item/vore_egg/cd,
+	"Escape Pod"	= /obj/item/vore_egg/escapepod,
+	"Cooking Error"	= /obj/item/vore_egg/badrecipe,
+	"Web Cocoon"	= /obj/item/vore_egg/cocoon,
+	"Honeycomb"	= /obj/item/vore_egg/honeycomb,
+	"Bug Cocoon"	= /obj/item/vore_egg/bugcocoon,
+	"Rock"			= /obj/item/vore_egg/rock,
+	"Yellow"		= /obj/item/vore_egg/yellow,
+	"Blue"			= /obj/item/vore_egg/blue,
+	"Green"			= /obj/item/vore_egg/green,
+	"Orange"		= /obj/item/vore_egg/orange,
+	"Purple"		= /obj/item/vore_egg/purple,
+	"Red"			= /obj/item/vore_egg/red,
+	"Rainbow"		= /obj/item/vore_egg/rainbow,
+	"Spotted Pink"	= /obj/item/vore_egg/pinkspots))
 
 GLOBAL_LIST_INIT(contamination_flavors, list(
 				"Generic" = GLOB.contamination_flavors_generic,
@@ -579,8 +579,4 @@ GLOBAL_LIST_INIT(slosh, list(
 #define MAX_VOICE_FREQ 70000
 #define MIN_VOICE_FREQ 15000
 
-
-// I don't think these are used anywhere??? I don't know who did what with this port but damn
-
-/// COMSIG used to get messages where they need to go
-#define COMSIG_VISIBLE_MESSAGE "visible_message"
+#define MAX_EGG_CONTENTS 5
