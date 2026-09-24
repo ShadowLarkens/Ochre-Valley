@@ -80,6 +80,10 @@
 /datum/vore_look/ui_state(mob/user)
 	return GLOB.tgui_vorepanel_state
 
+/datum/vore_look/proc/send_partial_ui_data(list/data)
+	for(var/datum/tgui/ui in open_uis)
+		ui.send_update(data)
+
 /datum/vore_look/var/static/list/nom_icons
 /datum/vore_look/proc/cached_nom_icon(atom/target)
 	LAZYINITLIST(nom_icons)
@@ -117,6 +121,7 @@
 	)
 	data["min_belly_name"] = BELLIES_NAME_MIN
 	data["max_belly_name"] = BELLIES_NAME_MAX
+	data["max_egg_cycles"] = 10
 
 	return data
 
@@ -159,6 +164,10 @@
 
 			// Selected belly data. TODO, split this into sub data per tab, we don't need all of this at once, ever!
 			data["selected"] = get_selected_data(host)
+
+			// has to be a root data element for partial updates
+			var/obj/belly/selected = host.vore_selected
+			data["partial_selected_egg_cycles"] = selected?.egg_cycles
 
 		if(VORE_INSIDE_TAB)
 			// Content Data

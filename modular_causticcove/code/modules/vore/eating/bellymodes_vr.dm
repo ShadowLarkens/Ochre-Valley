@@ -220,7 +220,7 @@
 
 				//Worn items flag
 				if(mode_flags & DM_FLAG_AFFECTWORN && H.contaminate_pref)
-					
+
 					for(var/Iuncast in H.get_equipped_items(include_pockets = TRUE))
 						var/obj/item/I = Iuncast
 						if(I)
@@ -340,7 +340,7 @@
 
 	if((mode_flags & DM_FLAG_LEAVEREMAINS) && M.digest_leave_remains)
 		handle_remains_leaving(M)
-	
+
 	//OV edit
 	if((mode_flags & DM_FLAG_SPARELIMB) && M.digest_leave_remains && ishuman(M))
 		var/mob/living/carbon/human/H = M
@@ -393,6 +393,14 @@
 		owner.updateVRPanel()
 	if(isanimal(owner))
 		owner.update_icon()
+
+/obj/belly/proc/send_partial_ui_data(list/data, prey_too = FALSE)
+	if(prey_too)
+		for(var/mob/living/M in belly_surrounding) //Changed to belly_surrounding from contents so updates happen for indirect viewers too
+			M.vorePanel?.send_partial_ui_data(data)
+	if(owner.vore_selected == src)
+		owner.vorePanel?.send_partial_ui_data(data)
+
 
 //OV edit
 /obj/belly/proc/steal_mana(mob/living/L)

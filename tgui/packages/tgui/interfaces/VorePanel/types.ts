@@ -16,13 +16,14 @@ export type Data = {
   our_bellies?: BellyData[] | null;
   min_belly_name: number;
   max_belly_name: number;
+  max_egg_cycles: number;
   selected?: SelectedData | null;
   prefs?: PrefData | null;
   soulcatcher?: SoulcatcherData | null;
   abilities?: Abilities | null;
   active_vore_tab?: number;
   general_pref_data?: GeneralPrefData | null;
-};
+} & PartialData;
 
 export type Abilities = {
   nutrition: number;
@@ -528,4 +529,11 @@ export type PreferenceDropdown = {
     string,
     { displayText: string; color?: string; enabled?: boolean }
   >;
+};
+
+/**
+ * Data that is sent in partial chunks from `send_partial_ui_data`
+ */
+export type PartialData = {
+  partial_selected_egg_cycles: number;
 };

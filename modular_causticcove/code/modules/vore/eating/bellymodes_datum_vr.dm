@@ -223,6 +223,7 @@ GLOBAL_LIST_INIT(digest_modes, init_digest_modes())
 /datum/digest_mode/egg/handle_atoms(obj/belly/B, list/touchable_atoms)
 	if(B.egg_cycles < 10)
 		B.egg_cycles ++
+		B.send_partial_ui_data(list("partial_selected_egg_cycles" = B.egg_cycles))
 		return
 
 	// 10 cycles, egg time!
