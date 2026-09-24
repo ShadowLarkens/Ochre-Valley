@@ -1,8 +1,14 @@
 import { useBackend } from 'tgui/backend';
-import { Button, LabeledList, Stack } from 'tgui-core/components';
+import {
+  Button,
+  LabeledList,
+  ProgressBar,
+  Stack,
+  Tooltip,
+} from 'tgui-core/components';
 
 import { digestModeToColor, modeToTooltip } from '../constants';
-import type { BellyModeData, DropdownEntry } from '../types';
+import type { BellyModeData, Data, DropdownEntry } from '../types';
 import { VorePanelEditCheckboxes } from '../VorePanelElements/VorePanelEditCheckboxes';
 import { VorePanelEditDropdown } from '../VorePanelElements/VorePanelEditDropdown';
 import { VorePanelEditText } from '../VorePanelElements/VorePanelEditText';
@@ -14,7 +20,7 @@ export const VoreSelectedBellyControls = (props: {
   display_name: string;
   bellyModeData: BellyModeData;
 }) => {
-  const { act } = useBackend();
+  const { act, data } = useBackend<Data>();
 
   const {
     bellyDropdownNames,
@@ -32,6 +38,7 @@ export const VoreSelectedBellyControls = (props: {
     mode_options,
     item_mode_options,
   } = bellyModeData;
+  const { partial_selected_egg_cycles, max_egg_cycles } = data;
 
   const bellyNames = bellyDropdownNames.map((belly) => {
     return belly.displayText;
@@ -107,15 +114,30 @@ export const VoreSelectedBellyControls = (props: {
         />
       </LabeledList.Item>
       <LabeledList.Item label="Mode">
-        <VorePanelEditDropdown
-          editMode={editMode}
-          options={mode_options}
-          entry={mode}
-          action={'set_attribute'}
-          subAction={'b_mode'}
-          color={digestModeToColor[mode]}
-          tooltip="The digest mode which will be applied for prey."
-        />
+        <Stack align="center">
+          <Stack.Item grow>
+            <VorePanelEditDropdown
+              editMode={editMode}
+              options={mode_options}
+              entry={mode}
+              action={'set_attribute'}
+              subAction={'b_mode'}
+              color={digestModeToColor[mode]}
+              tooltip="The digest mode which will be applied for prey."
+            />
+          </Stack.Item>
+          {mode === 'Encase In Egg' ? (
+            <Stack.Item>
+              <Tooltip content="Egg Progress">
+                <ProgressBar
+                  value={partial_selected_egg_cycles}
+                  maxValue={max_egg_cycles}
+                  width={6}
+                />
+              </Tooltip>
+            </Stack.Item>
+          ) : null}
+        </Stack>
       </LabeledList.Item>
       <LabeledList.Item label="Mode Addons">
         <VorePanelEditCheckboxes

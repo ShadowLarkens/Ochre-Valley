@@ -398,6 +398,14 @@
 	if(isanimal(owner))
 		owner.update_icon()
 
+/obj/belly/proc/send_partial_ui_data(list/data, prey_too = FALSE)
+	if(prey_too)
+		for(var/mob/living/M in belly_surrounding) //Changed to belly_surrounding from contents so updates happen for indirect viewers too
+			M.vorePanel?.send_partial_ui_data(data)
+	if(owner.vore_selected == src)
+		owner.vorePanel?.send_partial_ui_data(data)
+
+
 //OV edit
 /obj/belly/proc/steal_mana(mob/living/L)
 	if((L.energy > 5) && (L.client))
