@@ -129,7 +129,22 @@
 	//Actual full digest modes
 	var/tmp/static/list/digest_modes = list(DM_HOLD,DM_DIGEST,DM_ABSORB,DM_DRAIN,DM_SELECT,DM_UNABSORB,DM_HEAL,DM_SHRINK,DM_GROW,DM_SIZE_STEAL,DM_EGG)
 	//Digest mode addon flags
-	var/tmp/static/list/mode_flag_list = list("Numbing" = DM_FLAG_NUMBING, "Stripping" = DM_FLAG_STRIPPING, "Leave Remains" = DM_FLAG_LEAVEREMAINS, "Muffles" = DM_FLAG_THICKBELLY, "Affect Worn Items" = DM_FLAG_AFFECTWORN, "Complete Absorb" = DM_FLAG_FORCEPSAY, "Spare Prosthetics" = DM_FLAG_SPARELIMB, "Slow Body Digestion" = DM_FLAG_SLOWBODY, "Muffle Items" = DM_FLAG_MUFFLEITEMS, "TURBO MODE" = DM_FLAG_TURBOMODE, "Absorbed Prey Can Devour" = DM_FLAG_ABSORBEDVORE, "Makes Prey Wet" = DM_FLAG_WETTENS, "Strip Digest" = DM_FLAG_STRIP_DIGEST, "Lewd Struggles" = DM_FLAG_LEWD_STRUGGLES, "Mana Drain" = DM_FLAG_MANA_DRAIN) //OV EDIT
+	var/tmp/static/list/mode_flag_list = list(
+		"Numbing" = DM_FLAG_NUMBING,
+		"Stripping" = DM_FLAG_STRIPPING,
+		"Leave Remains" = DM_FLAG_LEAVEREMAINS,
+		// "Muffles" = DM_FLAG_THICKBELLY,
+		"Affect Worn Items" = DM_FLAG_AFFECTWORN,
+		// "Complete Absorb" = DM_FLAG_FORCEPSAY,
+		"Spare Prosthetics" = DM_FLAG_SPARELIMB,
+		"Slow Body Digestion" = DM_FLAG_SLOWBODY,
+		// "Muffle Items" = DM_FLAG_MUFFLEITEMS,
+		"TURBO MODE" = DM_FLAG_TURBOMODE,
+		"Absorbed Prey Can Devour" = DM_FLAG_ABSORBEDVORE,
+		"Makes Prey Wet" = DM_FLAG_WETTENS,
+		"Strip Digest" = DM_FLAG_STRIP_DIGEST,
+		"Lewd Struggles" = DM_FLAG_LEWD_STRUGGLES,
+		"Mana Drain" = DM_FLAG_MANA_DRAIN)
 	//Item related modes
 	var/tmp/static/list/item_digest_modes = list(IM_HOLD,IM_DIGEST_FOOD,IM_DIGEST,IM_DIGEST_PARALLEL,IM_SMELTING)
 	//drain modes
@@ -764,13 +779,13 @@
 	if (!(M in contents))
 		return 0 // They weren't in this belly anyway
 
-	for(var/mob/living/L in M.contents)
-		L.muffled = FALSE
-		L.forced_psay = FALSE
+	// for(var/mob/living/L in M.contents)
+	// 	L.muffled = FALSE
+	// 	L.forced_psay = FALSE
 
-	for(var/obj/item/holder/H in M.contents)
-		H.held_mob.muffled = FALSE
-		H.held_mob.forced_psay = FALSE
+	// for(var/obj/item/holder/H in M.contents)
+	// 	H.held_mob.muffled = FALSE
+	// 	H.held_mob.forced_psay = FALSE
 
 	if(isliving(M))
 		var/mob/living/slip = M
@@ -785,8 +800,8 @@
 		var/mob/living/OW = owner
 		if(ML.client)
 			ML.stop_sound_channel(CHANNEL_PREYLOOP) //Stop the internal loop, it'll restart if the isbelly check on next tick anyway
-		if(ML.muffled)
-			ML.muffled = FALSE
+		// if(ML.muffled)
+		// 	ML.muffled = FALSE
 		/*if(ML.forced_psay)
 			ML.forced_psay = FALSE*/
 		if(ML.absorbed)

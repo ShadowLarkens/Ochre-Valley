@@ -3913,7 +3913,6 @@
 #include "modular_causticcove\code\modules\vore\reagents_holder_vorebelly.dm"
 #include "modular_causticcove\code\modules\vore\show_panel_verb.dm"
 #include "modular_causticcove\code\modules\vore\slosh.dm"
-#include "modular_causticcove\code\modules\vore\storage.dm"
 #include "modular_causticcove\code\modules\vore\trycatch_vr.dm"
 #include "modular_causticcove\code\modules\vore\voice_mob.dm"
 #include "modular_causticcove\code\modules\vore\vore_spritesheet.dm"

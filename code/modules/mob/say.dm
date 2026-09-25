@@ -148,11 +148,6 @@
 			return 0
 		whisper(copytext_char(message, boldcheck ? 1 : 2),sanitize = FALSE)//already sani'd
 		return 1
-	//OV edit
-	if(muffled)
-		whisper(copytext_char(message, 1),sanitize = FALSE)
-		return 1
-	//OV edit end
 
 ///Check if the mob has a hivemind channel
 /mob/proc/hivecheck()

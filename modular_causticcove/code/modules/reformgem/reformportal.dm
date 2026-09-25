@@ -57,7 +57,7 @@ GLOBAL_LIST_EMPTY(reformation_portals)
 	SStgui.on_transfer(src, mind.current) // Transfer NanoUIs.
 	mind.remove_antag_datum(/datum/antagonist/zombie)
 	//OV edit
-	mind.current.muffled = FALSE
+	// mind.current.muffled = FALSE
 	if(portal_loc)
 		mind.current.forceMove(portal_loc)
 	else

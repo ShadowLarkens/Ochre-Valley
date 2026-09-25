@@ -546,7 +546,7 @@
 			return
 		//Actual escaping
 		absorbed = FALSE	//Make sure we're not absorbed
-		muffled = FALSE		//Removes Muffling
+		// muffled = FALSE		//Removes Muffling
 		forceMove(get_turf(src)) //Just move me up to the turf, let's not cascade through bellies, there's been a problem, let's just leave.
 		SetSleeping(0) //Wake up instantly if asleep
 		/*for(var/mob/living/simple_animal/SA in range(10)) //Commented out Simplemob stuff for now, just to get the rest working
@@ -1559,7 +1559,7 @@
 			return
 
 		absorbed = FALSE
-		muffled = FALSE
+		// muffled = FALSE
 		clear_fullscreen("belly")
 		clear_fullscreen(ATOM_BELLY_FULLSCREEN)
 		stop_sound_channel(CHANNEL_PREYLOOP)
