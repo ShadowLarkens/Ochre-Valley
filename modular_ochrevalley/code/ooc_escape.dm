@@ -7,11 +7,11 @@
 	if(isturf(src.loc) && !petrified)	//Doesn't work if you aren't contained in some way, unless petrification is what trapped you.
 		to_chat(src,span_warning("You are already on the ground. OOC Escape can not help you here."))
 		return
-	
+
 	if(!loc)
 		log_and_message_admins(span_warning("is trying to OOC escape, but they appear to be in nullspace, they probably need help."))
 		return
-	
+
 	if(tgui_alert(src,"Are you sure? This should only be used in situations where you are OOC uncomfortable or otherwise unintentionally stuck.","OOC Escape",list("Cancel","Escape")) != "Escape")
 		return
 
@@ -30,7 +30,7 @@
 		old_crystal.Destroy()
 		old_crystal.visible_message(span_warning("The crystal shatters!"))
 	forceMove(get_turf(src))
-	muffled = FALSE
+	// muffled = FALSE
 	if(isitem(where))
 		var/obj/item/the_loc = where
 		if(the_loc.mob_possession)

@@ -95,7 +95,7 @@
 	var/belly_rub_target = null
 	var/soulcatcher_pref_flags = NONE			//Default disabled
 	var/persistend_edit_mode = FALSE
-	
+
 	var/voice_freq = 42500	// Preference for character voice frequency
 	//var/emote_sound_mode = EMOTE_SOUND_VOICE_FREQ
 	var/list/voice_sounds_list = list()	// The sound list containing our voice sounds!
@@ -106,8 +106,8 @@
 	var/max_voreoverlay_alpha = 255
 
 	//Previously was in the mob.dm file one step above this, moved here to clean it up.
-	var/muffled = FALSE					// Used by muffling belly
-	var/forced_psay = FALSE				// If true will prevent the user from speaking with normal say/emotes, and instead redirect these to a subtle emote
+	// var/muffled = FALSE					// Used by muffling belly
+	// var/forced_psay = FALSE				// If true will prevent the user from speaking with normal say/emotes, and instead redirect these to a subtle emote
 
 	var/away_from_keyboard = FALSE	//are we at, or away, from our keyboard?
 	var/manual_afk = FALSE			//did we set afk manually or was it automatic?
