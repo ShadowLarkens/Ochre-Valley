@@ -1,27 +1,27 @@
 GLOBAL_LIST_INIT(gurgled_overlays, list(
-								"green" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "green"),
-								"white" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "white"),
-								"black" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "black"),
-								"grey" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "grey"),
-								"yellow" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "yellow"),
-								"red" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "red"),
-								"blue" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "blue"),
-								"orange" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "orange"),
-								"purple" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "purple"),
-								"lime" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "lime"),
-								"brown" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "brown"),
-								"darkred" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "darkred"),
-								"cyan" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "cyan"),
-								"beige" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "beige"),
-								"pink" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "pink")
-								))
+	"green" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "green"),
+	"white" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "white"),
+	"black" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "black"),
+	"grey" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "grey"),
+	"yellow" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "yellow"),
+	"red" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "red"),
+	"blue" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "blue"),
+	"orange" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "orange"),
+	"purple" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "purple"),
+	"lime" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "lime"),
+	"brown" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "brown"),
+	"darkred" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "darkred"),
+	"cyan" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "cyan"),
+	"beige" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "beige"),
+	"pink" = image('modular_causticcove/icons/effects/sludgeoverlay_vr.dmi', icon_state = "pink")
+))
 
 /obj/item/proc/gurgle_contaminate(atom/movable/item_storage = null, contamination_flavor = "Generic", contamination_color = "green")
 	if(!can_gurgle())
 		return FALSE
 
 	if(gurgled && !(gurgled_color == contamination_color))
-		wash_atom(src,CLEAN_STRONG)
+		wash_atom(src, CLEAN_STRONG)
 
 	if(!gurgled)
 		gurgled = TRUE
@@ -34,8 +34,6 @@ GLOBAL_LIST_INIT(gurgled_overlays, list(
 		cleandesc = src.desc
 		name = "[gurgleflavor] [cleanname]"
 		desc = "[cleandesc] It seems to be covered in ominously foul residue and needs a wash."
-//		for(var/obj/item/O in contents)			//Yeah, no. This contaminates stuff that should never be contaminated in places that should not be reached. Handle it for specific cases instead.
-//			O.gurgle_contaminate(item_storage, contamination_flavor, contamination_color)
 		return TRUE
 
 /obj/item/proc/can_gurgle() //Caustic - Perhaps an item blacklist to prevent it from getting contaminated here?
