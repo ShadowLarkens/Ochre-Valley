@@ -322,8 +322,8 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 	for(var/mob/living/carbon/C in GLOB.dead_mob_list)
 		if(QDELETED(C) || C.burialrited || C.contract_spawned)
 			continue
-		//OV edit - Skip bodies in THE VORE PIT
-		if(C.z == 1 && C.y == 1 && C.x == 1)
+		//OV edit - Skip bodies waiting for vore reform
+		if(isobserver(C.loc))
 			continue
 		//OV edit end
 

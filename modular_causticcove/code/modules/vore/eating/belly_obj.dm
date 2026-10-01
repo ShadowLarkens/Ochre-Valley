@@ -945,65 +945,35 @@
 
 	//Incase they have the loop going, let's double check to stop it.
 	M.stop_sound_channel(CHANNEL_PREYLOOP)
-	// OV Edit Start
 	if(M.IsPetrified())
 		M.petrification_statue_death("digested", owner)
-	// OV Edit End
 	M.set_light(0)
-	// Delete the digested mob
-	// Changed qdel to a forceMove to allow reforming, and... handled robots special.
-	/*if(isrobot(M))
-		var/mob/living/silicon/robot/R = M
-		if(R.mmi && R.mind && R.mmi.brainmob)
-			if((R.soulcatcher_pref_flags & SOULCATCHER_ALLOW_CAPTURE) && owner.soulgem && owner.soulgem.flag_check(SOULGEM_ACTIVE | NIF_SC_CATCHING_OTHERS, TRUE))
-				owner.soulgem.catch_mob(R, R.name)
-			else
-				R.mmi.loc = src
-				items_preserved += R.mmi
-				var/obj/item/robot_module/MB = locate() in R.contents
-				if(MB)
-					R.mmi.brainmob.languages = MB.original_languages
-				else
-					R.mmi.brainmob.languages = R.languages
-				R.mmi.brainmob.remove_language(LANGUAGE_ROBOT_TALK)
-				hasMMI = R.mmi
-				M.mind.transfer_to(hasMMI.brainmob)
-				R.mmi = null
-		else if(!R.shell) // Shells don't have brainmobs in their MMIs.
-			to_chat(R, span_danger("Oops! Something went very wrong, your MMI was unable to receive your mind. You have been ghosted. Please make a bug report so we can fix this bug."))
-		if(R.shell) // Let the standard procedure for shells handle this.
-			qdel(R)
-			return
 
-	if(istype(hasMMI))
-		hasMMI.body_backup = M
-		M.enabled = FALSE
-		M.forceMove(hasMMI)
-	else*/
-	//OV edit
 	SEND_SIGNAL(M, COMSIG_LIVING_DEATH, FALSE) //Should smooth some things out, especially with summons and other things that take you out of your body.
+	SEND_SIGNAL(M, COMSIG_MOB_DIGESTION_DEATH, src, owner)
 	M.reset_view(null)
+	M.clear_fullscreen("belly")
+	M.previewing_belly = null
+
 	var/sfx
 	if(!fancy_vore)
 		sfx = sound(get_sfx("classic_death_sounds"))
 	else
 		sfx = sound(get_sfx("fancy_death_prey"))
+
+	playsound(src, sfx, vary = 1, vol = 75, falloff = VORE_SOUND_FALLOFF, frequency = noise_freq, pref_toggle = "digestion_noises")
+
 	var/mob/dead/observer/G = M.ghostize(TRUE) // Make sure they're out, so we can copy attack logs and such.
 	if(G)
 		G.forceMove(owner)
 		G.vore_death = TRUE //OV ADD
+		M.forceMove(G)
 		if(G.client && G.client.prefs.digestion_noises)
 			SEND_SOUND(G, sfx)
-	M.clear_fullscreen("belly")
-	M.previewing_belly = null
-	M.x = 1
-	M.y = 1
-	M.z = 1
-	M.alpha = 0
+	else
+		qdel(M)
+
 	owner.handle_belly_update()
-	playsound(src, sfx, vary = 1, vol = 75, falloff = VORE_SOUND_FALLOFF, frequency = noise_freq, pref_toggle = "digestion_noises")
-	SEND_SIGNAL(M, COMSIG_MOB_DIGESTION_DEATH, src, owner)
-	//OV edit end
 
 // Handle a mob being absorbed
 /obj/belly/proc/absorb_living(mob/living/M)

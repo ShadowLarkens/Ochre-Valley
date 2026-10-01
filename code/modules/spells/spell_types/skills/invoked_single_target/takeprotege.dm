@@ -144,9 +144,7 @@
 	if(QDELETED(src))
 		return
 	//OV EDIT
-	if(isbelly(source.loc))
-		return
-	if((source.x == 1) && (source.y == 1) && (source.z == 1))
+	if(isbelly(source.loc) || isobserver(source.loc))
 		return
 	//OV EDIT END
 	// 5-minute grace period: a revive-die-revive-die loop within 5 min of the last death
@@ -163,9 +161,7 @@
 	if(QDELETED(src))
 		return
 	//OV EDIT
-	if(isbelly(source.loc))
-		return
-	if((source.x == 1) && (source.y == 1) && (source.z == 1))
+	if(isbelly(source.loc) || isobserver(source.loc))
 		return
 	//OV EDIT END
 	var/datum/stressevent/existing = get_stress_event(/datum/stressevent/protege_lord_dead)
