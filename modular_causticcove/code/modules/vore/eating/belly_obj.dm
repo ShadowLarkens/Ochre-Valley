@@ -20,8 +20,6 @@
 	var/vore_sound = "Gulp"					// Sound when ingesting someone
 	var/vore_verb = "ingest"				// Verb for eating with this in messages
 	var/release_verb = "expels"				// Verb for releasing something from a stomach
-	var/human_prey_swallow_time = 100		// Time in deciseconds to swallow /mob/living/carbon/human
-	var/nonhuman_prey_swallow_time = 30		// Time in deciseconds to swallow anything else
 	var/nutrition_percent = 100				// Nutritional percentage per tick in digestion mode
 	var/digest_max = 36						// maximum total damage across all types
 	var/digest_brute = 0.5					// Brute damage per tick in digestion mode
@@ -344,9 +342,6 @@
 	"vore_sound",
 	"vore_verb",
 	"release_verb",
-	"human_prey_swallow_time",
-	"nonhuman_prey_swallow_time",
-	"emote_time",
 	"nutrition_percent",
 	"digest_brute",
 	"digest_burn",
@@ -482,9 +477,6 @@
 	"absorbed_multiplier",
 	"count_liquid_for_sprite",
 	"liquid_multiplier",
-	"undergarment_chosen",
-	"undergarment_if_none",
-	"undergarment_color",
 	"autotransferchance",
 	"autotransferwait",
 	"autotransferlocation",
@@ -1299,8 +1291,6 @@
 	dupe.vore_sound = vore_sound
 	dupe.vore_verb = vore_verb
 	dupe.release_verb = release_verb
-	dupe.human_prey_swallow_time = human_prey_swallow_time
-	dupe.nonhuman_prey_swallow_time = nonhuman_prey_swallow_time
 	dupe.emote_time = emote_time
 	dupe.nutrition_percent = nutrition_percent
 	dupe.digest_brute = digest_brute

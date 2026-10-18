@@ -839,7 +839,7 @@
 			to_chat(M,span_warning("[host] begins to [lowertext(TB.vore_verb)] you into their [lowertext(TB.name)]!"))
 			to_chat(OB.owner,span_warning("Someone inside you is eating someone else!"))
 
-			sleep(TB.nonhuman_prey_swallow_time) //Can't do after, in a stomach, weird things abound.
+			sleep(NONHUMAN_PREY_SWALLOW_TIME) //Can't do after, in a stomach, weird things abound.
 			if((host in OB) && (M in OB)) //Make sure they're still here.
 				to_chat(user,span_warning("You manage to [lowertext(TB.vore_verb)] [M] into your [lowertext(TB.name)]!"))
 				to_chat(M,span_warning("[host] manages to [lowertext(TB.vore_verb)] you into their [lowertext(TB.name)]!"))
