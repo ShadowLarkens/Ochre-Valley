@@ -10,6 +10,6 @@
 	return TRUE
 
 /datum/job/roguetown/lord/special_check_latejoin(client/C)
-	if(player.ckey != SUPREME_EMPRESS_CKEY)
+	if(C.ckey != SUPREME_EMPRESS_CKEY)
 		return FALSE
 	return TRUE

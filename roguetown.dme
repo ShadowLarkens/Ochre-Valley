@@ -239,8 +239,6 @@
 #include "code\__DEFINES\mobs\simplemob_health.dm"
 #include "code\__DEFINES\mobs\simplemob_movement_speed.dm"
 #include "code\datums\sexcon2\ov_sex_helpers.dm"
-#include "modular_aetheriteimperium\code\controllers\subsystem\ticker.dm"
-#include "modular_aetheriteimperium\code\datums\map_adjustment.dm"
 
 //Caustic Modular Defines
 #include "modular_causticcove\code\__DEFINES\appearance_changer.dm"
@@ -3866,9 +3864,6 @@
 #include "modular\piercing\supply.dm"
 #include "modular\ze_genesis_call\genesis_call.dm"
 
-#include "modular_aetheriteimperium\code\__DEFINES\ckey.dm"
-#include "modular_aetheriteimperium\code\modules\jobs\job_types\roguetown\nobility\lord.dm"
-
 #include "modular_causticcove\code\datums\loadout\loadout_accessories.dm"
 #include "modular_causticcove\code\datums\loadout\loadout_cloaks.dm"
 #include "modular_causticcove\code\datums\loadout\loadout_hats.dm"
@@ -4142,4 +4137,12 @@
 #include "modular_ochrevalley\code\datums\sexcon2\actions\prey_actions\squirm_in_belly.dm"
 #include "modular_ochrevalley\code\datums\sexcon2\actions\prey_actions\submit.dm"
 #include "modular_ochrevalley\code\datums\sexcon2\actions\prey_actions\kiss_inside_belly.dm"
+
+
+// Aetherite Imperium
+#include "modular_aetheriteimperium\code\__DEFINES\ckey.dm"
+#include "modular_aetheriteimperium\code\controllers\subsystem\ticker.dm"
+#include "modular_aetheriteimperium\code\datums\map_adjustment.dm"
+#include "modular_aetheriteimperium\code\modules\jobs\job_types\roguetown\nobility\lord.dm"
+
 // END_INCLUDE
